@@ -731,3 +731,28 @@ robocopy 結束的通知（watcher）一到，我就接著做 SHA-256 manifest�
 ### [2026-11-09 07:16:37] 👤 User (turn 14) <!--id:a210c2ff-5314-4d6c-a2e3-6952d6fa07fa-->
 
 現在可以拿走隨身碟嗎
+- 🔧 **PowerShell**: Get-Date -f T; Get-Process robocopy -ErrorAction SilentlyContinue | select Id; Get-Content "$env:TEMP\formal_backup_run.txt" -Tail 4 <!--id:575c88d0-32fa-472d-b2e8-6cfa97852208-->
+- ↩︎ result (395 chars): 上午 07:16:44 \._MDB200 - 04 - Intro to Atlas Search and Atlas Vector Search.pdf 2026-11-09T05:42:08 [ERROR] hash failed: D:\Windows_Migration_Package\01_backup\UserData\Desktop\mongoDB上課\【全教材】04教育訓練教 材\OA620 - Ops Sizing Installation Configuration\OA620 - Ops Manager Sizing, Installation and Configur… <!--id:d75d58aa-56c0-4e27-9f7c-9ec88627796e-->
+- 🔧 **PowerShell**: $o="$env:TEMP\formal_backup_run.txt"; Select-String -Path $o -Pattern 'ERROR|DONE|Files :|Bytes :|Ended|robocopy|hash' | select -Last 25 | % {$_.Line.Substring(0,[Math]::Min(200,$_.Line.Length))}; "---"; Get-CimInstance Win32_Process -Filte… <!--id:db8b07d7-e960-4bd7-8e3c-3602a16758fe-->
+- ↩︎ result (2364 chars): [… earlier output omitted; full output: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\tasks\bhimr7o8a.output] 2026-11-09T05:24:06 [ERROR] robocopy Desktop failed rc=9 2026-11-09T05:24:08 [INFO] robocopy[Documents] rc=1 ok 2026-11-09T05:29:56 [IN… <!--id:c601ed3f-c3fc-47d6-9f7c-bcfe50d4ef6c-->
+
+### [2026-11-09 07:19:20] 🤖 Claude <!--id:dc5fc6a4-69bc-4d04-a18c-c86489426bfc-->
+
+**不能拿走，還要等。** 備份還在進行，而且出了問題。
+
+**目前狀況（07:16）**
+- robocopy 已經結束，但外層 `migration.ps1`（PID 39280）還在跑，正在算 SHA-256 manifest，會寫入 D:。現在拔掉會讓 manifest 不完整。
+- Desktop 的 robocopy 回傳 **rc=9**（05:24）。這代表有檔案複製成功，同時有檔案複製失敗。Documents、Downloads、Pictures、Videos、Music 都是 rc=1，正常。
+- manifest 階段有多筆 `hash failed`，全部在 `Desktop\mongoDB上課\…` 底下（MDB200 教材、【全教材】04教育訓練教材 的 PDF 等）。這些檔案很可能就是 robocopy 沒複製成功的那批。這還只是推測，我還沒確認。
+
+**未知與下一步**
+- 失敗檔案的數量和原因我還沒確認。常見原因是路徑太長、檔名含特殊字元，或來源檔案被佔用。
+- 這代表目前**不能宣告備份完整**，verify 結果也可能不乾淨。
+- 等外層腳本結束後，我會：
+  1. 從 robocopy 日誌取出失敗檔案清單和錯誤碼。
+  2. 判斷是否能針對這些檔案補跑一次。
+  3. 跑正式 verify。
+  4. 確認沒有程序在寫入。
+  5. 同步 GitHub，並回報 D: 是否可以安全退出。
+
+腳本結束前請不要拔掉隨身碟。我會在結束後告訴你確切時間和結果。
