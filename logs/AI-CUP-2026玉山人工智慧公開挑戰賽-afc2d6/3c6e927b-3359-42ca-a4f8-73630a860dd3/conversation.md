@@ -37941,3 +37941,20 @@ Everything checks out. I'll post the evidence on Issue #43.
 **還沒驗證的部分**:11/10 的回切還沒發生。11/09(一)19:30 的排程要產出 11/10 的 D-Plan,內含反向單。若回切失敗,系統會標記 TACTICAL_UNWIND_OVERDUE,下個送件窗口再試。我會在那次執行後確認結果。
 
 **PR #45**:它是 #44 的衝突重複版,不要合併。我之前嘗試關閉被環境擋下,你有空時可以直接關掉。
+
+### [2026-11-09 02:00:36] 👤 User (turn 162) <!--id:e056bcd4-fbda-468f-804c-368a592ffea5-->
+
+<pasted_content id="f0c0">
+請立即讀取 GitHub Issue #49 最新 Owner authorization comment。
+
+我已正式授權：
+
+- 科技曝險必須降至總 NAV 10% 以下
+- 可大幅重組投資組合
+- 可大量賣出科技股並重新配置非科技股
+- 不需要再次向我確認
+- 完成所有硬性合規與驗證後，直接建立新的 FINAL 並提交 Portal
+- 必須在 2026/11/09 08:55 前讓新的 SUBMISSION_CONFIRMED 取代目前版本
+
+請直接完整執行，不需要再停下來詢問我。
+</pasted_content id="f0c0">
