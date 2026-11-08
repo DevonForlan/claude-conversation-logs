@@ -792,7 +792,7 @@ local_data/mongodb_university/
 目前這個 session：
 
 Session: 347c1401-65cb-4d94-bdd6-2efd1d0a7070
-Project: C:/Users/devon.tseng/Desktop/個人/mongodb-dba-trainer
+Project: [REDACTED]
 
 已經有正常的 conversation log，但 ChatGPT 從中央 GitHub repo：
 
@@ -847,3 +847,35 @@ PowerShell 管線帶入了 BOM，導致這次手動觸發解析失敗。我先�
 - 🔧 **Edit**: C:\Users\devon.tseng\.claude\hooks\cc_global_log.py <!--id:6851d950-00a2-4362-8661-6dfdb595cb78-->
 - 🔧 **PowerShell**: $py="C:\Users\devon.tseng\AppData\Local\Programs\Python\Python313\python.exe"; $tp=(Get-ChildItem "$env:USERPROFILE\.claude\projects" -Recurse -Filter "347c1401-65cb-4d94-bdd6-2efd1d0a7070.jsonl").FullName; $o=@{session_id="347c1401-65cb-4d… <!--id:31798ab2-4841-4598-9ba8-fee053cdd316-->
 - ↩︎ result (157 chars): The file C:\Users\devon.tseng\.claude\hooks\cc_global_log.py has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:fe2c7e74-74de-41aa-8d89-169cbeb96734-->
+- ↩︎ result (1528 chars): 2026-11-08T10:46:37 hook error: JSONDecodeError('Unexpected UTF-8 BOM (decode using utf-8-sig): line 1 column 1 (char 0)') a85e540 conversation-log: mongodb-dba-trainer 347c1401 2026-11-08 10:47:33 f4260c3 latest.json -> c7c2861b0a8f28d524e52230d52e728200456afe c7c2861 Phase 1 inventory script + red… <!--id:65d6096e-a766-42b8-95b3-03496735b012-->
+- 🔧 **PowerShell**: $r="$env:USERPROFILE\.claude\cc-log-repo"; git -C $r rev-parse HEAD; git -C $r ls-remote origin main; $py="C:\Users\devon.tseng\AppData\Local\Programs\Python\Python313\python.exe"; & $py -c "import json,subprocess;s=subprocess.run(['git','-… <!--id:5be7e8ca-8056-465f-a30d-55dcb4cd78f3-->
+- ↩︎ result (597 chars): a85e54036f239d3054ab87e79417e2d9367aedfa a85e54036f239d3054ab87e79417e2d9367aedfa refs/heads/main '<pasted_content id="69ce"> \u5148\u66ab\u505c MongoDB U' { "updated_at": "2026-11-08T10:47:29+08:00", "projects": [ { "project": "mongodb-dba-trainer", "project_safe": "mongodb-dba-trainer-4eaf92", "la… <!--id:afed3c33-33ea-4c63-af75-56d0d47639a9-->
+
+### [2026-11-08 10:48:20] 🤖 Claude <!--id:5f13bd41-cadb-4831-89ca-1764b41af63f-->
+
+根因找到了，已修好；這個 session 已同步到 GitHub。但「另一個 Stop 事件後會自動更新」我還驗證不了，要等這一輪結束。
+
+## Root cause
+1. **hook 從來沒生效。** 我上一輪寫好的 `cc_global_log.py` 沒被放進 `~/.claude/settings.json`，因為當時寫入被擋下。所以 UserPromptSubmit、Stop、SessionEnd 都沒有呼叫它，任何專案（包括 mongodb-dba-trainer）都沒被記錄。
+2. **中央 repo 的內容來自別處。** Windows PC Migration 那個 session 自己手動 push 了檔案到同一個 repo。我本機的 clone 是在 repo 還是空的時候建的，所以一直是空的。
+3. **還有一個潛在 bug。** 那個 session 的 `metadata.json` 格式跟我的不同，我的索引重建會對它出錯。
+
+## 修改內容
+- **`~/.claude/settings.json`：** 新增 UserPromptSubmit 和 SessionEnd，並在 Stop 加入 `cc_global_log.py`。既有的 Stop hook（舊 logger 和通知）、statusLine、autoMode 都沒動，備份仍在 `~/.claude/backups/`。
+- **`~/.claude/hooks/cc_global_log.py`：**
+  - 重建 `latest.json` 和 `projects.json` 時，略過其他 schema 的 metadata。
+  - hook 輸入能容忍 BOM。
+- **本機 clone：** 已對齊 `origin/main`，那個 Windows migration session 的內容完整保留。
+
+## 同步結果
+- **GitHub commit：** `a85e54036f239d3054ab87e79417e2d9367aedfa`，本機和 `origin/main` 一致。
+- **conversation log：** `logs/mongodb-dba-trainer-4eaf92/347c1401-65cb-4d94-bdd6-2efd1d0a7070/conversation.md`，同目錄有 `metadata.json`。
+- **latest.json：** 根目錄 `latest.json`，指向這個 session，`latest_turn: 3`。`projects.json` 也已更新。
+- **能否搜尋到 session id：**
+  - 檔案路徑和 `latest.json` 裡已經有這個 session id。
+  - GitHub 全文搜尋（`gh search code`）目前查不到，通常是索引有延遲。
+  - 檔案內容經確認是正確的 UTF-8，終端機看到的亂碼只是顯示問題。
+- **注意：** Windows migration 那個 session 的 `latest.json` 在 `windows-pc-migration/latest.json`，不是根目錄。ChatGPT 要看最新進度請讀根目錄的 `latest.json` 和 `projects.json`。
+
+## 還沒驗證
+settings 的 hook 是不是在目前這個執行中的 session 立刻生效，我無法確認。這一輪回覆結束時會觸發 Stop，我預期 3 秒後 worker 會 commit 並 push。請你下一則訊息任意說一句，我再檢查是否有新的 `conversation-log: mongodb-dba-trainer 347c1401 …` commit。若沒有，需要重開 session 或用 `/hooks` 載入設定，再重驗證。
