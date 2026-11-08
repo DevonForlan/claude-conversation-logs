@@ -38076,3 +38076,100 @@ Issue #49 已完成：11/09 的新 FINAL 已送出並確認（SUBMISSION_CONFIRM
 Issue #48 的凍結 Quant 基準版（不送件）我沒有做，目前也找不到有人產出。這是 #48 本身的工作，不在 #49 範圍內。需要的話我可以接著做。
 
 這段回覆的原文存在 `handoff/claude_sessions/2026-11-09_3c6e927b-3359-42ca-a4f8-73630a860dd3_turn100.md`。
+
+### [2026-11-09 04:07:21] 👤 User (turn 325) <!--id:ae7d6044-20a5-4123-b8d0-39d1885e335f-->
+
+This session is being continued from a previous conversation that ran out of context. The summary below covers the earlier portion of the conversation.
+
+
+Summary:
+1. Primary Request and Intent:
+   - Project: AI CUP 2026 玉山 Agent 基金經理人, team TEAM_11442, repo `DevonForlan/ai-cup-2026-etf-agent` (private, default branch `master`). Competition 2026-10-27 → 2026-11-27. Frozen Quant v1 (`config/strategy_quant_v1.yaml` sha256 `f34fa02e924011b20c52a4bd42e961169f97e1950e76e04b7e78dc43ac23d2e0`) must never be edited. Frozen paths: agent/features, agent/portfolio, agent/pipeline.py, agent/run_sim.py, agent/sim.
+   - Earlier work (done): Issues #38, #41, #42, #43 (V1 tactical override, merged as #44/#46/#47, deployed). The 11/08 19:30 run submitted the V1 11/09 FINAL (sha 5126889080828c1fc0f3a2af6d3cfdbf8744893d1373d770d0d9f84f241b2153, tech 56.4%, SUBMISSION_CONFIRMED). Standing Owner instruction (2026-11-08): self-merge PRs after my own gates (memory file `feedback_pr_self_merge.md`).
+   - Latest user request (pasted block): read the latest Owner authorization comment on GitHub Issue #49 and execute it fully with no further questions:
+     - tech exposure strictly below 10% of NAV;
+     - a major portfolio restructure is authorized, including selling most or all tech and reallocating to non-tech names;
+     - after hard compliance and validation pass, build a new FINAL and submit it to the Portal directly;
+     - the new SUBMISSION_CONFIRMED must replace the current one before 2026-11-09 08:55.
+   - Issue #49 body requirements:
+     - a new tactical version (e.g. TACTICAL_OVERRIDE_V2_TECH_LT10) with its own config, fingerprint and `target_tech_weight_max: 0.10`;
+     - tests through the real competition_day flow, PR, CI, merge, deploy;
+     - an unwind plan persisted before submission, for the 11/10 D-Plan;
+     - TACTICAL_FINAL_SHA in Issue #48 pointing to the new FINAL;
+     - an evidence block posted on the Issue.
+     - Stop condition: only `BLOCKED_HARD_CONSTRAINT` for a hard official-rule/validation/technical blocker.
+
+2. Key Technical Concepts:
+   - COMPETITION_HIGH_AUTONOMY (CLAUDE.md §11) self-merge gates; self-review comment block (SELF_REVIEW, QUANT_FREEZE, TESTS, SECRET_SCAN, VALIDATE, MERGEABILITY, ROLLBACK, SELF_MERGE=AUTHORIZED_BY_POLICY).
+   - D-Plan v4.3 limit of 30 decisions/orders per day; 20–30 holdings; ≤10% per name; cash <25%; official Active Share ≥15%; lots of 1,000 shares; stress test (±5% price shift, cash 0–25%); window rules (08:30 decision cutoff, 08:55 close).
+   - Frozen Quant buy-and-hold; the override wraps `agent.pipeline.construct` inside `competition_day` (`TO.activate`) and reuses `agent.portfolio.constructor._finalize`.
+   - Submission state machine: `agent/submission/base.py` ALLOWED (CONFIRMED→{CONFIRMED, UNKNOWN}; UNKNOWN→any).
+   - Portal rules: one history row per trade date; "last successful submission counts"; confirmation = 8 checks in `agent/submission/confirmation.py`; never "ACCEPTED".
+   - `morning_final.run/_locked` flow: `supersede_decision`, `replace_final`, `submission_stage`.
+   - Shared State: `shared-state` branch via worktree `.worktrees/shared-state`; `shared_state_sync`, `shared_state_tactical`.
+   - Windows tooling quirks: bash heredocs fail with apostrophes (use the Write tool); CRLF/mixed-EOL files edited byte-level; worktrees with a `data/history` junction.
+
+3. Files and Code Sections:
+   - `agent/tactical/override.py` (modified in PR #50):
+     - Added `VERSION_V2="TACTICAL_OVERRIDE_V2_TECH_LT10"`, `VERSIONS`, `CONFIG_PATH_V2`.
+     - `load_config` accepts either version.
+     - `resolve_config(config_path=None, trade_date=None)`: explicit path wins; otherwise V2 then V1, first with a non-None phase for the date.
+     - `_sleeve_names(tcfg)` = sleeve ∪ `legacy_sleeve_names`; used by `build_unwind` and `sleeve_open`.
+     - `_alloc` (water-filling under a per-name cap), `_tech_guard` (strictly < `target_tech_weight_max`, ≤ `tech_guard_max`, no `decision_limit` demotion), `build_entry_v2`.
+     - `config_rel(act)` helper. `Activation.write` uses an `_V2` filename suffix so V1 evidence is never overwritten. `is_active` and `activate` use `resolve_config`.
+     - `build_entry_v2`:
+       - iterates `tcfg["ladder"]` steps (cash_target, untouched_max, n_buys);
+       - picks untouched tech (smallest weights while cumulative ≤ untouched_max);
+       - picks partial-residual tech (cheapest lots) so holdings ≥ `target_holdings_min` (22);
+       - plans orders ≤ 30; allocates buys by relative weights under `buy_weight_cap`;
+       - runs `_finalize` + `_guards` + `_tech_guard`;
+       - records sells, buys, weights, tech and non-tech weight, Active Share, and `unwind_plan` {sell_all, buy_back, restore_to_baseline_shares};
+       - otherwise returns the base with status BLOCKED.
+   - `config/tactical_override_v2.yaml` (new):
+     - Settings: entry 2026-11-09, exit 2026-11-10, `target_tech_weight_max: 0.1`, `tech_design_max: 0.085`, `tech_guard_max: 0.09`, `max_orders: 30`, `target_holdings_min: 22`, `buy_weight_cap: 0.085`.
+     - Ladder: 7 steps, the first being {cash 0.15, untouched_max 0.075, n_buys 10}.
+     - Sleeve (priority order, relative weights = 50% equal + 50% inverse 60-day vol): 2002 0.12062, 2891 0.096375, 2618 0.094651, 5880 0.09681, 1216 0.112618, 5871 0.095432, 2912 0.128195, 1101 0.092148, 6446 0.070095, 3293 0.093055.
+     - Also: `legacy_sleeve_names` (the 6 V1 names), the same `reduce_tickers` and `baseline_holdings` (24 names) as V1.
+     - Fingerprint (sha256) 9a67d94dc14ad466a2b22d7f6c34976cdd2e2ba3c1ae334f64fb0aabe9d83d50 after the cap edit.
+   - `agent/ops/tactical_supersede.py` (new in #50, modified in #51):
+     - `candidate_gate(summary, tcfg, run_id)`: requires V2 ENTRY APPLIED, matching fingerprint, tech < max, holdings 20–30, Active Share ≥ 0.15, status READY_TO_SUBMIT, validation PASS.
+     - `archive_prior` copies the prior FINAL, state and receipts to `submissions/<T>/superseded/<sha12>/`.
+     - `preconditions` requires a V2 ENTRY config for the date, COMPETITION mode, before 08:30, state CONFIRMED.
+     - `run()`:
+       - read-only portal verify that the prior FINAL is SUBMISSION_CONFIRMED;
+       - archive; set_state UNKNOWN;
+       - wrap `MF.supersede_decision` with the `data_not_degraded` waiver (added in #51) and `replace_final` with `candidate_gate`;
+       - call `morning_final.run(portal_check=…, replace=…)`;
+       - restore CONFIRMED if nothing was superseded.
+     - Logs to `logs/tactical/supersede.jsonl` and `supersede_<ymd>_latest.json`.
+     - `data_not_degraded(health, prior_summary)`: waives WARN only if every CRITICAL source is OK and fresh, and every non-OK source is OPTIONAL or was already a WARN in the prior run.
+     - CLI: `python -m agent.ops.tactical_supersede --date T --authorization "…" [--expect-prior-sha …] [--check-only]`.
+   - `agent/ops/shared_state_tactical.py` (modified): the file name now comes from the source file name (`p.name`). Superseded older-version records are marked SUPERSEDED, and an already-published one is kept (SUPERSEDED_KEPT).
+   - `agent/competition_day.py` (mixed EOL, byte-edited): archive config uses `[TO.config_rel(tact)]`; meta tactical_override keys extended with tech_weight_after, nontech_weight_after, target_tech_weight_max.
+   - `agent/ops/shared_state_sync.py` (CRLF, PR #52): `confirmed_record` takes `submitted_at` as the first SUBMITTED_UNVERIFIED after the last READY_TO_SUBMIT history entry.
+   - `docs/TACTICAL_OVERRIDE.md`: V2 section appended.
+   - `tests/tactical/test_override_v2.py` (new): tests for alloc, V2 entry/fail-closed, the guard, a tech name in the sleeve, unwind restore (skipped on the fixture book), legacy sleeve, `resolve_config` precedence, the shipped V2 config, `candidate_gate`, the data waiver, and the submitted_at fix.
+   - Scratchpad scripts (not committed):
+     - `harness_v2.py`: real-data rehearsal via `run_day`.
+     - `patch_override.py`, `v2_block.py`, `make_v2_cfg.py`, `patch2.
+…[truncated 7422 chars]
+
+### [2026-11-09 04:33:50] 👤 User (turn 326) <!--id:5c7a2a25-2eb5-4355-ba5a-fc152e0981a0-->
+
+<task-notification>
+<task-id>b2dceg12y</task-id>
+<tool-use-id>toolu_01E6Eeioihc3M59MmWWKMkwX</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\8f718917fde93c02\3c6e927b-3359-42ca-a4f8-73630a860dd3\tasks\b2dceg12y.output</output-file>
+<status>completed</status>
+<summary>Background command "cd "[REDACTED]" &amp;&amp; grep -rl "SHADOW_BASELINE" --include=* . 2&gt;/dev/null | grep -v "^./.worktrees\|\.git/" | head; git branch -a | grep -i "48\|shadow" | head; ls logs | head -30" completed (exit code 0)</summary>
+</task-notification>
+- 🔧 **Read**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\8f718917fde93c02\3c6e927b-3359-42ca-a4f8-73630a860dd3\tasks\b2dceg12y.output <!--id:d6ea553f-be54-4f45-bb26-073eb8a9d6df-->
+- ↩︎ result (171 chars): 1 development 2 evaluation 3 llm 4 llm_eval 5 locks 6 morning 7 notifications 8 ops 9 runs 10 runtime 11 scheduled 12 tactical 13 wake_test 14 15 [exited with code 0] 16 <!--id:185745c5-6e6a-476c-ab6e-e3ff4fb19475-->
+
+### [2026-11-09 04:33:59] 🤖 Claude <!--id:18ed76ca-4169-4240-b530-ddc1aee9b0d4-->
+
+搜尋結果顯示，整個 repo 裡沒有任何檔案含有 `SHADOW_BASELINE`，也沒有名稱含 48 或 shadow 的分支。所以 Issue #48 的凍結 Quant v1 基準版（不送件）確實還沒有人產出。
+
+Issue #49 已完成，上面的回覆維持不變。我只做了這次搜尋，沒有開始做 #48 的基準版。這項工作不在最新授權範圍內，等你指示再做。
+
+下一步要看 11/09 19:30 的排程是否產出 11/10 的 D-Plan，並執行 V2 回切。
