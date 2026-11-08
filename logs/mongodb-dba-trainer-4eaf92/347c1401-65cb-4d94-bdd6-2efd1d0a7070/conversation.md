@@ -879,3 +879,471 @@ PowerShell 管線帶入了 BOM，導致這次手動觸發解析失敗。我先�
 
 ## 還沒驗證
 settings 的 hook 是不是在目前這個執行中的 session 立刻生效，我無法確認。這一輪回覆結束時會觸發 Stop，我預期 3 秒後 worker 會 commit 並 push。請你下一則訊息任意說一句，我再檢查是否有新的 `conversation-log: mongodb-dba-trainer 347c1401 …` commit。若沒有，需要重開 session 或用 `/hooks` 載入設定，再重驗證。
+
+### [2026-11-08 11:24:35] 👤 User (turn 4) <!--id:7708454b-f582-4ad4-8249-87ebd16bf6df-->
+
+<pasted_content id="69ce">
+現在可以進入 mongodb-dba-trainer 的下一個大型開發階段。
+
+這一次我授權你在既定範圍內自主完成整個 milestone。
+
+工作過程中：
+
+- 不需要逐步詢問我
+- 不需要每個技術決策都等我確認
+- 可以自行分析、選擇方案、實作、測試、修正
+- 可以自行處理合理的 refactor
+- 可以自行新增必要的 tests / docs / internal tooling
+- 發現 bug 可以直接修
+- 發現設計缺口可以在不破壞既有功能的前提下自行補足
+- 請持續工作直到本 milestone 完成
+
+只有遇到以下情況才停止並要求我介入：
+
+1. 需要人工登入
+
+其他情況請自行做決策，不要因為一般技術選擇中斷。
+
+只處理：
+
+C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer
+
+不要處理其他 project。
+
+不要開始 M20。
+
+目前正式 Certification Practice：
+
+200 questions
+31 / 31 objectives covered
+
+這 200 題以及既有：
+
+- Random Practice
+- Domain Practice
+- Mock Exam
+- Mistake Book
+- Weakness
+- Daily Review
+- Dashboard
+- Readiness
+- DBA Report
+- Labs
+- Incident Simulator
+
+都視為既有穩定功能。
+
+不得破壞。
+
+把目前 MongoDB University Study Integration 從 prototype 推進成：
+
+「可以實際使用的 University Review 功能」
+
+最終使用者應該可以在 mongodb-dba-trainer 裡：
+
+Practice
+├─ Certification Practice
+└─ University Review
+
+其中：
+
+Certification Practice
+\= 既有 200 題 (如果可以擴充就務必請擴充，不需要只維持在200題目)
+
+University Review
+\= 本機從我本人有權限看到的 MongoDB University 課程內容建立的私人複習資料
+
+兩套資料必須分離。
+
+先自行確認：
+
+- git status
+- existing local changes
+- current tests
+- university collector
+- university docs
+- local_data ignore rules
+- current database schema
+- frontend Practice architecture
+
+不要 reset / clean / discard 未 commit 工作。
+
+如果現有 local implementation 比 GitHub 新，優先沿用本機版本。
+
+建立 milestone baseline。
+
+優先使用目前 Claude browser integration。
+
+如果已有登入 MongoDB University 的 existing tab：
+
+直接 inspect 該 authenticated tab。
+
+不要：
+
+- 自動解 CAPTCHA
+- 繞過 authentication
+- 竊取 cookie/token/session
+- 自動亂答題取得正解
+- crawl 未授權內容
+
+允許：
+
+- 讀目前登入者可正常看到的 DOM
+- screenshot
+- page structure analysis
+- normal navigation
+- 讀取已正常顯示的 question / option / feedback / explanation
+
+如果 Claude browser integration 無法可靠使用 authenticated context：
+
+可以自行評估合法且安全的 fallback，例如：
+
+- persistent local browser profile
+- Playwright persistent context
+- 使用者本人登入一次後重用 local session
+
+但不得繞過登入或 bot protection。
+
+如果 fallback 需要我本人登入，才停下來要求我操作。
+
+把 scripts/university_collector.py 從 prototype 強化成穩定 collector。
+
+至少支援：
+
+- course
+- unit
+- lesson
+- page URL
+- question
+- question type
+- options
+- selected answer
+- correct answer（只有網站正常顯示時）
+- explanation
+- feedback
+- first_seen
+- last_seen
+- stable fingerprint
+- source metadata
+
+需要：
+
+- incremental update
+- duplicate protection
+- idempotent ingestion
+- malformed input handling
+- schema validation
+- logging
+- safe failure behavior
+
+不得因重跑造成 duplicate questions。
+
+University 原始資料只能放：
+
+local_data/mongodb_university/
+
+必須保持：
+
+gitignored
+local-only
+
+不要 push：
+
+- University questions
+- University explanations
+- screenshots
+- learning history
+- user-specific University data
+
+可以自行選擇合理的 local data format：
+
+- JSON
+- SQLite
+- JSON + SQLite
+
+但要考慮：
+
+- dedup
+- incremental update
+- search
+- review progress
+- future schema migration
+
+如果現有設計已經合理，優先沿用，不要為了重寫而重寫。
+
+建立真正可使用的 University Review Bank。
+
+它必須與 200 題 Certification Practice 分離。
+
+至少支援：
+
+- 題目列表
+- Course filter
+- Unit / Lesson filter
+- Random University Review
+- question answering
+- answer reveal
+- explanation / feedback
+- next question
+- previous question
+- progress
+- review status
+
+如果資料沒有 correct answer：
+
+UI 必須明確表示：
+
+Correct answer not captured
+
+不能自行推測答案。
+
+在現有 Practice UI 中加入清楚入口：
+
+Practice
+├─ Certification Practice
+└─ University Review
+
+不要大幅重做整個 Trainer。
+
+University Review UI 可以參考 MongoDB University 的：
+
+- card hierarchy
+- question spacing
+- option clarity
+- feedback placement
+- progress presentation
+
+但禁止：
+
+- pixel-perfect clone
+- copy proprietary CSS
+- copy proprietary JS
+- MongoDB logo / protected assets direct reuse
+
+重點是：
+
+inspired UX
+而不是 clone。
+
+University Review 的學習進度必須與 Certification Practice 分開。
+
+建議至少追蹤：
+
+- seen
+- answered
+- correct / incorrect（若可判定）
+- reviewed
+- last_reviewed_at
+- attempts
+
+不要讓 University Review 統計污染：
+
+- Certification readiness
+- Certification mastery
+- 200-question metrics
+- Mock Exam scoring
+
+除非未來另外明確設計 University metrics。
+
+自行補足合理 UX：
+
+- empty state
+- no University data
+- collector unavailable
+- missing explanation
+- missing answer
+- corrupted local entry
+- browser integration unavailable
+
+UI 不應 crash。
+
+如果 University local data 不存在：
+
+Certification Practice 必須仍正常使用。
+
+新增完整 tests。
+
+至少覆蓋：
+
+Collector:
+
+- parsing
+- fingerprint
+- duplicate ingestion
+- incremental update
+- malformed input
+- missing answer
+- missing explanation
+
+Storage:
+
+- insert
+- update
+- dedup
+- progress persistence
+
+API:
+
+- list
+- filter
+- random
+- question detail
+- review progress
+
+Frontend / integration:
+
+- University entry available
+- Certification Practice unchanged
+- University unavailable state
+- no cross-contamination of metrics
+
+Regression：
+
+跑完整 pytest。
+
+既有功能如果出現 regression：
+
+自行修到通過。
+
+對已知 environmental / flaky dev-server test：
+請明確區分：
+
+real regression
+vs
+environmental failure
+
+不要為了讓 test 綠燈而弱化測試。
+
+若 authenticated MongoDB University access 成功：
+
+使用一個目前我本人可正常看到的 Course 做 real-data validation。
+
+先收集小批量。
+
+確認：
+
+- UI 正常
+- dedup 正常
+- explanation rendering 正常
+- progress 正常
+- local-only 正常
+
+確認穩定後，可以在相同已授權課程範圍內擴大收集。
+
+不要為了追求數量而 crawl 整站。
+
+更新：
+
+docs/mongodb-university-ui-study.md
+docs/university-review-bank-design.md
+
+如果需要，可以新增：
+
+docs/university-review-implementation.md
+
+說明：
+
+- architecture
+- data flow
+- storage
+- collector
+- privacy/local-only boundary
+- University Review vs Certification Practice
+- known limitations
+- future improvements
+
+完成後：
+
+可以 commit 適合公開的程式碼、tests、docs。
+
+不得 commit：
+
+local_data/
+University raw questions
+screenshots
+private learning data
+credentials
+cookies
+tokens
+
+commit message 請清楚描述 milestone。
+
+如果目前 repo 有其他不相關未 commit 修改：
+
+不要把它們混入這個 commit。
+
+本 milestone 內：
+
+你擁有技術決策權。
+
+例如：
+
+- schema
+- API endpoint naming
+- module organization
+- local database design
+- frontend component structure
+- test strategy
+- internal refactor
+- retry/error handling
+
+都可以自行決定。
+
+判斷原則依序是：
+
+1. 不破壞既有 Certification Trainer
+2. 安全與 local-only boundary
+3. 可維護性
+4. 可測試性
+5. UX
+6. 實作簡潔度
+
+不要為了小型技術決策停下來詢問我。
+
+完成前請自行做一次完整 acceptance pass。
+
+至少確認：
+
+- Certification Question Bank 仍是 200
+- Objective Coverage 仍是 31/31
+- Random Practice 正常
+- Domain Practice 正常
+- Mock Exam 正常
+- Mistake Book 正常
+- Dashboard / Readiness 正常
+- University Review 可進入
+- University Review 可讀 local data
+- University data 不影響 Certification metrics
+- collector dedup 正常
+- incremental update 正常
+- local_data 未被 Git 追蹤
+- secrets / cookies / token 未被保存
+- tests 完成
+- Git status 可解釋
+
+最後一次回報即可，不需要中途詢問我。
+
+請完整回報：
+
+1. 最終架構
+2. 自行做出的主要技術決策
+3. 新增功能
+4. 修改檔案
+5. 新增 API
+6. local data schema
+7. University Review UI
+8. collector 行為
+9. 真實 University browser validation
+10. 收集題目數量
+11. tests 結果
+12. regression 結果
+13. Git commit SHA
+14. local-only 資料確認
+15. 已知限制
+16. 下一階段建議
+
+完成後停止。
+
+不要開始 M20。
+不要延伸到其他 project。
+</pasted_content id="69ce">
