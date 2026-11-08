@@ -1,0 +1,133 @@
+{
+ "generated": "2026-11-08T10:33:17.0933876+08:00",
+ "errors": [
+  "bitlocker_status_only : 拒絕存取 ",
+  "features_services : The requested operation requires elevation.\r\n"
+ ],
+ "is_admin": false,
+ "system": {
+  "os": "Microsoft Windows 11 專業版",
+  "version": "10.0.26300",
+  "build": "26300",
+  "arch": "64-bit",
+  "model": "LENOVO 21C1S00Q00",
+  "cpu": "12th Gen Intel(R) Core(TM) i7-1260P",
+  "ram_gb": 31.7,
+  "domain_joined": true
+ },
+ "volumes": [
+  {
+   "drive": "C",
+   "fs": "NTFS",
+   "size_gb": 474.7,
+   "free_gb": 82.6,
+   "type": "Fixed"
+  }
+ ],
+ "net_adapters": 6,
+ "odbc_dsn": 3,
+ "personal_certs": 1,
+ "applications_registry": 65,
+ "winget_exportable": 33,
+ "dev_tools": {
+  "git": {
+   "path_type": 32,
+   "version": "git version 2.54.0.windows.1"
+  },
+  "code": {
+   "path_type": 32,
+   "version": "1.141.0"
+  },
+  "python": {
+   "path_type": 32,
+   "version": "Python 3.13.16"
+  },
+  "py": {
+   "path_type": 32,
+   "version": "Python 3.13.16"
+  },
+  "pip": {
+   "path_type": 32,
+   "version": "pip 26.2.1 from C:\\Users\\devon.tseng\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\pip (python 3.13)"
+  },
+  "node": {
+   "path_type": 32,
+   "version": "v24.18.0"
+  },
+  "npm": {
+   "path_type": 16,
+   "version": "11.16.0"
+  },
+  "docker": {
+   "path_type": 32,
+   "version": "Docker version 29.5.3, build d1c06ef"
+  },
+  "wsl": {
+   "path_type": 32,
+   "version": "W\u0000S\u0000L\u0000 \u0000Hr,g\u001a� \u00002\u0000.\u00007\u0000.\u00008\u0000.\u00000\u0000"
+  },
+  "claude": {
+   "path_type": 16,
+   "version": "2.1.319 (Claude Code)"
+  },
+  "codex": {
+   "path_type": 16,
+   "version": "codex-cli 0.166.0"
+  }
+ },
+ "vscode_extensions": 7,
+ "vscode_settings_present": true,
+ "pip_packages": 31,
+ "npm_global": 3,
+ "gitconfig_present": false,
+ "powershell_profiles": 0,
+ "powershell_modules_user": 0,
+ "windows_terminal_settings": 0,
+ "wsl_lines": 11,
+ "docker": {
+  "images": 0,
+  "containers": 0,
+  "volumes": 0
+ },
+ "scheduled_tasks_non_microsoft": 20,
+ "user_data": [
+  {
+   "folder": "Desktop",
+   "files": 376300,
+   "size_gb": 76.52
+  },
+  {
+   "folder": "Documents",
+   "files": 7,
+   "size_gb": 0
+  },
+  {
+   "folder": "Downloads",
+   "files": 1568,
+   "size_gb": 0.56
+  },
+  {
+   "folder": "Pictures",
+   "files": 1,
+   "size_gb": 0
+  },
+  {
+   "folder": "Videos",
+   "files": 2,
+   "size_gb": 0
+  },
+  {
+   "folder": "Music",
+   "files": 1,
+   "size_gb": 0
+  },
+  {
+   "folder": "OneDrive",
+   "files": 0,
+   "size_gb": 0
+  }
+ ],
+ "project_dirs": 81,
+ "git_repos": 37,
+ "wsl_lines_note": "wsl -l -v output is UTF-16 (script cannot parse it); distro presence UNVERIFIED"
+}

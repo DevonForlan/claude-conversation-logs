@@ -1,21 +1,21 @@
 # Windows PC Migration — status (session 30e5b156-8771-498c-a5a7-ff50b6e35047)
 
-Updated: 2026-11-08T10:29:26+0800
-Working directory (local): C:\Users\devon.tseng\Desktop\個人\搬遷\claude-conversation-logs
+Updated: 2026-11-08T10:43:35+08:00
 Issue: DevonForlan/claude-conversation-logs#1
 
-## Current phase: NOT STARTED (Phase 1 inventory has not been run)
+## Current phase: Phase 1 (read-only inventory) COMPLETE, non-elevated; Phase 2 plan docs NOT started
 
-This session's real work so far was the AI CUP 2026 tactical-rotation task (separate repo, Issue #43 of ai-cup-2026-etf-agent) and a PowerShell-flash fix. No Windows PC Migration inventory, plan, script, backup or restore has been executed. Nothing is claimed beyond the list below.
+## Done
+- `windows-pc-migration/scripts/inventory.ps1` (read-only, no `exit`) executed once; redacted summary in `windows-pc-migration/inventory/summary_20261108.json`. Raw results stay local (`%TEMP%\win_inventory`), not on GitHub.
+- Old PC: Windows 11 Pro build 26300, Lenovo 21C1S00Q00, i7-1260P, 31.7 GB RAM, domain joined; one volume C: 474.7 GB, 82.6 GB free.
+- Apps: 65 registry entries; winget export lists 33 packages.
+- Dev: git 2.54, VS Code 1.141 (7 extensions), Python 3.13 (31 pip pkgs), Node 24 (3 global), Docker 29.5 (0 images/containers/volumes), Claude Code 2.1.319, Codex CLI 0.166, WSL 2.7.8.
+- No ~/.gitconfig, no PowerShell profiles, no Windows Terminal settings; ODBC 3 DSNs; 1 personal certificate (metadata only); 20 non-Microsoft scheduled tasks.
+- User data: Desktop 76.5 GB / 376,300 files (dominant), Downloads 0.56 GB, others ~0. 81 project dirs found (37 git repos; 26 package.json, 13 .git-only, 6 pyproject, 4 compose).
 
-## Completed items related to this machine (not migration deliverables)
-- Exported XML of 3 scheduled tasks (AI_CUP_Competition_MorningFinal_0730, AI_CUP_Precompetition_DryRun_1930, AI_CUP_Precompetition_Evaluation_1700) to a local backup folder (task_backup_20261108). Usable later as ScheduledTasks backup input; local only, not uploaded.
-- Changed those 3 tasks to launch via conhost.exe --headless powershell.exe (stops the PowerShell window flash). Original settings are in the XML backup.
-- Observed (read-only): startup items and non-Microsoft scheduled tasks that launch shells (partial, not a full inventory).
+## Gaps (not verified)
+- Not run elevated: BitLocker status and Windows Features/Services list failed (need admin). SSH inventory returned nothing (no ~/.ssh or unreadable) - to re-check.
+- WSL distro presence unverified (UTF-16 parsing); Docker has nothing to migrate.
 
 ## Not done
-Phase 1 inventory, Phase 2 plan documents, Phase 3 scripts (migration/backup/restore/verify/rollback), dry-runs, backups, restores.
-No backup destination (external SSD / file server) has been specified; none will be guessed.
-
-## Next step
-Start Phase 1 read-only inventory on the next owner go-ahead, then report milestones here.
+Phase 2 documents, Phase 3 scripts (migration/backup/restore/verify/rollback), dry-run, backup, restore. No backup destination specified; none will be guessed.
