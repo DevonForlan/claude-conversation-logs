@@ -1,6 +1,15 @@
 {
-  "updated_at": "2026-11-08T10:48:21+08:00",
+  "updated_at": "2026-11-08T10:55:53+08:00",
   "projects": [
+    {
+      "project": "claude-conversation-logs",
+      "project_safe": "claude-conversation-logs-8978cc",
+      "last_activity": "2026-11-08T10:55:53+08:00",
+      "latest_session": "30e5b156-8771-498c-a5a7-ff50b6e35047",
+      "latest_log": "logs/claude-conversation-logs-8978cc/30e5b156-8771-498c-a5a7-ff50b6e35047/conversation.md",
+      "status": "idle",
+      "sessions": 1
+    },
     {
       "project": "mongodb-dba-trainer",
       "project_safe": "mongodb-dba-trainer-4eaf92",
