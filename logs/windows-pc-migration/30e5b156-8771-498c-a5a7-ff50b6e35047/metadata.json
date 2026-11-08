@@ -2,23 +2,24 @@
  "session_id": "30e5b156-8771-498c-a5a7-ff50b6e35047",
  "task": "windows-pc-migration",
  "issue": "DevonForlan/claude-conversation-logs#1",
- "updated_at": "2026-11-08T10:43:35+08:00",
+ "updated_at": "2026-11-08T10:55:26+08:00",
  "work_dir": "C:\\Users\\devon.tseng\\Desktop\\個人\\搬遷\\claude-conversation-logs",
- "phase": "PHASE1_INVENTORY_DONE",
+ "phase": "PHASE3_DONE_BACKUP_BLOCKED_ON_DESTINATION",
  "completed": [
-  "phase1_readonly_inventory (non-elevated)"
+  "phase1_readonly_inventory (non-elevated)",
+  "phase2_docs",
+  "phase3_scripts",
+  "dry_run_and_synthetic_e2e_tests"
  ],
  "related_non_migration_work": [
   "scheduled task XML backup (3 AI CUP tasks, local only)",
   "3 tasks switched to conhost --headless"
  ],
  "not_done": [
-  "elevated checks (BitLocker, features, services)",
-  "phase2 docs",
-  "phase3 scripts",
-  "dry-run",
-  "backup",
-  "restore"
+  "elevated checks",
+  "real backup (needs destination)",
+  "real restore on new PC",
+  "real rollback test"
  ],
  "backup_destination": null,
  "secrets_included": false

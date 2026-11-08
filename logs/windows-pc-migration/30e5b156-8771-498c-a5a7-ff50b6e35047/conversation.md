@@ -9,3 +9,7 @@ Synced to GitHub: status.md, metadata.json, this file, windows-pc-migration/late
 ## Reply at 2026-11-08T10:43:35+08:00
 
 Owner asked to focus on Windows migration. Ran Phase 1 read-only inventory (non-elevated); summary and gaps are in status.md. Phase 2 not started.
+
+## Reply at 2026-11-08T10:55:26+08:00
+
+Phase 1 inventory, Phase 2 docs and Phase 3 scripts are done; dry-runs and synthetic end-to-end tests passed after fixing four bugs they exposed. Real backup waits for the Owner's Destination. Details: status.md.
