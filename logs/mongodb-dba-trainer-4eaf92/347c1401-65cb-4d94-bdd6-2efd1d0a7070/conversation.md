@@ -1493,3 +1493,77 @@ dev-server 測試現在有兩個失敗，我在查原因（可能是之前殘留
 - 🔧 **TaskStop**: {"task_id": "bjkndy39o"} <!--id:d5ab0d8f-a6a0-4401-9342-1b268c761524-->
 - ↩︎ result (51 chars): No dev server was running (nothing to stop). False <!--id:9465c46b-a183-4b46-915c-e92844103817-->
 - ↩︎ result ⚠️error (79 chars): <tool_use_error>Task bjkndy39o is not running (status: failed)</tool_use_error> <!--id:e1b40d12-8bc7-4f8d-8641-46324036e33a-->
+- 🔧 **PowerShell**: cd 'C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer'; Get-CimInstance Win32_Process -Filter "Name like 'python%'" | Where-Object { $_.CommandLine -match 'uvicorn|dev_server' } | Measure-Object | ForEach-Object { "stray server procs: $($… <!--id:37a97843-36a5-42d7-a3bf-8b24ebc2b805-->
+- ↩︎ result (3007 chars): stray server procs: 0 warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it @@ -20,3 +20,6 @@ Quick Start.txt # owner's own account/session, plus local UI reference screenshots; never to be pushed publicly # (copyright/ToS boundary, see docs/mongodb-u… <!--id:1e9319e4-6706-4357-a3da-5a5fcead4121-->
+- 🔧 **PowerShell**: cd 'C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer'; git commit -q -F - @' Add local-only University Review (collector v2, separate store, API, UI) - scripts/university_collector.py: schema v2 (lesson/feedback/page metadata), whitelist… <!--id:3b71156a-d9b9-4e88-bf28-b87a21f7684a-->
+- ↩︎ result (646 chars): Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>' did not match any file(s) known to git 7f0519f Translate all repository content from Traditional Chinese to English bb5feaa Untrack local dev-server runtime log, ignore dev-server pid/log files local_data entries in status: 0 tracked local_d… <!--id:74483377-8801-4d04-8b99-5c8d83e6e414-->
+- 🔧 **PowerShell**: cd 'C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer'; $msg = @' Add local-only University Review (collector v2, separate store, API, UI) - scripts/university_collector.py: schema v2 (lesson/feedback/page metadata), whitelist-only storag… <!--id:4c728b75-6cc0-4a16-acd0-c164cd60b869-->
+- ↩︎ result (254 chars): 43b7156 Add local-only University Review (collector v2, separate store, API, UI) 7f0519f Translate all repository content from Traditional Chinese to English M CLAUDE.md ?? claude-context-audit.md ?? optimization-ab-test1.md ?? optimization-phase1.md <!--id:815b3d40-9851-4b26-adb7-16c565374c88-->
+- 🔧 **PowerShell**: git -C "$env:USERPROFILE\.claude\cc-log-repo" fetch -q origin 2>&1 | Out-Null; git -C "$env:USERPROFILE\.claude\cc-log-repo" log origin/main --format='%h %s' -4 | Select-String 'mongodb-dba-trainer'; Get-Content "$env:USERPROFILE\.claude\cc… <!--id:a0e8ad4b-5ebd-42b5-8e2b-bb581ccea170-->
+- ↩︎ result (198 chars): e39acad conversation-log: mongodb-dba-trainer 347c1401 2026-11-08 11:24:51 2026-11-08T10:46:37 hook error: JSONDecodeError('Unexpected UTF-8 BOM (decode using utf-8-sig): line 1 column 1 (char 0)') <!--id:848333a7-b2b4-4036-84cd-41d744a8d1f0-->
+
+### [2026-11-08 12:07:52] 🤖 Claude <!--id:9c691f01-dbd1-44f0-8af4-a5b0d8c5e3b8-->
+
+University Review 這一版已完成並 commit，但真實 MongoDB University 資料還沒收集到。需要你在我開的 Edge 視窗登入一次，我才能繼續。
+
+## 目前卡在哪
+我用 `launch` 開了一個專用 Edge 視窗，並確認可以唯讀 attach。它是全新 profile，目前是未登入的 learn.mongodb.com 首頁。登入屬於你本人的步驟（可能碰到 reCAPTCHA），我不代勞、不解 CAPTCHA。
+
+請在那個視窗登入，打開你有權限的課程，停在 quiz 頁，然後告訴我。我接著會：
+1. 用 `inspect` 唯讀記錄 DOM、截圖和 request 路徑，判斷題目在 DOM 還是 API，找出穩定的選擇器。
+2. 小批量收集，再做真實資料驗證。
+
+## 完成的項目
+
+**1. 架構**
+```
+Practice ├ Certification Practice（既有，不動）
+         └ University Review → /api/university/* → local_data/mongodb_university/{collected/*.json, university.db}
+```
+
+**2. 技術決策**
+- University 資料放獨立的 `university.db`，不放 `trainer.db`，這樣 Certification 的各項指標不可能被影響。
+- 題目內容以 JSON 為準，SQLite 只當索引加 University 專屬進度；重新同步不會洗掉進度。
+- collector 只存白名單欄位，cookie、token、raw HTML 就算被傳進來也不會存下。
+
+**3. 新增功能**
+- **Collector v2：** 新增 lesson、feedback、page_title 等欄位，具備驗證、原子寫入、鎖檔、壞檔隔離、冪等批次匯入，v1 資料會原地升級。
+- **API：** 新增 `/api/university/` 下的 status、courses、items（可依 course/unit/lesson/status/q 篩選）、random、progress、items/{fp}，以及 items/{fp}/answer、items/{fp}/reveal、items/{fp}/reviewed。
+- **UI：**
+  - Practice 頁加上「Certification Practice｜University Review」分頁，側邊欄也有入口。
+  - 頁面有篩選器、進度統計、題目列表、隨機複習、上一題／下一題、作答與解析、標記已複習。
+  - 沒資料、讀取失敗、缺答案（顯示「Correct answer not captured」）、缺解析、壞資料都有明確狀態。
+- **唯讀擷取輔助：** `scripts/university_capture.py`，只提供 `launch`、`tabs`、`inspect`，不點擊、不作答、不讀 cookie。
+
+**4. 修改的檔案**
+- 新增：`app/routers/university.py`、`app/services/university_store.py`、`app/static/university.html`、`app/static/university.js`、`scripts/university_capture.py`、`docs/university-review-implementation.md`，以及 `tests/test_university_collector_v2.py`、`tests/test_university_store.py`。
+- 修改：`scripts/university_collector.py`、`app/main.py`、`app/static/index.html`、`app/static/js/shell.js`、`app/static/css/pages.css`、`.gitignore`、兩份 university docs。
+
+**5. 驗證結果**
+- 用合成資料在真實 Edge 瀏覽器跑過 UI：列表、單選與複選作答、缺答案顯示、上一題與隨機、進度統計都正常，沒有 JS 錯誤。
+- 無資料時顯示空狀態，Practice 頁的 10 個 domain 與側邊欄的 200 題、Coverage 100% 都正常。
+- 同一份資料匯入兩次，第二次 added=0、unchanged=3，沒有重複。
+
+**6. Tests**
+- University 相關 37 個測試全過。
+- 完整 pytest：329 passed、2 skipped、1 failed。
+- 1 個失敗是 `test_dev_server_safety.py::test_start_writes_pid_file_and_server_is_reachable`，我判定為環境問題，不是 regression：
+  - 它在我動手前的基準測試就同樣失敗。
+  - 原因是這台機器上 `docker` 指令會卡住，測試呼叫的 `/api/docker-lab/available` 就無回應；其他 API（如 `/api/domains`）13 毫秒內回應。
+  - 我沒有弱化任何測試。
+  - 過程中還發現專案原本的 `.venv` 指向已不存在的 Python 3.12，我已用 `venv --upgrade` 並重裝套件修復，另建了 `.venv313`，兩者都已 gitignore。
+
+**7. Git**
+- Commit SHA：`43b7156`，只含公開的程式、測試和文件，沒有 push。
+- CLAUDE.md 和各個 audit/optimization md 仍是未 commit 的獨立變更，沒混進去。
+- `local_data/` 沒有任何檔案被追蹤，`git status` 也沒有出現它；裡面現在只有瀏覽器 profile，沒有題目資料。
+
+**8. 已知限制**
+- `capture` 目前只列出找到的選項，題目文字和 feedback 的對應要等驗證過選擇器才能做；在那之前，題目要用整理好的 JSON 檔，經 `ingest` 匯入。
+- fingerprint 不含 lesson，同一 unit 內兩個 lesson 若有完全相同的題目文字會被合併。
+- Certification 題庫我沒有擴充：驗收要求維持 200 題，且新題目需要符合專案既有的來源標註與驗證流程，建議另立 milestone。
+
+**9. 下一步建議**
+- 你登入後，我完成 inspect、小批量收集和真實資料驗證，並更新 UI study 文件的「實際觀察」部分。
+
+另外，global logger 現在能自動記錄這個 session：中央 repo 已有 `conversation-log: mongodb-dba-trainer 347c1401` 的 commit。
