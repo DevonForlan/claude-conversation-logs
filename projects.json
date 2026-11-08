@@ -1,21 +1,21 @@
 {
-  "updated_at": "2026-11-08T11:57:36+08:00",
+  "updated_at": "2026-11-08T12:06:17+08:00",
   "projects": [
+    {
+      "project": "mongodb-dba-trainer",
+      "project_safe": "mongodb-dba-trainer-4eaf92",
+      "last_activity": "2026-11-08T12:06:17+08:00",
+      "latest_session": "347c1401-65cb-4d94-bdd6-2efd1d0a7070",
+      "latest_log": "logs/mongodb-dba-trainer-4eaf92/347c1401-65cb-4d94-bdd6-2efd1d0a7070/conversation.md",
+      "status": "working",
+      "sessions": 1
+    },
     {
       "project": "claude-conversation-logs",
       "project_safe": "claude-conversation-logs-8978cc",
       "last_activity": "2026-11-08T11:57:36+08:00",
       "latest_session": "30e5b156-8771-498c-a5a7-ff50b6e35047",
       "latest_log": "logs/claude-conversation-logs-8978cc/30e5b156-8771-498c-a5a7-ff50b6e35047/conversation.md",
-      "status": "working",
-      "sessions": 1
-    },
-    {
-      "project": "mongodb-dba-trainer",
-      "project_safe": "mongodb-dba-trainer-4eaf92",
-      "last_activity": "2026-11-08T11:24:36+08:00",
-      "latest_session": "347c1401-65cb-4d94-bdd6-2efd1d0a7070",
-      "latest_log": "logs/mongodb-dba-trainer-4eaf92/347c1401-65cb-4d94-bdd6-2efd1d0a7070/conversation.md",
       "status": "working",
       "sessions": 1
     }
