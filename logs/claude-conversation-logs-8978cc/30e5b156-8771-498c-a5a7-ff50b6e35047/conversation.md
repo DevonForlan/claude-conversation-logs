@@ -756,3 +756,35 @@ robocopy 結束的通知（watcher）一到，我就接著做 SHA-256 manifest�
   5. 同步 GitHub，並回報 D: 是否可以安全退出。
 
 腳本結束前請不要拔掉隨身碟。我會在結束後告訴你確切時間和結果。
+
+### [2026-11-09 07:21:21] 👤 User (turn 15) <!--id:69dc86dc-f00e-4b25-a160-c949a32d3f6c-->
+
+<task-notification>
+<task-id>bhimr7o8a</task-id>
+<tool-use-id>toolu_01UpfqagcsWtMoZ4q9LNtnLx</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\tasks\bhimr7o8a.output</output-file>
+<status>completed</status>
+<summary>Background command "$o="$env:TEMP\formal_backup_run.txt"; Select-String -Path $o -Pattern 'ERROR|DONE|Files :|Bytes :|Ended|robocopy|hash' | select -Last 25 | % {$_.Line.Substring(0,[Math]::Min(200,$_.Line.Length))}; "---"; Get-CimInstance Win32_Process -Filter "Name='powershell.exe' or Name='robocopy.exe'" | ? {$_.CommandLine -match 'migration'} | select ProcessId,Name; Get-ChildItem D:\Windows_Migration_Package -Recurse -Filter SHA256SUMS.txt -ErrorAction SilentlyContinue | select FullName,Length,LastWriteTime" completed (exit code 0)</summary>
+</task-notification>
+- 🔧 **PowerShell**: Get-Date -f T; Get-CimInstance Win32_Process -Filter "Name='powershell.exe' or Name='robocopy.exe'" | ? {$_.CommandLine -match 'migration'} | select ProcessId,Name; $o="$env:TEMP\formal_backup_run.txt"; Select-String -Path $o -Pattern 'DONE… <!--id:f47ca127-21ce-43f3-92f1-56caf6abb49d-->
+- 🔧 **PowerShell**: $l="D:\Windows_Migration_Package\05_logs\backup_20261108_112644.log"; Get-Content $l -Encoding Unicode | Select-String -Pattern 'ERROR|錯誤|Files :|Bytes :|檔案:|位元組:' | select -First 20 | % {$_.Line.Trim().Substring(0,[Math]::Min(260,$_.Line.T… <!--id:3f20a8cc-a33b-43ab-9146-fd7b3e1b51a3-->
+- ↩︎ result (579 chars): 上午 07:21:28 ProcessId Name --------- ---- 39280 powershell.exe 2026-11-09T05:42:06 [ERROR] hash failed: D:\Windows_Migration_Package\01_backup\UserData\Desktop\mongoDB上課\【全教材】04教育訓練教 2026-11-09T05:42:06 [ERROR] hash failed: D:\Windows_Migration_Package\01_backup\UserData\Desktop\mongoDB上課\【全教材】04教育訓… <!--id:2ea9e5c4-1984-4721-b3ea-b4ec14251de2-->
+- ↩︎ result (3682 chars): 2026/11/08 23:01:47 錯誤 2 (0x00000002) 正在複製檔案 C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer\local_data\mongodb_university\browser_profile\Safe Browsing\ChromeExtMalware.store.store.32_13438583205790860 2026/11/08 23:58:40 錯誤 2 (0x00000002) 正在複製檔案 C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智… <!--id:9285860c-ab28-4bf5-b5e6-8e052ba97d7c-->
+
+### [2026-11-09 07:21:42] 🤖 Claude <!--id:24bb9540-a671-4b88-a54a-c9b17c326301-->
+
+**還不能拿走。** 外層腳本（PID 39280）07:21 還在跑，還在寫 manifest。
+
+**Desktop rc=9 的原因：失敗的是瀏覽器暫存檔，不是你的工作檔案。** 我從 robocopy 日誌抓到的錯誤都在這幾個自動化瀏覽器的 profile 資料夾：
+- `個人\mongodb-dba-trainer\…\browser_profile\`（Cookies、Sessions、Safe Browsing）
+- `個人\AI CUP 2026…\data\browser_profiles\fundaiagent\`（Sessions、Tabs、EdgeCoupons 的 ldb/log）
+- 錯誤碼 2 是檔案在複製途中被瀏覽器刪掉，錯誤碼 32 是檔案被佔用。這些都是執行中的瀏覽器會自己重建的暫存資料。
+- 我先判定這些可以排除，因為它們可重建，但還沒逐筆確認這份日誌裡沒有其他類型的失敗。
+- 有一點要注意：那兩個 profile 裡的 Cookies 和 Sessions 含登入狀態，換機後需要重新登入。這是預期的行為，也比把登入憑證放進未加密隨身碟安全。
+
+**還沒查清的部分**
+- manifest 階段有 11 筆 `hash failed`，都在 `mongoDB上課\…` 的 PDF。這和瀏覽器暫存檔不同，這是教材檔案。
+- 我還不知道原因，可能是路徑太長或檔名含特殊字元。如果是這樣，檔案可能根本沒複製到 D:，需要單獨補跑。
+- 腳本結束後我會逐一檢查這 11 個檔案在來源和備份是否都存在、大小是否一致，再跑正式 verify。
+
+**D: 現在不能退出。** 等腳本結束、verify 做完、確認沒有程序在寫入後，我才會明確告訴你可以拔。
