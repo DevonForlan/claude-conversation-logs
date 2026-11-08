@@ -701,3 +701,29 @@ Summary:
 備份還沒完成，verify 也還沒跑。我之前啟動的目的地掃描也還沒有結果。D: 的配置量遠超預估，原因還沒查清楚。
 
 如果你現在必須拿走隨身碟，請先讓我停掉 robocopy（TaskStop），再確認沒有程序在寫入，之後才能安全拔出。這樣備份會是不完整的，之後要重跑，robocopy 會跳過已複製的檔案。要停的話請告訴我。
+
+### [2026-11-09 06:13:43] 👤 User (turn 13) <!--id:76f36cf7-6ae9-4bb0-b5c1-552fce13b1ee-->
+
+<task-notification>
+<task-id>bx1cxebu8</task-id>
+<tool-use-id>toolu_01UnF76UDk9oRS3ZzbpJkfT8</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\tasks\bx1cxebu8.output</output-file>
+<status>completed</status>
+<summary>Background command "$p="D:\Windows_Migration_Package\01_backup\UserData\Desktop"; Get-ChildItem $p -Force | % { $s=(Get-ChildItem $_.FullName -Recurse -File -Force -ErrorAction SilentlyContinue | measure Length -Sum); [pscustomobject]@{N=$_.Name;GB=[math]::Round($s.Sum/1GB,2);Files=$s.Count;T=$_.LastWriteTime} } | sort GB -desc | select -First 8 | ft -auto" completed (exit code 0)</summary>
+</task-notification>
+- 🔧 **Read**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\tasks\bx1cxebu8.output <!--id:551c4433-e3ac-453d-9581-1d928a8d008d-->
+- ↩︎ result (624 chars): 1 2 N GB Files T 3 - -- ----- - 4 專案 45.98 4902 2026/10/2 上午 10:48:58 5 mongoDB_安裝_升版 12.43 67 2026/9/9 下午 02:39:52 6 個人 10.3 255903 2026/11/8 上午 12:36:28 7 Portable_AI 3.61 2944 2026/3/15 下午 07:33:56 8 actinspace 1.35 2733 2026/10/24 下午 05:02:26 9 Obsidian-1.13.4.exe 0.3 1 2026/8/3 上午 09:07:10 10 m… <!--id:63a550aa-0ef9-489e-9fca-7c9d0634f351-->
+- 🔧 **PowerShell**: Get-Process robocopy -ErrorAction SilentlyContinue | select Id; "{0:N1}" -f ((Get-PSDrive D).Used/1GB) <!--id:b00925be-87ba-4a0a-a867-a5db5d5ee7c2-->
+- ↩︎ result (5 chars): 383.0 <!--id:70760f83-62f0-46ff-8cf2-c7e3750c179e-->
+
+### [2026-11-09 06:14:02] 🤖 Claude <!--id:01335d0c-0f88-4b7a-93a8-c6f8cbe5e5c9-->
+
+目前還不能退出，robocopy 還在寫入 D:。
+
+掃描結果出來了，沒有異常：
+- 目的地實際位元組數：專案 45.98 GB、mongoDB_安裝_升版 12.43 GB、個人 10.3 GB、Portable_AI 3.61 GB，加上其餘小項目，合計約 74.3 GB。預估是 76.2 GB，數字吻合。
+- 複製範圍沒有超出預期，D: 使用量 383 GB 是 exFAT 小檔案配置量的膨脹，不是多複製了東西。
+- 「個人」資料夾有 25.6 萬個小檔案，是整份備份中最慢的部分。預估總檔案數約 34.2 萬個，目前已複製約 26.5 萬個，剩下約 7.7 萬個。
+- 實際位元組已接近預估，但還沒結束，要等 robocopy 退出才算完成。
+
+robocopy 結束的通知（watcher）一到，我就接著做 SHA-256 manifest、正式 verify，並確認沒有程序在寫入 D:，再同步 GitHub 並回報。要拿走隨身碟前請等我回報可以退出。
