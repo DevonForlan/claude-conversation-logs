@@ -667,3 +667,23 @@ Summary:
 ### [2026-11-09 01:19:04] 👤 User (turn 11) <!--id:8ea20cbf-3ce7-4cdb-86c5-f74239372d88-->
 
 備份完成後立刻通知我並繼續 verify
+- 🔧 **PowerShell**: Get-Date -f T; Get-Content "$env:TEMP\formal_backup_run.txt" -Tail 25; Get-Process robocopy -ErrorAction SilentlyContinue | select Id <!--id:e5614aa2-8cc5-47d8-9067-53dd93c127f2-->
+- ↩︎ result (717 chars): 上午 01:19:13 2026-11-08T11:26:48 [INFO] START action=backup DryRun=False admin=False log=D:\Windows_Migration_Package\05_logs\backup _20261108_112644.log 2026-11-08T11:26:48 [WARN] not elevated: BitLocker/feature capture limited (backup of user data still works) 2026-11-08T11:28:07 [INFO] Folder File… <!--id:3afe3e0b-7fe6-4130-bf90-baf04a76a650-->
+- 🔧 **PowerShell**: "{0:N1}" -f ((Get-PSDrive D).Used/1GB); Get-CimInstance Win32_Process -Filter "ProcessId=21988" | select ProcessId,@{n='cpu';e={(Get-Process -Id 21988).CPU}}; (Get-Process -Id 21988).Threads.Count; Get-Counter '\LogicalDisk(D:)\Disk Write B… <!--id:7ed1ae50-45ad-44aa-82b4-98b21bdc81eb-->
+- ↩︎ result (88 chars): 336.4 ProcessId cpu --------- --- 21988 3925.875 9 432312.046817214 <!--id:bf2564fc-7ab4-4fb1-a6fa-576e6ed50c47-->
+- 🔧 **PowerShell**: (Get-CimInstance Win32_Process -Filter "ProcessId=21988").CommandLine; Get-ChildItem D:\ -Force | select Name,LastWriteTime | ft -auto; Get-ChildItem "D:\Windows_Migration_Package\01_backup\User Data\Desktop" -Force -ErrorAction SilentlyCon… <!--id:2141cbe8-b235-4ef5-a697-980a7b39dde2-->
+- ↩︎ result ⚠️error (881 chars): Exit code 1 "C:\WINDOWS\system32\Robocopy.exe" C:\Users\devon.tseng\Desktop D:\Windows_Migration_Package\01_backup\UserData\Desktop /E /COPY:DAT /DCOPY:DAT /R:2 /W:5 /XJ /NP /NFL /NDL /MT:8 /UNILOG+:D:\Windows_Migration_Package\05_logs\backup_20261108_112644.log /XD $RECYCLE.BIN "System Volume Infor… <!--id:97ed60c5-2a6d-4e13-b7c1-13e68d05cea4-->
+- 🔧 **PowerShell**: $p="D:\Windows_Migration_Package\01_backup\UserData\Desktop"; Get-ChildItem $p -Force | % { $s=(Get-ChildItem $_.FullName -Recurse -File -Force -ErrorAction SilentlyContinue | measure Length -Sum); [pscustomobject]@{N=$_.Name;GB=[math]::Rou… <!--id:e7b55e58-dd61-425f-ab6f-778c152d71e7-->
+- ↩︎ result (632 chars): Command did not complete within its 600s timeout and was moved to the background (ID: bx1cxebu8). Output is being written to: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\tasks\bx1cxebu8.output. You will be notified when it completes. It is run… <!--id:6b602d90-7cb3-4229-ae28-053b97b7a798-->
+
+### [2026-11-09 01:29:52] 🤖 Claude <!--id:d1d92730-5034-4b0e-902b-d21f0812daa9-->
+
+備份還在跑，到 01:19 已超過 14 小時，沒有完成。D: 配置量從 223.5 GB 漲到 336.4 GB，遠高於預估的 76 GB，這不正常。
+
+我剛啟動了一個掃描目的地的作業，想看各子資料夾的實際位元組數，確認是小檔案的配置量造成，還是複製範圍超出預期。它花了超過 10 分鐘，現在在背景跑，結果出來我會通知你。掃描會稍微拖慢複製。
+
+- **範圍沒有超出：** 實際 robocopy 指令只複製 `C:\Users\devon.tseng\Desktop`，有帶 `/XD`（排除 node_modules、.venv 等）和 `/XF`（排除密鑰與 `.env` 類檔案），沒有複製其他位置。
+- **寫入還在進行：** D: 目前寫入約 0.4 MB/s，robocopy（PID 21988）還活著，日誌沒有 ERROR。
+- **原因待查：** 如果掃描顯示實際位元組遠大於 76 GB，代表預估漏算了東西（例如 Desktop 底下有預估時沒計入的內容）。如果是配置量膨脹，exFAT 小檔案的叢集浪費就是原因。
+
+**D: 現在不能退出。** 我會在 robocopy 結束後立刻通知你並接著跑 verify。如果掃描結果顯示備份有異常（例如大小遠超預期），我會先停下來回報，不會硬撐到結束。
