@@ -1662,3 +1662,14 @@ verify 全部完成預估約 20:15–20:30。**D: 現在還不能拔。**
 <summary>Monitor event: "Notify when verify reaches 50%"</summary>
 <event>[Monitor expired after 15m with no events delivered. Re-arm it if you still need the watch — and widen the filter if silence was unexpected.]</event>
 </task-notification>
+- 🔧 **PowerShell**: Get-Date -f T; Get-Content "$env:TEMP\verify_run.txt" -Tail 3 | % {$_.Substring(0,[Math]::Min(160,$_.Length))}; Test-Path D:\ <!--id:7152443c-699a-461e-82de-fb7048c3a9c7-->
+- ↩︎ result (203 chars): 下午 08:05:51 2026-11-09T20:01:14 [INFO] verify: 207865/350256 files (59%) 2026-11-09T20:03:14 [INFO] verify: 216373/350256 files (62%) 2026-11-09T20:05:15 [INFO] verify: 223588/350256 files (64%) True <!--id:62d59869-2100-4f99-be18-24c2d94a44ea-->
+
+### [2026-11-09 20:06:07] 🤖 Claude <!--id:5f429543-c7ff-4b2d-8f27-859b3bc68e33-->
+
+verify 已經過 50%（我的通知監看因為過期沒有觸發，抱歉晚了），**20:05 進度 223,588 / 350,256（64%）**。
+
+- 50% 是在約 19:52 跨過的。
+- D: 仍然連接、沒有失聯，日誌沒有錯誤。
+- 剩下約 12.7 萬個檔案，預估 20:30 前後完成。完成時我會自動接手。
+- **D: 現在還不能拔。**
