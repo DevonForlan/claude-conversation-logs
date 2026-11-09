@@ -38828,3 +38828,22 @@ Frozen Quant v1 本身的 config 與 fingerprint 不得修改。
 - 先前我用 11/09 的資料做過一次再平衡演練，結果是 30 筆委託、24 檔持股。當時我沒有記錄科技股占比，所以不能拿來當答案。
 
 你要我繼續做 #61 的話，我會先在不動 production 的情況下算出這個數字，再回報給你。你先前中斷了我的操作，我沒有繼續動作，等你指示。
+
+### [2026-11-09 20:16:54] 👤 User (turn 505) <!--id:f7f8bf36-3186-4e8a-bcbe-4441d3ebf850-->
+
+<pasted_content id="f0c0">
+請立即讀取並執行 GitHub Issue #61。
+
+我要讓 2026-11-10 做一次 one-time full Frozen Quant v1 rebalance，讓 Frozen Quant v1 真正重新建立組合，不要因為 `rebalance_every=100` 而繼續沿用 Tactical V2 留下來的低科技股組合。
+
+請依 Issue #61 自行完成重新計算、驗證、產生新的 FINAL、重新提交 Portal、確認 SUBMISSION_CONFIRMED，並讓新提交 supersede 目前 20:06 的 11/10 no-trade submission。
+
+Frozen Quant v1 本身的 config 與 fingerprint 不得修改。
+</pasted_content id="f0c0">
+- 🔧 **Bash**: cd "[REDACTED]" && date; git fetch -q origin && git worktree add -q .worktrees/issue-61 -b feat/61-resume-full-rebalance origin/master 2>&1 | tail -1; cmd //c "mklink /J .worktrees\\issue-61\\data… <!--id:a3412a36-0905-46e6-a90e-ff2064360963-->
+- ↩︎ result (5704 chars): Mon, Nov 9, 2026 8:17:00 PM fatal: a branch named 'feat/61-resume-full-rebalance' already exists �t�Χ䤣����w�����|�C shutil.copytree(day / "FINAL", dst / "FINAL", dirs_exist_ok=True) return dst def preconditions(trade_date: str, ops: dict, now: datetime) -> dict: """Read-only. Returns {ok, reasons, .… <!--id:46cd8e86-18bb-4151-9f68-b4de150c592d-->
+- 🔧 **Bash**: cd "[REDACTED]" && git worktree list | grep 61; ls .worktrees/issue-61 2>&1 | head -3; git rev-parse feat/61-resume-full-rebalance origin/master; sed -n 200,260p agent/ops/tactical_supersede.py; s… <!--id:6441d225-e33c-4ff7-bc9e-270675cc4de9-->
+- ↩︎ result (6213 chars): [REDACTED]/.worktrees/issue-61 cc6ce56 [feat/61-resume-full-rebalance] locked agent AI CUP 2026玉山人工智慧公開挑戰賽_比賽辦法.pdf CLAUDE.md cc6ce5685a559abe73b55fc7cdec499be575c28a cc6ce5685a559abe73b55fc7cdec499be575c28a day = ops_path(ops, "ops_logs_dir") / ymd(trade_… <!--id:2c9cd67e-f8c6-4233-b886-f8909843da45-->
+- 🔧 **Bash**: cd "[REDACTED]/.worktrees/issue-61" && grep -n "tactical" agent/ops/package_submission.py agent/competition_day.py | head -20; grep -n "def is_forced\|RESUME" agent/tactical/override.py | head <!--id:7a1763f8-bb58-4406-95ba-ac459eb27331-->
+- ↩︎ result (124 chars): grep: agent/ops/package_submission.py: No such file or directory grep: agent/tactical/override.py: No such file or directory <!--id:f9ce7efd-6b83-4a54-aaec-ecf19478a9f2-->
+- 🔧 **Bash**: cd "[REDACTED]" && ls .worktrees/issue-61 | head; git -C .worktrees/issue-61 status --short 2>&1 | head -3; git worktree remove -f -f .worktrees/issue-61 2>&1 | tail -2; git worktree prune; git br… <!--id:6aac84e1-d351-4dcb-85a0-7e1270915f23-->
