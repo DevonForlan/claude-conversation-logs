@@ -39006,3 +39006,86 @@ PR #62 已合併並部署，但新的 11/10 FINAL 還沒送出，要等到 11/10
 - 取代後的證據會貼回 Issue #61，格式照你列的清單。
 
 我已把這些貼到 Issue #61。
+
+### [2026-11-09 21:31:58] 👤 User (turn 507) <!--id:1e951172-c94f-4e46-b1a8-bee386e0d9b4-->
+
+This session is being continued from a previous conversation that ran out of context. The summary below covers the earlier portion of the conversation.
+
+
+Summary:
+1. Primary Request and Intent:
+   - Project: AI CUP 2026 玉山 Agent 基金經理人, team TEAM_11442, repo `DevonForlan/ai-cup-2026-etf-agent` (private, default branch `master`). Competition 2026-10-27 → 2026-11-27. Production checkout is `C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽`. Frozen Quant v1 (`config/strategy_quant_v1.yaml` sha256 `f34fa02e924011b20c52a4bd42e961169f97e1950e76e04b7e78dc43ac23d2e0`) must NEVER be edited. Frozen paths: agent/features, agent/portfolio, agent/pipeline.py, agent/run_sim.py, agent/sim, config/strategy_quant_v1.yaml.
+   - Standing Owner governance (Issue #54, 2026-11-09, plus COMPETITION_HIGH_AUTONOMY CLAUDE.md §11, plus memory file `feedback_pr_self_merge.md` updated 2026-11-09):
+     - For any already-authorized task, carry it all the way: implement → test → validate → CI → self-review → self-merge → production deploy → version/scheduler verification → execute → Portal submission when authorized → confirmation → Shared State sync → GitHub evidence.
+     - Do not ask the Owner to merge, deploy or pull.
+     - Stop only for: a hard official rule violated; CI/validation unfixable; a technical permission block; missing credentials; a conflicting newer Owner directive; a materially new decision outside the authorized scope.
+     - Report the Issue #54 evidence block: AUTHORIZED_SCOPE, PR, CI_STATUS, SELF_REVIEW, MERGE_STATUS, MERGED_COMMIT, PRODUCTION_DEPLOYMENT, PRODUCTION_HEAD, RUNTIME_OR_SCHEDULER_VERIFICATION, EXECUTION_STATUS, PORTAL_STATUS_IF_APPLICABLE, SHARED_STATE_SYNC, BLOCKER_IF_ANY, NEXT_ACTION.
+   - Completed this segment:
+     - Issue #49 follow-up: direct Frozen Quant resume (PR #53).
+     - Issue #48: shadow baseline and post-close comparison.
+     - Issue #55: CC session sync (PRs #57 and #58).
+     - 11/10 no-trade FINAL submitted and confirmed.
+     - Issue #60 opened.
+   - CURRENT/LATEST request (Owner pasted, f0c0, re-pasted after an interruption): execute GitHub Issue #61, a one-time full Frozen Quant v1 rebalance on 2026-11-10.
+     - Frozen Quant must truly rebuild its portfolio rather than hold the Tactical V2 low-tech book because of `rebalance_every=100`.
+     - Self-complete: recompute, validate, generate a new FINAL, resubmit to the Portal, confirm SUBMISSION_CONFIRMED, and supersede the current 20:06 no-trade submission.
+     - Frozen Quant config/fingerprint must not be modified.
+     - Issue #61 guards: no hand-picked sector % or tickers; if the fresh unchanged reconstruction isn't tech-heavy, report the actual result.
+     - Required evidence block fields: TRADE_DATE, ACTION=ONE_TIME_FROZEN_QUANT_V1_FULL_REBALANCE, OLD_FINAL_SHA256, OLD_SUBMISSION_CONFIRMED_AT, FROZEN_QUANT_V1_FINGERPRINT, REBALANCE_OVERRIDE_SCOPE, TARGET_HOLDINGS, TARGET_CASH_PCT, TARGET_TECH_PCT, TURNOVER_PCT, ACTIVE_SHARE, VALIDATION, COMPLIANCE, NEW_FINAL_SHA256, NEW_PORTAL_SUBMITTED_AT, NEW_PORTAL_CONFIRMED_AT, PORTAL_READBACK_MATCH, SUBMISSION_STATUS, SUPERSEDES_OLD_FINAL, SHARED_STATE_PATH, AUDIT_RECORD. Also a before/after comparison (22-holding no-trade vs the fresh Frozen Quant target: tech exposure, holdings count, cash, turnover, Active Share, compliance).
+   - The Owner also asked in between, "針對明天預測的科技股占比是多少" (answered: ~8.8% for the currently submitted FINAL).
+
+2. Key Technical Concepts:
+   - Frozen Quant v1: `agent.portfolio.constructor.construct` / `_finalize`. `rebalance_every: 100` via `is_rb` in `agent/pipeline.py` line 324. `is_rebalance_day=False` → `_try_hold` (keep holdings if compliant).
+   - 30 decisions/orders-per-day official cap: `enforce_decision_limit(plan,30)`; more than 30 orders → Fallback.
+   - Cash <25%, holdings 20–30, ≤10%/name, Active Share ≥15%, lots of 1,000, stress ±5%.
+   - Tactical override layer wrapping `agent.pipeline.construct` inside `competition_day` (`TO.activate`).
+   - Phases: ENTRY, UNWIND, RESUME (Issue #49), and the Issue #61 forced rebalance recorded as phase `RESUME_REBALANCE`.
+   - `tactical_supersede` tool: replaces a SUBMISSION_CONFIRMED FINAL via `morning_final.run`, and only works on the trade date itself (now.date()==T, <08:30, from 00:00).
+   - Candidate gates are fail-closed; a data-health WARN waiver (`data_not_degraded`) exists.
+   - Submission state machine in `agent/submission/base.py`; portal confirmation of 8 checks in `agent/submission/confirmation.py` (`verify(trade_date, ops_cfg=...)`); never "ACCEPTED".
+   - Settlement reconciliation: `agent/ops/reconcile.py` (`--accept-official`, a human-gated BLOCK resolution) and config `reconciliation` tolerances (cash minor 2,000 TWD; NAV 0.005%).
+   - Shared State on branch `shared-state` via worktree `.worktrees/shared-state` (`shared_state_sync`, `shared_state_tactical`, `shadow_baseline.publish`, `cc_session_sync.publish`).
+   - Scheduled tasks: `AI_CUP_Precompetition_DryRun_1930` (19:30), `_Evaluation_1700`, `_MorningFinal_0730`, `Day1_Verify_1800`, all pointing to the production root. The 19:30 wrapper runs `agent.ops.scheduled_run` (competition mode does guarded auto_upload).
+   - Windows tooling quirks:
+     - bash heredoc backslash escapes corrupt strings (`\1` → `\x01`); use the Edit/Write tools.
+     - Junctions for `data/history` in worktrees (`mklink /J`).
+     - `git worktree remove -f -f` can fail with permission denied.
+   - The auto-mode classifier denied writing hook settings (Self-Modification).
+
+3. Files and Code Sections:
+   - `config/tactical_override_v2.yaml` (modified in #53, #62):
+     - Added `exit_mode: FROZEN_QUANT_RESUME`.
+     - Added `resume_full_rebalance_date: '2026-11-10'`.
+     - Fingerprint now `6282ae4de0bedf0d1dc5f648af4245b6ef2ea3fa6dd01d9832e59ba5306930e9` (as reported by the supersede check). Earlier fingerprints: 9a67d94d… (ENTRY V2, in the ENTRY record), 191e6581… (after exit_mode).
+   - `agent/tactical/override.py`:
+     - `EXIT_RESUME`; `phase_for` returns "RESUME" for dates ≥ exit when `exit_mode==FROZEN_QUANT_RESUME`.
+     - `is_active` False for RESUME.
+     - `FORCED="FROZEN_QUANT_FULL_REBALANCE"`.
+     - `is_forced_rebalance(tcfg, trade_date)` → date == `resume_full_rebalance_date` and phase RESUME.
+     - `_stage_to_decision_cap(plan, prev_cash, rb, cfg, market, etf_holdings, etf_meta, scores, regime_override)`:
+       - computes `full = plan_decisions(...)`;
+       - sorts SELL_ALL/TRIM by (value, ticker);
+       - for n=1..: defers the n smallest sells (tw2[t]=current weight, nt2 |= deferred);
+       - calls `K._finalize(...)` with `B.regime_from_market`;
+       - returns `(TargetPortfolio, deferred, len(traded))` when it passes with ≤30 orders, else None.
+     - `_forced_record(tcfg,res,prev_holdings,closes_prev,nav_prev,rb,original_flag,*,staged,plan,stage_error)`:
+       - phase "RESUME_REBALANCE", status FORCED, decision_authority "FROZEN_QUANT_V1";
+       - includes `_summarise`, `turnover_pct`, `holdings_before`, `cash_weight_before`, `frozen_target_names`/`frozen_target_tech_weight`/`frozen_target_cash_weight`, `staged_to_decision_cap`, `deferred_sells`, `unconstrained_orders_needed`, `decision_cap`;
+       - status FULL_REBALANCE_FALLBACK when the result is a fallback.
+     - `activate()`: for RESUME on a forced date it patches `P.construct` with `forced(...)`, which spies `K.plan_decisions` (observe only), calls the unchanged `orig_f(..., True, ...)`, stages if the result isn't a TargetPortfolio, and writes the record. The plain RESUME branch doesn't patch and writes `FROZEN_QUANT_RESUMED` on the exit date only.
+     - `Activation.write` filename `{date}_{phase}_V2.json` (so `2026-11-10_RESUME_REBALANCE_V2.json`).
+   - `agent/ops/tactical_supersede.py`:
+     - New `_rebalance_gate(s,t,tcfg,run_id)`: requires run_id match, status READY_TO_SUBMIT, validation PASS, no fallback, t.status==FROZEN_QUANT_FULL_REBALANCE with authority FROZEN_QUANT_V1, Quant fingerprint f34fa02e…, fingerprint m
+…[truncated 12442 chars]
+- 🔧 **PowerShell**: Get-Date -Format "yyyy-MM-dd HH:mm:ss" <!--id:4ec3d8fe-739f-46ae-9df7-a2e706af349d-->
+- ↩︎ result (19 chars): 2026-11-09 21:34:08 <!--id:2bcec5cd-a22a-403f-b8e9-a1ad197863da-->
+- 🔧 **PowerShell**: cd "C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽"; .\.venv\Scripts\python.exe agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --force 2>&1 | Select-Object -Last 3 <!--id:c3503c02-28a0-44d1-b222-5f2dedfacda9-->
+- 🔧 **ScheduleWakeup**: Issue #61: at/after 00:03 on 2026-11-10 run the supersede for the one-time full Frozen Quant v1 rebalance: `cd production; .venv/Scripts/python.exe -m agent.ops.tactical_supersede --date 2026-11-10 --authorization "Issue #61 Owner override … <!--id:d9e5672f-00a8-43e4-8f8f-30ab27c0285e-->
+- ↩︎ result (99 chars): {"status": "PUBLISHED", "new_events": 13, "turn": 156, "session_status": "RUNNING", "pushed": true} <!--id:31298558-9e6b-4e76-bb3f-271bc72a5098-->
+- ↩︎ result (234 chars): Next wakeup scheduled for 22:33:00 (in 3510s). If you owe the user a status update this tick, write it now as ordinary response text; then end the turn — the harness re-invokes you when the wakeup fires or a task-notification arrives. <!--id:5a98968e-f754-4ccc-ad3a-9a456d26c401-->
+
+### [2026-11-09 21:34:32] 🤖 Claude <!--id:4c3a1144-f000-4f77-9f4e-08265254b161-->
+
+目前是 11/09 21:34，還沒到 11/10 00:03，所以新的 FINAL 還沒送出。入口網站上仍是 20:06 確認的不交易版本。
+
+這次只同步了 Claude Code 對話紀錄，沒動其他東西。下一次檢查排在 22:33，之後會繼續往後排，直到 00:03 以後才執行取代。
