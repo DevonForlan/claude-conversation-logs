@@ -1618,3 +1618,17 @@ manifest 完成：350,256 個檔案全部雜湊成功，errors=0（18:36），�
 ### [2026-11-09 19:19:39] 🤖 Claude <!--id:2bdeec79-8ac5-46fd-b819-4f106089f3e2-->
 
 好，我設了監看，verify 一到 50%（175,128 / 350,256 個檔案）就會通知你。目前（19:16）是 17%。依目前速度預估約 19:50–20:00 到 50%。
+
+### [2026-11-09 19:44:57] 👤 User (turn 56) <!--id:2cea81eb-685c-4097-9e98-ebdf4b5c8510-->
+
+<task-notification>
+<task-id>bthv4nkq9</task-id>
+<summary>Monitor event: "Formal verify of D: package finishes"</summary>
+<event>[Monitor expired after 30m with no events delivered. Re-arm it if you still need the watch — and widen the filter if silence was unexpected.]</event>
+</task-notification>
+- 🔧 **Monitor**: until grep -aq "DONE action=verify" "$TEMP/verify_run.txt" 2>/dev/null; do sleep 30; done; tail -c 2500 "$TEMP/verify_run.txt" <!--id:6351a692-45e7-42f6-ac78-0f2c476a6d01-->
+- ↩︎ result (302 chars): Monitor started (task bhja8t39v, expires in 30m unless the source ends first; you get one notice at expiry — re-arm if you still need the watch). You will be notified on each event. Keep working — do not poll or sleep. Events may arrive while you are waiting for the user — an event is not their repl… <!--id:f88a833e-4c1f-4d99-97e5-17f5285874b1-->
+
+### [2026-11-09 19:45:06] 🤖 Claude <!--id:ca6ac882-22a5-4dbd-b084-0112c4603a02-->
+
+兩個監看都在運作：50% 通知，以及 verify 完成通知。verify 還在跑，D: 現在還不能拔。到 50% 我會馬上告訴你。
