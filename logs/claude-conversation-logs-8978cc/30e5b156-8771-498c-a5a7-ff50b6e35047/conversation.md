@@ -1681,3 +1681,9 @@ verify 已經過 50%（我的通知監看因為過期沒有觸發，抱歉晚了
 <summary>Monitor event: "Formal verify of D: package finishes"</summary>
 <event>[Monitor expired after 30m with no events delivered. Re-arm it if you still need the watch — and widen the filter if silence was unexpected.]</event>
 </task-notification>
+- 🔧 **Monitor**: until grep -aq "DONE action=verify" "$TEMP/verify_run.txt" 2>/dev/null; do sleep 20; done; tail -c 3000 "$TEMP/verify_run.txt" <!--id:e3d10e1b-1fa1-4033-8662-9c853a7369e3-->
+- ↩︎ result (302 chars): Monitor started (task b5h5bvugd, expires in 30m unless the source ends first; you get one notice at expiry — re-arm if you still need the watch). You will be notified on each event. Keep working — do not poll or sleep. Events may arrive while you are waiting for the user — an event is not their repl… <!--id:00f26a1c-bb21-457a-b811-5c28b1264a12-->
+
+### [2026-11-09 20:15:10] 🤖 Claude <!--id:c8cb423d-8c0d-43fe-9781-8d175ded9306-->
+
+我重新設定了 verify 完成通知。verify 仍在進行（20:05 為 64%），預估 20:30 前後完成。**D: 現在還不能拔。**
