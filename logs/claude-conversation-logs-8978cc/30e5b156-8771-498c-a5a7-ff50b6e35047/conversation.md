@@ -1654,3 +1654,11 @@ manifest 完成：350,256 個檔案全部雜湊成功，errors=0（18:36），�
 verify 馬上到 50% 了。19:49 是 171,233 / 350,256（49%），過半門檻是 175,128 個，預估 19:52 前後會跨過。D: 仍是 Healthy、非 Dirty，日誌沒有錯誤。我設了通知，一到 50% 就會告訴你。
 
 verify 全部完成預估約 20:15–20:30。**D: 現在還不能拔。**
+
+### [2026-11-09 20:05:12] 👤 User (turn 58) <!--id:b20f7f87-0a22-4f3c-a630-7a53ba8185dd-->
+
+<task-notification>
+<task-id>bndv98nje</task-id>
+<summary>Monitor event: "Notify when verify reaches 50%"</summary>
+<event>[Monitor expired after 15m with no events delivered. Re-arm it if you still need the watch — and widen the filter if silence was unexpected.]</event>
+</task-notification>
