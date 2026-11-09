@@ -806,3 +806,41 @@ robocopy 結束的通知（watcher）一到，我就接著做 SHA-256 manifest�
 這時拔掉隨身碟，manifest 會是不完整的，之後無法用它驗證備份。exFAT 在寫入中被拔出也可能損毀。
 
 我會持續等腳本結束，結束後直接跑 verify。`DONE` 出現、verify 通過、確認沒有程序在寫入 D:，我就會明確告訴你可以拔。如果你一定要現在拿走，要先讓我停掉腳本再確認沒有寫入，但備份和 manifest 會是不完整的，之後要補跑。
+
+### [2026-11-09 08:26:45] 👤 User (turn 17) <!--id:b24812c9-668b-4db4-b8dc-7714ec7f3727-->
+
+<task-notification>
+<task-id>b0v97n4z4</task-id>
+<tool-use-id>toolu_011vozai5zyrMJtEP4qpHLXD</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\tasks\b0v97n4z4.output</output-file>
+<status>completed</status>
+<summary>Background command "Watcher: notify when backup finishes" completed (exit code 0)</summary>
+</task-notification>
+- 🔧 **PowerShell**: Get-Date -f T; Get-CimInstance Win32_Process -Filter "Name='powershell.exe' or Name='robocopy.exe'" | ? {$_.CommandLine -match 'migration'} | select ProcessId,Name; Get-Content "$env:TEMP\formal_backup_run.txt" -Tail 25 | % {$_.Substring(0,… <!--id:e7ec946b-1a8c-4f0e-b9c0-43f54c14e809-->
+- ↩︎ result ⚠️error (1840 chars): Exit code 1 上午 08:27:02 Add-Content : 找不到路徑 'D:\Windows_Migration_Package\05_logs\backup_20261108_112644.log' 的一部分。 位於 C:\Users\devon.tseng\Desktop\個人\搬遷\claude-conversation-logs\windows-pc-migration\scripts\migration.ps1:28 字元:122 + ... l, $m; Write-Host $l; Add-Content $script:LogFile $l -Encoding… <!--id:2f57c891-b306-4153-b1df-7b2bbab8dc20-->
+- 🔧 **PowerShell**: Test-Path D:\; Get-PSDrive D -ErrorAction SilentlyContinue; Test-Path D:\Windows_Migration_Package; Get-Process robocopy -ErrorAction SilentlyContinue; Select-String -Path "$env:TEMP\formal_backup_run.txt" -Pattern 'hash failed|DONE|manifes… <!--id:d4c2acb7-2a66-481c-82d2-5c8356ffa38b-->
+- ↩︎ result (501 chars): False False 2026-11-09T05:41:27 [ERROR] hash failed: D:\Windows_Migration_Package\01_backup\UserData\Desktop\mongoDB上課\MDB200 - Mon 2026-11-09T05:41:28 [ERROR] hash failed: D:\Windows_Migration_Package\01_backup\UserData\Desktop\mongoDB上課\MDB200 - Mon 2026-11-09T05:41:35 [ERROR] hash failed: D:\Wind… <!--id:b530c7cf-a940-424b-ae2b-08a8d7d174b6-->
+
+### [2026-11-09 08:27:27] 🤖 Claude <!--id:2334e3a5-4a87-4ff6-9f1e-e046c98406d2-->
+
+**D: 現在已經不存在了，隨身碟看起來已被拔掉，或是斷線了。** 我沒有叫你拔，也沒有在拔掉前確認過，所以這份備份**不能算完成，也沒有驗證過**。
+
+**確認到的狀況（08:27）**
+- `Test-Path D:\` 回傳 False，`D:\Windows_Migration_Package` 也找不到。沒有 robocopy 或 migration 程序還在跑。
+- 腳本最後一段在寫日誌時出現 `找不到路徑 'D:\Windows_Migration_Package\05_logs\…'`，之後就結束了。腳本結尾的統計顯示 Errors = 61。
+- 輸出裡有 123 筆 `[ERROR]` 訊息，其中包含 manifest 階段的 `hash failed`，主要在 `mongoDB上課\…` 教材的 PDF 和 `__MACOSX\._*` 檔案。`._*` 是 macOS 的資源分支檔，通常不重要，但 PDF 我還沒查。
+- 我不能確定 SHA256SUMS.txt 有沒有寫完整，也沒有跑過正式 verify，所以**我無法宣告備份可用**。
+
+**這是備份失敗還是你主動拔出？** 日誌只顯示 D: 在腳本收尾時消失。我不知道是你拔掉，還是 USB 自己斷線。
+
+**接下來需要你做的**
+1. 把隨身碟重新插上，確認它仍然是 D:（Transcend、exFAT）。
+2. 隨後告訴我，我會做：
+   - 檢查 `D:\Windows_Migration_Package` 完整性，包括 manifest 是否寫完。
+   - 對那批 `hash failed` 的檔案核對來源與備份。
+   - 補跑缺的檔案（robocopy 會跳過已複製的）。
+   - 重新產生 manifest，並跑正式 verify。
+   - 確認沒有程序在寫入後，再通知你可以拔。
+3. 如果 D: 插回後磁碟顯示需要檢查或修復，請先讓我看過再處理。
+
+插回來之前，備份狀態我只能算「未驗證」。GitHub 的 Issue #1 和 `latest.json` 我也暫時不更新為完成。
