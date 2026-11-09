@@ -38983,3 +38983,26 @@ Production is deployed at `5381652`. Running the supersede tool's read-only chec
 - ↩︎ result (669 chars): { "task": "tactical_supersede", "trade_date": "2026-11-10", "authorization": "Issue #61 Owner override 2026-11-09 (one-time full Frozen Quant v1 rebalance)", "status": "BLOCKED", "operator": "tactical_supersede_v2", "started_at": "2026-11-09T20:34:56+08:00", "prior_final_sha256": "sha256:d7e435ea88e… <!--id:ff37dddc-5c8f-4354-9290-58da2122edb3-->
 - 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽" && grep -n "def plan" -A40 agent/ops/morning_final.py | head -70 <!--id:465659a5-b014-421c-b7f6-6a94aef9e0a2-->
 - ↩︎ result (2334 chars): 47:def plan(now: datetime, hol: set[str], ops_cfg: dict | None = None) -> dict: 48- """RUN (decision allowed, < 08:30) | SUBMIT_EXISTING_ONLY (08:30 .. 08:55) | SKIP.""" 49- from agent.ops import submission_window as SW 50- t = now.date() 51- out = {"trade_date": t.isoformat(), "action": "RUN", "rea… <!--id:a122a08a-5e1f-417e-a302-66a2d01aeaa2-->
+- 🔧 **Bash**: cd "[REDACTED]" && cat > .ev61b.md <<'EOF' ## Claude Code status — 2026-11-09 20:37 — Issue #61: PR #62 merged + deployed; supersede waits for the designed window (opens 00:00 on 11/10) ``` PR = #… <!--id:efcde5fe-b418-41c8-a5ca-11379c2e10a6-->
+- 🔧 **ScheduleWakeup**: Issue #61: at/after 00:03 on 2026-11-10 run the supersede for the one-time full Frozen Quant v1 rebalance: `cd production; .venv/Scripts/python.exe -m agent.ops.tactical_supersede --date 2026-11-10 --authorization "Issue #61 Owner override … <!--id:c6507583-535a-4e2d-8399-d74230289070-->
+- ↩︎ result (187 chars): https://github.com/DevonForlan/ai-cup-2026-etf-agent/issues/61#issuecomment-6740206037 {"status": "PUBLISHED", "new_events": 102, "turn": 155, "session_status": "RUNNING", "pushed": true} <!--id:2a386913-aa58-47ec-a201-5cf9d66360e0-->
+- ↩︎ result (234 chars): Next wakeup scheduled for 21:34:00 (in 3448s). If you owe the user a status update this tick, write it now as ordinary response text; then end the turn — the harness re-invokes you when the wakeup fires or a task-notification arrives. <!--id:41f06e61-71bb-4000-b523-a0b2882622c3-->
+
+### [2026-11-09 20:36:40] 🤖 Claude <!--id:0073fef8-0fca-42f9-a94e-9087478277dd-->
+
+PR #62 已合併並部署，但新的 11/10 FINAL 還沒送出，要等到 11/10 凌晨 00:00 之後才能取代。
+
+**目前進度**
+- PR #62 的 CI 全過，已自行合併（commit `5381652`），production 等於 origin/master，Quant 指紋 `f34fa02e…` 沒變。
+- 我先用取代工具做了唯讀檢查，結果被擋：「SUBMISSION_WINDOW_CLOSED」。
+- 原因是這套取代流程是設計給交易日當天用的，只在 11/10 的 00:00 到 08:30 之間可以做新決策。現在是 11/09 晚上 20:37。
+- 目前入口網站上仍是 20:06 確認的不交易版本，什麼都沒動。
+
+**接下來**
+- 約 00:05 執行取代：唯讀確認舊 FINAL、封存、產生一次性 Frozen Quant 再平衡的候選版本、通過合規關卡後送出，再從入口網站回讀。
+- 新決策的截止是 08:30，送件截止是 08:55，時間充裕。
+- 我排了 21:34 的檢查，之後會一路往後排到 00:03 以後。
+- 07:30 的排程也會產生同樣的候選，但它的一般規則遇到資料健康度 WARN 會拒絕升級，所以真正取代舊版的是我這次手動執行的流程。
+- 取代後的證據會貼回 Issue #61，格式照你列的清單。
+
+我已把這些貼到 Issue #61。
