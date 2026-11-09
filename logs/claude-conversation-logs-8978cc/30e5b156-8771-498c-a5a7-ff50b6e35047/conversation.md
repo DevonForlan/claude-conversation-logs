@@ -788,3 +788,21 @@ robocopy 結束的通知（watcher）一到，我就接著做 SHA-256 manifest�
 - 腳本結束後我會逐一檢查這 11 個檔案在來源和備份是否都存在、大小是否一致，再跑正式 verify。
 
 **D: 現在不能退出。** 等腳本結束、verify 做完、確認沒有程序在寫入後，我才會明確告訴你可以拔。
+
+### [2026-11-09 08:06:22] 👤 User (turn 16) <!--id:6162a981-2660-4287-8301-8075d83a43af-->
+
+現在隨身碟可以退出了嗎
+- 🔧 **PowerShell**: Get-Date -f T; Get-CimInstance Win32_Process -Filter "Name='powershell.exe' or Name='robocopy.exe'" | ? {$_.CommandLine -match 'migration'} | select ProcessId,Name; Select-String -Path "$env:TEMP\formal_backup_run.txt" -Pattern 'DONE|manife… <!--id:7266a3ab-45e1-4ff4-9ad7-67acf0198370-->
+- ↩︎ result (117 chars): 上午 08:06:32 ProcessId Name --------- ---- 39280 powershell.exe SHA256SUMS.txt <!--id:3cc7c4d7-3563-4964-8397-dd06d2442759-->
+
+### [2026-11-09 08:06:40] 🤖 Claude <!--id:f419ad61-a33f-46cf-8f83-ee38c8213780-->
+
+**還不能退出。** 外層腳本（PID 39280）08:06 還在跑，手上沒有任何已完成的結果。
+
+- 腳本還在算 SHA-256 manifest，會一直寫入 D:。`04_checksums\SHA256SUMS.txt` 已經建立，但還沒寫完。
+- 輸出裡沒有 `DONE`，所以備份流程還沒收尾。
+- 正式 verify 還沒跑，也還沒檢查那 11 筆 `hash failed` 的教材 PDF。
+
+這時拔掉隨身碟，manifest 會是不完整的，之後無法用它驗證備份。exFAT 在寫入中被拔出也可能損毀。
+
+我會持續等腳本結束，結束後直接跑 verify。`DONE` 出現、verify 通過、確認沒有程序在寫入 D:，我就會明確告訴你可以拔。如果你一定要現在拿走，要先讓我停掉腳本再確認沒有寫入，但備份和 manifest 會是不完整的，之後要補跑。
