@@ -1,26 +1,53 @@
 {
- "session_id": "30e5b156-8771-498c-a5a7-ff50b6e35047",
- "task": "windows-pc-migration",
- "issue": "DevonForlan/claude-conversation-logs#1",
- "updated_at": "2026-11-08T10:55:26+08:00",
- "work_dir": "C:\\Users\\devon.tseng\\Desktop\\個人\\搬遷\\claude-conversation-logs",
- "phase": "PHASE3_DONE_BACKUP_BLOCKED_ON_DESTINATION",
- "completed": [
-  "phase1_readonly_inventory (non-elevated)",
-  "phase2_docs",
-  "phase3_scripts",
-  "dry_run_and_synthetic_e2e_tests"
- ],
- "related_non_migration_work": [
-  "scheduled task XML backup (3 AI CUP tasks, local only)",
-  "3 tasks switched to conhost --headless"
- ],
- "not_done": [
-  "elevated checks",
-  "real backup (needs destination)",
-  "real restore on new PC",
-  "real rollback test"
- ],
- "backup_destination": null,
- "secrets_included": false
+  "session_id": "30e5b156-8771-498c-a5a7-ff50b6e35047",
+  "task": "windows-pc-migration",
+  "issue": 1,
+  "updated_at": "2026-11-09T21:26:35+08:00",
+  "work_dir": "C:\\Users\\devon.tseng\\Desktop\\個人\\搬遷\\claude-conversation-logs",
+  "phase": "BACKUP_VERIFIED_RESTORE_NOT_STARTED",
+  "completed": [
+    "phase1_readonly_inventory (non-elevated)",
+    "phase2_docs",
+    "phase3_scripts",
+    "dry_run_and_synthetic_e2e_tests"
+  ],
+  "related_non_migration_work": [
+    "scheduled task XML backup (3 AI CUP tasks, local only)",
+    "3 tasks switched to conhost --headless"
+  ],
+  "not_done": [
+    "elevated checks",
+    "real backup (needs destination)",
+    "real restore on new PC",
+    "real rollback test"
+  ],
+  "backup_destination": null,
+  "secrets_included": false,
+  "project": "windows-pc-migration",
+  "package": {
+    "path": "D:\\Windows_Migration_Package",
+    "files": 350256,
+    "logical_gb": 76.89,
+    "manifest_ok": 350256,
+    "manifest_mismatch": 0,
+    "manifest_missing": 0,
+    "source_drift_missing": 1144,
+    "source_drift_modified": 82,
+    "drift_explained": true
+  },
+  "drive": {
+    "label": "Transcend",
+    "fs": "exFAT",
+    "bitlocker": false,
+    "health": "Healthy",
+    "dirty": false,
+    "chkdsk_f": "corrected 2026-11-09 16:20",
+    "found000": "FILE0000.CHK 11010048 bytes, left untouched"
+  },
+  "open_items": [
+    "elevated inventory (BitLocker/Features/Services)",
+    "final delta before cut-over",
+    "D: unencrypted",
+    "restore/rollback never run on a real package"
+  ]
 }

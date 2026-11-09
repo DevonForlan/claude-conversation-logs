@@ -14,7 +14,7 @@ Restore never touches machine identity (MDM/EDR, BitLocker state, drivers, domai
 param(
   [Parameter(Mandatory, Position = 0)][ValidateSet('backup', 'restore', 'verify', 'rollback')][string]$Action,
   [string]$Destination, [string]$Source,
-  [switch]$DryRun, [switch]$IncludeSensitive, [switch]$IncludeRebuildable, [switch]$RestoreTasks,
+  [switch]$DryRun, [switch]$ManifestOnly, [switch]$IncludeSensitive, [switch]$IncludeRebuildable, [switch]$RestoreTasks,
   [string[]]$UserFolders = @('Desktop', 'Documents', 'Downloads', 'Pictures', 'Videos', 'Music'),
   [string]$UserProfileRoot = $env:USERPROFILE, [double]$MinFreeGBMargin = 5
 )
@@ -25,7 +25,8 @@ $Pkg = if ($Action -eq 'backup') { $Destination } else { $Source }
 $script:LogFile = if ($DryRun -or -not $Pkg) { Join-Path $env:TEMP "migration_$($Action)_$script:Stamp.log" } else { Join-Path $Pkg "05_logs\$($Action)_$script:Stamp.log" }
 New-Item -ItemType Directory -Force -Path (Split-Path $script:LogFile) | Out-Null
 
-function Log([string]$m, [string]$lvl = 'INFO') { $l = "{0} [{1}] {2}" -f (Get-Date -Format s), $lvl, $m; Write-Host $l; Add-Content $script:LogFile $l -Encoding UTF8 }
+function Log([string]$m, [string]$lvl = 'INFO') { $l = "{0} [{1}] {2}" -f (Get-Date -Format s), $lvl, $m; Write-Host $l; try { Add-Content $script:LogFile $l -Encoding UTF8 -ErrorAction Stop } catch { $script:LogLost++ } }
+$script:LogLost = 0
 function Fail([string]$m) { [void]$script:Errors.Add($m); Log $m 'ERROR' }
 function Test-Admin { ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) }
 
@@ -33,13 +34,77 @@ function Test-Admin { ([Security.Principal.WindowsPrincipal][Security.Principal.
 $RebuildDirs = @('node_modules', '.venv', 'venv', '__pycache__', '.pytest_cache', '.cache', 'site-packages')   # rebuilt from lockfiles
 $AlwaysDirs = @('$RECYCLE.BIN', 'System Volume Information')
 $SensitiveFiles = @('.env', '.env.*', '*.pem', '*.ppk', '*.pfx', '*.p12', '*.key', 'id_rsa', 'id_ed25519', 'id_ecdsa', 'credentials', 'credentials.json', '*.kdbx')
-function Get-RoboExclusions {
+
+# ---- long-path + parallel hashing helpers (Issue #1 recovery: paths >260 chars, 340k small files) ----------------
+function ToLong([string]$p) { if ($p.StartsWith('\\?\')) { return $p }; if ($p.StartsWith('\\')) { return '\\?\UNC\' + $p.Substring(2) }; return '\\?\' + $p }
+$script:EnumErrors = 0
+function Enum-Files([string]$root, [string[]]$skipDirNames = @()) {   # long-path safe file enumeration (FileInfo list); prunes named dirs; errors are COUNTED, never swallowed
+  $res = New-Object 'System.Collections.Generic.List[System.IO.FileInfo]'; $stack = New-Object 'System.Collections.Generic.Stack[string]'; $stack.Push((ToLong $root))
+  while ($stack.Count) {
+    $dp = $stack.Pop(); $done = $false
+    for ($try = 1; $try -le 4 -and -not $done; $try++) {
+      $d = [System.IO.DirectoryInfo]::new($dp); $files = New-Object 'System.Collections.Generic.List[System.IO.FileInfo]'; $subs = New-Object 'System.Collections.Generic.List[string]'
+      try {
+        foreach ($f in $d.EnumerateFiles()) { $files.Add($f) }
+        foreach ($sd in $d.EnumerateDirectories()) { if (($skipDirNames -notcontains $sd.Name) -and -not ($sd.Attributes -band [IO.FileAttributes]::ReparsePoint)) { $subs.Add($sd.FullName) } }
+        $done = $true
+      } catch { Start-Sleep -Seconds (2 * $try) }
+    }
+    if ($done) { foreach ($f in $files) { $res.Add($f) }; foreach ($x in $subs) { $stack.Push($x) } } else { $script:EnumErrors++; Log "enumeration failed after retries: $dp" 'ERROR' }
+  }
+  return $res
+}
+function Get-HashesParallel([string[]]$paths, [int]$threads = 12, [string]$what = 'hash') {
+  # SHA-256 for every path (long-path safe, N threads). Returns hashtable path -> HEX, or $null on failure.
+  $total = $paths.Count; $counter = New-Object 'System.Collections.Concurrent.ConcurrentQueue[byte]'; $pool = [runspacefactory]::CreateRunspacePool(1, $threads); $pool.Open()
+  $work = {
+    param($names, $ctr)
+    $sha = [System.Security.Cryptography.SHA256]::Create(); $o = New-Object 'System.Collections.Generic.List[string]'
+    foreach ($n in $names) {
+      $h = ''
+      try { $fs = New-Object System.IO.FileStream($n, 'Open', 'Read', 'ReadWrite', 1048576); try { $h = [BitConverter]::ToString($sha.ComputeHash($fs)).Replace('-', '') } finally { $fs.Dispose() } } catch { $h = '' }
+      $o.Add($h); $ctr.Enqueue(1)
+    }
+    return , $o
+  }
+  $jobs = @(); for ($i = 0; $i -lt $threads; $i++) {
+    $idx = New-Object 'System.Collections.Generic.List[int]'; for ($k = $i; $k -lt $total; $k += $threads) { $idx.Add($k) }
+    $names = @($idx | ForEach-Object { ToLong $paths[$_] })
+    $ps = [powershell]::Create(); $ps.RunspacePool = $pool; [void]$ps.AddScript($work).AddArgument($names).AddArgument($counter)
+    $jobs += [pscustomobject]@{ PS = $ps; H = $ps.BeginInvoke(); Idx = $idx }
+  }
+  $t0 = Get-Date; $last = 0
+  while ($jobs | Where-Object { -not $_.H.IsCompleted }) {
+    Start-Sleep -Seconds 5
+    if (((Get-Date) - $t0).TotalSeconds - $last -ge 120) { $last = ((Get-Date) - $t0).TotalSeconds; Log ("{0}: {1}/{2} files ({3:N0}%)" -f $what, $counter.Count, $total, (100 * $counter.Count / [math]::Max(1, $total))) }
+  }
+  $map = @{}
+  foreach ($j in $jobs) { $r = $j.PS.EndInvoke($j.H); $arr = @($r[0]); for ($m = 0; $m -lt $j.Idx.Count; $m++) { $map[$paths[$j.Idx[$m]]] = if ($arr[$m]) { $arr[$m] } else { $null } }; $j.PS.Dispose() }
+  $pool.Close(); return $map
+}
+# Browser profiles (automation / test browsers): login state, cookies, sessions, caches are rebuildable -> excluded as a whole,
+# but ONLY directories literally named browser_profile / browser_profiles (never project *.log or other folders).
+$BrowserProfileNames = @('browser_profile', 'browser_profiles')
+function Get-BrowserProfileDirs([string]$root) {
+  $found = New-Object System.Collections.ArrayList; $stack = New-Object 'System.Collections.Generic.Stack[string]'; $stack.Push((ToLong $root)); $skip = @('node_modules', '.venv', 'venv', '.git', '__pycache__')
+  while ($stack.Count) {
+    $d = [System.IO.DirectoryInfo]::new($stack.Pop())
+    try { foreach ($sd in $d.EnumerateDirectories()) {
+      if ($sd.Attributes -band [IO.FileAttributes]::ReparsePoint) { continue }
+      if ($BrowserProfileNames -contains $sd.Name) { [void]$found.Add($sd.FullName.Replace('\\?\', '')) } elseif ($skip -notcontains $sd.Name) { $stack.Push($sd.FullName) }
+    } } catch { }
+  }
+  return @($found)
+}
+
+function Get-RoboExclusions([string]$srcRoot) {
   $xd = @($AlwaysDirs); if (-not $IncludeRebuildable) { $xd += $RebuildDirs }
+  if ($srcRoot) { $bp = @(Get-BrowserProfileDirs $srcRoot); if ($bp.Count) { $xd += $bp; Log "browser profile dirs excluded under ${srcRoot}: $($bp.Count)" } }
   $xf = @(); if (-not $IncludeSensitive) { $xf += $SensitiveFiles }
   return @{ XD = $xd; XF = $xf }
 }
 function Invoke-Robo([string]$src, [string]$dst, [switch]$ListOnly, [string]$tag) {
-  $ex = Get-RoboExclusions
+  $ex = Get-RoboExclusions $src
   $ra = @($src, $dst, '/E', '/COPY:DAT', '/DCOPY:DAT', '/R:2', '/W:5', '/XJ', '/NP', '/NFL', '/NDL', '/MT:8', ('/UNILOG+:' + $script:LogFile))
   if ($ex.XD) { $ra += '/XD'; $ra += $ex.XD }
   if ($ex.XF) { $ra += '/XF'; $ra += $ex.XF }
@@ -51,7 +116,7 @@ function Invoke-Robo([string]$src, [string]$dst, [switch]$ListOnly, [string]$tag
   return $rc
 }
 function Measure-Tree([string]$p) {   # bytes/files that backup WOULD copy (honours exclusions) via robocopy /L
-  $ex = Get-RoboExclusions
+  $ex = Get-RoboExclusions $p
   $a = @($p, (Join-Path $env:TEMP 'mig_measure_dummy'), '/E', '/L', '/XJ', '/NP', '/NFL', '/NDL', '/BYTES', '/R:0', '/W:0')
   if ($ex.XD) { $a += '/XD'; $a += $ex.XD }; if ($ex.XF) { $a += '/XF'; $a += $ex.XF }
   $out = & robocopy @a 2>&1 | Out-String
@@ -79,15 +144,26 @@ function Test-DriveEncrypted([string]$path) {
   catch { return $null }   # unknown (needs admin)
 }
 function Write-Manifest([string]$root, [string]$out) {
-  $root = (Get-Item -LiteralPath $root).FullName.TrimEnd('')
-  $items = Get-ChildItem $root -Recurse -File -Force -ErrorAction SilentlyContinue | Where-Object { $_.FullName -notlike "$root\04_checksums*" -and $_.FullName -notlike "$root\05_logs*" }
-  $lines = foreach ($f in $items) {
-    $h = (Get-FileHash -LiteralPath $f.FullName -Algorithm SHA256 -ErrorAction SilentlyContinue).Hash
-    if ($h) { "{0}  {1}" -f $h, $f.FullName.Substring($root.Length).TrimStart('\') } else { Fail "hash failed: $($f.FullName)" }
+  $root = (Get-Item -LiteralPath $root).FullName.TrimEnd('\')
+  $script:EnumErrors = 0
+  $items = @(Enum-Files $root | Where-Object { $_.FullName -notlike "*\04_checksums\*" -and $_.FullName -notlike "*\05_logs\*" })
+  $rootL = (ToLong $root).Length
+  $rel = @($items | ForEach-Object { $_.FullName.Substring($rootL).TrimStart('\') })
+  $full = @($items | ForEach-Object { $_.FullName })
+  if ($script:EnumErrors -gt 0) { Fail "manifest NOT written: $($script:EnumErrors) directories could not be enumerated (drive unstable?) - existing manifest left untouched"; return 0 }
+  Log "manifest: hashing $($full.Count) files (SHA-256, parallel, long-path safe)"
+  $map = Get-HashesParallel $full 12 'manifest'
+  $lines = New-Object 'System.Collections.Generic.List[string]'; $tsv = New-Object 'System.Collections.Generic.List[string]'; $failed = 0
+  for ($i = 0; $i -lt $full.Count; $i++) {
+    $h = $map[$full[$i]]
+    if ($h) { $lines.Add(("{0}  {1}" -f $h, $rel[$i])); $tsv.Add(("{0}`t{1}`t{2}" -f $items[$i].Length, $items[$i].LastWriteTimeUtc.ToString('o'), $rel[$i])) } else { $failed++; Fail "hash failed: $($rel[$i])" }
   }
   New-Item -ItemType Directory -Force -Path (Split-Path $out) | Out-Null
-  $lines | Set-Content $out -Encoding UTF8
-  return @($lines).Count
+  $enc = New-Object Text.UTF8Encoding($true)
+  [IO.File]::WriteAllLines($out + '.tmp', $lines, $enc); [IO.File]::WriteAllLines((Join-Path (Split-Path $out) 'FILELIST.tsv'), $tsv, $enc)
+  Move-Item -LiteralPath ($out + '.tmp') -Destination $out -Force        # a half-written manifest can never replace a good one
+  Log "manifest complete: $($lines.Count) hashed, $failed failed"
+  return $lines.Count
 }
 
 # ---- sections (small config/state files; data folders handled by robocopy) --------------------------------------
@@ -128,6 +204,10 @@ function Backup-ScheduledTasks([string]$root, [bool]$dry) {
 # ---- actions ----------------------------------------------------------------------------------------------------
 function Do-Backup {
   if (-not (Test-DestinationSafe $Destination)) { return }
+  if ($ManifestOnly) {
+    Log 'ManifestOnly: skipping copy; (re)building manifest for the existing package'
+    $n = Write-Manifest $Destination (Join-Path $Destination '04_checksums\SHA256SUMS.txt'); Log "checksums written: $n files"; return
+  }
   if (-not (Test-Admin)) { Log 'not elevated: BitLocker/feature capture limited (backup of user data still works)' 'WARN' }
   if ($IncludeSensitive) {
     $enc = Test-DriveEncrypted $Destination
@@ -164,22 +244,42 @@ function Do-Backup {
 }
 function Do-Verify {
   if (-not $Source -or -not (Test-Path $Source)) { Fail "Source not found: $Source"; return }
+  $Source = (Get-Item -LiteralPath $Source).FullName.TrimEnd('\')
   $sums = Join-Path $Source '04_checksums\SHA256SUMS.txt'
   if (-not (Test-Path $sums)) { Fail 'SHA256SUMS.txt missing'; return }
-  $ok = 0; $bad = 0; $missing = 0
-  foreach ($l in Get-Content $sums) {
-    if ($l -notmatch '^([0-9A-Fa-f]{64})\s{2}(.+)$') { continue }
-    $f = Join-Path $Source $Matches[2]
-    if (-not (Test-Path -LiteralPath $f)) { $missing++; Fail "missing: $($Matches[2])"; continue }
-    if ((Get-FileHash -LiteralPath $f -Algorithm SHA256).Hash -eq $Matches[1]) { $ok++ } else { $bad++; Fail "hash mismatch: $($Matches[2])" }
-  }
+  $entries = New-Object System.Collections.ArrayList; $bad_lines = 0
+  foreach ($l in [IO.File]::ReadLines($sums)) { if ($l -match '^([0-9A-Fa-f]{64})\s{2}(.+)$') { [void]$entries.Add([pscustomobject]@{ Hash = $Matches[1].ToUpper(); Rel = $Matches[2] }) } elseif ($l.Trim()) { $bad_lines++ } }
+  if ($bad_lines) { Fail "manifest has $bad_lines malformed lines (truncated?)" }
+  Log "verify: manifest entries=$($entries.Count)"
+  $missing = 0; $present = New-Object System.Collections.ArrayList
+  foreach ($e in $entries) { if (Test-Path -LiteralPath (ToLong (Join-Path $Source $e.Rel))) { [void]$present.Add($e) } else { $missing++; Fail "missing: $($e.Rel)" } }
+  $map = Get-HashesParallel @($present | ForEach-Object { Join-Path $Source $_.Rel }) 12 'verify'
+  $ok = 0; $bad = 0
+  foreach ($e in $present) { $h = $map[(Join-Path $Source $e.Rel)]; if ($h -and $h -eq $e.Hash) { $ok++ } else { $bad++; Fail "hash mismatch/unreadable: $($e.Rel)" } }
   Log "package verify: ok=$ok mismatch=$bad missing=$missing"
-  # old-vs-new: restored target folders vs package (names + sizes) when they already exist on this machine
+  # files present in the package but absent from the manifest (incomplete manifest)
+  $inMan = New-Object 'System.Collections.Generic.HashSet[string]' ([StringComparer]::OrdinalIgnoreCase); foreach ($e in $entries) { [void]$inMan.Add($e.Rel) }
+  $rootL = (ToLong $Source).Length; $extra = 0; $script:EnumErrors = 0
+  foreach ($fi in (Enum-Files $Source)) { $r = $fi.FullName.Substring($rootL).TrimStart('\'); if ($r -like '04_checksums\*' -or $r -like '05_logs\*' -or $r -eq 'README_MIGRATION.md' -or $r -eq '00_inventory\backup_meta.json') { continue }; if (-not $inMan.Contains($r)) { $extra++; if ($extra -le 20) { Log "not in manifest: $r" 'WARN' } } }
+  if ($script:EnumErrors -gt 0) { Fail "verify enumeration incomplete: $($script:EnumErrors) directories unreadable" }
+  Log "files in package but not in manifest: $extra"; if ($extra) { Fail "manifest incomplete: $extra files not listed" }
+  # source-vs-package (same host only): existence + size + mtime, same browser-profile / rebuildable / sensitive exclusions as backup
   foreach ($f in $UserFolders) {
     $b = Join-Path $Source "01_backup\UserData\$f"; $t = Join-Path $UserProfileRoot $f
     if ((Test-Path $b) -and (Test-Path $t)) {
-      $miss = @(); Get-ChildItem $b -Recurse -File -Force -ErrorAction SilentlyContinue | ForEach-Object { $rel = $_.FullName.Substring($b.Length).TrimStart('\'); $x = Join-Path $t $rel; if (-not (Test-Path -LiteralPath $x) -or (Get-Item -LiteralPath $x).Length -ne $_.Length) { $miss += $rel } }
-      Log "old-vs-new[$f]: $($miss.Count) differing/missing in target"; if ($miss.Count) { $miss | Select-Object -First 20 | ForEach-Object { Log "  diff: $_" 'WARN' } }
+      $bpDirs = @(Get-BrowserProfileDirs $t) | ForEach-Object { $_.Substring($t.Length).TrimStart('\') }
+      $skipN = @($AlwaysDirs); if (-not $IncludeRebuildable) { $skipN += $RebuildDirs }
+      $miss = 0; $diff = 0; $n = 0; $tL = (ToLong $t).Length
+      foreach ($fi in (Enum-Files $t $skipN)) {
+        $rel = $fi.FullName.Substring($tL).TrimStart('\')
+        if ($bpDirs | Where-Object { $rel -like "$_\*" }) { continue }
+        if (-not $IncludeSensitive -and ($SensitiveFiles | Where-Object { $fi.Name -like $_ })) { continue }
+        $n++; $x = ToLong (Join-Path $b $rel)
+        if (-not (Test-Path -LiteralPath $x)) { $miss++; if ($miss -le 20) { Log "  source file not in package: $rel" 'WARN' } }
+        else { $d = [IO.FileInfo]::new($x); if ($d.Length -ne $fi.Length -or [math]::Abs(($d.LastWriteTimeUtc - $fi.LastWriteTimeUtc).TotalSeconds) -gt 2) { $diff++; if ($diff -le 20) { Log "  size/time differs (source changed after backup, or bad copy): $rel" 'WARN' } } }
+      }
+      Log "source-vs-package[$f]: checked=$n missing_in_package=$miss size_or_time_differs=$diff"
+      if ($miss) { Fail "source-vs-package[$f]: $miss source files missing from package" }
     }
   }
   $apps = Join-Path $Source '01_backup\AppSettings\winget_export.json'

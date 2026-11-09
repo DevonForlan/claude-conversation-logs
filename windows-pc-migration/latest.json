@@ -1,10 +1,10 @@
 {
  "session_id": "30e5b156-8771-498c-a5a7-ff50b6e35047",
- "phase": "PHASE3_DONE_BACKUP_BLOCKED_ON_DESTINATION",
+ "phase": "BACKUP_VERIFIED_RESTORE_NOT_STARTED",
  "status_path": "logs/windows-pc-migration/30e5b156-8771-498c-a5a7-ff50b6e35047/status.md",
  "conversation_path": "logs/windows-pc-migration/30e5b156-8771-498c-a5a7-ff50b6e35047/conversation.md",
  "metadata_path": "logs/windows-pc-migration/30e5b156-8771-498c-a5a7-ff50b6e35047/metadata.json",
  "issue": 1,
- "updated_at": "2026-11-08T10:55:26+08:00",
- "commit": "b95ee15d554dd2660785db2b395a87ebbd9358d6"
+ "updated_at": "2026-11-09T21:26:35+08:00",
+ "commit": ""
 }

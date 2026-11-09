@@ -13,3 +13,11 @@ Owner asked to focus on Windows migration. Ran Phase 1 read-only inventory (non-
 ## Reply at 2026-11-08T10:55:26+08:00
 
 Phase 1 inventory, Phase 2 docs and Phase 3 scripts are done; dry-runs and synthetic end-to-end tests passed after fixing four bugs they exposed. Real backup waits for the Owner's Destination. Details: status.md.
+
+
+## 2026-11-09T21:26:35+08:00 - recovery + verify (summary)
+- D: dropped 11-09 08:27 (dirty bitmap) -> admin chkdsk /F succeeded (Healthy/OK/not dirty); FOUND.000\FILE0000.CHK orphan kept.
+- Diagnosis: 60 `hash failed` = >260-char destination paths (false); robocopy rc=9 = 17 browser temp files; 512 KB clusters + 342k small files = slow copy.
+- Script fixes (long paths, parallel SHA-256, browser_profile(s) exclusion, enumeration errors fatal, atomic manifest, -ManifestOnly).
+- Incremental robocopy (15 min), manifest 350,256 files, formal verify: package ok=350,256 / mismatch 0 / missing 0; source drift 1,144 new + 82 modified files (live projects), all explained.
+- Full raw conversation: logs/claude-conversation-logs-8978cc/30e5b156-8771-498c-a5a7-ff50b6e35047/conversation.md
