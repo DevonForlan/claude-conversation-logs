@@ -1437,3 +1437,52 @@ Shell 引号处理出问题，改用 Write 工具写补丁档。
 - 🔧 **PowerShell**: Get-Date -f T; Get-Content "$env:TEMP\incremental_backup_run.txt" -Tail 12 | % {$_.Substring(0,[Math]::Min(200,$_.Length))}; Get-Process robocopy -ea 0 | select Id,StartTime; Get-CimInstance Win32_Process -Filter "Name='powershell.exe'" | ?… <!--id:8e260986-3f61-4e24-bdb8-3545ad615e6f-->
 - ↩︎ result (927 chars): 下午 05:08:07 2026-11-09T17:05:24 [INFO] step ok: windows_terminal 2026-11-09T17:05:24 [INFO] step ok: ssh_config 2026-11-09T17:05:51 [INFO] scheduled tasks (non-Microsoft): 18 2026-11-09T17:06:46 [INFO] manifest: hashing 44588 files (SHA-256, parallel, long-path safe) Add-Content : 找不到路徑 'D:\Windows_… <!--id:33563ebb-d627-401d-8a72-24bb902842c5-->
 - 🔧 **PowerShell**: Test-Path D:\; Get-Disk | ft Number,FriendlyName,BusType,HealthStatus,OperationalStatus -auto; Get-Volume | ft DriveLetter,FileSystemLabel,HealthStatus,OperationalStatus -auto; Get-WinEvent -FilterHashtable @{LogName='System';StartTime=(Get… <!--id:4679aca3-a7f8-49af-b067-0b0be48a8b93-->
+- ↩︎ result (565 chars): True Number FriendlyName BusType HealthStatus OperationalStatus ------ ------------ ------- ------------ ----------------- 0 SSSTC CL4-4D512-Q79 NVMe Healthy Online 1 StoreJet USB Healthy Online DriveLetter FileSystemLabel HealthStatus OperationalStatus ----------- --------------- ------------ -----… <!--id:2bb8640d-b634-4100-81c6-10e413eba217-->
+- 🔧 **PowerShell**: Test-Path D:\Windows_Migration_Package\05_logs; Get-ChildItem D:\Windows_Migration_Package -Force -ea 0 | select Name; Get-ChildItem D:\Windows_Migration_Package\05_logs -ea 0 | select Name,Length,LastWriteTime; (Get-Content "$env:TEMP\incr… <!--id:eed1f4b8-be33-46f6-92d3-a7b97e37dc39-->
+- ↩︎ result (874 chars): True Volume - D: is NOT Dirty Name ---- 05_logs 00_inventory 01_backup 02_restore 03_verify 04_checksums backup_20261108_112644.log backup_20261109_164306.log 2026-11-09T16:48:48 [INFO] estimated copy size: 76.29 GB (rebuildable dirs excluded: True; sensitive excluded: True) 2026-11-09T17:03:29 [INF… <!--id:90615b01-dcf3-4e41-b960-ba37bdaabaa9-->
+- 🔧 **PowerShell**: Get-Date -f T; Get-Content "$env:TEMP\incremental_backup_run.txt" | Select-String 'manifest|checksums|DONE|hash failed|Fail' | select -Last 6 | % {$_.Line.Substring(0,[Math]::Min(160,$_.Line.Length))}; (Get-Content "$env:TEMP\incremental_ba… <!--id:eb2ffc36-f5b7-4a06-9d4b-0ad9b2d294f2-->
+- ↩︎ result (478 chars): 下午 05:10:05 2026-11-09T17:06:46 [INFO] manifest: hashing 44588 files (SHA-256, parallel, long-path safe) 2026-11-09T17:09:07 [INFO] manifest: 0/44588 files (0%) 3 ProcessId cpuS --------- ---- 4192 273.015625 2026-11-09T17:05:24 [INFO] step ok: windows_terminal 2026-11-09T17:05:24 [INFO] step ok: ss… <!--id:de9f7063-1e47-423c-a53c-79e662c14908-->
+- 🔧 **PowerShell**: Get-CimInstance Win32_Process | ? {$_.CommandLine -match 'migration.ps1' -and $_.CommandLine -match 'incremental_backup_run'} | % { "stopping $($_.ProcessId) $($_.Name)"; Stop-Process -Id $_.ProcessId -Force }; Start-Sleep 3; Get-Process ro… <!--id:892e6677-06f5-4755-8f57-2a47a87aff07-->
+- ↩︎ result (72 chars): stopping 15040 conhost.exe stopping 4192 powershell.exe True 56176640 <!--id:ced6adea-2a3b-4916-8649-3456d35a46a5-->
+- 🔧 **PowerShell**: cd 'C:\Users\devon.tseng\Desktop\個人\搬遷\claude-conversation-logs\windows-pc-migration\scripts' $ast=[System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path migration.ps1),[ref]$null,[ref]$null) $fns=$ast.FindAll({param($n) $n… <!--id:9afa8584-c85c-4ce9-97b2-03d1a72d323a-->
+- ↩︎ result (55 chars): 400 hashed, null=0, 7.5s counter after 5 increments: 0 <!--id:86d7d3a4-e3ae-4750-b83f-4f2484690e1d-->
+
+### [2026-11-09 17:12:35] 🤖 Claude <!--id:31e24765-8acc-47a1-8bac-01866406f702-->
+
+计数器 bug 确认：`[ref]$c[0]` 跨执行绪 runspace 时递增会丢失，所以进度永远显示 0（雜湊本身是正常的：400 个档案全部成功）。一起修。
+- 🔧 **Write**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\patch2.py <!--id:f095ee81-0950-4b4a-a411-5c4e4f939548-->
+- ↩︎ result (217 chars): File created successfully at: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\patch2.py (file state is current in your context — no need to Read it back) <!--id:346acae8-deab-4bd8-8bbe-74f9156df895-->
+- 🔧 **PowerShell**: cd 'C:\Users\devon.tseng\Desktop\個人\搬遷\claude-conversation-logs\windows-pc-migration\scripts'; python 'C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\patch2.py' migration.ps1;… <!--id:e08f5c85-6ed1-49a4-9080-794968704571-->
+- ↩︎ result (54 chars): patched2 parse OK 400 hashed, null=0, enumErr=, 7.3s <!--id:190c31b5-42b7-4f02-97f9-c3120f4998c1-->
+
+### [2026-11-09 17:13:10] 🤖 Claude <!--id:e9d82187-bf90-4e05-bd62-c80ff89e054c-->
+
+修正完成並通過測試。現在啟動 manifest 重建（`-ManifestOnly`，robocopy 已完成，不再複製）。
+- 🔧 **PowerShell**: fsutil dirty query D:; cd 'C:\Users\devon.tseng\Desktop\個人\搬遷\claude-conversation-logs\windows-pc-migration\scripts'; $out="$env:TEMP\manifest_run.txt"; '' | Set-Content $out; $sp=(Resolve-Path migration.ps1).Path Start-Process conhost.exe … <!--id:3978575a-3db3-4fbf-94c9-5ef5316c8aa3-->
+- ↩︎ result (37 chars): Volume - D: is NOT Dirty 下午 05:13:17 <!--id:b5d3ae73-a12f-4f40-8853-f46620b413aa-->
+- 🔧 **Monitor**: until grep -aq "DONE action=backup" "$TEMP/manifest_run.txt" 2>/dev/null; do sleep 30; done; tail -c 1500 "$TEMP/manifest_run.txt" <!--id:cc6fc3d7-4b44-4268-92be-b52b7e2ee2da-->
+- ↩︎ result (302 chars): Monitor started (task bjtscmfz3, expires in 30m unless the source ends first; you get one notice at expiry — re-arm if you still need the watch). You will be notified on each event. Keep working — do not poll or sleep. Events may arrive while you are waiting for the user — an event is not their repl… <!--id:3293189e-00d2-4b11-beca-67d43d6e1960-->
+
+### [2026-11-09 17:13:28] 🤖 Claude <!--id:b0d9026c-eec6-41b8-a67f-1fccb308f327-->
+
+是的，現在在等一件事：**manifest 重建**。其他步驟都已經完成。
+
+**目前進度**
+- D: 已修復（Healthy、非 Dirty）。
+- robocopy 增量補跑已完成（17:03），沒有重複複製 76 GB。
+- 我在 17:13 重新啟動 manifest 重建（`-ManifestOnly`，背景、headless）。步驟是先列舉約 34 萬個檔案（約 10 分鐘），再用 12 執行緒算 SHA-256（預估約 1 小時）。預計 18:30 前後完成，進度每 2 分鐘寫進 `%TEMP%\manifest_run.txt`。
+
+**為什麼要重跑**
+上一次 manifest 階段遇到 D: 短暫失聯，只列舉到 44,588 個檔案，我先停掉了。我已修正腳本：列舉遇到錯誤會重試，仍失敗就中止並保留舊 manifest；進度計數器也修好了（原本一直顯示 0）。
+
+**接下來我會自動做**
+1. manifest 完成後直接跑正式 verify（也要約 1 小時，因為要重新計算整份套件的雜湊）。
+2. 確認 missing、failed、checksum、`FOUND.000` 的 11 MB 檔案對應哪個檔案，以及來源與套件比對結果。
+3. 同步 Issue #1、status.md、metadata.json、conversation.md、latest.json。
+
+**你需要做的**
+- 不用做任何事。請讓 D: 保持連接、電腦不要睡眠。
+- **D: 現在還不能拔**（正在讀寫）。我會在 verify 通過並確認沒有程序在寫入後明確通知你。
+- 如果 D: 再次失聯，我會在日誌看到並回報，那就要檢查隨身碟的 USB 線或連接埠。
+
+**SYNC-CHECK：** 本輪標記 `SYNC-CHECK-4`（前面的 `-1`、`-2`、`-3` 之後會一起核對）。
