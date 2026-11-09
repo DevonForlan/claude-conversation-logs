@@ -917,3 +917,98 @@ robocopy 結束的通知（watcher）一到，我就接著做 SHA-256 manifest�
 - ↩︎ result (2152 chars): <persisted-output> Output too large (115KB). Full output saved to: C:\Users\devon.tseng\.claude\projects\C--Users-devon-tseng-Desktop------\30e5b156-8771-498c-a5a7-ff50b6e35047\tool-results\boe93vs35.txt Preview (first 2KB): Get-History : Cannot bind parameter 'Id'. Cannot convert value "D:\Windows_… <!--id:1bb743f7-1f76-4020-bb4e-3f18699a0c63-->
 - 🔧 **PowerShell**: $l=Get-Content "D:\Windows_Migration_Package\05_logs\backup_20261108_112644.log" -Encoding Unicode $hf=@($l | ? {$_ -match 'hash failed: (.+)$'} | % {$Matches[1].Trim()} | select -Unique) $pre='D:\Windows_Migration_Package\01_backup\UserDat… <!--id:40600539-8748-456d-b68e-dd0f04277dd4-->
 - ↩︎ result (52 chars): Count Name ----- ---- 60 True, True <!--id:672cc014-49dd-457a-9a12-1b0a7070b6a6-->
+
+### [2026-11-09 09:51:22] 🤖 Claude <!--id:e7ca3fd5-9811-40f6-b953-9928cef9ff64-->
+
+**診斷結果：60 個 `hash failed` 的檔案全部是誤報。** 逐筆比對（來源與備份都存在、大小一致、修改時間一致、SHA-256 相同）都通過。
+
+原因是備份目的路徑比來源長約 40 個字元（`D:\Windows_Migration_Package\01_backup\UserData\Desktop\…`）。其中 57 個檔案的備份端路徑超過 260 字元，所以腳本裡沒帶 `\\?\` 前綴的 `Get-FileHash` 讀不到。我用 `\\?\` 長路徑重新算雜湊就全部成功。MongoDB 教材 PDF 沒有缺檔或損毀。
+
+**其他已確認的事**
+- robocopy 日誌裡真正複製失敗的檔案共 17 個，全部是瀏覽器 profile 的 Cookies、Sessions、Safe Browsing、ldb/log。沒有一般工作檔案失敗。
+- 備份日誌只寫到 07:42，沒有結尾統計；SHA256SUMS.txt 有 249,267 行，最後一行被截斷（路徑寫到一半）。預估總檔案數約 34.2 萬，所以 manifest 與日誌都**不完整**，不能當作驗證依據。
+- D: 的 AllocationUnitSize 是 524,288（512 KB）。這就是小檔案配置量暴增（D: 用量 383 GB 對上實際約 74 GB）和速度極慢的主因之一。
+
+**D: 目前的狀態和我卡住的地方**
+- D: 是原本的 Transcend（StoreJet、exFAT、1863 GB、剩 1479.9 GB），Windows 回報 HealthStatus=Warning、OperationalStatus=**Full Repair Needed**，`fsutil dirty query` 顯示 **Volume is Dirty**。這是 08:27 突然斷線後留下的狀態。
+- 你要求不要修復，所以我沒有跑 chkdsk，也還沒寫入任何東西。
+- 在標記為 dirty 的 exFAT 上繼續寫入有風險，可能讓檔案系統問題擴大。我建議在補跑和重建 manifest 之前，先決定要不要用 chkdsk 修復（`chkdsk D:` 先唯讀掃描；`/f` 才會修復）。
+- 如果你同意，我可以先跑**唯讀**的 `chkdsk D:`（不加 `/f`）看錯誤範圍，再由你決定要不要修復。
+
+**接下來我打算做（不會從零複製）**
+1. 腳本修正：所有雜湊與檔案讀取改用 `\\?\` 長路徑；browser_profile(s) 的 Cookies／Sessions／Safe Browsing／cache／ldb／log 預設排除，且不再讓它們造成整體失敗。
+2. 針對 34 萬個檔案逐檔 SHA-256 的設計：改成只對大於一定大小的檔案算完整雜湊，小檔案用「大小＋修改時間」清單（加整份清單的 SHA-256）。我會在實作前量測實際耗時再定案。
+3. 用 robocopy 增量補跑（已存在且大小與時間一致的會自動跳過）。
+4. 重新產生 manifest、跑正式 verify、確認沒有程序在寫 D:，之後才宣告可用。
+5. 修正並同步 `latest.json`，把診斷、根因、修復結果更新到 Issue #1。
+
+**需要你決定一件事：** 要不要先讓我跑唯讀的 `chkdsk D:`？在你回答之前，我不會對 D: 寫入任何東西。備份目前仍然是**未完成、未驗證**，D: 沒有程序在寫入，可以安全拔出，但那只代表不會再損壞，備份本身還不能使用。
+
+### [2026-11-09 13:40:11] 👤 User (turn 19) <!--id:366bb328-6e07-400d-b21c-9098c00096b8-->
+
+<pasted_content id="a8ab">
+請繼續 Windows Migration Issue #1 的 recovery，不要重新做完整 Backup。
+
+先處理目前最前面的 blocker：
+
+- D: = Transcend / exFAT
+- HealthStatus = Warning
+- OperationalStatus = Full Repair Needed
+- Volume is Dirty
+
+請依以下順序執行：
+
+1. 先確認目前沒有 robocopy、migration.ps1、hash/verify 或其他程序正在寫入 D:。
+2. 先做非破壞性的 filesystem 診斷，確認 Dirty / Full Repair Needed 的實際原因與需要的修復方式。
+3. 如果確實需要 chkdsk / filesystem repair：
+   - 不要格式化 D:
+   - 不要刪除 D:\Windows_Migration_Package
+   - 如果需要 Administrator/UAC，直接提供我最小必要的一條指令讓我執行。
+   - 修復完成後重新確認 D: HealthStatus、OperationalStatus 與 Dirty bit。
+4. 只有 D: filesystem 回到可安全使用狀態後，才繼續你剛才提出的 recovery plan：
+
+   a. 修正 long-path：
+   - 所有 hash / file read 支援 \\?\ 長路徑。
+
+   b. 修正 browser profile exclusions：
+   - browser_profile / browser_profiles 中的 Cookies、Sessions、Safe Browsing、cache、ldb/log 等可重建或登入狀態資料預設排除。
+   - 排除規則只能限定在 browser profile 範圍，不要全域排除一般專案的 *.log。
+
+   c. 優化 manifest / verification：
+   - 先量測效能再決定最終方案。
+   - 不要直接犧牲完整性驗證。
+   - 如果小檔案改採 size + mtime manifest，請明確說明其驗證能力與限制，並評估是否需要抽樣 hash、關鍵目錄完整 hash 或平行 hash 補強。
+
+   d. 使用 robocopy 增量補跑：
+   - 已存在且 size/time 一致的檔案跳過。
+   - 只補 missing / failed / mismatch。
+   - 不重新複製整個 76 GB。
+
+   e. 重新產生完整 manifest。
+
+   f. 執行正式 verify。
+
+5. 最終必須確認：
+   - D: filesystem Healthy / 無 Dirty 狀態
+   - unexpected failed files = 0
+   - missing files = 0
+   - checksum / verification 無未解釋錯誤
+   - 沒有任何程序仍在寫 D:
+   - Migration Package 可供新電腦 Restore
+
+6. 修正 windows-pc-migration/latest.json 長期未更新的問題，並將：
+   - filesystem diagnosis
+   - repair 結果
+   - root cause
+   - script fixes
+   - incremental backup 結果
+   - verify 結果
+   全部同步到 Issue #1、status.md、metadata.json、conversation.md、latest.json。
+
+請持續執行到：
+- 需要我按 UAC / 執行 Administrator 指令；或
+- 遇到具有資料損失風險的 filesystem repair；
+才停下來要求我介入。
+
+其餘一般技術決策可以自行完成，不需要逐步詢問我。
+</pasted_content id="a8ab">

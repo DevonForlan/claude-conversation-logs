@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-09T09:51:23+08:00",
+  "updated_at": "2026-11-09T13:40:14+08:00",
   "projects": [
     {
       "project": "claude-conversation-logs",
       "project_safe": "claude-conversation-logs-8978cc",
-      "last_activity": "2026-11-09T09:51:23+08:00",
+      "last_activity": "2026-11-09T13:40:14+08:00",
       "latest_session": "30e5b156-8771-498c-a5a7-ff50b6e35047",
       "latest_log": "logs/claude-conversation-logs-8978cc/30e5b156-8771-498c-a5a7-ff50b6e35047/conversation.md",
-      "status": "idle",
+      "status": "working",
       "sessions": 1
     },
     {
