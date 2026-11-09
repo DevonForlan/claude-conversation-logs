@@ -844,3 +844,62 @@ robocopy 結束的通知（watcher）一到，我就接著做 SHA-256 manifest�
 3. 如果 D: 插回後磁碟顯示需要檢查或修復，請先讓我看過再處理。
 
 插回來之前，備份狀態我只能算「未驗證」。GitHub 的 Issue #1 和 `latest.json` 我也暫時不更新為完成。
+
+### [2026-11-09 09:45:05] 👤 User (turn 18) <!--id:656f0a31-665b-4080-bcdb-930bdcac46ef-->
+
+<pasted_content id="a8ab">
+請繼續處理 Windows Migration Issue #1，但不要重新開始完整 Backup。
+
+先把這次異常視為 recovery / diagnosis 任務。
+
+目前已知：
+- 原正式 backup 從 2026/11/08 11:26 開始。
+- 約 76.22 GB、34.2 萬檔案。
+- D: 為 Transcend exFAT。
+- 大量小檔案造成極慢速度。
+- Desktop robocopy 曾回傳 rc=9。
+- manifest 階段發生 hash failed。
+- 2026/11/09 08:27 D: 消失，正式 verify 尚未完成。
+
+請依序執行：
+
+1. 確認 D: 是否重新存在，以及仍然是原本的 Transcend 硬碟。
+2. 只做唯讀健康檢查，不要格式化或修復：
+   - filesystem
+   - volume health
+   - AllocationUnitSize
+   - total/free space
+   - D:\Windows_Migration_Package 是否存在。
+3. 檢查現有 Migration Package：
+   - 實際 logical size
+   - file count
+   - SHA256SUMS.txt 是否完整
+   - backup log 是否完整。
+4. 從 robocopy log 抽出所有真正 failed files，區分：
+   - browser/cache/session 可重建檔
+   - 一般工作檔案
+   - MongoDB 教材 PDF
+   - 其他。
+5. 不要重新複製已經成功存在且大小/時間一致的檔案。
+6. 使用增量方式補跑缺少或失敗的工作檔案。
+7. 自動化 browser_profile / browser_profiles 中的 Cookies、Sessions、Safe Browsing、cache、ldb/log 等可重建或登入狀態資料預設排除，不要因這些資料讓整體 Backup 判定失敗。
+8. 對先前 hash failed 的 MongoDB PDF 逐筆比較：
+   - source exists
+   - destination exists
+   - size
+   - timestamp
+   - hash
+   並確認是否為 long-path / Unicode / 特殊字元問題。
+9. 檢查目前「全部 34 萬個檔案逐檔 SHA-256」的設計。若這是造成數小時延遲的主要原因，請改成仍具有可靠完整性驗證、但適合大量小檔案的方案，避免下一次又花十幾小時在 manifest。
+10. 完成 recovery 後執行正式 verify。
+11. 只有在：
+   - backup 完成
+   - 所有非預期 failed files 已處理
+   - checksum/verification 完成
+   - 沒有程序仍在寫 D:
+   時，才宣告 Migration Package 可用。
+
+另外請修正 windows-pc-migration/latest.json 長期未更新的問題，並將本次 diagnosis、root cause、修復結果與最終 verify 狀態同步到 GitHub Issue #1。
+
+不要刪除現有 Migration Package，也不要從零開始完整複製。
+</pasted_content id="a8ab">
