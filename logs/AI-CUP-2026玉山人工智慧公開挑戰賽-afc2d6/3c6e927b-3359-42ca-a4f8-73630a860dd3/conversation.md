@@ -38385,3 +38385,4 @@ Issue #54 的規定已經套用。要做的 PR #53 其實都已經自行合併�
 我也把這條常設規則更新進我的記憶：已授權的任務要一路做到合併、部署、執行、送出、確認和證據回寫，不會停在 PR。
 
 下一步照原計畫：15:04 檢查，等 17:00 評估後跑 shadow 比較，再驗證 19:30 的 11/10 FINAL 與入口網站確認，並把證據貼回 Issue #49、#48 和 #54。
+- 🔧 **Bash**: cd "[REDACTED]" && date; ls logs/tactical; ls submissions/20261110 2>&1 | head; tail -3 logs/evaluation/history.jsonl | cut -c1-300; .venv/Scripts/python.exe -c " from agent.data.loaders import Hi… <!--id:63cfa973-6193-463c-985a-b3fcdd4e2a57-->
