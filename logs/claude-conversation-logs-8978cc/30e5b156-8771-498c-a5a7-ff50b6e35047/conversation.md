@@ -1401,3 +1401,32 @@ Shell 引号处理出问题，改用 Write 工具写补丁档。
 - ↩︎ result ⚠️error (80 chars): Remove-Item on system path 'D:' is blocked. This path is protected from removal. <!--id:db391e4c-2192-4867-9f28-132db8caf2fd-->
 - 🔧 **PowerShell**: cd 'C:\Users\devon.tseng\Desktop\個人\搬遷\claude-conversation-logs\windows-pc-migration\scripts'; $e=$null; [void][System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path migration.ps1),[ref]$null,[ref]$e); if($e){$e|select -Fir… <!--id:b34d6f46-8f8a-4a10-b87f-ac7d5e227dad-->
 - ↩︎ result (50 chars): parse OK EF BB BF Volume - D: is NOT Dirty True <!--id:998c1866-4782-4377-8141-985bcb52f05c-->
+- 🔧 **PowerShell**: cd 'C:\Users\devon.tseng\Desktop\個人\搬遷\claude-conversation-logs\windows-pc-migration\scripts'; $out="$env:TEMP\incremental_backup_run.txt"; '' | Set-Content $out; $sp=(Resolve-Path migration.ps1).Path Start-Process conhost.exe -ArgumentList… <!--id:a864774d-f23b-4953-9190-2a6ffcd27774-->
+- ↩︎ result (11 chars): 下午 04:42:57 <!--id:462419b5-5180-40a7-90a7-b1b1fa99a871-->
+- 🔧 **Monitor**: until grep -aq "DONE action=backup" "$TEMP/incremental_backup_run.txt" 2>/dev/null; do sleep 30; done; tail -c 1800 "$TEMP/incremental_backup_run.txt" <!--id:405ff64d-6dbd-4795-9439-2d3a084a81d2-->
+- ↩︎ result (302 chars): Monitor started (task bs303vcwy, expires in 30m unless the source ends first; you get one notice at expiry — re-arm if you still need the watch). You will be notified on each event. Keep working — do not poll or sleep. Events may arrive while you are waiting for the user — an event is not their repl… <!--id:70a34e90-c23f-4b53-8254-3b318732c69c-->
+
+### [2026-11-09 16:43:26] 🤖 Claude <!--id:d5688fc4-353d-45ed-a3b3-5464ec92ef6a-->
+
+先更正前一輪：D: 的修復其實**已經成功**，你沒看到 UAC 視窗，但管理員指令確實執行了。我沒有再觸發 UAC。
+
+**D: 修復結果（有證據）**
+- `chkdsk_fix.txt`（16:10→16:20）：發現磁碟區點陣圖損毀，**「Windows 已修正檔案系統。不需要進一步的動作。」**，`EXIT=1`。
+- 現在 D:：**NOT Dirty、HealthStatus=Healthy、OperationalStatus=OK**，壞軌 0 KB。
+- `D:\Windows_Migration_Package` 完整保留，`SHA256SUMS.txt` 大小沒變。
+- 修復產生了 `D:\FOUND.000\FILE0000.CHK`（11 MB 孤立資料）。我沒有刪除。這表示斷線當下有一個檔案被截斷；增量補跑會發現大小不一致並重新複製，我會在 verify 時確認有沒有這種檔案。
+
+**腳本修正（`migration.ps1`，原檔備份 `.bak_prelongpath`）**
+1. **長路徑**：所有檔案列舉、雜湊、比對改用 `\\?\`（`Enum-Files`、`ToLong`）。先前 60 筆 `hash failed` 就是這個原因。
+2. **瀏覽器 profile 排除**：只限名稱剛好是 `browser_profile` / `browser_profiles` 的資料夾，整個排除（含 Cookies、Sessions、Safe Browsing、cache、ldb/log）。專案裡一般的 `*.log` 不受影響（測試確認 `logs\app.log` 保留）。
+3. **雜湊效能**：量測結果單執行緒 3000 個小檔案 56 秒，12 執行緒約 26–29 秒（USB 是瓶頸），34 萬個檔案預估約 1 小時，之前是十幾個小時。**保留完整 SHA-256，不犧牲完整性**，也不用 size+mtime 取代。另外輸出 `FILELIST.tsv`（大小、修改時間）當作輔助記錄。
+4. **manifest 原子寫入**：先寫 `.tmp` 再改名，未寫完的 manifest 不會蓋掉好的。
+5. **verify** 加強：檢查 manifest 有無被截斷或格式錯誤、套件內有無未列入 manifest 的檔案、來源與套件的大小和時間比對（使用同一組排除規則）。
+- 在 C: 上用測試樹（含超過 260 字元路徑與中文檔名）跑過完整的 backup → verify，通過；測試中修掉一個誤報（豁免備份最後才產生的 README 與 backup_meta.json）。
+
+**增量補跑已啟動（16:42，背景、headless）**
+- 指令是 `migration.ps1 backup -Destination D:\Windows_Migration_Package`。robocopy 本來就會跳過大小與時間相同的檔案，不會重新複製 76 GB。結束後會重建完整 manifest。
+- 完成後我會自動接著跑正式 verify，確認 missing / failed / checksum，並同步 Issue #1、status.md、metadata.json、conversation.md、latest.json。
+- 在此之前，**D: 不能拔**（正在寫入）。備份仍未宣告可用。
+
+**SYNC-CHECK：** 本輪是第 3 個 turn，標記 `SYNC-CHECK-3`（前一輪的 `SYNC-CHECK-2` 也一併檢查）。
