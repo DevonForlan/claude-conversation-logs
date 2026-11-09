@@ -38293,3 +38293,52 @@ Now writing the shadow-baseline tool with its `generate` and `compare` subcomman
 - ↩︎ result (326 chars): { "baseline_shadow_sha256": "7456905b36847fa7440eb3293c278c7b6f262625cc1ae6d9adaef7549e4d313c", "status": "SHADOW_BASELINE_NOT_FOR_SUBMISSION", "pre": { "SAME_DATA_SNAPSHOT": "PASS", "SAME_SETTLEMENT_BASE": "PASS", "TECH_WEIGHT_BASELINE": 0.7812703288998726, "TECH_WEIGHT_TACTICAL": 0.084895479729409… <!--id:3fa28405-632a-44c4-a916-427498ee1488-->
 - 🔧 **Bash**: cd "[REDACTED]" && python - <<'EOF' import json d=json.load(open("logs/shadow/20261109/COMPARISON_PRE.json",encoding="utf-8")) for k,v in d.items(): print(k, str(v)[:110]) EOF ls logs/shadow/20261… <!--id:edb46ce0-4e6d-4dc5-831b-f22e3c4ae55c-->
 - ↩︎ result (1925 chars): TRADE_DATE 2026-11-09 TACTICAL_FINAL_SHA 5a2e820bcda2e1ec889ebe09a439f36a848f01fae258fbcde746625b85c3680a BASELINE_SHADOW_SHA 7456905b36847fa7440eb3293c278c7b6f262625cc1ae6d9adaef7549e4d313c SAME_DATA_SNAPSHOT PASS SAME_SETTLEMENT_BASE PASS TACTICAL_VERSION TACTICAL_OVERRIDE_V2_TECH_LT10 FROZEN_QUAN… <!--id:fffd5a1f-db9d-4f10-91bf-4be88421394f-->
+- 🔧 **Bash**: cd "[REDACTED]" && cat > .sr53.md <<'EOF' SELF_REVIEW = PASS QUANT_FREEZE = PASS (sha256 f34fa02e...d2e0 unchanged; zero diff in frozen paths; CI quant-freeze-check pass) TESTS = CI `tests` (full … <!--id:8d65fd71-9a29-4e88-b3da-6e92f2ed89b6-->
+- ↩︎ result (515 chars): https://github.com/DevonForlan/ai-cup-2026-etf-agent/pull/53#issuecomment-6733457078 failed to delete local branch feat/49-v2-direct-resume: failed to run git: error: cannot delete branch 'feat/49-v2-direct-resume' used by worktree at '[REDACTED]/.worktree… <!--id:3cd6ca91-832f-45f6-89b6-a9ecee7f855d-->
+- 🔧 **Bash**: cd "[REDACTED]" && PYTHONIOENCODING=utf-8 .venv/Scripts/python.exe -c " from agent.tactical import override as TO for d in ('2026-11-09','2026-11-10','2026-11-11'): c=TO.resolve_config(None,d); pr… <!--id:a234aaa9-9e22-421e-b16f-bb5f79da7613-->
+- ↩︎ result (1728 chars): 2026-11-09 TACTICAL_OVERRIDE_V2_TECH_LT10 ENTRY True 2026-11-10 TACTICAL_OVERRIDE_V2_TECH_LT10 RESUME False 2026-11-11 TACTICAL_OVERRIDE_V2_TECH_LT10 RESUME False 191e65811faaf3d589459e19042c353742d08979ecd114e48f1e31fce39fa0f1 QUANT_FREEZE_CHECK = PASS AI_CUP_Competition_MorningFinal_0730 Ready con… <!--id:40b0287c-f689-4117-83b0-df9dd954e4ea-->
+- 🔧 **Bash**: cd "[REDACTED]" && cat > .ev49c.md <<'EOF' ## Claude Code status — 2026-11-09 14:10 — direct Frozen Quant v1 resume DEPLOYED (PR #53 merged) ``` DIRECT_FROZEN_QUANT_V1_RESUME_SAFE = YES IMPLEMENTA… <!--id:cc3197ea-bc06-40ce-ad5b-d14c87c8fd76-->
+- 🔧 **ScheduleWakeup**: Verify the 2026-11-09 19:30 run (11/10 D-Plan by Frozen Quant v1 only: logs/tactical/2026-11-10_RESUME_V2.json, FINAL SHA, SUBMISSION_CONFIRMED with portal read-only check, shared-state sync), run `python -m agent.ops.shadow_baseline compar… <!--id:8f03cdac-bf69-43f3-b17b-a06d273e7016-->
+- ↩︎ result (86 chars): https://github.com/DevonForlan/ai-cup-2026-etf-agent/issues/49#issuecomment-6733475254 <!--id:50bec4be-d1d7-4074-bf2d-769d4f065efa-->
+- ↩︎ result (234 chars): Next wakeup scheduled for 15:04:00 (in 3507s). If you owe the user a status update this tick, write it now as ordinary response text; then end the turn — the harness re-invokes you when the wakeup fires or a task-notification arrives. <!--id:322b95bd-77a5-41f6-b626-025a39fcc0b8-->
+
+### [2026-11-09 14:05:48] 🤖 Claude <!--id:7ffe2a9b-7ec2-48b2-9681-eec13c6910d0-->
+
+一半完成：直接恢復 Frozen Quant v1 已經改好並部署，Issue #48 的 11/09 shadow baseline 也已產生。11/10 的 FINAL 要等今晚 19:30 排程跑完才有，我還沒送出也還沒確認，所以還不能回報 11/10 FINAL SHA 和入口網站確認結果。
+
+**DIRECT_FROZEN_QUANT_V1_RESUME_SAFE = YES**
+- 我用真實資料驗證，不是只看文件：把 11/09 V2 的成交後持股（22 檔）當起點，不套任何 tactical，直接跑原版 Frozen Quant v1。
+- 結果是一份合規的 11/10 D-Plan：30 筆委託、24 檔持股、現金 16.2%、單檔最高 5.2%，驗證器 28 項通過，另外 6 項官方檢查和每份 Quant D-Plan 一樣是「未實作」。
+- 持股是從實際結算帳本讀，所以沒有任何東西需要先回復舊張數，也不會有重複或互相矛盾的委託。
+- 要注意：Quant 自己的 11/10 目標會把科技股買回去，因為它本來就是偏科技的模型。這是你選擇直接恢復的後果，不是錯誤。
+
+**11/10 的做法與部署**
+- PR #53 已自行合併（commit `a4e64a2`），CI 全過，Quant 指紋 `f34fa02e…` 沒變，沒動凍結路徑。
+- 從 11/10 起 V2 的 phase 改成 `RESUME`：不介入選股，只留一筆稽核紀錄 `logs/tactical/2026-11-10_RESUME_V2.json`。
+- V2 設定繼續認領 11/10 以後的日期，舊的 V1 設定不會再觸發回切。
+- Production 已更新到 `a4e64a2`，等於 origin/master，tracked 檔案乾淨。19:30、17:00 和 07:30 三個排程都是 Ready，指向 production 目錄。
+- 用部署後的設定測過：11/09 是 V2 ENTRY（已送出），11/10 和 11/11 都是 RESUME 且 tactical 不啟動。
+- 回滾方式：把 `exit_mode` 改成 `FROZEN_QUANT_RESUME` 以外的值，原本的明確回切就會回來。
+- ENTRY 紀錄裡存的 unwind 計畫保留當稽核資料，不會執行。
+- V2 設定檔的指紋現在是 `191e6581…`，因為加了 `exit_mode`。產生 11/09 FINAL 的舊指紋 `9a67d94d…` 仍留在 ENTRY 紀錄裡。
+
+**Issue #48 shadow baseline（11/09）**
+- Baseline sha `7456905b…`，標記為 `SHADOW_BASELINE_NOT_FOR_SUBMISSION`，只放在 `logs/shadow/20261109/`，不在 `submissions/` 底下，程式也不引用任何送件程式碼，排程撿不到。
+- 資料與起始結算都和送出的那次相同（兩項檢查都 PASS）。
+
+| | Baseline（原版） | Tactical V2（已送出） |
+|---|---|---|
+| 科技股權重 | 78.13% | 8.49% |
+| 現金 | 14.16% | 14.82% |
+| Active Share | 37.31% | 51.25% |
+
+- 完整持股、權重、委託在 `COMPARISON_PRE.json`，已同步到 shared-state 的 `shared_state/shadow/2026-11-09/`（commit 393c76d）。
+- 收盤後的三方比較（原版、Tactical V1、Tactical V2）還沒跑，要等 11/09 收盤資料入庫。指令是 `python -m agent.ops.shadow_baseline compare --date 2026-11-09 --publish`。
+
+**GitHub 已寫回**：Issue #49 有兩則留言（含你要求的回答區塊和部署狀態），Issue #48 有 shadow 留言。
+
+有兩點要先說清楚：
+- **本機完整 pytest 卡住**：我在 worktree 跑的完整測試停在約 47%，應該是某個測試需要 production 環境。我沒查明原因，合併是依據 CI 的完整 pytest（4 分 45 秒，通過）。
+- **整條路徑還沒實際跑過**：今晚 19:30 會是第一次。
+
+下一步：我設了 15:04 的檢查，再接著等 17:00 評估和 19:30 排程。11/10 的 FINAL 送出並確認後，我會把 FINAL SHA、入口網站確認和 shared-state 路徑補貼到兩個 Issue。
