@@ -38736,3 +38736,24 @@ Status: I adopted the official 11/09 settlement (the reconciliation now reads MA
 另外，19:30 那次原本被擋在結算對帳：官方 11/09 現金比我們估的少 139,955 TWD（NAV 差 0.017%），持股張數完全一致。這在 V2 高週轉日之後出現，應該是模擬器的手續費和證交稅假設與官方不同。我用 `reconcile --accept-official` 採用官方結算，並如實記錄決策人是「Claude Code（Owner 授權）」。對帳現在是 MATCH，舊的內部結算檔有保留備份。
 
 接下來等上傳結果，確認後貼證據到 Issue #49、#54 和 #48。
+
+### [2026-11-09 20:06:27] 👤 User (turn 501) <!--id:d8012071-e84f-42b9-8526-b6de15451406-->
+
+<task-notification>
+<task-id>bxyy23bgn</task-id>
+<tool-use-id>toolu_01RWPDZEyVEax1LeRarsn2h3</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\8f718917fde93c02\3c6e927b-3359-42ca-a4f8-73630a860dd3\tasks\bxyy23bgn.output</output-file>
+<status>completed</status>
+<summary>Monitor "Wait for the 11/10 submission state to settle" stream ended</summary>
+<event>SUBMISSION_CONFIRMED
+2026-11-09T20:04:34.701521+08:00 READY_TO_SUBMIT FINAL verified by ManualSubmissionProvider.prepare
+2026-11-09T20:06:12.106719+08:00 SUBMITTED_UNVERIFIED receipt pending
+2026-11-09T20:06:15.080725+08:00 SUBMITTED_UNVERIFIED receipt pending
+2026-11-09T20:06:22.548670+08:00 SUBMITTED_UNVERIFIED receipt pending
+2026-11-09T20:06:25.622293+08:00 SUBMISSION_CONFIRMED receipt submitted
+AUTO_UPLOAD_RUNNING PASS</event>
+</task-notification>
+- 🔧 **Bash**: cd "[REDACTED]" && grep -n "verify\|readonly\|read_only\|history" agent/ops/tactical_supersede.py | head -12; ls agent/submission | tr '\n' ' ' <!--id:8348824f-a3e5-41b4-a623-100dfa33081b-->
+- ↩︎ result (1168 chars): 10: * everything of the prior submission (FINAL, state, receipts, history) is archived first under submissions/<T>/superseded/; 16: SUBMISSION_CONFIRMED only from real portal evidence: history row + 回看 == the new FINAL). 96: for name in ("submission_state.json", "receipts.jsonl", "final_history.json… <!--id:1c051bd3-6605-478d-9e0b-20cee3f66c53-->
+- 🔧 **Bash**: cd "[REDACTED]" && PYTHONIOENCODING=utf-8 timeout 110 .venv/Scripts/python.exe -c " import json from agent.submission import confirmation as C from agent.ops.common import load_ops_config pv=C.ver… <!--id:0d543235-d9e2-4d93-9196-0529089369de-->
+- ↩︎ result (556 chars): {"status": "SUBMISSION_CONFIRMED", "final_sha256": "sha256:d7e435ea88e425b21f7474dfd4b4bf494bdcb6643ac074b91d155cdcf9cd1b70", "history_entry": "第 11\t2026-11-10\t已繳交\t2026-11-09 20:06\t回看", "reasons": [], "matching_rows": 1, "checks": {"submitted_marker_present": true, "unique_matching_history_row":… <!--id:d0fe09b2-dce8-4a68-97ba-3fd26a2e6df4-->
