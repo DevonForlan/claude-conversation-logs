@@ -38945,3 +38945,41 @@ Issue #61 的重新計算已完成，但不能照字面做成「一次完整 Fro
 3. 把所有證據貼回 Issue #61。
 
 距離 08:55 還有時間。如果你不想用這個「延後賣出」的做法，請告訴我，我會保留目前已確認的不交易版本。
+
+### [2026-11-09 20:33:55] 👤 User (turn 506) <!--id:8d8c82f5-8b21-4ec4-a860-56054ba6eae4-->
+
+<task-notification>
+<task-id>b8fifqfvm</task-id>
+<tool-use-id>toolu_01SrzyaKfGWcDoVWoKJfX8pz</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\8f718917fde93c02\3c6e927b-3359-42ca-a4f8-73630a860dd3\tasks\b8fifqfvm.output</output-file>
+<status>completed</status>
+<summary>Background command "cd "C:/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽" &amp;&amp; cat &gt; .ev61a.md &lt;&lt;'EOF'
+## Claude Code status — 2026-11-09 21:35 — Issue #61: finding + implementation in PR #62 (CI running)
+
+```
+ACTION = ONE_TIME_FROZEN_QUANT_V1_FULL_REBALANCE (in progress)
+OLD_FINAL_SHA256 = d7e435ea88e425b21f7474dfd4b4bf494bdcb6643ac074b91d155cdcf9cd1b70 (11/10 no-trade, SUBMISSION_CONFIRMED 2026-11-09 20:06:25, stays archived)
+FROZEN_QUANT_V1_FINGERPRINT = f34fa02e924011b20c52a4bd42e961169f97e1950e76e04b7e78dc43ac23d2e0 (unchanged, zero diff in frozen paths)
+REBALANCE_OVERRIDE_SCOPE = 2026-11-10 only; only the rebalance_every cadence is bypassed (is_rebalance_day=True into the UNCHANGED constructor)
+```
+**Real-data finding (official 11/09 state, read-only run through run_day).**
+1. Unchanged Frozen Quant v1, forced to rebalance, builds a genuinely technology-heavy target: 24 names, **75.8 % technology**, cash 15 %.
+2. That target needs **35 orders in one day; the official cap is 30**. Quant's own 30-order demotion then breaks its cash rule (post-trade cash 27.7 % &gt; 25 %, stress 32 %), so the plain constructor returns `FallbackToPreviousPortfolio` = hold. A literal "unchanged constructor" rebalance therefore cannot execute in one day and would just reproduce the 20:06 no-trade FINAL.
+3. Resolution inside the Owner's guard rails (no manual ticker / sector / weight): deterministic staging in the tactical layer (`_stage_to_decision_cap`): keep Quant's OWN target weights, defer the n smallest-value SELL/TRIM decisions at their current holding (n = 1, 2, ...), first n that passes Quant's own `_finalize` (lots, caps, cash band, post-trade compliance, Active Share, stress, &lt;= 30 orders). Deferred names are written to the audit record.
+**Rehearsal result (not yet submitted):** technology 8.8 % -&gt; **73.3 %**, holdings 22 -&gt; 27, cash 16.5 % -&gt; 15.2 %, 30 orders, turnover 138.5 %, Active Share 34.6 % (floor 15 %), max single name 5.4 %, validator 28 PASS + 6 NOT_IMPLEMENTED (as every Quant D-Plan).
+Note: the staging/deferral rule is new execution logic (not a Quant parameter change); it is deterministic, recorded, and removable (delete `resume_full_rebalance_date`). Next: CI -&gt; self-merge -&gt; deploy -&gt; supersede run (read-only portal check of the old FINAL, archive, candidate gate, guarded upload, portal read-back).
+EOF
+gh issue comment 61 --body-file .ev61a.md | tail -1; rm .ev61a.md; cd .worktrees/issue-61 &amp;&amp; until ! gh pr checks 62 | grep -q pending; do sleep 15; done; gh pr checks 62 | cut -c1-45" completed (exit code 0)</summary>
+</task-notification>
+- 🔧 **Bash**: cat "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/8f718917fde93c02/3c6e927b-3359-42ca-a4f8-73630a860dd3/tasks/b8fifqfvm.output"; date <!--id:07ad6d1a-2cb9-4ddd-a03a-b3382929f038-->
+- ↩︎ result (322 chars): https://github.com/DevonForlan/ai-cup-2026-etf-agent/issues/61#issuecomment-6740082097 quant-freeze-check pass 16s https://github.co secret-scan pass 11s https://github.com/Devon tests pass 4m36s https://github.com/DevonForl validate pass 50s https://github.com/DevonFor [exited with code 0] Mon, Nov… <!--id:9e5b2e79-5ea5-414a-b4a9-05a426ca970a-->
+- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽" && git fetch -q origin && gh pr view 62 --json mergeable,mergeStateStatus -q '.mergeable+" "+.mergeStateStatus'; git rev-list --count origin/master..feat/61-resume-full-rebalance; … <!--id:e2f5dc1d-e027-41e1-8202-316640eede6f-->
+- ↩︎ result (355 chars): MERGEABLE CLEAN 1 0 https://github.com/DevonForlan/ai-cup-2026-etf-agent/pull/62#issuecomment-6740178613 5381652 FEAT #61 - one-time full Frozen Quant v1 rebalance on 2026-11-10 (unchanged constructor, deterministic staging to the 30-decision cap) + supersede support (#62) 5381652eb9025154f2d58a719a… <!--id:30adea75-b922-4b73-8c91-9cbe628fbae1-->
+
+### [2026-11-09 20:34:50] 🤖 Claude <!--id:0fb30dd8-03b2-4ed0-bd00-da2dc15907c9-->
+
+Production is deployed at `5381652`. Running the supersede tool's read-only check first.
+- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽" && PYTHONIOENCODING=utf-8 timeout 115 .venv/Scripts/python.exe -m agent.ops.tactical_supersede --date 2026-11-10 --authorization "Issue #61 Owner override 2026-11-09 (one-time full… <!--id:fc7d0bdc-2502-4694-ab25-13261045ee64-->
+- ↩︎ result (669 chars): { "task": "tactical_supersede", "trade_date": "2026-11-10", "authorization": "Issue #61 Owner override 2026-11-09 (one-time full Frozen Quant v1 rebalance)", "status": "BLOCKED", "operator": "tactical_supersede_v2", "started_at": "2026-11-09T20:34:56+08:00", "prior_final_sha256": "sha256:d7e435ea88e… <!--id:ff37dddc-5c8f-4354-9290-58da2122edb3-->
+- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽" && grep -n "def plan" -A40 agent/ops/morning_final.py | head -70 <!--id:465659a5-b014-421c-b7f6-6a94aef9e0a2-->
+- ↩︎ result (2334 chars): 47:def plan(now: datetime, hol: set[str], ops_cfg: dict | None = None) -> dict: 48- """RUN (decision allowed, < 08:30) | SUBMIT_EXISTING_ONLY (08:30 .. 08:55) | SKIP.""" 49- from agent.ops import submission_window as SW 50- t = now.date() 51- out = {"trade_date": t.isoformat(), "action": "RUN", "rea… <!--id:a122a08a-5e1f-417e-a302-66a2d01aeaa2-->
