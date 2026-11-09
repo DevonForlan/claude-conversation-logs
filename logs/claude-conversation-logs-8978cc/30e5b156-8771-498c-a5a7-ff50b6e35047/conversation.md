@@ -1535,3 +1535,35 @@ Shell 引号处理出问题，改用 Write 工具写补丁档。
 ### [2026-11-09 18:14:23] 🤖 Claude <!--id:df75babd-794e-4abb-9264-bf1f2f772bff-->
 
 仍在等 manifest 完成（預估約 18:30）。完成後我會自動跑正式 verify。**D: 現在還不能拔。**
+
+### [2026-11-09 18:44:20] 👤 User (turn 52) <!--id:1566bfc2-ff2e-4178-9bd2-0ca157945928-->
+
+<task-notification>
+<task-id>bgf80q52m</task-id>
+<summary>Monitor event: "Manifest rebuild on D: finishes"</summary>
+<event>[Monitor expired after 30m with no events delivered. Re-arm it if you still need the watch — and widen the filter if silence was unexpected.]</event>
+</task-notification>
+- 🔧 **PowerShell**: Get-Date -f T; Get-Content "$env:TEMP\manifest_run.txt" -Tail 8 | % {$_.Substring(0,[Math]::Min(200,$_.Length))}; Get-CimInstance Win32_Process -Filter "Name='powershell.exe'" | ? {$_.CommandLine -match 'migration.ps1'} | select ProcessId; … <!--id:47e3d792-e6a9-4476-a102-02ea67b3adcb-->
+- ↩︎ result (433 chars): 下午 06:44:28 2026-11-09T18:36:27 [INFO] checksums written: 350256 files 2026-11-09T18:36:27 [INFO] DONE action=backup errors=0 Action DryRun Errors Log ------ ------ ------ --- backup False 0 D:\Windows_Migration_Package\05_logs\backup_20261109_171319.log True Volume - D: is NOT Dirty 78545704 <!--id:d9c925a2-619d-4357-b5a7-e994326ed238-->
+
+### [2026-11-09 18:44:33] 🤖 Claude <!--id:5e2d537e-ef66-4c72-b93b-c69d1daf6874-->
+
+manifest 完成：350,256 個檔案全部雜湊成功，errors=0（18:36），沒有程序仍在跑。現在啟動正式 verify。
+- 🔧 **PowerShell**: cd 'C:\Users\devon.tseng\Desktop\個人\搬遷\claude-conversation-logs\windows-pc-migration\scripts'; $out="$env:TEMP\verify_run.txt"; '' | Set-Content $out; $sp=(Resolve-Path migration.ps1).Path Start-Process conhost.exe -ArgumentList '--headless… <!--id:2c4ef044-2b63-43b4-b708-9d63483f309a-->
+- 🔧 **Monitor**: until grep -aq "DONE action=verify" "$TEMP/verify_run.txt" 2>/dev/null; do sleep 30; done; tail -c 2500 "$TEMP/verify_run.txt" <!--id:ad6e2933-31c3-4391-bc65-441335273f22-->
+- ↩︎ result (11 chars): 下午 06:44:39 <!--id:078df7a3-8e2c-4e7c-ad87-8b9e4dd33a66-->
+- ↩︎ result (302 chars): Monitor started (task bx8h77n87, expires in 30m unless the source ends first; you get one notice at expiry — re-arm if you still need the watch). You will be notified on each event. Keep working — do not poll or sleep. Events may arrive while you are waiting for the user — an event is not their repl… <!--id:e328c405-22d1-4b88-9920-1ab1e9ac09d3-->
+
+### [2026-11-09 18:44:43] 🤖 Claude <!--id:105e1fd4-f971-4881-81f6-02ee9d430c63-->
+
+備份與 manifest 已完成，正式 verify 已在 18:44 啟動。
+
+**已完成**
+- robocopy 增量補跑：Desktop rc=3、Downloads rc=3，其餘 rc=0，沒有失敗。
+- manifest：**350,256 個檔案**全部完成 SHA-256，`errors=0`（18:36）。檔案大小 78.5 MB，是原子寫入。
+
+**進行中**
+- 正式 verify 會重新計算整份套件的雜湊並與 manifest 比對，預估約 1 小時（約 19:45）。
+- verify 同時會檢查：manifest 有沒有被截斷、套件裡有沒有未列入 manifest 的檔案、來源 C: 與套件的大小和時間比對、`FOUND.000` 對應的檔案。
+
+**D: 現在還不能拔**，verify 正在讀取。verify 通過、確認沒有程序在寫入後，我會明確通知你，並同步 Issue #1 與 `latest.json`。
