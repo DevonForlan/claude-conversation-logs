@@ -38909,3 +38909,39 @@ Status: the new forced-rebalance test failed on a missing `json` import in the t
 - 🔧 **Bash**: cd "[REDACTED]" && sed -i 's/^def test_forced_rebalance_date_and_activation_calls_unchanged_constructor_with_true(tmp_path, monkeypatch):$/&\n import json/' tests/tactical/test… <!--id:d754ba8a-faad-4b54-be75-ff392cc8c436-->
 - ↩︎ result (79 chars): ....s.......... [100%] <!--id:a9b8f200-c4b2-45be-8885-0cb74be5ccc1-->
 - 🔧 **Bash**: cd "[REDACTED]" && PY=../../.venv/Scripts/python.exe; $PY scripts/ci/quant_freeze_check.py | tail -1; $PY scripts/ci/secret_scan.py | tail -1; $PY scripts/ci/validate_configs.p… <!--id:fc0c2035-8240-4e4f-98f8-2d0e53c10ed7-->
+- ↩︎ result (204 chars): QUANT_FREEZE_CHECK = PASS secret scan: 0 finding(s); allowlisted fakes: 1 config/schema validation: 0 error(s); schemas checked 4 0 remote: https://github.com/DevonForlan/ai-cup-2026-etf-agent/pull/62 <!--id:e1b7392f-683b-4d50-8da6-dc61f36225cb-->
+- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽" && cat > .ev61a.md <<'EOF' ## Claude Code status — 2026-11-09 21:35 — Issue #61: finding + implementation in PR #62 (CI running) ``` ACTION = ONE_TIME_FROZEN_QUANT_V1_FULL_REBALANC… <!--id:751c8478-4376-4fdd-8712-94a5a6214774-->
+- ↩︎ result (616 chars): Command running in background with ID: b8fifqfvm. Output is being written to: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\8f718917fde93c02\3c6e927b-3359-42ca-a4f8-73630a860dd3\tasks\b8fifqfvm.output. You will be notified when it completes — do not poll that file or sleep while waiting. Read the f… <!--id:ae0caf60-98eb-46fb-a791-14c423bb2e85-->
+
+### [2026-11-09 20:29:25] 🤖 Claude <!--id:da2706bd-f4e5-477d-845b-73acba3a3928-->
+
+Issue #61 的重新計算已完成，但不能照字面做成「一次完整 Frozen Quant 再平衡」。實作在 PR #62，CI 正在跑，新的 FINAL 還沒送出。
+
+**實際結果**（用 11/09 官方結算當起點，唯讀跑，沒動 production）
+- 未修改的 Frozen Quant v1 強制再平衡後，確實建出偏科技的目標：24 檔、科技股 75.8%、現金 15%。所以它沒有被改成低科技。
+- 但這個目標一天要 35 筆委託，官方上限是 30。Quant 自己的 30 筆限制處理後，委託後現金會到 27.7%，超過 25% 的規定，於是它退回「維持現有組合」。若只照字面做，結果會和 20:06 已確認的不交易版本一模一樣。
+
+**我的處理方式**
+- 沿用 Quant 自己算出的目標權重，不手選股票、不指定科技股比例。
+- 因為每日 30 筆上限，從最小金額的賣出開始，依序延後最少筆數，讓這些持股暫時不賣。
+- 取第一個能通過 Quant 自己全部合規檢查的延後筆數。
+- 延後的股票和前後比較都會寫進稽核檔。
+- 這個「延後賣出」規則是我新增的執行邏輯，不是 Quant 參數。Quant 設定、指紋和凍結路徑都沒改。要回復，刪掉設定檔裡的 `resume_full_rebalance_date` 即可。
+
+**演練結果**（還沒送出）
+
+| | 現在（20:06 版） | 演練的新組合 |
+|---|---|---|
+| 科技股占比 | 8.8% | 73.3% |
+| 持股數 | 22 | 27 |
+| 現金 | 16.5% | 15.2% |
+| Active Share | 50.3% | 34.6%（官方門檻 15%） |
+
+- 委託 30 筆，週轉 138.5%，單檔最高 5.4%，驗證器 28 項通過，另有 6 項官方檢查未實作，每份 Quant D-Plan 都一樣。
+
+下一步：
+1. PR #62 的 CI 全過後自行合併、部署。
+2. 執行取代流程：唯讀確認舊 FINAL 在入口網站是已確認、封存舊檔、產生新 FINAL、送出、入口網站回讀。
+3. 把所有證據貼回 Issue #61。
+
+距離 08:55 還有時間。如果你不想用這個「延後賣出」的做法，請告訴我，我會保留目前已確認的不交易版本。
