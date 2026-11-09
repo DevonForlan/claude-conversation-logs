@@ -1,21 +1,21 @@
 {
-  "updated_at": "2026-11-09T14:32:50+08:00",
+  "updated_at": "2026-11-09T14:36:22+08:00",
   "projects": [
+    {
+      "project": "搬遷",
+      "project_safe": "claude-conversation-logs-8978cc",
+      "last_activity": "2026-11-09T14:36:22+08:00",
+      "latest_session": "30e5b156-8771-498c-a5a7-ff50b6e35047",
+      "latest_log": "logs/claude-conversation-logs-8978cc/30e5b156-8771-498c-a5a7-ff50b6e35047/conversation.md",
+      "status": "working",
+      "sessions": 1
+    },
     {
       "project": "搬遷",
       "project_safe": "搬遷-977041",
       "last_activity": "2026-11-09T14:32:50+08:00",
       "latest_session": "30e5b156-8771-498c-a5a7-ff50b6e35047",
       "latest_log": "logs/搬遷-977041/30e5b156-8771-498c-a5a7-ff50b6e35047/conversation.md",
-      "status": "working",
-      "sessions": 1
-    },
-    {
-      "project": "claude-conversation-logs",
-      "project_safe": "claude-conversation-logs-8978cc",
-      "last_activity": "2026-11-09T14:26:42+08:00",
-      "latest_session": "30e5b156-8771-498c-a5a7-ff50b6e35047",
-      "latest_log": "logs/claude-conversation-logs-8978cc/30e5b156-8771-498c-a5a7-ff50b6e35047/conversation.md",
       "status": "working",
       "sessions": 1
     },
