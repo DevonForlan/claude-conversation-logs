@@ -1519,3 +1519,19 @@ Shell 引号处理出问题，改用 Write 工具写补丁档。
 **D: 現在還不能拔**，因為仍在讀寫。verify 通過、確認沒有程序在寫入後，我會明確告訴你可以拔。
 
 **SYNC-CHECK：** 這則回覆沒有新增內容，不另外標記；上一輪的 `SYNC-CHECK-4` 我之後會一起核對。
+
+### [2026-11-09 18:14:04] 👤 User (turn 51) <!--id:b2f368ec-7465-4d8b-8fc9-178cdda3f8bc-->
+
+<task-notification>
+<task-id>bpdh3yj60</task-id>
+<summary>Monitor event: "Manifest rebuild on D: finishes"</summary>
+<event>[Monitor expired after 30m with no events delivered. Re-arm it if you still need the watch — and widen the filter if silence was unexpected.]</event>
+</task-notification>
+- 🔧 **PowerShell**: Get-Date -f T; Get-Content "$env:TEMP\manifest_run.txt" -Tail 4 | % {$_.Substring(0,[Math]::Min(180,$_.Length))}; Test-Path D:\; fsutil dirty query D: <!--id:93ca8ecf-fc9a-4244-8f63-e70c6783e6a2-->
+- ↩︎ result (299 chars): 下午 06:14:15 2026-11-09T18:06:35 [INFO] manifest: 171357/350256 files (49%) 2026-11-09T18:08:36 [INFO] manifest: 180850/350256 files (52%) 2026-11-09T18:10:36 [INFO] manifest: 195709/350256 files (56%) 2026-11-09T18:12:36 [INFO] manifest: 211611/350256 files (60%) True Volume - D: is NOT Dirty <!--id:4b8d301a-1076-4d0a-abb1-c2580f77a68f-->
+- 🔧 **Monitor**: until grep -aq "DONE action=backup" "$TEMP/manifest_run.txt" 2>/dev/null; do sleep 30; done; tail -c 1200 "$TEMP/manifest_run.txt" <!--id:deb94c55-b2ac-45a9-bc48-a87a63a2c50b-->
+- ↩︎ result (302 chars): Monitor started (task bgf80q52m, expires in 30m unless the source ends first; you get one notice at expiry — re-arm if you still need the watch). You will be notified on each event. Keep working — do not poll or sleep. Events may arrive while you are waiting for the user — an event is not their repl… <!--id:4aca61f1-5c82-46e2-a8d4-7fe5e398c882-->
+
+### [2026-11-09 18:14:23] 🤖 Claude <!--id:df75babd-794e-4abb-9264-bf1f2f772bff-->
+
+仍在等 manifest 完成（預估約 18:30）。完成後我會自動跑正式 verify。**D: 現在還不能拔。**
