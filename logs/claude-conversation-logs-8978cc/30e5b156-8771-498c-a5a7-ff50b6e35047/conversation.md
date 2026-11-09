@@ -1486,3 +1486,36 @@ Shell 引号处理出问题，改用 Write 工具写补丁档。
 - 如果 D: 再次失聯，我會在日誌看到並回報，那就要檢查隨身碟的 USB 線或連接埠。
 
 **SYNC-CHECK：** 本輪標記 `SYNC-CHECK-4`（前面的 `-1`、`-2`、`-3` 之後會一起核對）。
+
+### [2026-11-09 17:43:26] 👤 User (turn 50) <!--id:bc7555fb-dde6-499e-a186-3bcd5a5db0cb-->
+
+<task-notification>
+<task-id>bjtscmfz3</task-id>
+<summary>Monitor event: "Manifest rebuild on D: finishes"</summary>
+<event>[Monitor expired after 30m with no events delivered. Re-arm it if you still need the watch — and widen the filter if silence was unexpected.]</event>
+</task-notification>
+- 🔧 **PowerShell**: Get-Date -f T; Get-Content "$env:TEMP\manifest_run.txt" -Tail 6 | % {$_.Substring(0,[Math]::Min(180,$_.Length))}; Test-Path D:\; fsutil dirty query D: <!--id:b40cc415-6832-4966-87fb-411058b8627c-->
+- ↩︎ result (416 chars): 下午 05:43:56 2026-11-09T17:32:29 [INFO] manifest: 7634/350256 files (2%) 2026-11-09T17:34:30 [INFO] manifest: 10019/350256 files (3%) 2026-11-09T17:36:30 [INFO] manifest: 15941/350256 files (5%) 2026-11-09T17:38:30 [INFO] manifest: 28596/350256 files (8%) 2026-11-09T17:40:31 [INFO] manifest: 40033/35… <!--id:f1c73738-472c-4578-8da8-b79d44e2c933-->
+- 🔧 **Monitor**: until grep -aq "DONE action=backup" "$TEMP/manifest_run.txt" 2>/dev/null; do sleep 30; done; tail -c 1200 "$TEMP/manifest_run.txt" <!--id:4f585f4a-a540-45ca-892b-dae5deee665e-->
+- ↩︎ result (302 chars): Monitor started (task bpdh3yj60, expires in 30m unless the source ends first; you get one notice at expiry — re-arm if you still need the watch). You will be notified on each event. Keep working — do not poll or sleep. Events may arrive while you are waiting for the user — an event is not their repl… <!--id:a50c12a2-7217-4411-a355-d7a08ec13e72-->
+
+### [2026-11-09 17:44:11] 🤖 Claude <!--id:3e512bd0-144c-47b7-be7f-2bc1609b94e0-->
+
+目前只需要等 manifest 重建跑完，其他步驟都已完成。
+
+**進度（17:43 最後一次檢查）**
+- 列舉完整通過，共 350,256 個檔案，這次 D: 沒有失聯。
+- 雜湊進度 50,528 / 350,256（14%），速度在加快。
+- D: 仍是 Healthy、非 Dirty，日誌沒有錯誤。
+- 預估約 18:40 完成。我已重新設定監看，完成時會自動接手。
+
+**完成後我會自動做**
+1. 跑正式 verify，要重新雜湊整份套件，再約 1 小時。
+2. 確認 missing、failed、checksum 都沒有問題，並查 `D:\FOUND.000\FILE0000.CHK`（11 MB）對應哪個檔案。
+3. 同步 Issue #1、status.md、metadata.json、conversation.md、latest.json，再回報最終結果。
+
+**你要做的**：不用做任何事。請讓 D: 保持連接、電腦不要睡眠。
+
+**D: 現在還不能拔**，因為仍在讀寫。verify 通過、確認沒有程序在寫入後，我會明確告訴你可以拔。
+
+**SYNC-CHECK：** 這則回覆沒有新增內容，不另外標記；上一輪的 `SYNC-CHECK-4` 我之後會一起核對。
