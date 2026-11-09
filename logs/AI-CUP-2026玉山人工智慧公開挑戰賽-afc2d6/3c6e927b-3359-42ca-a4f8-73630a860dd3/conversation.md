@@ -38618,3 +38618,29 @@ The 17:00 evaluation ran and stored the 11/09 closes. It evaluated the V2 FINAL 
 - ↩︎ result (2362 chars): "fees": 497767.80106244405, "tax": 560246.168826586, "cash_weight": 0.20421919580394277, "n_holdings": 30, "tech_weight": 0.57077704573148, "executions_void": false, "compliance_warnings": [], "minus_baseline_twd": -3309358.2684333324, "minus_baseline_pp": -0.41012458527036877 } }, "top_positive_v2_… <!--id:aca4ef57-35b7-433c-a31b-2dfee64b208d-->
 - 🔧 **Bash**: cd "[REDACTED]" && python - <<'EOF' import json d=json.load(open("logs/shadow/20261109/COMPARISON_POST_CLOSE.json",encoding="utf-8")) print(d["label"], d["opening_nav"]) for k,v in d["results"].it… <!--id:3b265040-475c-4abe-a9ac-828f896d162f-->
 - ↩︎ result (911 chars): COMPETITION_DAY_ESTIMATE (simulator, not official settlement) 806915358.72 BASELINE {'nav': 843230661.3153, 'return_pct': 4.5005, 'fees': 346357.1652, 'tax': 307210.0944, 'cash_weight': 0.1299, 'n_holdings': 24, 'tech_weight': 0.7932, 'executions_void': False, 'compliance_warnings': [], 'minus_basel… <!--id:1ca58cf6-01b5-4ed1-9b22-99abb855e6cf-->
+- 🔧 **Bash**: cd "[REDACTED]" && cat > .ev48c.md <<'EOF' ## Claude Code status — 2026-11-09 17:20 — Issue #48 post-close three-way comparison (COMPETITION_DAY_ESTIMATE, simulator, not official settlement) ``` E… <!--id:1cbff9d1-f694-4d5e-b459-ef3336e13203-->
+- 🔧 **ScheduleWakeup**: Verify the 2026-11-09 19:30 run (11/10 D-Plan by Frozen Quant v1 only: logs/tactical/2026-11-10_RESUME_V2.json, FINAL SHA, SUBMISSION_CONFIRMED with portal read-only check, shared-state sync), then post evidence on Issues #49 (and #54) per … <!--id:8367605d-d07f-4559-99a0-99ce3fa5b331-->
+- ↩︎ result (173 chars): https://github.com/DevonForlan/ai-cup-2026-etf-agent/issues/48#issuecomment-6736441758 https://github.com/DevonForlan/ai-cup-2026-etf-agent/issues/49#issuecomment-6736442887 <!--id:aae338ff-f98a-4bfe-a2b5-a7eb9d74210a-->
+- ↩︎ result (234 chars): Next wakeup scheduled for 18:07:00 (in 3014s). If you owe the user a status update this tick, write it now as ordinary response text; then end the turn — the harness re-invokes you when the wakeup fires or a task-notification arrives. <!--id:5c000224-2f8b-4612-b014-56d86578e019-->
+
+### [2026-11-09 17:16:53] 🤖 Claude <!--id:21b216f6-5da5-45fc-adc7-1fb3354209a1-->
+
+Issue #48 的收盤後三方比較已完成並貼上。11/09 這天，已送出的 V2 比不介入的原版 Frozen Quant v1 少賺約 0.98 個百分點。
+
+這是用 17:00 評估同一套模擬器算的預估，不是官方結算。三者的起始結算相同，起始 NAV 都是 806,915,358.72。
+
+| | 淨值 | 報酬 | 與原版差 | 日末科技股權重 |
+|---|---|---|---|---|
+| 原版 Frozen Quant（shadow，收盤前凍結） | 843,230,661 | +4.50% | — | 79.3% |
+| Tactical V1（科技股約 56%，已被取代） | 839,921,303 | +4.09% | −0.41 個百分點（−3,309,358 TWD） | 57.1% |
+| Tactical V2（科技股約 8.5%，已送出確認） | 835,295,641 | +3.52% | −0.98 個百分點（−7,935,020 TWD） | 8.8% |
+
+- **交叉驗證**：V2 的淨值和 17:00 官方評估的數字一致，都是 835,295,641。
+- **交易成本**：手續費加證交稅，V2 約 347 萬，原版約 65 萬，V2 多花約 281 萬，大約佔 0.98 個百分點差距的 0.35 個百分點。
+- **結論標為 HURT**：但這只是單日結果，不是統計證據。
+- **未完成**：產業歸因我沒有算，因為這個工具沒有產業對照表，已在留言裡標成「未計算」。
+- **貼出位置**：結果貼在 Issue #48，Issue #49 有簡短指引。三份紀錄已發佈到 `shared-state` 的 `shared_state/shadow/2026-11-09/`。
+
+我也跑了 session 同步，已發佈。
+
+下一次檢查排在 18:07；19:30 的驗證要等到 19:50 之後。屆時如果 11/10 的 FINAL 已送出，我會再貼證據。
