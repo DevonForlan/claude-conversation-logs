@@ -1608,3 +1608,13 @@ manifest 完成：350,256 個檔案全部雜湊成功，errors=0（18:36），�
 - 速度與 manifest 階段相同，後段會比較快，預估約 20:15 完成。
 - 完成後我會自動確認結果並同步 GitHub。
 - **D: 現在還不能拔**，verify 正在讀取。你不需要做任何事。
+
+### [2026-11-09 19:19:31] 👤 User (turn 55) <!--id:1e3a1d4a-365e-484e-884d-158e4fcc8c02-->
+
+到50%的時候告知我一聲
+- 🔧 **Monitor**: until awk '/verify: [0-9]+\/350256/{split($3,a,"/"); if (a[1]+0 >= 175128) f=1} END{exit !f}' "$TEMP/verify_run.txt" 2>/dev/null; do sleep 20; done; grep -a "verify: " "$TEMP/verify_run.txt" | tail -1; date <!--id:587155fe-b336-47be-a8d0-a22a2b41f7eb-->
+- ↩︎ result (302 chars): Monitor started (task b12cp25gj, expires in 30m unless the source ends first; you get one notice at expiry — re-arm if you still need the watch). You will be notified on each event. Keep working — do not poll or sleep. Events may arrive while you are waiting for the user — an event is not their repl… <!--id:dbcbd485-ec39-4184-aba1-cc58247ffc8c-->
+
+### [2026-11-09 19:19:39] 🤖 Claude <!--id:2bdeec79-8ac5-46fd-b819-4f106089f3e2-->
+
+好，我設了監看，verify 一到 50%（175,128 / 350,256 個檔案）就會通知你。目前（19:16）是 17%。依目前速度預估約 19:50–20:00 到 50%。
