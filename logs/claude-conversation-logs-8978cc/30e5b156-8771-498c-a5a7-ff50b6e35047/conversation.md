@@ -1339,3 +1339,15 @@ UAC 視窗已跳出（管理員 PowerShell，PID 42872），正在執行 `chkdsk
 3. 如果 UAC 被拒絕、chkdsk 要求重開機，或修復後仍有無法排除的錯誤，我會停下來回報。
 
 **SYNC-CHECK：** 本輪是第 3 個 turn，標記 `SYNC-CHECK-3`。這則回覆結束後我會檢查遠端 `conversation.md` 是否含 `SYNC-CHECK-1`、`-2`、`-3`，以及順序與有無舊內容覆蓋。
+
+### [2026-11-09 16:31:15] 👤 User (turn 48) <!--id:00cf475d-6db2-481d-a098-3b2697fde157-->
+
+<pasted_content id="a8ab">
+我這邊沒有看到任何 UAC 視窗。
+
+請讀取 Issue #1 最新 Owner update，先驗證前一次 elevation 是否真的成功，不要再用 Start-Process 回傳 PID 當作 UAC 已顯示或 chkdsk 已開始的依據。
+
+如果沒有實際 elevated chkdsk 在執行，請重新觸發可見的 UAC，並自行確認 chkdsk process 與 log 確實開始後再繼續。
+
+我只會在 Windows 真正顯示 UAC 時按「是」，其他流程請自行處理。
+</pasted_content id="a8ab">
