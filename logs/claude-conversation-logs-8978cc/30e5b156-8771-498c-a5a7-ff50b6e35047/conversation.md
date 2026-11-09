@@ -1020,3 +1020,48 @@ robocopy 結束的通知（watcher）一到，我就接著做 SHA-256 manifest�
 ### [2026-11-09 13:51:58] 🤖 Claude <!--id:d639145b-6f97-4b5a-8f6a-ecd5e92254c3-->
 
 唯讀 `chkdsk D:`（沒有加 `/f`，不會修改磁碟）正在背景跑，掃 34 萬個檔案要一段時間。我先確認幾件事：目前沒有程序在寫入 D:；這個 shell 沒有管理員權限，所以修復動作要由你執行。chkdsk 掃描結束後，我會根據結果判斷是否真的需要 `/f`，再把最小必要的指令給你。
+
+### [2026-11-09 13:55:26] 👤 User (turn 20) <!--id:cf92bcc6-1d40-4646-b141-0dc1e9156e05-->
+
+<task-notification>
+<task-id>b36g3j1n2</task-id>
+<tool-use-id>toolu_016eLgsXvoPD2KkMBg8wQRz3</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\tasks\b36g3j1n2.output</output-file>
+<status>completed</status>
+<summary>Background command "$f="$env:TEMP\chkdsk_ro.txt"; chkdsk D: &gt; $f 2&gt;&amp;1; Get-Content $f | ? {$_ -notmatch 'percent completed'} | select -Last 40; fsutil dirty query D:" completed (exit code 0)</summary>
+</task-notification>
+- 🔧 **Read**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\tasks\b36g3j1n2.output <!--id:ab0a3399-3f67-414a-80d4-2372c961e64d-->
+- ↩︎ result (951 chars): 1 The type of the file system is exFAT. 2 Access is denied. 3 4 Volume Serial Number is 4CE8-6424 5 Windows is verifying files and folders... 6 Volume label is Transcend. 7 Windows found errors on the disk, but will not fix them 8 because disk checking was run without the /F (fix) parameter. 9 Corru… <!--id:0d092528-1baf-4a23-b13f-d6ca131a8ad5-->
+
+### [2026-11-09 13:55:46] 🤖 Claude <!--id:dbdf251e-0e26-4d8d-81dd-7b0c3f0b627d-->
+
+修復前我先停下來，因為這一步需要管理員權限，也有資料損失的風險。
+
+**唯讀 chkdsk 結果（D:，沒有修改任何東西）**
+- 發現 `Corruption was found while examining the volume bitmap`，也就是磁碟的空間配置表有錯。這符合 08:27 磁碟突然斷線時，配置表來不及寫完的情況。
+- 其他項目：壞軌 0 KB，34.5 萬個檔案、4.3 萬個資料夾索引，檔案與資料夾驗證有完成。
+- Dirty bit 仍然存在，Windows 狀態還是 Warning / Full Repair Needed。
+- 掃描中沒有看到檔案內容損毀的證據，但唯讀掃描只能偵測，不能保證每個檔案都完好。
+- 目前沒有任何程序在寫 D:。
+
+**風險怎麼評估**
+- 修復 `chkdsk /F` 會重建空間配置表。最常見的副作用是：斷線當下正在寫的檔案可能被截短、被判定為遺失叢集而移到 `D:\FOUND.000`，或最後一批檔案被刪除。
+- 我評估這份備份是可重建的（來源檔案仍在 C:，我們只會增量補跑），所以風險可以接受。這個判斷只是我的看法，最後決定在你。
+- 修復前我不會寫入 D:，也不會格式化或刪除 `D:\Windows_Migration_Package`。
+
+**請你用系統管理員身分執行這一條**（PowerShell 輸入後按 UAC 允許）：
+
+```powershell
+Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile','-Command','chkdsk D: /F /X *> "$env:TEMP\chkdsk_fix.txt"'
+```
+
+- `/F` 修復，`/X` 先卸載磁碟以取得獨佔存取。
+- 掃描加修復應該要花一段時間，期間請不要拔 D:。
+- 結果會寫到 `%TEMP%\chkdsk_fix.txt`。
+
+你跑完告訴我一聲（或直接說「修復完成」）。我會再確認：
+1. Dirty bit、HealthStatus、OperationalStatus 是否恢復正常。
+2. D:\Windows_Migration_Package 是否完整、有沒有出現 `FOUND.000`。
+3. 之後繼續 long-path 修正、瀏覽器排除規則、manifest 優化、robocopy 增量補跑、重建 manifest 與正式 verify，並同步 GitHub 與 `latest.json`。
+
+在你完成修復之前，備份仍然是未完成、未驗證的狀態。
