@@ -1012,3 +1012,7 @@ robocopy 結束的通知（watcher）一到，我就接著做 SHA-256 manifest�
 
 其餘一般技術決策可以自行完成，不需要逐步詢問我。
 </pasted_content id="a8ab">
+- 🔧 **PowerShell**: Get-Date -f T; Get-Process robocopy -ErrorAction SilentlyContinue | select Id; Get-CimInstance Win32_Process | ? {$_.CommandLine -match 'migration\.ps1|Windows_Migration' } | select ProcessId,Name; "---chkdsk read-only"; chkdsk D: 2>&1 | Se… <!--id:1403d8bd-f76a-4db8-a1aa-237a18de9ea7-->
+- ↩︎ result ⚠️error (2063 chars): Exit code 255 下午 01:40:41 ---chkdsk read-only The type of the file system is exFAT. Access is denied. The volume is in use by another process. Chkdsk might report errors when no corruption is present. Volume Serial Number is 4CE8-6424 Windows is verifying files and folders... 0 percent completed. Vo… <!--id:b7811255-2c1b-460d-a804-aa36f96c2f5a-->
+- 🔧 **PowerShell**: $f="$env:TEMP\chkdsk_ro.txt"; chkdsk D: > $f 2>&1; Get-Content $f | ? {$_ -notmatch 'percent completed'} | select -Last 40; fsutil dirty query D: <!--id:02c54844-1e1d-43e3-9c88-a16d5efc49f9-->
+- ↩︎ result (632 chars): Command did not complete within its 600s timeout and was moved to the background (ID: b36g3j1n2). Output is being written to: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\tasks\b36g3j1n2.output. You will be notified when it completes. It is run… <!--id:5a301266-cc29-4d82-bdc4-36cb4d0d29a4-->
