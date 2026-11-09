@@ -1632,3 +1632,25 @@ manifest 完成：350,256 個檔案全部雜湊成功，errors=0（18:36），�
 ### [2026-11-09 19:45:06] 🤖 Claude <!--id:ca6ac882-22a5-4dbd-b084-0112c4603a02-->
 
 兩個監看都在運作：50% 通知，以及 verify 完成通知。verify 還在跑，D: 現在還不能拔。到 50% 我會馬上告訴你。
+
+### [2026-11-09 19:49:36] 👤 User (turn 57) <!--id:815c9ab1-a012-4914-b7ad-44ae7bc054f2-->
+
+<task-notification>
+<task-id>b12cp25gj</task-id>
+<summary>Monitor event: "Notify when verify reaches 50%"</summary>
+<event>[Monitor expired after 30m with no events delivered. Re-arm it if you still need the watch — and widen the filter if silence was unexpected.]</event>
+</task-notification>
+- 🔧 **PowerShell**: Get-Date -f T; Get-Content "$env:TEMP\verify_run.txt" -Tail 2 | % {$_.Substring(0,[Math]::Min(160,$_.Length))} <!--id:c777732a-7e29-4dfa-b4f7-13cdd1571c0b-->
+- ↩︎ result (135 chars): 下午 07:50:05 2026-11-09T19:47:06 [INFO] verify: 164881/350256 files (47%) 2026-11-09T19:49:06 [INFO] verify: 171233/350256 files (49%) <!--id:757517fc-cfc1-4f22-9304-9ce74fb8846b-->
+
+### [2026-11-09 19:50:09] 🤖 Claude <!--id:f6fa274d-54df-4226-bca9-f7d9770b4653-->
+
+快到 50% 了：19:49 是 171,233 / 350,256（49%），再約 2 分鐘就會過半。我重新設定通知。
+- 🔧 **Monitor**: until awk '/verify: [0-9]+\/350256/{split($3,a,"/"); if (a[1]+0 >= 175128) f=1} END{exit !f}' "$TEMP/verify_run.txt" 2>/dev/null; do sleep 15; done; grep -a "verify: " "$TEMP/verify_run.txt" | tail -1 <!--id:5937cdf2-851d-4702-af7a-8750e4068c8b-->
+- ↩︎ result (302 chars): Monitor started (task bndv98nje, expires in 15m unless the source ends first; you get one notice at expiry — re-arm if you still need the watch). You will be notified on each event. Keep working — do not poll or sleep. Events may arrive while you are waiting for the user — an event is not their repl… <!--id:874a3fdb-4d4f-4602-99b6-71c93c6c77db-->
+
+### [2026-11-09 19:50:20] 🤖 Claude <!--id:1291b38c-8013-4b2b-8011-dcbeeb960ddd-->
+
+verify 馬上到 50% 了。19:49 是 171,233 / 350,256（49%），過半門檻是 175,128 個，預估 19:52 前後會跨過。D: 仍是 Healthy、非 Dirty，日誌沒有錯誤。我設了通知，一到 50% 就會告訴你。
+
+verify 全部完成預估約 20:15–20:30。**D: 現在還不能拔。**
