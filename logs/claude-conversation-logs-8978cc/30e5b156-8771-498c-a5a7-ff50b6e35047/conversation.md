@@ -1687,3 +1687,19 @@ verify 已經過 50%（我的通知監看因為過期沒有觸發，抱歉晚了
 ### [2026-11-09 20:15:10] 🤖 Claude <!--id:c8cb423d-8c0d-43fe-9781-8d175ded9306-->
 
 我重新設定了 verify 完成通知。verify 仍在進行（20:05 為 64%），預估 20:30 前後完成。**D: 現在還不能拔。**
+
+### [2026-11-09 20:45:08] 👤 User (turn 60) <!--id:97a84f7a-427f-4c5e-8ab7-ec55aba52a08-->
+
+<task-notification>
+<task-id>b5h5bvugd</task-id>
+<summary>Monitor event: "Formal verify of D: package finishes"</summary>
+<event>[Monitor expired after 30m with no events delivered. Re-arm it if you still need the watch — and widen the filter if silence was unexpected.]</event>
+</task-notification>
+- 🔧 **PowerShell**: Get-Date -f T; Get-Content "$env:TEMP\verify_run.txt" | ? {$_ -match 'verify|ERROR|WARN|DONE|source-vs|manifest'} | select -Last 25 | % {$_.Substring(0,[Math]::Min(220,$_.Length))}; Test-Path D:\; Get-CimInstance Win32_Process -Filter "Name… <!--id:024004e0-d3f3-4fc3-bb80-136b366b7e98-->
+- ↩︎ result (1615 chars): 下午 08:45:20 2026-11-09T19:57:13 [INFO] verify: 192326/350256 files (55%) 2026-11-09T19:59:13 [INFO] verify: 199560/350256 files (57%) 2026-11-09T20:01:14 [INFO] verify: 207865/350256 files (59%) 2026-11-09T20:03:14 [INFO] verify: 216373/350256 files (62%) 2026-11-09T20:05:15 [INFO] verify: 223588/35… <!--id:18ac23d5-402b-4425-b540-b865a17e851b-->
+- 🔧 **Monitor**: until grep -aq "DONE action=verify" "$TEMP/verify_run.txt" 2>/dev/null; do sleep 20; done; tail -c 3500 "$TEMP/verify_run.txt" <!--id:2708ffc7-5845-4a20-97b7-69d87eb7079a-->
+- ↩︎ result (302 chars): Monitor started (task br5orvful, expires in 30m unless the source ends first; you get one notice at expiry — re-arm if you still need the watch). You will be notified on each event. Keep working — do not poll or sleep. Events may arrive while you are waiting for the user — an event is not their repl… <!--id:42740fe2-68e7-4a34-b009-89217c78351f-->
+
+### [2026-11-09 20:45:31] 🤖 Claude <!--id:d16ffd38-f6f0-45b8-80eb-a68ea2cb908b-->
+
+已重新設定完成通知，verify 剩最後兩項檢查，預估約 21:15 前結束。
