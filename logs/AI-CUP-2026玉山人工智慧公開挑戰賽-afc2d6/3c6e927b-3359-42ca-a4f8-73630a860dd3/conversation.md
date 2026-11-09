@@ -38173,3 +38173,63 @@ Summary:
 Issue #49 已完成，上面的回覆維持不變。我只做了這次搜尋，沒有開始做 #48 的基準版。這項工作不在最新授權範圍內，等你指示再做。
 
 下一步要看 11/09 19:30 的排程是否產出 11/10 的 D-Plan，並執行 V2 回切。
+
+### [2026-11-09 13:43:33] 👤 User (turn 327) <!--id:d9e79736-bab8-4d28-bf0f-9db9848d0b67-->
+
+<pasted_content id="f0c0">
+請立即讀取 GitHub Issue #49 最新兩則 Owner comment，並直接開始執行。
+
+目前最新要求是：
+
+1. 確認今晚 2026/11/09 19:30 產生 11/10 D-Plan 時，是否可以直接結束 Tactical V2，讓 Frozen Quant v1 重新完全接管。
+
+2. 優先採用：
+
+11/09 Tactical V2 → 11/10 直接 Frozen Quant v1
+
+3. 不希望多做一個「先機械回復舊 baseline lots，再隔天才回 Frozen Quant v1」的中間步驟，除非 production state、settlement 或 compliance 明確要求。
+
+4. 請依目前 production code、實際 state 與 deployed config 檢查，不要只引用文件設計。
+
+5. 如果：
+
+DIRECT_FROZEN_QUANT_V1_RESUME_SAFE = YES
+
+請直接完成：
+
+- 必要程式修改
+- 測試
+- CI
+- merge
+- production deploy
+- scheduler 確認
+- 今晚 19:30 讓 Frozen Quant v1 直接產生 11/10 D-Plan
+- Portal submission
+- 驗證 SUBMISSION_CONFIRMED
+- 將完整 evidence 寫回 GitHub
+
+6. 如果不能直接恢復 Frozen Quant v1，請明確提出 technical blocker，以及為什麼一定需要 explicit unwind，不要只回答目前程式原本就是這樣設計。
+
+7. 不需要再等待我第二次核准。只要 direct resume 經確認安全且符合競賽規則，可以直接修改、部署與執行。
+
+另外，請同步完成 Issue #48 的 Frozen Quant v1 shadow baseline，以便今天 11/09 收盤後比較：
+
+- Frozen Quant v1 原始模型版
+- Tactical V1 中度介入版
+- Tactical V2 最終低科技版
+
+完成後請將以下資訊全部同步回 GitHub：
+
+- DIRECT_FROZEN_QUANT_V1_RESUME_SAFE
+- 最終 production behavior
+- Frozen Quant v1 是否為 11/10 唯一 decision authority
+- implementation PR / merged commit
+- production deploy 狀態
+- 11/10 FINAL SHA
+- Frozen Quant v1 fingerprint
+- Portal submission / confirmation
+- Shared State path
+- Issue #48 shadow baseline 狀態
+
+請直接執行，不需要再停下來詢問我。
+</pasted_content id="f0c0">
