@@ -1430,3 +1430,10 @@ Shell 引号处理出问题，改用 Write 工具写补丁档。
 - 在此之前，**D: 不能拔**（正在寫入）。備份仍未宣告可用。
 
 **SYNC-CHECK：** 本輪是第 3 個 turn，標記 `SYNC-CHECK-3`（前一輪的 `SYNC-CHECK-2` 也一併檢查）。
+
+### [2026-11-09 17:07:52] 👤 User (turn 49) <!--id:98677713-2a2e-4b6b-a42a-2d12b6e45b12-->
+
+所以現在需要等待什麼嗎
+- 🔧 **PowerShell**: Get-Date -f T; Get-Content "$env:TEMP\incremental_backup_run.txt" -Tail 12 | % {$_.Substring(0,[Math]::Min(200,$_.Length))}; Get-Process robocopy -ea 0 | select Id,StartTime; Get-CimInstance Win32_Process -Filter "Name='powershell.exe'" | ?… <!--id:8e260986-3f61-4e24-bdb8-3545ad615e6f-->
+- ↩︎ result (927 chars): 下午 05:08:07 2026-11-09T17:05:24 [INFO] step ok: windows_terminal 2026-11-09T17:05:24 [INFO] step ok: ssh_config 2026-11-09T17:05:51 [INFO] scheduled tasks (non-Microsoft): 18 2026-11-09T17:06:46 [INFO] manifest: hashing 44588 files (SHA-256, parallel, long-path safe) Add-Content : 找不到路徑 'D:\Windows_… <!--id:33563ebb-d627-401d-8a72-24bb902842c5-->
+- 🔧 **PowerShell**: Test-Path D:\; Get-Disk | ft Number,FriendlyName,BusType,HealthStatus,OperationalStatus -auto; Get-Volume | ft DriveLetter,FileSystemLabel,HealthStatus,OperationalStatus -auto; Get-WinEvent -FilterHashtable @{LogName='System';StartTime=(Get… <!--id:4679aca3-a7f8-49af-b067-0b0be48a8b93-->
