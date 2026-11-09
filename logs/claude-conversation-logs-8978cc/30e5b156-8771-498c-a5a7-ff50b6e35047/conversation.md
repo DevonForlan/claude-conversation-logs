@@ -1673,3 +1673,11 @@ verify 已經過 50%（我的通知監看因為過期沒有觸發，抱歉晚了
 - D: 仍然連接、沒有失聯，日誌沒有錯誤。
 - 剩下約 12.7 萬個檔案，預估 20:30 前後完成。完成時我會自動接手。
 - **D: 現在還不能拔。**
+
+### [2026-11-09 20:15:02] 👤 User (turn 59) <!--id:fa462d7c-f0df-4d91-a8b8-adcaacfb93e3-->
+
+<task-notification>
+<task-id>bhja8t39v</task-id>
+<summary>Monitor event: "Formal verify of D: package finishes"</summary>
+<event>[Monitor expired after 30m with no events delivered. Re-arm it if you still need the watch — and widen the filter if silence was unexpected.]</event>
+</task-notification>
