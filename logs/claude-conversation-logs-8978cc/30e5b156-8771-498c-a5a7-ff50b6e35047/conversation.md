@@ -1359,3 +1359,45 @@ UAC 視窗已跳出（管理員 PowerShell，PID 42872），正在執行 `chkdsk
 - ↩︎ result (576 chars): 檔案系統的類型是 exFAT。 磁碟區已卸載。這個磁碟區的所有開啟控制代碼都會無效。 磁碟區序號為 4CE8-6424 Windows 正在驗證檔案及資料夾... 磁碟區標籤為 Transcend。 檢查磁碟區點陣圖時發現損毀。 檔案及資料夾驗證已完成。 Windows 已修正檔案系統。 不需要進一步的動作。 磁碟空間總計 1953496064 KB。 345017 個檔案共 379496448 KB。 43353 個索引共 22198784 KB。 損壞的磁區共 0 KB。 系統使用空間 1024 KB。 磁碟可用空間 1551799808 KB。 每個配置單位有 524288 個位元組。 … <!--id:7aed35af-abaa-46b6-bc24-c62122bbd9ac-->
 - 🔧 **PowerShell**: Get-ChildItem D:\FOUND.000 -Force -Recurse -ea 0 | select FullName,Length,LastWriteTime | ft -auto -wrap; Get-ChildItem D:\Windows_Migration_Package -Force | select Name,LastWriteTime | ft -auto; Get-ChildItem D:\Windows_Migration_Package\0… <!--id:46f8489e-1030-42b0-bf5b-b9976db462e1-->
 - ↩︎ result (708 chars): FullName Length LastWriteTime -------- ------ ------------- D:\FOUND.000\FILE0000.CHK 11010048 2026/11/9 下午 04:19:02 Name LastWriteTime ---- ------------- 05_logs 2026/11/8 上午 11:26:48 00_inventory 2026/11/8 上午 11:28:11 01_backup 2026/11/8 上午 11:28:11 02_restore 2026/11/8 上午 11:28:12 03_verify 2026/… <!--id:203f2f0a-b762-494f-9b74-f2edb60de07e-->
+- 🔧 **Bash**: cd "[REDACTED]"; grep -n "function \|XD\|XF\|Get-FileHash\|\$RebuildDirs\|\$SensitiveFiles\|Write-Manifest\|Test-Path" migration.ps1 | head -90; wc -l migration.p… <!--id:a74d70d0-36ee-444b-9a60-209f11301165-->
+- ↩︎ result (6409 chars): 28:function Log([string]$m, [string]$lvl = 'INFO') { $l = "{0} [{1}] {2}" -f (Get-Date -Format s), $lvl, $m; Write-Host $l; Add-Content $script:LogFile $l -Encoding UTF8 } 29:function Fail([string]$m) { [void]$script:Errors.Add($m); Log $m 'ERROR' } 30:function Test-Admin { ([Security.Principal.Wind… <!--id:f790baa7-d8b4-4a33-a52f-a6020058b9db-->
+
+### [2026-11-09 16:33:05] 🤖 Claude <!--id:2a512c7a-3b8b-4b84-b5cf-c33d0113b9e3-->
+
+先量測雜湊效能再決定方案（唯讀，D: 已是 Healthy，不寫入）。取 3000 個小檔案與一批大檔案，比較單執行緒與 8 執行緒。
+- 🔧 **PowerShell**: $root='\\?\D:\Windows_Migration_Package\01_backup\UserData\Desktop\個人' $sw=[Diagnostics.Stopwatch]::StartNew() $files=[Collections.Generic.List[IO.FileInfo]]::new(); $di=[IO.DirectoryInfo]::new($root) foreach($f in $di.EnumerateFiles('*',[I… <!--id:ae052bec-24cd-4095-9ecc-0c0d8247b719-->
+- ↩︎ result (3500 chars): enum 6000 files: 10.1s total 272.3 MB seq 3000 files: 56.3s Where-Object : A parameter cannot be found that matches parameter name 'Begin'. At line:11 char:40 + $chunks=0..7 | % { $i=$_; ,@($rest | ? -Begin {$n=0} -Process { ($n++ ... + ~~~~~~ + CategoryInfo : InvalidArgument: (:) [Where-Object], Pa… <!--id:aab5e5f3-a02f-4ef6-97d0-07f201a0ba73-->
+- 🔧 **PowerShell**: $root='\\?\D:\Windows_Migration_Package\01_backup\UserData\Desktop\個人' $di=[IO.DirectoryInfo]::new($root); $files=[Collections.Generic.List[string]]::new() foreach($f in $di.EnumerateFiles('*',[IO.SearchOption]::AllDirectories)){ $files.Add… <!--id:491f825c-9231-42bb-8f26-4bedad485bc8-->
+- ↩︎ result ⚠️error (2300 chars): Exit code 1 Invoke-Expression : At line:6 char:30 + $sub=$files.GetRange(($T -eq 4?6000:($T -eq 8?9000:0)),3000) 2>$null + ~ You must provide a value expression following the '-eq' operator. At line:6 char:31 + $sub=$files.GetRange(($T -eq 4?6000:($T -eq 8?9000:0)),3000) 2>$null + ~~~~~~~ Unexpected… <!--id:987915c0-aeb6-4430-8a31-b7ac14414949-->
+
+### [2026-11-09 16:34:39] 🤖 Claude <!--id:6cc2ca43-987c-43f1-988c-6c0aaa3bace4-->
+
+My stray ternary line broke the test (PowerShell 5.1 has no `?:`). Removing it and re-running.
+- 🔧 **PowerShell**: $root='\\?\D:\Windows_Migration_Package\01_backup\UserData\Desktop\個人' $di=[IO.DirectoryInfo]::new($root); $files=[Collections.Generic.List[string]]::new() foreach($f in $di.EnumerateFiles('*',[IO.SearchOption]::AllDirectories)){ $files.Add… <!--id:65ca1a90-6272-408d-baff-bd72ae7c95c0-->
+- ↩︎ result (42 chars): T=8 : 29.4s for 3000 T=16: 26.5s for 3000 <!--id:91e6e182-3189-4372-add6-ba9ab93cada7-->
+- 🔧 **Bash**: cd "[REDACTED]"; sed -n 1,27p migration.ps1; sed -n 31,62p migration.ps1; sed -n 81,93p migration.ps1; sed -n 129,188p migration.ps1 <!--id:3d0ba4c7-063a-48ab-9eac-f5c8a292d764-->
+- ↩︎ result (9637 chars): ﻿<# .SYNOPSIS Windows PC migration (Issue #1): backup | restore | verify | rollback. Source/Destination are parameters. .EXAMPLE .\migration.ps1 backup -Destination E:\Migration -DryRun .\migration.ps1 backup -Destination E:\Migration .\migration.ps1 verify -Source E:\Migration .\migration.ps1 resto… <!--id:9a00bccc-f54c-4c59-85ba-534c4153c95b-->
+- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/个人/搬迁/claude-conversation-logs/windows-pc-migration/scripts" 2>/dev/null || cd "[REDACTED]"; cp migration.ps1 migration.ps1.bak_p… <!--id:4c0a9968-7675-4a51-927f-01fb65c6cf8d-->
+- ↩︎ result ⚠️error (86 chars): Exit code 2 /usr/bin/bash: -c: line 106: unexpected EOF while looking for matching `'' <!--id:12afc4eb-3141-4f33-a498-f49f882d928b-->
+
+### [2026-11-09 16:36:55] 🤖 Claude <!--id:c13028da-1a3e-46ba-b01c-97917c3ebd94-->
+
+Shell 引号处理出问题，改用 Write 工具写补丁档。
+- 🔧 **Bash**: ls /tmp/patch.py 2>&1 | head -1; wc -l /tmp/patch.py 2>&1 <!--id:b2a4ff20-1c7c-4c72-9976-e06547800885-->
+- ↩︎ result ⚠️error (117 chars): Exit code 1 ls: cannot access '/tmp/patch.py': No such file or directory wc: /tmp/patch.py: No such file or directory <!--id:5d332f76-1e26-48fe-941d-23d9a6a2c4ab-->
+- 🔧 **Write**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\patch_migration.py <!--id:75987553-ab6c-43ab-837f-94588c9cf68e-->
+- ↩︎ result (226 chars): File created successfully at: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\patch_migration.py (file state is current in your context — no need to Read it back) <!--id:6f24cf79-1f39-4169-a2d2-dd95b2017a97-->
+- 🔧 **PowerShell**: cd 'C:\Users\devon.tseng\Desktop\個人\搬遷\claude-conversation-logs\windows-pc-migration\scripts'; Copy-Item migration.ps1 migration.ps1.bak_prelongpath -Force; python 'C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-87… <!--id:78f20635-e936-4a09-9438-0d97ba45341c-->
+- ↩︎ result (17 chars): patched parse OK <!--id:7f0481c3-9c2c-4502-865a-a13d866758e4-->
+
+### [2026-11-09 16:38:09] 🤖 Claude <!--id:1f3a2151-91d0-4285-bf53-e859e5f2f7ab-->
+
+先在 C: 的小測試樹驗證新邏輯（含超過 260 字元的路徑、`browser_profile` 排除、`.log` 不被誤排除），不碰 D:。
+- 🔧 **PowerShell**: $t=Join-Path $env:TEMP 'migtest'; Remove-Item $t -Recurse -Force -ea 0; $u="$t\profile"; $d="$t\pkg" $deep=($u+'\Desktop\proj\'+('a'*60+'\')*4+'b'); New-Item -ItemType Directory -Force ('\\?\'+$deep) | Out-Null [IO.File]::WriteAllText('\\?\… <!--id:f6b24431-c781-49cd-b0fd-2f08e23d789c-->
+- ↩︎ result (4140 chars): 2026-11-09T16:38:32 [INFO] START action=backup DryRun=False admin=False log=C:\Users\DEVON~1.TSE\AppData\Local\Temp\migtest\pkg\05_logs\backup_20261109_163832.log 2026-11-09T16:38:32 [WARN] WARNING: destination is on the system drive (a backup on the old PC disk does not protect it) 2026-11-09T16:38… <!--id:98c6e2c0-fa75-4e71-8ace-eaa9bd8f3de7-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\個人\搬遷\claude-conversation-logs\windows-pc-migration\scripts\migration.ps1 <!--id:d3d7149a-c6b4-4560-ad56-e5f96dcf439d-->
+- ↩︎ result (350 chars): The file C:\Users\devon.tseng\Desktop\個人\搬遷\claude-conversation-logs\windows-pc-migration\scripts\migration.ps1 has been updated successfully. (note: the file had been modified on disk since you last read it — the edit applied cleanly, but the file contains other changes not in your context. Read it… <!--id:dfffb8f0-dd37-4956-b185-e8e30033422f-->
+- 🔧 **PowerShell**: cd 'C:\Users\devon.tseng\Desktop\個人\搬遷\claude-conversation-logs\windows-pc-migration\scripts'; $e=$null; [void][System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path migration.ps1),[ref]$null,[ref]$e); if($e){$e|select -Fir… <!--id:c2821a11-aad2-41b5-bb0f-17462d06a98b-->
+- ↩︎ result ⚠️error (80 chars): Remove-Item on system path 'D:' is blocked. This path is protected from removal. <!--id:db391e4c-2192-4867-9f28-132db8caf2fd-->
+- 🔧 **PowerShell**: cd 'C:\Users\devon.tseng\Desktop\個人\搬遷\claude-conversation-logs\windows-pc-migration\scripts'; $e=$null; [void][System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path migration.ps1),[ref]$null,[ref]$e); if($e){$e|select -Fir… <!--id:b34d6f46-8f8a-4a10-b87f-ac7d5e227dad-->
+- ↩︎ result (50 chars): parse OK EF BB BF Volume - D: is NOT Dirty True <!--id:998c1866-4782-4377-8141-985bcb52f05c-->
