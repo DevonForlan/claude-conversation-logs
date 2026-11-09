@@ -1065,3 +1065,7 @@ Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile','-Command','chkd
 3. 之後繼續 long-path 修正、瀏覽器排除規則、manifest 優化、robocopy 增量補跑、重建 manifest 與正式 verify，並同步 GitHub 與 `latest.json`。
 
 在你完成修復之前，備份仍然是未完成、未驗證的狀態。
+
+### [2026-11-09 14:13:51] 👤 User (turn 21) <!--id:b41c219a-422b-4add-8b62-dff36215c3a1-->
+
+請一併讀取 Issue #1 最新的 terminal-window flash Owner directive，診斷並修正終端視窗反覆閃現問題，但不要干擾目前的 chkdsk 與 migration recovery。

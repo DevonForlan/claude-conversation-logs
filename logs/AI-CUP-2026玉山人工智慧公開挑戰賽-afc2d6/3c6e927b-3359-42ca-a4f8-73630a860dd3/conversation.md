@@ -38361,3 +38361,27 @@ Now writing the shadow-baseline tool with its `generate` and `compare` subcomman
 - 19:30 排程跑完後，確認 11/10 的 FINAL 是 Frozen Quant v1 單獨產生，並確認入口網站的送出結果。
 
 目前沒有需要你處理的事。
+
+### [2026-11-09 14:13:08] 👤 User (turn 495) <!--id:d25f8b1a-3688-4f6d-80bd-a42d2cdd5d86-->
+
+請依照 Issue #54 — 已授權競賽任務必須自行 merge + deploy 處裡並執行
+- 🔧 **Bash**: cd "[REDACTED]" && gh issue view 54 --comments --json title,body,comments -q '.title+"\n"+.body+"\n----\n"+([.comments[]|.createdAt+"\n"+.body]|join("\n====\n"))' | head -150; date <!--id:b17588b3-4cab-42c1-86b0-9612ddd5f7a9-->
+- ↩︎ result (2766 chars): GOVERNANCE — authorized competition tasks must self-merge and self-deploy # OWNER GOVERNANCE — authorized tasks must self-merge and self-deploy This is a standing Owner instruction for future AI CUP competition work. The repository already has COMPETITION_HIGH_AUTONOMY governance. This issue clarifi… <!--id:0277dadb-b7f1-4a9e-9e30-e956c5c37ee1-->
+- 🔧 **Bash**: cd "[REDACTED]" && cat > .ev54.md <<'EOF' ## Claude Code status — 2026-11-09 14:14 — Issue #54 applied: PR #53 already self-merged and self-deployed ``` AUTHORIZED_SCOPE = Issue #49 (Owner comment… <!--id:391d6d60-61fb-4915-89db-7a7bade0847d-->
+- ↩︎ result (1320 chars): https://github.com/DevonForlan/ai-cup-2026-etf-agent/issues/54#issuecomment-6733582483 --- name: feedback-pr-self-merge description: "Owner standing instruction (2026-11-08): Claude may judge and self-merge PRs without asking; Owner has a monitoring agent" metadata: node_type: memory type: feedback … <!--id:3232b155-a48c-488b-ad18-0de27693064c-->
+- 🔧 **Bash**: cd "C:/Users/devon.tseng/.claude/projects/C--Users-devon-tseng-Desktop----AI-CUP-2026-----------/memory" && cat >> feedback_pr_self_merge.md <<'EOF' **Update 2026-11-09 (Issue #54):** for any already-authorized task, carry it all the way: m… <!--id:89d0d57f-ff22-4a07-bd1c-c11eac624f42-->
+- ↩︎ result (82 chars): done Shell cwd was reset to C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽 <!--id:ebee7d4d-f607-4feb-8729-d81ebb010f68-->
+
+### [2026-11-09 14:14:09] 🤖 Claude <!--id:e9cc4ab0-b946-454f-a95e-d03ce09ec3ec-->
+
+Issue #54 的規定已經套用。要做的 PR #53 其實都已經自行合併、部署完成，沒有任何要你手動處理的步驟。證據區塊已貼在 Issue #54（留言 6733582483）。
+
+- **PR #53**：CI 全過，已自行審查並合併（commit `a4e64a2`）。
+- **Production**：已更新到 `a4e64a2`，等於 origin/master，tracked 檔案乾淨，Quant 指紋沒變。
+- **排程**：19:30、17:00、07:30 三個任務都是 Ready，指向 production 目錄。
+- **尚未完成**：11/10 的 FINAL 要等今晚 19:30 排程跑完才會產出，之後的送出與入口網站確認也還沒做。
+- **阻擋**：沒有。
+
+我也把這條常設規則更新進我的記憶：已授權的任務要一路做到合併、部署、執行、送出、確認和證據回寫，不會停在 PR。
+
+下一步照原計畫：15:04 檢查，等 17:00 評估後跑 shadow 比較，再驗證 19:30 的 11/10 FINAL 與入口網站確認，並把證據貼回 Issue #49、#48 和 #54。
