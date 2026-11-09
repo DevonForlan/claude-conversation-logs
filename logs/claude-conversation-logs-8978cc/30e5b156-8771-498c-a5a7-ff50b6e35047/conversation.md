@@ -1108,3 +1108,13 @@ Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile','-Command','chkd
 4. 結果只在診斷／修復完成時同步到 Issue #1，不做 5 分鐘一次的 commit。
 
 **不受影響的事**：chkdsk 的唯讀掃描已經結束，且還沒有修復。我不會碰 D:，等你跑完管理員指令後再繼續 recovery。
+
+### [2026-11-09 14:26:41] 👤 User (turn 22) <!--id:e29face4-0b6d-4f9c-9a25-e6c69cb4af7a-->
+
+<pasted_content id="a8ab">
+請讀取 Issue #1 最新的 Owner directive，依照最新整合後的 recovery + terminal flash 流程繼續執行。
+
+目前 D: recovery 先停在等待我執行 Administrator chkdsk repair；在這期間可以繼續進行 terminal-window flash 的隱藏取樣與來源診斷，但不要對 D: 做任何寫入。
+
+等我完成 chkdsk repair 後，再依 Issue #1 的最新流程繼續檢查 Dirty bit、HealthStatus、OperationalStatus、FOUND.000、Migration Package 完整性，之後再進行 incremental recovery、manifest、verify 與 GitHub 狀態同步。
+</pasted_content id="a8ab">
