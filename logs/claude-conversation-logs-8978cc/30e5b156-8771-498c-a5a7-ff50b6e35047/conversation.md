@@ -1567,3 +1567,29 @@ manifest 完成：350,256 個檔案全部雜湊成功，errors=0（18:36），�
 - verify 同時會檢查：manifest 有沒有被截斷、套件裡有沒有未列入 manifest 的檔案、來源 C: 與套件的大小和時間比對、`FOUND.000` 對應的檔案。
 
 **D: 現在還不能拔**，verify 正在讀取。verify 通過、確認沒有程序在寫入後，我會明確通知你，並同步 Issue #1 與 `latest.json`。
+
+### [2026-11-09 19:14:39] 👤 User (turn 53) <!--id:3466a9ad-870e-474a-a9f3-9367436e2cdf-->
+
+<task-notification>
+<task-id>bx8h77n87</task-id>
+<summary>Monitor event: "Formal verify of D: package finishes"</summary>
+<event>[Monitor expired after 30m with no events delivered. Re-arm it if you still need the watch — and widen the filter if silence was unexpected.]</event>
+</task-notification>
+- 🔧 **PowerShell**: Get-Date -f T; Get-Content "$env:TEMP\verify_run.txt" -Tail 6 | % {$_.Substring(0,[Math]::Min(200,$_.Length))}; Test-Path D:\; fsutil dirty query D: <!--id:ea66c072-e11c-4c5d-aceb-bea9057355c6-->
+- ↩︎ result (401 chars): 下午 07:14:50 2026-11-09T19:02:49 [INFO] verify: 5239/350256 files (1%) 2026-11-09T19:04:50 [INFO] verify: 6863/350256 files (2%) 2026-11-09T19:06:50 [INFO] verify: 9106/350256 files (3%) 2026-11-09T19:08:50 [INFO] verify: 12129/350256 files (3%) 2026-11-09T19:10:51 [INFO] verify: 21693/350256 files (… <!--id:4549dcd9-95e6-427f-8560-69836bcbbc30-->
+- 🔧 **Monitor**: until grep -aq "DONE action=verify" "$TEMP/verify_run.txt" 2>/dev/null; do sleep 30; done; tail -c 2500 "$TEMP/verify_run.txt" <!--id:be776216-88f9-471d-90b0-eae15458eacc-->
+- ↩︎ result (302 chars): Monitor started (task bthv4nkq9, expires in 30m unless the source ends first; you get one notice at expiry — re-arm if you still need the watch). You will be notified on each event. Keep working — do not poll or sleep. Events may arrive while you are waiting for the user — an event is not their repl… <!--id:561d677d-a48e-4a44-b1bc-bf4ff657cfa7-->
+
+### [2026-11-09 19:15:02] 🤖 Claude <!--id:e799d2e8-7ca3-4af4-bd96-5f119a5cd866-->
+
+正式 verify 仍在進行，目前只在等它跑完。
+
+**進度（19:12）**：35,309 / 350,256 個檔案（10%）。D: 仍是 Healthy、非 Dirty，日誌沒有錯誤。預估約 20:15 完成。
+
+**完成後我會自動接手**
+1. 讀取 verify 結果：雜湊是否全部相符，有沒有缺檔或不明錯誤。
+2. 確認 `D:\FOUND.000\FILE0000.CHK`（11 MB）對應哪個檔案，以及來源 C: 與套件的大小和時間比對結果。
+3. 確認沒有程序還在寫入 D:。
+4. 同步 Issue #1、status.md、metadata.json、conversation.md、latest.json，並回報 D: 是否可以安全拔出。
+
+**D: 現在還不能拔。** 你不需要做任何事，請讓隨身碟保持連接、電腦不要睡眠。
