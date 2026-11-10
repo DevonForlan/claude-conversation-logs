@@ -39277,3 +39277,36 @@ SCHEDULER_COMMAND = AI_CUP_Precompetition_DryRun_1930 → powershell -File <prod
 - 19:30 這次也得先通過 11/10 的結算對帳。像 11/09 那樣的現金差異可能再度擋下，這是 Issue #60 的問題，我沒有去改。
 
 這份確認已貼到 Issue #61：https://github.com/DevonForlan/ai-cup-2026-etf-agent/issues/61#issuecomment-6756183615
+
+### [2026-11-10 11:23:25] 👤 User (turn 509) <!--id:e4147ebc-cbbb-4d86-b5a4-bd7c9c24a17e-->
+
+<pasted_content id="f0c0">
+請立即讀取並執行 GitHub Issue #63。
+
+今晚 2026-11-10 19:30 產生 2026-11-11 D-Plan 時：
+
+- Base strategy 維持 Frozen Quant v1
+- 套用一次性的 Technology Overweight Overlay
+- 科技股 NAV 曝險最低 75%
+- 如果 Frozen Quant v1 排名結果與所有合規條件允許，可以高於 75%
+- 不要人工指定任意 ticker，科技持股仍必須來自 Frozen Quant v1 的合格／排名結果
+- 如果達不到 75% 會違反 hard guard，就使用最高可安全達成的科技曝險並回報原因
+- 所有 settlement、validation、compliance、Active Share、cash、holdings、order cap、Portal read-back 全部通過後，直接自動提交，不需要再等我確認
+
+這個 Tactical Overlay 只限 2026-11-11 D-Plan。
+
+到了明天 2026-11-11 19:30，產生 2026-11-12 D-Plan 時：
+
+- Tactical Tech Overweight 必須自動失效
+- 回到正常 Frozen Quant v1
+- 恢復正常 `rebalance_every=100`
+- 不再強制 full rebalance
+- 完成 FINAL 並通過所有 guards 後，直接在 19:30 流程完成後上傳 Portal
+- 不要刻意等到 00:00 或隔天才提交
+- Portal read-only verification 成功後才記錄 `SUBMISSION_CONFIRMED`
+
+請依 Issue #63 自行完成 implementation、review、merge、deploy、execute、submit、verify、shared-state sync，不需要再等待 Owner 額外批准。
+</pasted_content id="f0c0">
+- 🔧 **PowerShell**: cd "C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽"; Get-Date -Format "yyyy-MM-dd HH:mm"; gh issue view 63 --json title,body,comments,labels --jq '.title, .body, (.comments[] | "---COMMENT " + .createdAt + "\n" + .body)' <!--id:5b5eecac-8d83-4508-bd59-0c7b67e95da1-->
+- ↩︎ result ⚠️error (58 chars): Exit code 1 2026-11-10 11:24 accepts 1 arg(s), received 2 <!--id:53bc73ad-9c24-4518-8b78-ad8c894e713a-->
+- 🔧 **PowerShell**: cd "C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽"; gh issue view 63 --json title,body,comments,labels | Out-File -Encoding utf8 "$env:TEMP\i63.json"; .\.venv\Scripts\python.exe -c " import json,os;d=json.load(open(os.environ['TEMP… <!--id:d49166cf-da74-491f-9b96-41ccd1c3cdc4-->
