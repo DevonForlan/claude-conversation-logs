@@ -39172,3 +39172,26 @@ Issue #61 已完成：Frozen Quant v1 在 11/10 重新建立了組合，新的 F
 - **後續**：科技股比重現在是 Frozen Quant 自己的選股結果，不是我指定的。使用前請人工複核這份輸出。11/10 收盤後的比較會放在 Issue #48，Issue #60 仍開著。
 
 交接檔：`handoff/claude_sessions/2026-11-10_3c6e927b-3359-42ca-a4f8-73630a860dd3_issue61_done.md`
+
+### [2026-11-10 09:15:37] 👤 User (turn 508) <!--id:8a68475d-f792-4713-ba7f-49f0dc84831f-->
+
+<pasted_content id="f0c0">
+請讀取 GitHub Issue #61 的最新留言，執行我剛補上的 read-only confirmation request。
+
+我要確認今天 2026-11-10 19:30 的 scheduler，針對 2026-11-11 D-Plan，production 實際會使用哪一套策略與 rebalance 行為。
+
+請依 Issue #61 最新留言檢查實際 production code / config / scheduler state，並回覆：
+
+- 19:30 的 decision authority
+- Frozen Quant v1 fingerprint
+- Tactical Override 是否已完全關閉
+- Issue #61 one-time full rebalance 是否只限 2026-11-10
+- 2026-11-11 是否恢復 `rebalance_every=100`
+- scheduler 實際執行 command / path
+- 對應的 production config evidence
+
+這次先做 read-only 確認，不要為了回答而修改 production。
+</pasted_content id="f0c0">
+- 🔧 **PowerShell**: cd "C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽"; Get-Date -Format "yyyy-MM-dd HH:mm:ss"; gh issue view 61 --json comments --jq '.comments[-1].body' | Select-Object -First 40; git fetch -q; git rev-parse HEAD origin/master; git s… <!--id:7882f9ef-12c8-46f9-8013-9b554896ede0-->
+- ↩︎ result (5190 chars): 2026-11-10 09:16:13 ## OWNER CONFIRMATION REQUEST — what will the 2026-11-10 19:30 scheduler use? Please confirm the exact production behavior for **today, 2026-11-10 at 19:30 Asia/Taipei**. Important: this 19:30 run should produce the D-Plan for **trade date 2026-11-11**. Please answer based on the… <!--id:b98353f1-4a35-465e-b739-ac04d758168b-->
+- 🔧 **PowerShell**: cd "C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽"; Select-String -Path automation/run_precompetition_scheduled.ps1 -Pattern 'python|scheduled_run|-m ' | Select-Object -First 6 | % { $_.Line.Trim() }; .\.venv\Scripts\python.exe -c … <!--id:15592136-97a8-46c3-8d3d-1272f143ff1c-->
