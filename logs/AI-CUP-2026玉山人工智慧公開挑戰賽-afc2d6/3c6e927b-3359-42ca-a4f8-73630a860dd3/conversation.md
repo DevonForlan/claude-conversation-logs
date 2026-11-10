@@ -39557,3 +39557,72 @@ Reconciled (shares identical). Rerunning the scheduled 19:30 job.
 **明天**
 - 11/11 19:30 會產生 11/12 的 D-Plan：沒有加碼、沒有強制再平衡，維持 `rebalance_every=100`，當晚就會送出。
 - 我下一次檢查排在 21:31，之後連到 11/11，包括 17:00 評估和 19:30 執行；今晚的 19:30 排程如果又延遲，我也會處理。
+
+### [2026-11-10 20:36:44] 👤 User (turn 510) <!--id:22e28934-3aba-4fe6-90d3-f8b68ab51846-->
+
+<pasted_content id="f0c0">
+請立即讀取並完整執行 GitHub Issue #65，這是目前最新且最高優先級的 Owner competition directive。
+
+請注意：
+
+1. Issue #63 的「單日科技曝險 >=75%」只保留歷史證據，不再作為後續 production 規則。
+2. 自 trade date 2026-11-11 起，所有後續 D-Plan 都必須套用新的持續性 Owner 規範：
+   - 科技股 NAV 曝險最低 >=85%
+   - 85% 只是最低門檻，不是上限
+   - 如果 Frozen Quant ranking 與所有 hard guards 允許，可以高於 85%
+   - 這個規則持續有效，直到 Owner 明確通知調整或取消
+   - 如果 Owner 沒有另外介入，之後每天一律預設套用 >=85%
+3. Frozen Quant v1 必須維持 base strategy，config 與 fingerprint 不得修改。
+4. 請以獨立 tactical / owner overlay 實作，不要修改 Frozen Quant v1 本體，也不要改寫歷史 submission。
+5. 科技股只能從 Frozen Quant v1 的 target / eligible ranked universe 產生：
+   - 優先提高既有 eligible 科技股權重
+   - 不足時，再加入排名最高的 eligible 科技股
+   - 不要人工 hard-code 任意 ticker
+   - 資金優先從最低排名的非科技持股移出
+6. 必須保留所有 hard guards：
+   - holdings 20–30
+   - cash <25%
+   - 單檔上限
+   - Active Share >= 主辦方最低要求
+   - orders <=30
+   - whole-lot
+   - universe eligibility
+   - settlement reconciliation
+   - validator / compliance
+   - Portal read-back
+7. 如果 >=85% 因 hard guard 無法達成：
+   - 不要假造 85%
+   - 使用最高合規可達科技曝險
+   - 明確記錄是哪個限制阻擋、嘗試過哪些 levels、最高可達多少
+8. FINAL 與所有 guards 通過後直接自動提交，不需要再次詢問 Owner。
+9. Portal read-only verification 成功後才可標記 `SUBMISSION_CONFIRMED`。
+10. 請同步修復 Issue #65 中 19:30 預測無法即時從 GitHub/shared-state 取得的問題，包含 scheduler、PC wake state、shared-state publish、Git push、CC session sync 等。
+11. 由於 2026-11-11 D-Plan 已經在 20:31 依舊規則提交為 75.95%，不要重複提交或覆寫既有歷史 submission；新 >=85% 規則應確保後續 production D-Plan 持續生效。
+12. 請自行完成 implementation、tests、self-review、PR、merge、production deploy、runtime verification 與 shared-state sync，不需要等待 Owner 額外批准。
+
+完成後請在 Issue #65 回報：
+
+PERSISTENT_85_RULE_STATUS =
+EFFECTIVE_FROM =
+OWNER_TECH_FLOOR =
+FROZEN_QUANT_V1_FINGERPRINT =
+FROZEN_QUANT_UNCHANGED =
+OVERLAY_IMPLEMENTATION =
+2026-11-11_EXISTING_SUBMISSION_PRESERVED =
+NEXT_DPLAN_TECH_FLOOR =
+SCHEDULER_19_30_ROOT_CAUSE =
+SCHEDULER_FIX_STATUS =
+SHARED_STATE_SYNC_STATUS =
+PRODUCTION_HEAD =
+CI_STATUS =
+BLOCKER_IF_ANY =
+
+請以 Issue #65 為最新 Owner 指令來源執行。
+</pasted_content id="f0c0">
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽"; date "+%F %H:%M"; gh issue view 65 --json title,body,comments > /tmp/i65.json; .venv/Scripts/python.exe -c " import json;d=json.load(open('/tmp/i65.json',encoding='utf-8')) print(… <!--id:e3f0c7bc-bf1f-495f-aa51-9456ad8c6ff0-->
+- ↩︎ result ⚠️error (313 chars): Exit code 1 2026-11-10 20:37 Traceback (most recent call last): File "<string>", line 2, in <module> import json;d=json.load(open('/tmp/i65.json',encoding='utf-8')) ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ FileNotFoundError: [Errno 2] No such file or directory: '/tmp/i65.json' <!--id:a7d97b92-5b15-4c49-8801-b03dbe5b39a1-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽"; gh issue view 65 --json title,body,comments > i65.tmp.json; .venv/Scripts/python.exe -c " import json;d=json.load(open('i65.tmp.json',encoding='utf-8')) print(d['title']);print(d[… <!--id:72e3b5d7-dab4-4d29-82d4-e7c60f8d8cc4-->
+- ↩︎ result (5101 chars): OWNER OVERRIDE �X fix 19:30 forecast visibility and enforce persistent tech exposure >=85% ## Owner directive �X investigate 19:30 sync failure + persistent temporary tech floor >=85% Date: 2026-11-10 Priority: HIGH / competition production ### A. Diagnose why the 2026-11-10 19:30 forecast is not vi… <!--id:c6543d67-9839-4e5d-ae4c-a28a502ce063-->
+- 🔧 **PowerShell**: cd "C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽"; $t=Get-ScheduledTask -TaskName AI_CUP_Precompetition_DryRun_1930; $t.Settings | Select WakeToRun,StartWhenAvailable,DisallowStartIfOnBatteries,StopIfGoingOnBatteries,RunOnlyIfNetw… <!--id:ea7c766c-c6df-41bb-af3f-c19074472208-->
+- ↩︎ result (8798 chars): WakeToRun : True StartWhenAvailable : True DisallowStartIfOnBatteries : False StopIfGoingOnBatteries : False RunOnlyIfNetworkAvailable : False ExecutionTimeLimit : PT2H MultipleInstances : IgnoreNew StartBoundary : 2026-10-13T19:30:00+08:00 Repetition : MSFT_TaskRepetitionPattern TimeCreated Id m --… <!--id:573e1c03-6312-4f8f-828a-4cfb45bf2681-->
+- 🔧 **PowerShell**: powercfg /getactivescheme; powercfg /q SCHEME_CURRENT SUB_SLEEP BD3B718A-0680-4D9D-8AB2-E1D2B4AC806D 2>&1 | Select-String 'Setting Index|GUID'; powercfg /q SCHEME_CURRENT SUB_BUTTONS 2>&1 | Select-String 'Lid close|Setting Index' | Select -… <!--id:eeab3957-6e39-4321-b94d-6a6a442fef35-->
