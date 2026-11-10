@@ -39327,3 +39327,95 @@ SCHEDULER_COMMAND = AI_CUP_Precompetition_DryRun_1930 → powershell -File <prod
 - ↩︎ result (317 chars): agent\competition_day.py:327: from agent.tactical import override as TO # Issue #43: TACTICAL_OVERRIDE_V1 (no-op unless enabled for this date) agent\ops\tactical_supersede.py:70: from agent.tactical import override as TO agent\ops\tactical_supersede.py:143: from agent.tactical import override as TO <!--id:6c2cb786-505a-4d97-bcc4-4a00412ef8d9-->
 - 🔧 **Read**: C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\agent\competition_day.py <!--id:5b567e0e-7a99-414c-a773-3fb1480214de-->
 - ↩︎ result (8476 chars): 315 llm = None 316 if llm_config and dls.allow_llm: 317 llm = llm_settings(cfg, None, None, llm_config, provider_instance=llm_provider) 318 if llm is not None and not dls.allow_noncritical_refresh: 319 llm["cfg"]["retries"] = 0 # restricted phase: no LLM retries 320 llm["cfg"].setdefault("narrative"… <!--id:244dddd8-d792-4186-b5f5-5f496b5a3526-->
+- 🔧 **Grep**: C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\config\strategy_quant_v1.yaml <!--id:a2c21a8c-00ef-45e8-a140-67de8b72c148-->
+- 🔧 **Grep**: C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\agent\portfolio <!--id:fab03e0f-7680-4688-876f-3a7eda9345d1-->
+- ↩︎ result (438 chars): 8:# holdings : target 25 (24-27), tiered weights, 2330 <= 23.5%, others <= 9% 12:# active share : strategy target 30% (official 20%), computed vs real issuer top-10 holdings 16: target_holdings: 25 17: target_holdings_min: 24 18: target_holdings_max: 27 19: tsmc_target_cap: 0.235 20: other_target_ca… <!--id:6f852118-96fd-4679-864b-d988a2017861-->
+- ↩︎ result (1510 chars): agent\portfolio\baseline.py:51:def select_names(scores: pd.DataFrame, prev_holdings: dict[str, int], cfg: dict, agent\portfolio\baseline.py:66: elig = scores[scores["eligible"] & scores["score"].notna() & ~scores.index.isin(list(exclude))] agent\portfolio\baseline.py:67: ranked = list(elig.sort_valu… <!--id:f1bf9894-64b9-48f2-a577-250974708768-->
+- 🔧 **Grep**: C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\agent\ops\shared_state_tactical.py <!--id:3e5bb6a8-2826-4202-bf55-2e624faca263-->
+- ↩︎ result (1898 chars): 1:"""Issue #43: publish TACTICAL_OVERRIDE_V1 records (entry / unwind, version, fingerprint, tickers, weights, quantities, status) 19: return sorted(d.glob("*.json")) if d.is_dir() else [] 31: rec["submission_status"] = conf["status"] if conf else "NOT_CONFIRMED" 54: newest = {} # (trade_date, phase)… <!--id:746a6014-b5b0-41d5-bb53-1e052da66d20-->
+- 🔧 **PowerShell**: cd "C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽"; git worktree add -b feat/63-tech-overweight .worktrees/issue-63 origin/master 2>&1 | Select-Object -Last 2; Get-ChildItem tests/tactical | Select Name; Get-Date -Format HH:mm <!--id:151434be-6886-4bcd-a961-55c32e863624-->
+- ↩︎ result (448 chars): Updating files: 100% (808/808), done. HEAD is now at 5381652 FEAT #61 - one-time full Frozen Quant v1 rebalance on 2026-11-10 (unchanged constructor, deterministic staging to the 30-decision cap) + supersede support (#62) Name ---- test_override.py test_override_v2.py test_shadow_baseline.py test_sh… <!--id:33be9e5b-896c-4e11-91d9-66467fe7e9c4-->
+- 🔧 **Read**: C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\agent\tactical\override.py <!--id:cd31726f-4c8b-4af3-85a5-1c3d5808ca5c-->
+- ↩︎ result (1721 chars): 1 """TACTICAL_OVERRIDE_V1 — Owner-directed temporary rotation out of technology (Issue #43, Owner directive 2026-11-08). 2 3 Design (nothing under the frozen paths is edited; Frozen Quant v1 stays the default and the baseline): 4 * `activate()` wraps `agent.pipeline.construct` for one `run_day` call… <!--id:332b236b-e888-49b8-9a8d-6c5189a878ac-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\agent\tactical\tech_overweight.py <!--id:640f46db-2f11-467f-ad3c-208c2a34a187-->
+- ↩︎ result (184 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\agent\tactical\tech_overweight.py (file state is current in your context — no need to Read it back) <!--id:59504b11-e0d1-4c05-b230-08c90bd395b4-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\agent\tactical\tech_overweight.py <!--id:bd1c306f-62df-4616-8c55-40552fedce6a-->
+- ↩︎ result (194 chars): The file C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\agent\tactical\tech_overweight.py has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:e69e0e09-fbc4-4b7d-b972-34783c346b30-->
+- 🔧 **PowerShell**: $r="C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽"; Move-Item "$r\agent\tactical\tech_overweight.py" "$r\.worktrees\issue-63\agent\tactical\tech_overweight.py"; cd $r; git status --short | Select-String -NotMatch '^\?\? (\.|handoff… <!--id:ad82e7ad-ddf6-4872-857a-2b629231bd68-->
+- ↩︎ result (4 chars): True <!--id:98cd3691-d049-41b7-997a-5f578072757e-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\.worktrees\issue-63\config\tactical_tech_overweight_v1.yaml <!--id:40cb10b5-32b9-45e7-8ac5-87c2e5dfe538-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\.worktrees\issue-63\agent\tactical\override.py <!--id:2ca81095-19cd-49f0-9bd8-269d613df02d-->
+- ↩︎ result (210 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\.worktrees\issue-63\config\tactical_tech_overweight_v1.yaml (file state is current in your context — no need to Read it back) <!--id:6c5ddec8-ddea-4ee1-bf04-527f18db9e7c-->
+- ↩︎ result (141 chars): The file C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\.worktrees\issue-63\agent\tactical\override.py has been updated successfully. <!--id:288aacbd-7c9d-4bb8-a618-56ddb543c24c-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\.worktrees\issue-63\agent\tactical\override.py <!--id:d45169dd-ceb4-4f57-a4f9-54c3c7b18e95-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\.worktrees\issue-63\agent\tactical\override.py <!--id:83b0b545-3002-4064-b1ab-24348a893406-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\.worktrees\issue-63\agent\tactical\override.py <!--id:562d0adc-210b-4e71-abe9-adafed6df723-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\.worktrees\issue-63\agent\tactical\override.py <!--id:8008d4a9-db59-4c25-b668-fb6428bffa20-->
+- ↩︎ result (141 chars): The file C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\.worktrees\issue-63\agent\tactical\override.py has been updated successfully. <!--id:72fcf4e8-0c27-4cbf-a010-7768ca1fa6d0-->
+- ↩︎ result (141 chars): The file C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\.worktrees\issue-63\agent\tactical\override.py has been updated successfully. <!--id:90d41a93-5405-4aea-8713-fc757cd5a34c-->
+- ↩︎ result (141 chars): The file C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\.worktrees\issue-63\agent\tactical\override.py has been updated successfully. <!--id:815c1258-0aaf-43a6-a98c-092fbbea88cd-->
+- ↩︎ result (141 chars): The file C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\.worktrees\issue-63\agent\tactical\override.py has been updated successfully. <!--id:12caaa82-a7de-4ab5-97c8-eecdfb51c9b2-->
+- 🔧 **PowerShell**: $r="C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽"; $w="$r\.worktrees\issue-63"; if(-not (Test-Path "$w\data\history")){ cmd /c mklink /J "$w\data\history" "$r\data\history" | Out-Null }; (Get-ChildItem "$w\data\history" | Measure-… <!--id:3f44d4aa-be3c-4248-bef2-3962088b38e9-->
+- ↩︎ result (5 chars): 7 ok <!--id:bb830904-370f-401f-bad9-1ab99e4be66b-->
+- 🔧 **Write**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\8f718917fde93c02\3c6e927b-3359-42ca-a4f8-73630a860dd3\scratchpad\harness_tw.py <!--id:02fef28b-745a-44c3-9e35-7feb176baea9-->
+- ↩︎ result (221 chars): File created successfully at: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\8f718917fde93c02\3c6e927b-3359-42ca-a4f8-73630a860dd3\scratchpad\harness_tw.py (file state is current in your context — no need to Read it back) <!--id:16bad0f9-961c-41f3-ac28-742241cacd36-->
+- 🔧 **PowerShell**: $r="C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽"; cd "$r\.worktrees\issue-63"; $sp="C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\8f718917fde93c02\3c6e927b-3359-42ca-a4f8-73630a860dd3\scratchpad"; & "$r\.venv\Scripts\python.exe"… <!--id:ac4f913e-78ed-42d7-b64c-ccbe854092b5-->
+- ↩︎ result (1336 chars): status TECH_OVERWEIGHT_BLOCKED reason no overlay level passed Quant's own legality pipeline; Quant result returned untouched tech_weight_before_overlay 0.758481 quant_target_tech_weight 0.758481 quant_target_names 24 tech_weight_after_overlay 0.758481 cash_weight_after None holdings_after None order… <!--id:31a30538-27e1-4422-9a3d-28a0d98528a0-->
+- 🔧 **Edit**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\8f718917fde93c02\3c6e927b-3359-42ca-a4f8-73630a860dd3\scratchpad\harness_tw.py <!--id:efc4be37-72a4-4647-9383-d2e8c1437721-->
+- ↩︎ result (231 chars): The file C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\8f718917fde93c02\3c6e927b-3359-42ca-a4f8-73630a860dd3\scratchpad\harness_tw.py has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:197d3089-0153-4d2c-b233-b44a4225e4af-->
+- 🔧 **PowerShell**: $r="C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽"; cd "$r\.worktrees\issue-63"; $sp="C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\8f718917fde93c02\3c6e927b-3359-42ca-a4f8-73630a860dd3\scratchpad"; & "$r\.venv\Scripts\python.exe"… <!--id:00a2ec14-84c0-430a-9811-91c6998746dd-->
+- ↩︎ result (1418 chars): STEP0 (11/10 forced Quant) holdings 27 nav 831784101.50875000 status TECH_OVERWEIGHT_APPLIED reason technology >= minimum reached tech_weight_before_overlay 0.7375199617706842 quant_target_tech_weight 0.737536 quant_target_names 24 tech_weight_after_overlay 0.7524505643530054 cash_weight_after 0.189… <!--id:0fbd5406-3a94-4fae-8d73-d7e492a5988e-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\.worktrees\issue-63\tests\tactical\test_tech_overweight.py <!--id:d5610a68-0bc1-4576-9fe2-0d61806770b0-->
+- 🔧 **PowerShell**: $r="C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽"; cd "$r\.worktrees\issue-63"; & "$r\.venv\Scripts\python.exe" -m pytest -q tests/tactical 2>&1 | Select-Object -Last 15 <!--id:0c6ae564-bc91-4f8b-9f6e-6c8733ee71ae-->
+- ↩︎ result (209 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\.worktrees\issue-63\tests\tactical\test_tech_overweight.py (file state is current in your context — no need to Read it back) <!--id:7d54134e-847d-454c-88d1-9e903779877c-->
+- ↩︎ result ⚠️error (1643 chars): Exit code 1 res = P.construct({}, {"2330": 1000}, 0, 1, {"2330": 1}, None, {}, {}, is_rebalance_day=False) assert seen["flag"] is True and isinstance(res, K.FallbackToPreviousPortfolio) # only the cadence flag changed; result returned as is assert P.construct is fake_construct # always restored rec … <!--id:9ee2146c-ef2e-4b62-989e-62137f20fb97-->
+- 🔧 **Grep**: C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\.worktrees\issue-63\tests\tactical\test_override_v2.py <!--id:2e9e5183-379a-4d07-b01c-26adf979a41b-->
+- ↩︎ result (508 chars): 99: assert O.resolve_config(None, "2026-11-12")["version"] == O.VERSION_V2 # unwind is expiry-first 175: for d in ("2026-11-10", "2026-11-11", "2026-11-25"): 188: with TO.activate("2026-11-11", "competition", state_dir=tmp_path): 190: assert not (tmp_path / "2026-11-11_RESUME_V2.json").exists() 204:… <!--id:67635474-1f3b-47d5-babf-421d10e7a242-->
+- 🔧 **Read**: C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\.worktrees\issue-63\tests\tactical\test_override_v2.py <!--id:7061c28a-106f-4bbb-9aab-49cbd91301c8-->
+- ↩︎ result (4143 chars): 168 from agent.tactical import override as TO 169 cfg = yaml.safe_load(open(TO.CONFIG_PATH_V2, encoding="utf-8")) 170 assert cfg["exit_mode"] == TO.EXIT_RESUME 171 t = TO.load_config(TO.CONFIG_PATH_V2) 172 assert TO.phase_for(t, "2026-11-09") == "ENTRY" 173 assert TO.phase_for(t, "2026-11-10") == "R… <!--id:cca6fa8e-1a0b-4cb8-a6c8-71e52174465a-->
+- 🔧 **PowerShell**: cd "C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\.worktrees\issue-63"; $f="tests\tactical\test_override_v2.py"; $t=Get-Content $f -Raw -Encoding UTF8; $t=$t.Replace('for d in ("2026-11-10", "2026-11-11", "2026-11-25"):','for d in … <!--id:a7080787-59ef-4141-a846-dc118ff034b9-->
+- ↩︎ result (177 chars): tests/tactical/test_override_v2.py | 8 ++++---- 1 file changed, 4 insertions(+), 4 deletions(-) .................s.......................... [100%] <!--id:894b1f89-b9e4-4da6-9e79-578e9bf40c0e-->
+- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/个人/AI CUP 2026玉山人工智慧公開挑戰賽" 2>/dev/null || cd "/c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽/.worktrees/issue-63"; pwd; tail -5 docs/TACTICAL_OVERRIDE.md <!--id:564b0ada-7e51-476d-ae50-3f57cab8534b-->
+- ↩︎ result (640 chars): /c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽/.worktrees/issue-63 If nothing passes the record is `FULL_REBALANCE_FALLBACK` and the unchanged Quant result (hold) stays. The superseding submission uses `python -m agent.ops.tactical_supersede --date 2026-11-10 --authorization "Issue #61 ..."`… <!--id:91ef5741-a4ed-4aeb-a637-a93036bae9eb-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽/.worktrees/issue-63"; cat >> docs/TACTICAL_OVERRIDE.md <<'EOF' ## Issue #63 - one-day technology overweight (TACTICAL_TECH_OVERWEIGHT_V1), trade date 2026-11-11 ONLY `config/tactica… <!--id:ef60fc76-0367-4d88-8eaa-7c2735d147d7-->
+- ↩︎ result (375 chars): M agent/tactical/override.py A agent/tactical/tech_overweight.py A config/tactical_tech_overweight_v1.yaml M docs/TACTICAL_OVERRIDE.md M tests/tactical/test_override_v2.py A tests/tactical/test_tech_overweight.py remote: https://github.com/DevonForlan/ai-cup-2026-etf-agent/pull/new/feat/63-tech-over… <!--id:3e1d37db-0f3f-4f8d-9271-1ac6fe14e5d9-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽/.worktrees/issue-63"; cat > /tmp/pr63.md <<'EOF' ## Summary Issue #63 (Owner override 2026-11-10): one-day technology overweight (>=75% NAV) for the 2026-11-11 D-Plan over the UNCHA… <!--id:190e042c-08d2-408b-b425-a8f5c8eb5c0a-->
+- ↩︎ result (344 chars): https://github.com/DevonForlan/ai-cup-2026-etf-agent/pull/64 quant-freeze-check pass 13s https://github.com/DevonForlan/ai-cup-2026 secret-scan pass 13s https://github.com/DevonForlan/ai-cup-2026-etf-ag tests pending 0 https://github.com/DevonForlan/ai-cup-2026-etf-agent/a validate pending 0 https:/… <!--id:38c230eb-0739-43d9-82b9-b48fab38633e-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/个人/AI CUP 2026玉山人工智慧公開挑戰賽/.worktrees/issue-63" 2>/dev/null || cd "/c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽/.worktrees/issue-63"; until ! gh pr checks 64 2>&1 | grep -q pending; do sleep 20; don… <!--id:97d905be-037e-4503-9b72-233b61a913ad-->
+- ↩︎ result (169 chars): quant-freeze-check pass 13s https://gith secret-scan pass 13s https://github.com/ tests pass 3m51s https://github.com/Devo validate pass 55s https://github.com/Dev 11:49 <!--id:b5b5d95b-afb0-4bef-8dfc-bf95f3a681ef-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽"; gh pr merge 64 --squash --delete-branch 2>&1 | tail -2; git pull -q --ff-only origin master 2>&1 | tail -2; git rev-parse HEAD origin/master; git status --short | grep -v '^??' ; … <!--id:74a3d3f6-f274-4635-a89d-01bae29651df-->
+- ↩︎ result (650 chars): failed to delete local branch feat/63-tech-overweight: failed to run git: error: cannot delete branch 'feat/63-tech-overweight' used by worktree at '[REDACTED]/.worktrees/issue-63' 6003d8cff3a6c1d26a3f26dbe277e808f0aca19a 6003d8cff3a6c1d26a3f26dbe277e808f0… <!--id:0c06c382-cbac-4d7f-81ba-2835d625e223-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽"; cat > /tmp/c63.md <<'EOF' ## Issue #63 status (2026-11-10 ~11:55): implemented, merged, deployed AUTHORIZED_SCOPE: #63 | PR: #64 | CI_STATUS: PASS (tests, validate, secret-scan, q… <!--id:3df1b287-ff08-4e51-9d5e-c6b207a1d0b1-->
+- 🔧 **ScheduleWakeup**: Issue #63 follow-through. (1) Each check-in: `python agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --force`. (2) At ~17:10 on 2026-11-10: verify the 17:00 evaluation stored the 11/10 closes and that settle… <!--id:0536e873-bd6b-4098-8478-6f25976e741e-->
+- ↩︎ result (187 chars): https://github.com/DevonForlan/ai-cup-2026-etf-agent/issues/63#issuecomment-6758460615 {"status": "PUBLISHED", "new_events": 139, "turn": 161, "session_status": "RUNNING", "pushed": true} <!--id:b1b365ec-65b4-4c64-8902-b48df828d990-->
+- ↩︎ result (234 chars): Next wakeup scheduled for 12:49:00 (in 3487s). If you owe the user a status update this tick, write it now as ordinary response text; then end the turn — the harness re-invokes you when the wakeup fires or a task-notification arrives. <!--id:6a2720a7-be83-4493-bbec-37de3084edf4-->
+
+### [2026-11-10 11:51:07] 🤖 Claude <!--id:4c5d3a7b-8584-452e-8096-2635cb06a367-->
+
+Issue #63 的程式已經上線，但 2026-11-11 的科技股加碼要等今晚 19:30 才會真正執行，目前還沒有新的 FINAL。
+
+**已完成**
+- PR #64 通過 CI（tests、validate、secret-scan、quant-freeze），我自己審過後合併成 `6003d8c`，production 已更新到同一版，已追蹤檔案乾淨。
+- Frozen Quant v1 指紋仍是 `f34fa02e…`，凍結檢查通過。
+- 日期限定我用 production 程式實測：11/11 啟用，11/12 和 11/13 都不啟用，所以 11/12 的 D-Plan 會自動回到正常 Frozen Quant v1，不會再強制全面再平衡。
+
+**加碼怎麼做**
+1. 先讓原本的 Frozen Quant v1 自己算出完整目標。
+2. 科技股先在 Quant 自己的科技目標上按比例加碼，每檔上限 9%。
+3. 不夠時，再從 Quant 排名內且合格的科技股補入，沒有人工指定任何代號。
+4. 資金先從排名最低的非科技股來。
+5. 結果交給 Quant 自己的合規流程，包括整張、現金、持股數、Active Share、30 筆委託上限。
+6. 達不到 75% 就取最高可合規的比例並記錄原因；如果完全過不了，就維持 Quant 原結果。
+
+**預演結果（不是 11/11 的實際結果）**
+- 預演用唯讀方式、從 11/10 組合出發：科技股從 Quant 自己的 73.8% 提高到 75.2%，現金 18.9%，持股 23 檔，委託 15 筆，Active Share 34.7%，驗證通過。
+- 以 11/09 的低科技組合為起點時，預演會失敗：需要太多筆委託，現金超過 25%，加碼被擋下，退回 Quant 原結果。真實起點是 11/10 後的高科技組合，預演才代表實況。
+
+**今晚與明晚的流程**
+- 我排了 17:10 檢查 11/10 結算對帳，19:45 檢查 19:30 的執行結果、入口網站讀回和 shared-state 同步，之後把證據貼回 Issue #63。
+- 11/10 的強制再平衡換手高，現金對帳可能再次出現差異而擋下 19:30（Issue #60）。如果差異只是手續費或稅的大小而且股數相同，我會照 11/09 的做法處理；否則會停下來回報。
+- 11/11 的 19:30 會產生 11/12 的 D-Plan，沿用 11/09 晚上送出 11/10 FINAL 的同一條自動上傳路徑，當晚送出。我沒有發現需要改的「當日才能提交」限制，所以沒有改提交程式。
+
+我改了舊測試：`test_override_v2.py` 原本拿 11/11 當「沒有覆蓋的日子」，現在 11/11 是加碼日，我把那幾處改成 11/13，用途不變，理由已寫在 PR。
+
+下一次檢查排在 12:49，會一路連到 17:10。
