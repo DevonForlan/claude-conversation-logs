@@ -39419,3 +39419,7 @@ Issue #63 的程式已經上線，但 2026-11-11 的科技股加碼要等今晚 
 我改了舊測試：`test_override_v2.py` 原本拿 11/11 當「沒有覆蓋的日子」，現在 11/11 是加碼日，我把那幾處改成 11/13，用途不變，理由已寫在 PR。
 
 下一次檢查排在 12:49，會一路連到 17:10。
+
+### [2026-11-10 13:39:06] 🤖 Claude <!--id:b9bf284e-f46f-4aae-b843-c77c1c45f29f-->
+
+API Error: Can't reach the API server — check your internet or DNS (ENOTFOUND)
