@@ -1,0 +1,106 @@
+{
+  "generated": "2026-11-10T11:31:24.0475903+08:00",
+  "errors": [],
+  "is_admin": true,
+  "bitlocker": [
+    {
+      "mount": "C:",
+      "protection": "On",
+      "volume": "FullyEncrypted",
+      "method": "XtsAes128",
+      "pct": 100,
+      "protectors": [
+        "Tpm",
+        "RecoveryPassword"
+      ]
+    }
+  ],
+  "tpm": {
+    "TpmPresent": true,
+    "TpmReady": true,
+    "TpmEnabled": true,
+    "ManufacturerVersion": "1.512.0.0"
+  },
+  "secure_boot": "True",
+  "windows_features_enabled": 28,
+  "windows_capabilities_installed": 56,
+  "services": {
+    "total": 321,
+    "running": 163,
+    "non_microsoft_path": 32
+  },
+  "drivers": 262,
+  "corporate_security_services": 7,
+  "scheduled_tasks_non_microsoft": 51,
+  "hosts_custom_lines": 3,
+  "personal_certs": 1,
+  "personal_certs_with_private_key": 1,
+  "env": {
+    "user_vars": 4,
+    "machine_vars": 17,
+    "secret_like_names": []
+  },
+  "applications_registry": 65,
+  "dev_tools": {
+    "git": {
+      "source": "C:\\Program Files\\Git\\cmd\\git.exe",
+      "version": "git version 2.54.0.windows.1"
+    },
+    "code": {
+      "source": "C:\\Users\\devon.tseng\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\code.cmd",
+      "version": "1.141.0"
+    },
+    "python": {
+      "source": "C:\\Users\\devon.tseng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+      "version": "Python 3.13.16"
+    },
+    "py": {
+      "source": "C:\\Users\\devon.tseng\\AppData\\Local\\Programs\\Python\\Launcher\\py.exe",
+      "version": "Python 3.13.16"
+    },
+    "pip": {
+      "source": "C:\\Users\\devon.tseng\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\pip.exe",
+      "version": "pip 26.2.1 from C:\\Users\\devon.tseng\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\pip (python 3.13)"
+    },
+    "node": {
+      "source": "C:\\Program Files\\nodejs\\node.exe",
+      "version": "v24.18.0"
+    },
+    "npm": {
+      "source": "C:\\Program Files\\nodejs\\npm.ps1",
+      "version": "11.16.0"
+    },
+    "docker": {
+      "source": "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe",
+      "version": "Docker version 29.5.3, build d1c06ef"
+    },
+    "wsl": {
+      "source": "C:\\WINDOWS\\system32\\wsl.exe",
+      "version": "2.7.8.0"
+    },
+    "claude": {
+      "source": "C:\\Users\\devon.tseng\\AppData\\Roaming\\npm\\claude.ps1",
+      "version": "2.1.321 (Claude Code)"
+    },
+    "codex": {
+      "source": "C:\\Users\\devon.tseng\\AppData\\Roaming\\npm\\codex.ps1",
+      "version": "codex-cli 0.166.0"
+    },
+    "gh": {
+      "source": "C:\\Program Files\\GitHub CLI\\gh.exe",
+      "version": "gh version 2.96.0 (2026-07-02)"
+    },
+    "kubectl": {
+      "source": "C:\\Program Files\\Docker\\Docker\\resources\\bin\\kubectl.exe",
+      "version": "error: unknown flag: --version"
+    }
+  },
+  "vscode_extensions": 7,
+  "pip_packages": 31,
+  "docker": {
+    "images": 0,
+    "containers": 0,
+    "volumes": 0
+  },
+  "note": "redacted summary; raw output kept local only (inventory_out). D: not connected at capture time -> D: BitLocker status not captured (known: not protected)."
+}

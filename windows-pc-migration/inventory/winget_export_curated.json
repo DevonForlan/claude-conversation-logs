@@ -1,0 +1,69 @@
+{
+ "Sources": [
+  {
+   "Packages": [
+    {
+     "PackageIdentifier": "7zip.7zip"
+    },
+    {
+     "PackageIdentifier": "Adobe.Acrobat.Reader.64-bit"
+    },
+    {
+     "PackageIdentifier": "CopyTrans.Studio"
+    },
+    {
+     "PackageIdentifier": "DBeaver.DBeaver.Community"
+    },
+    {
+     "PackageIdentifier": "Daum.PotPlayer"
+    },
+    {
+     "PackageIdentifier": "Docker.DockerDesktop"
+    },
+    {
+     "PackageIdentifier": "Git.Git"
+    },
+    {
+     "PackageIdentifier": "GitHub.cli"
+    },
+    {
+     "PackageIdentifier": "Lenovo.QuickClean"
+    },
+    {
+     "PackageIdentifier": "Microsoft.365Copilot"
+    },
+    {
+     "PackageIdentifier": "Microsoft.Outlook"
+    },
+    {
+     "PackageIdentifier": "Microsoft.Teams.Free"
+    },
+    {
+     "PackageIdentifier": "Microsoft.VisualStudioCode"
+    },
+    {
+     "PackageIdentifier": "Mobatek.MobaXterm"
+    },
+    {
+     "PackageIdentifier": "MongoDB.Compass.Full"
+    },
+    {
+     "PackageIdentifier": "Obsidian.Obsidian"
+    },
+    {
+     "PackageIdentifier": "OpenJS.NodeJS.LTS"
+    },
+    {
+     "PackageIdentifier": "Python.Launcher"
+    },
+    {
+     "PackageIdentifier": "Python.Python.3.13"
+    }
+   ],
+   "SourceDetails": {
+    "Name": "winget"
+   }
+  }
+ ],
+ "note": "hand-built: winget export fails on this PC (zh-TW unmappable char); curated, runtimes excluded"
+}
