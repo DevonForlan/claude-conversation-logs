@@ -1774,3 +1774,116 @@ Push 成功，遠端與本機一致。接著在 Issue #1 留言（最終報告�
 - 中途 D: 曾短暫失聯，讓 manifest 只列到 44,588 個檔案；現在列舉錯誤會重試並中止，不會覆蓋舊 manifest。
 
 **SYNC-CHECK 結果：** 遠端 conversation.md 已讀到 `SYNC-CHECK-1`、`-2`、`-3`、`-4`，順序正確，最新 commit 是 `94af242`（21:26），沒有舊內容覆蓋。這個流程目前是 4/4 通過，但最後一輪（本則回覆）要等這則送出後我才能再確認，所以我不宣稱同步問題已完全解決。`errors.log` 有 15:09 與 15:12 兩次「Could not resolve host」，是當時網路暫時中斷，後來自動補推成功。
+
+### [2026-11-09 22:22:41] 👤 User (turn 62) <!--id:95c4c11d-0903-4774-836d-083d9420672a-->
+
+This session is being continued from a previous conversation that ran out of context. The summary below covers the earlier portion of the conversation.
+
+
+Summary:
+1. Primary Request and Intent:
+   - Windows PC migration (repo `DevonForlan/claude-conversation-logs`, Issue #1). Owner directives:
+     - Run recovery without redoing the full 76 GB backup.
+     - Diagnose the D: failure.
+     - Repair the filesystem, then run an incremental robocopy, rebuild the manifest and run the formal verify.
+     - Sync all results to GitHub (Issue #1, status.md, metadata.json, conversation.md, latest.json).
+     - Do not start the new-PC restore.
+     - Stop only for UAC/Administrator, reboot, unresolved filesystem corruption, unrecoverable data loss, irreversible destructive operations, or corporate security blocks.
+     - Report the 9 final items: D: info, elevated inventory, backup path, size/file count, checksum/verify, exclusions/unresolved, migration-ready, next new-PC step, GitHub commit SHA and Issue comment/status paths.
+   - Terminal-window flash directive: identify the source and fix it (done: git.exe console from the hook). Do not disable unrelated windows or touch corporate software.
+   - CC→GitHub sync directive: make the Stop hook a reliable flush point, backfill the 14:27 reply, keep CREATE_NO_WINDOW, then verify with 3 consecutive real turns (3/3 remote, correct order, no stale overwrite). Do NOT declare solved before that. Do not touch D: for this work.
+   - Latest user question before the summary: whether D: can be ejected ("現在隨身碟可以退出了嗎" was asked several times earlier; the latest pending expectation is a clear final answer plus final report).
+   - Earlier standing rule: AI CUP work is a separate project to ignore (PR #45 stays unmerged). The three AI CUP scheduled tasks were already made headless.
+
+2. Key Technical Concepts:
+   - D: Transcend (StoreJet USB) exFAT, 1863 GB, allocation unit 512 KB (causes large slack, slow small-file copy); not BitLocker-protected.
+   - Robocopy flags `/E /COPY:DAT /DCOPY:DAT /R:2 /W:5 /XJ /NP /NFL /NDL /MT:8 /UNILOG+:`; rc≥8 = failure; rc=9 meant copied plus failed files.
+   - Windows long paths: `\\?\` prefix required (PS 5.1 `Get-FileHash` and Get-ChildItem fail over 260 characters).
+   - Parallel SHA-256 via a runspace pool (12 threads). `[ref]` counters do not work across runspaces (use ConcurrentQueue).
+   - Atomic manifest write (`.tmp` then Move-Item); FILELIST.tsv (size, mtime) for no-D:-read comparisons.
+   - chkdsk `/F /X` needs admin.
+   - `conhost.exe --headless powershell.exe …` for background runs; `Start-Process -Verb RunAs` PID is no proof of UAC display.
+   - `DETACHED_PROCESS` plus child console windows; `CREATE_NO_WINDOW` (0x08000000).
+   - Claude Code hooks (UserPromptSubmit/Stop/SessionEnd) → `cc_global_log.py` worker → `~/.claude/cc-log-repo` → GitHub; per-session state in `~/.claude/cc-log-state/`.
+   - PowerShell 5.1 limits: no `?:`, no `&&`, function name `H` clashes with the `Get-History` alias, Chinese-locale date formats fail `[datetime]` casts.
+   - JSON generation via Python to avoid backslash bugs.
+
+3. Files and Code Sections:
+   - `windows-pc-migration/scripts/migration.ps1` (repo `C:\Users\devon.tseng\Desktop\個人\搬遷\claude-conversation-logs\`). UTF-8 BOM; backup `migration.ps1.bak_prelongpath`, untracked. Key final additions:
+     - `ToLong`, `Enum-Files` (retry; `$script:EnumErrors`; prunes named dirs and reparse points), `Get-HashesParallel` (12 threads, ConcurrentQueue progress, returns path→HEX or `$null`), `Get-BrowserProfileDirs` (only dirs named `browser_profile` / `browser_profiles`).
+     - `Get-RoboExclusions($srcRoot)` adds the browser dirs to `/XD`.
+     - `Write-Manifest`: parallel hashing, aborts if EnumErrors>0, writes `SHA256SUMS.txt.tmp` then renames, plus `FILELIST.tsv`.
+     - `Do-Verify`: malformed-manifest check, missing check, parallel hash compare, "files in package not in manifest" (exempt `04_checksums`, `05_logs`, `README_MIGRATION.md`, `00_inventory\backup_meta.json`), source-vs-package size/mtime with the same exclusions.
+     - `-ManifestOnly` switch; resilient `Log` (try/catch, `$script:LogLost`).
+   - `~/.claude/hooks/cc_global_log.py` (backups `.bak_flash`, `.bak_sync`):
+     - `_NO_WIN` / `creationflags=_NO_WIN` on `git()`.
+     - Session project dir pinned via `st["proj"]`.
+     - Hook payload saved to `STATE/sessions/<sid>.payload.json`.
+     - `rescan_recent_sessions(max_age=900)` called at the start of `flush_once()`.
+     - Event `Rescan` keeps `last_event`.
+   - `~/.claude/hooks/cc_github_sync.py`: `_NO_WIN` added to `run()` and the `git push` subprocess calls.
+   - GitHub files written this session:
+     - `windows-pc-migration/latest.json` (phase `BACKUP_VERIFIED_RESTORE_NOT_STARTED`, commit pointer).
+     - `logs/windows-pc-migration/30e5b156-8771-498c-a5a7-ff50b6e35047/{status.md,metadata.json,conversation.md}`.
+     - Helper scripts in the scratchpad: `patch_migration.py`, `patch2.py`, `sync_status.py`, `issue_comment.md`.
+   - Local, not in git:
+     - `%TEMP%\chkdsk_ro.txt`.
+     - `C:\Users\devon.tseng\Desktop\個人\搬遷\chkdsk_fix.txt`.
+     - `%TEMP%\incremental_backup_run.txt`, `manifest_run.txt`, `verify_run.txt`.
+     - `%TEMP%\flashwatch.log`, `winflash.log`.
+     - `%TEMP%\missing_from_package.csv`.
+   - D: package: `D:\Windows_Migration_Package\{00_inventory,01_backup,02_restore,03_verify,04_checksums,05_logs}`, `04_checksums\SHA256SUMS.txt` (350,256 entries, ~78.5 MB) and `FILELIST.tsv`. `D:\FOUND.000\FILE0000.CHK` is left untouched.
+
+4. Errors and fixes:
+   - 60 false `hash failed`: 57 destination paths exceed 260 chars. Fix: `\\?\` throughout.
+   - robocopy rc=9: 17 browser-profile temp files (error 2 vanished, error 32 locked). Fix: exclude `browser_profile(s)` dirs.
+   - First `Get-Sha` test function named `H` conflicted with `Get-History`; renamed.
+   - PS 5.1 ternary `?:` parse error in a test script; removed.
+   - Bash heredoc quoting failed for the large patch; switched to the Write tool plus python.
+   - Progress counter stuck at 0 ([ref] across runspaces); switched to ConcurrentQueue.
+   - Manifest enumeration truncated to 44,588 files when D: glitched; I stopped that run, made enumeration errors fatal and retried, and re-ran with `-ManifestOnly`.
+   - verify false positive for README/backup_meta; exempted.
+   - `Remove-Item` on a D:-adjacent command was blocked by tooling; avoided it.
+   - shutil.rmtree of the duplicate log dir `logs/搬遷-977041/…` was denied by the classifier; not bypassed.
+   - zh-TW dates in the CSV failed `[datetime]` parsing; re-ran the analysis in memory.
+   - Monitor watchers expired repeatedly (30 min cap); I re-armed them or polled manually.
+   - I wrongly assumed UAC had not run; evidence showed chkdsk had succeeded, and I corrected that to the user.
+
+5. Problem Solving:
+   - Solved: D: repaired (Healthy, OK, not dirty, 0 KB bad sectors); long-path and parallel-hash design; manifest complete; formal verify (package integrity 350,256/0/0); source drift fully explained (live-project changes after the snapshot); terminal-flash root cause fixed; CC log split-dir root cause fixed and backfilled; GitHub synced.
+   - Ongoing or not fully verified:
+     - Flash fix was not formally validated across several trigger cycles (the sampler may still be running).
+     - SYNC-CHECK: markers 1–4 are on the remote; the current turn's marker is unverified.
+     - Elevated inventory (BitLocker C:/D:, Windows Features, Services) still not captured.
+     - D: unencrypted and holds company work files.
+     - Real restore, rollback and winget import untested on a real package.
+     - Snapshot is as of ~17:03 on 11/9; a final delta pass (robocopy plus manifest update) is needed before the old PC is retired. An incremental manifest reusing FILELIST hashes was considered but not implemented.
+
+6. All user messages:
+   - (Earlier, from before this segment, still relevant) "AI CUP 相關事項是別的專案的 先不用理會"; "這裡專注在win系統搬遷就好"; "立即開始 
+…[truncated 6366 chars]
+
+### [2026-11-10 11:27:29] 👤 User (turn 63) <!--id:0502d07d-78f1-4c86-a451-d225047f2280-->
+
+<pasted_content id="a8ab">
+請讀取 Issue #1 最新 Owner directive（comment 6758112206），依照最新規劃繼續處理舊電腦目前可以先完成的所有搬遷準備。
+
+目前舊電腦還會繼續使用幾天，所以：
+
+- 不要執行 Final Delta
+- 不要啟動新電腦 Restore
+- 先完成所有不需要等到 cutover 當天的盤點、環境整理、敏感資料策略、re-login/re-enrollment checklist 與 OLD_PC_READY_FOR_CUTOVER checklist
+- 如果需要 Administrator 權限，依既有規則自行啟動 UAC，我只在 Windows 必須要求時按 Yes
+- D: 如果目前沒有接著，不要因此阻塞其他可以在 C: 完成的工作
+- 只有真的需要操作或檢查 D: 時再明確告訴我需要接回
+
+請持續做到目前舊電腦能提前完成的項目全部完成，再回報：
+1. 已完成項目
+2. 尚缺項目
+3. 哪些一定要等 Final Delta 當天
+4. D: 現在是否需要接回
+5. 舊電腦是否已達 OLD_PC_READY_FOR_CUTOVER
+</pasted_content id="a8ab">
+- 🔧 **Bash**: gh api repos/DevonForlan/claude-conversation-logs/issues/comments/6758112206 --jq .body <!--id:d770736f-72f2-4542-a498-12acb0773eda-->
+- ↩︎ result (4792 chars): ## Owner directive — complete all remaining old-PC preparation before final delta Current intent: - The old PC will continue to be used for a few more days. - Do **not** run the final delta yet. - Do **not** start new-PC restore. - Complete everything that can safely be finished on the old PC now, s… <!--id:d1e4a434-07a3-49b2-9e65-1f37f6aa2808-->
+- 🔧 **PowerShell**: Get-PSDrive -PSProvider FileSystem | Select Name,Root | Out-String; ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole('Administrator'); Select-String -Path 'C:\Users\devon.tseng\Desktop\個人\搬遷… <!--id:d131aab4-4232-405d-be81-e1e4227d5d22-->
