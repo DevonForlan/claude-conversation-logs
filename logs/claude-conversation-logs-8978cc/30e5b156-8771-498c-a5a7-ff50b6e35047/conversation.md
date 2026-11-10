@@ -1985,3 +1985,45 @@ Pushed. Now post the Issue comment and update status/latest.json.
 - 🔧 **Write**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\issue_comment2.md <!--id:dd544335-cfb7-4bfe-9483-3a99bd106838-->
 - ↩︎ result (225 chars): File created successfully at: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\issue_comment2.md (file state is current in your context — no need to Read it back) <!--id:f73b2d85-1a52-4796-a896-5e06019e684a-->
 - 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/搬遷/claude-conversation-logs" && gh issue comment 1 --body-file "C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\issue_comment2.md" 2>&1 | ta… <!--id:aa6ab3bb-2433-452c-ba4e-67227183d706-->
+- ↩︎ result (151 chars): https://github.com/DevonForlan/claude-conversation-logs/issues/1#issuecomment-6758469067 758350143e9beca8d772af1c83f48b2ab5c26c74 ## main...origin/main <!--id:1655550e-1753-4543-ada4-07f1d0a644ab-->
+
+### [2026-11-10 11:51:41] 🤖 Claude <!--id:10739d0b-0f86-46ab-a5c1-c7d7c7883c07-->
+
+**舊電腦能提前完成的準備都做完了。** 目前只剩兩件需要你處理的事，做完才算 `OLD_PC_READY_FOR_CUTOVER`。我沒有跑 Final Delta、沒有啟動新電腦 Restore，也沒有碰 D:（目前沒接著）。
+
+**1. 已完成項目**
+- **管理員盤點：** 這次真的有提權。我是從輸出檔確認 `is_admin=True`，沒有用程序 PID 判斷。
+  - C: 的 BitLocker 是啟用狀態：XtsAes128，用 TPM 加復原密碼保護。
+  - 電腦已加入公司網域（webcomm）。
+  - 啟用的 Windows 功能 28 項，服務 321 個（其中 32 個是第三方）。
+  - CrowdStrike、FortiClient VPN、F-Secure、WebComm OETH 都是公司管理的裝置綁定軟體，我沒有動。
+- **軟體與開發環境盤點：** Git、gh、VS Code（7 個擴充）、Python 3.13／3.12、Node 24、Claude Code、Codex 都已記錄。
+  - Docker 沒有任何映像或磁碟區。
+  - WSL 沒有安裝任何發行版。
+  - 51 個非 Microsoft 排程工作也已記錄。
+  - 這台電腦沒有 `.gitconfig`、`.ssh`、PowerShell profile，也沒有 Windows Terminal 設定。
+- **winget 清單：** `winget export` 在這台電腦會因繁中字元編碼失敗，所以我從 `winget list` 手工整理了 19 個套件 ID，存成 `inventory/winget_export_curated.json`。
+- **敏感資料策略：** 掃描 Desktop、Documents、Downloads，排除在套件外的有 26 個檔案（3 個 `.env`、4 個 `.pem`、4 個 `.key`、15 個 `.pfx`）和 3 個 `browser_profile` 資料夾。我把它們分成三類：重建或重新登入、需經核准的加密途徑傳輸、完全不搬。完整路徑只留在本機。
+- **新電腦重新登入／重新註冊清單：** 已寫成 `docs/NEW_PC_RELOGIN_CHECKLIST.md`。
+- **Cutover 清單：** 已寫成 `docs/OLD_PC_READY_FOR_CUTOVER.md`，順序照 Issue 規定。
+- **同步與視窗閃現：** CC→GitHub 同步正常，本機與 origin/main 一致，沒有新的推送錯誤。我檢查過 git.exe 主控台視窗，修正後都沒有再出現；但目前只有這一輪的證據，沒有做多輪重複驗證。
+
+**2. 尚缺項目（需要你處理）**
+- 把 15 個 `.pfx` 和 8 個 `.pem`／`.key` 分類（重建、加密傳輸、不搬）。沒分類的我一律當作不搬。
+- 向 IT 確認新電腦的註冊流程、VPN 與 MFA 重新綁定、OETH 授權，以及這台電腦的機器憑證，它在 **2026-12-30 到期**，要在到期前處理。
+- 決定 D: 要不要啟用 BitLocker To Go，目前 D: 沒加密。
+
+**3. 一定要等 Final Delta 當天**
+- 確認 D: 狀態（Healthy、非 Dirty）和 D: 的 BitLocker 狀態
+- 增量補備份（只複製新增或變更的檔案）
+- 更新 manifest（約 1 小時）和最終 verify
+- 安全移除 D:
+- 新電腦上依序做 verify、`restore -DryRun`、管理員 restore
+
+**4. D: 現在需要接回嗎？** 不需要。
+
+**5. 是否已達 OLD_PC_READY_FOR_CUTOVER？** 還沒，要等第 2 項的你的兩件事（分類金鑰檔、問 IT）處理完。
+
+**GitHub：** 文件與盤點檔 commit `c465c10966730ce50e072d5aae9ece768a3b8913`，`latest.json` 更新 commit `758350143e9beca8d772af1c83f48b2ab5c26c74`，Issue #1 留言：https://github.com/DevonForlan/claude-conversation-logs/issues/1#issuecomment-6758469067 。
+
+原始盤點輸出在 `Desktop\個人\搬遷\inventory_out`（只在本機，沒有上傳）。
