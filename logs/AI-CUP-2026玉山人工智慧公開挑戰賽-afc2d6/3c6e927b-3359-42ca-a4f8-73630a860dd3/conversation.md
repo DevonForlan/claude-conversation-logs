@@ -39934,3 +39934,35 @@ Now patch the level search to continue upward.
 
 Status: PR #67 (upward search) is open and CI is running. I'm waiting on it, then I'll merge and deploy.
 - 🔧 **Bash**: cd "[REDACTED]/.worktrees/issue-65b" && for i in $(seq 1 40); do gh pr checks 67 2>&1 | grep -q pending || break; sleep 10; done; gh pr checks 67 | cut -c1-60 <!--id:5923f727-1d93-4988-9a18-129355f6073e-->
+- ↩︎ result (243 chars): quant-freeze-check pass 10s https://github.com/DevonForlan/a secret-scan pass 11s https://github.com/DevonForlan/ai-cup-2 tests pass 3m50s https://github.com/DevonForlan/ai-cup-2026- validate pass 1m1s https://github.com/DevonForlan/ai-cup-202 <!--id:a0037ff4-9e34-4f51-870b-8f78e5187d68-->
+- 🔧 **Bash**: cd "[REDACTED]" && gh pr merge 67 --squash 2>&1 | tail -1; git pull -q --ff-only origin master 2>&1 | tail -1; git log --oneline -1; git rev-parse HEAD origin/master; git status --short --untracke… <!--id:61375e63-0e1b-405d-b4cb-01295c4b02c4-->
+- ↩︎ result (223 chars): 1af3ac7 FEAT #65 - tech overlay searches upward from the 85% floor and selects the highest compliant tech weight (#67) 1af3ac7c9653ba20e300d7b061de992e583c341f 1af3ac7c9653ba20e300d7b061de992e583c341f f34fa02e924011b2 11:06 <!--id:6b1c1959-e6b6-4f36-a2ec-383423eb4951-->
+- 🔧 **Bash**: cd "[REDACTED]" && cat > handoff/claude_sessions/2026-11-11_3c6e927b-3359-42ca-a4f8-73630a860dd3_issue65_upward.md <<'E' # Issue #65 (2026-11-11 directive) - run now / search above 85% TARGET_TRAD… <!--id:156334ac-34d3-4ef9-941d-6e635e2ce19b-->
+- 🔧 **ScheduleWakeup**: Issue #65/#63 follow-through. (1) Each check-in: `python agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --force`. (2) State: production HEAD 1af3ac7 (PR #67: tech overlay searches UPWARD from the 0.85 floor… <!--id:8e41262d-f2b0-4c69-b835-6ac89a7b37a0-->
+- ↩︎ result (186 chars): https://github.com/DevonForlan/ai-cup-2026-etf-agent/issues/65#issuecomment-6785778820 {"status": "PUBLISHED", "new_events": 51, "turn": 171, "session_status": "RUNNING", "pushed": true} <!--id:6fb2fc23-980e-443f-885f-27e6272eabaa-->
+- ↩︎ result (234 chars): Next wakeup scheduled for 12:06:00 (in 3528s). If you owe the user a status update this tick, write it now as ordinary response text; then end the turn — the harness re-invokes you when the wakeup fires or a task-notification arrives. <!--id:3715476d-0935-4455-b8aa-3697dd7ffbf8-->
+
+### [2026-11-11 11:07:21] 🤖 Claude <!--id:84eef923-5371-41ec-9342-78a8484e6d6f-->
+
+現在還不能提交，所以我沒有送出任何新的 D-Plan。已經改好的是科技股的搜尋方式，今晚 19:30 的第一次正式預測會用新版。
+
+**為什麼現在不能送**
+- 11/11 的提交窗口已在 08:55 關閉，不能覆寫。
+- 11/12 的窗口要到今天 19:30 才開（官方規則是前一日 19:30 到當日 08:55）。系統現在對 11/12 回報 `WINDOW_NOT_OPEN`。
+- 11/12 的預測需要 11/11 收盤資料，收盤前也不存在。
+- 19:30 是第一個合法時間點，到時排程會自動跑。我不會為了提早而繞過窗口檢查。
+
+**已完成：85% 只是下限，現在會往上找**
+- 以前程式在第一個達到 85% 的結果就停。現在會從 85% 起逐級往上試到 99.5%，每一級都經過 Quant 自己的合規檢查（單檔上限、現金、Active Share、壓力測試、委託 ≤30 筆），選最高且合規的科技股比重。
+- 用 11/10 的官方結算狀態唯讀預演：科技股 88.4%，現金 11.6%，持股 21 檔，委託 30 筆，Active Share 35.9%，驗證通過。
+- 上限卡在 30 筆委託，所以更高的級距沒有帶來更多科技股。
+- 這是 PR #67，CI 全過，已合併，production 在 `1af3ac7`。Frozen Quant v1 指紋 `f34fa02e…` 沒變。
+- 11/11 已送出的 FINAL（sha `364179d2…`）沒有動。
+
+**回報**
+完整欄位已貼到 Issue #65：https://github.com/DevonForlan/ai-cup-2026-etf-agent/issues/65#issuecomment-6785778820。交接檔是 `handoff/claude_sessions/2026-11-11_3c6e927b-3359-42ca-a4f8-73630a860dd3_issue65_upward.md`。
+
+**接下來**
+- 17:10 檢查 17:00 的評估。
+- 19:45 檢查 19:30 的預測、是否在當晚送出並通過入口網站讀回、Shared State 同步。
+- 下一次檢查排在 12:06。
