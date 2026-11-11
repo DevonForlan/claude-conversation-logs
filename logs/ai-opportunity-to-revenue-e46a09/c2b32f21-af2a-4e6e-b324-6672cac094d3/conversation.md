@@ -791,3 +791,61 @@ All four agents are done. I'll write the synthesis documents (01, 07–15, 16, 1
 - ↩︎ result (2 chars): ok <!--id:a0267504-202b-43c6-aae6-240bda752300-->
 - 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue/research" && cat > 11_ARCHITECTURE_OPTIONS.md <<'EOF' # 11 Architecture Options | 階段 | 現有覆蓋 | 建議 | |---|---|---| | Collectors / Normalization / Dedup | radar（12 collectors、Opport… <!--id:dcba8b78-3ace-42f4-8391-2684311ebc6e-->
 - ↩︎ result (2 chars): ok <!--id:7d564eee-b3af-4314-85ab-7d59ff3a0148-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue/research" && { echo "# 16 Source Log"; echo; echo "合併自 _sources/*.md（各研究線原始表，欄位：Source/URL/Type/Access date/Evidence level/Used for/Confidence/Notes）。存取日 2026-11-11。"; for f in r… <!--id:61e9ab5f-8ead-4258-92fe-4cf36af36b67-->
+- ↩︎ result (3616 chars): warning: in the working copy of '.claude/conversation-logs/2026-11-11_c2b32f21-af2a-4e6e-b324-6672cac094d3_turn001.md', LF will be replaced by CRLF the next time Git touches it warning: in the working copy of '.claude/conversation-logs/2026-11-11_c2b32f21-af2a-4e6e-b324-6672cac094d3_turn002.md', LF … <!--id:09153430-be07-4975-95a5-f7dbce84c00d-->
+
+### [2026-11-11 14:54:31] 🤖 Claude <!--id:9b80ead3-8e04-455f-845b-be8e26ebb759-->
+
+That commit swept in `.claude/conversation-logs/`, which shouldn't go into a repo, and the message got a stray `@`. Nothing has been pushed, so I'll fix the local commit.
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue" && printf '.claude/\n' > .gitignore && git rm -r -q --cached .claude && git add .gitignore && git commit -q --amend -m "research: complete Phase 0 findings and final recommendat… <!--id:6aa066c8-a408-43a5-a268-014e73afea27-->
+- ↩︎ result (254 chars): warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it 5f3d089 research: complete Phase 0 findings and final recommendation (CONDITIONAL GO) ef2ee9e research: establish project baseline and status tracker 0 <!--id:8530d13a-f348-4331-b2a1-efc328ce44a8-->
+
+### [2026-11-11 14:54:41] 🤖 Claude <!--id:2dcd1ac3-a70b-49fc-b09d-b8f06884a672-->
+
+Now the final CURRENT_STATUS update.
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\CURRENT_STATUS.md <!--id:51d74463-0af0-4071-8886-cadd4be5547c-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue" && git add research/CURRENT_STATUS.md && git commit -q -m "research: update status after Phase 0 completion" -m "Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>" && gi… <!--id:32e9816c-f3cc-47e9-93c1-1a202ea1f0d2-->
+- ↩︎ result (190 chars): The file C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\CURRENT_STATUS.md has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:a9ededef-181a-488a-9afd-ecc7bbcf85d5-->
+- ↩︎ result (325 chars): warning: in the working copy of 'research/CURRENT_STATUS.md', LF will be replaced by CRLF the next time Git touches it 8e652b1 research: update status after Phase 0 completion 5f3d089 research: complete Phase 0 findings and final recommendation (CONDITIONAL GO) ef2ee9e research: establish project ba… <!--id:533e60dc-a4eb-4f73-9305-87b7b81882a7-->
+
+### [2026-11-11 14:55:05] 🤖 Claude <!--id:d512f4e8-94c5-4e21-80eb-89a1acde5847-->
+
+Phase 0 的初版研究完成，結論是 **CONDITIONAL GO**，但路線不是原本設想的「全自動 AI 副業」。所有檔案已在本機 commit，但**還沒 push**，因為專案沒有 GitHub remote。
+
+## 主要發現
+
+- **GitHub bounty 不值得做（NO-GO）**：我詳查了 28 個有金額的 open issue，沒有任何一個同時滿足「未指派、未結算、maintainer 有回應、付款可證」。最高 Fit 只有 48/100。
+  - **Algora 萎縮**：bounties 頁面現在是 404，首頁改成 recruiting 服務。正式關閉與否 UNKNOWN。
+  - **Opire 不保證付款**：claim 不會自動付款。
+  - **搜尋結果大多是 farm**：搜尋結果約 72–87% 疑似 farm 或 spam。
+- **接案平台偏低價**：Freelancer 抽樣 30 筆，多數時薪約 $4–50，其中只有 9 筆逐頁驗證。Upwork 公開頁回 403，所以 Upwork 的需求與價格 UNKNOWN。
+- **唯一有公開付費證據的方向是標準化 DB 審計服務**：Percona 審計起價 $11,400，AVP 健檢 $490（兩者都 VERIFIED）。兩者價差 20 倍，個人顧問實際可成交價 UNKNOWN。這個方向和你的 MongoDB、Kafka、Data 技能重疊。
+- **現成開源專案**：只有 global-builder-opportunity-radar 有可 reuse 的程式（MIT，約三分之一綁巴西）。
+  - **其他專案**：TIP 沒有程式、價格是作者推測；idea-hunt-skill 只取它的驗證流程；Shipwright 太重，只參考。
+  - **選擇**：Hybrid，取 radar 部分程式，其餘自建。
+- **台灣收款**：Polar 和 Contra 官方列有台灣。自開 Stripe 帳號 UNVERIFIED。台灣稅務類別 UNKNOWN，服務在台灣執行可能屬台灣來源所得，需要會計師確認。
+
+## 建議路線
+
+- **第一優先**：以 AI 加速、人主導的 MongoDB / Data Pipeline 健檢服務。
+- **第二優先**：Data/DB 接案，以及 AI agent 機會型案件。
+- **目前不做**：OSS bounty、Micro-SaaS、Developer tool、Newsletter。
+- **自動化範圍**：只做到「發現 → 驗證 → 評分 → 任務包」，約 2–3 天工程。所有對外動作都由你親自決定與送出。
+
+## 研究限制
+
+- **成本模型**：09 多數是 UNKNOWN，我沒有逐項查官方價格。
+- **接案樣本**：Upwork、Contra、Toptal、Arc 等沒取得資料。
+- **ToS 自動化條款**：大多沒取得。
+- **回覆保證**：任何轉換率或機率我都沒有編造，ROI 模型裡 P_accept / P_pay 標 UNKNOWN。
+- **審閱方式**：4 份研究由 subagent 產出，我只看了摘要，沒有逐份審閱全文，建議你複核。
+
+## 需要你決定
+
+1. 是否授權我建立 **private** repo（例如 `DevonForlan/ai-opportunity-to-revenue`）並 push？
+2. build-DNA 的正確 owner/repo？我只找到 `Sudiddii/build-DNA`（5 stars，3 commits），無法確認是不是你指的。
+3. 你的雇主兼職/NDA 規定是什麼？這會決定能不能對外接案，必須先釐清。
+
+另外，我發現 commit 誤收了 `.claude/conversation-logs/`，已修正並加入 `.gitignore`；這次修正發生在 push 之前，沒有外流。
+
+檔案都在 `research/`，從 `research/CURRENT_STATUS.md` 和 `research/17_FINAL_RECOMMENDATION.md` 開始看。
