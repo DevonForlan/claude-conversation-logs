@@ -752,3 +752,32 @@ Key findings from the platform agent:
 </result>
 <usage><subagent_tokens>134645</subagent_tokens><tool_uses>90</tool_uses><duration_ms>424633</duration_ms></usage>
 </task-notification>
+
+### [2026-11-11 14:51:20] 🤖 Claude <!--id:09aca40e-64de-4564-9184-ddaf85aea8a8-->
+
+The repo research is in. Only the bounty-samples agent is still running, so I'm holding the remaining documents until it reports.
+
+- **Recommendation:** Hybrid. Reuse parts of global-builder-opportunity-radar and build the rest yourself.
+- **radar:** it has real code and tests, but covers only collection, dedup, keyword scoring and a SQLite ledger. Payment-evidence verification, approval, build handoff and revenue tracking are absent.
+  - About a third of it is tied to Brazil (location filters, InfoJobs, LinkedIn alerts).
+  - The reusable parts are the Opportunity model, the Collector base class, and the Reddit, HN, Opire and Superteam collectors.
+- **TIP:** a prompt plus cron job, no code and no license. Its pricing figures are the author's guesses, so it is weak evidence, never primary.
+- **idea-hunt-skill:** a single SKILL.md. I won't use it directly, but its kill-gates and "Proof of Wallet" test can become the verification step.
+- **Shipwright:** very active, but Claude Code only and heavy. Reference only.
+- **Taiwan source:** the PCC government-procurement API (`openfunltd/pcc.g0v.ronny.tw`) is a Taiwan-specific source worth checking.
+
+The agent found only one candidate for build-DNA, `Sudiddii/build-DNA` (5 stars, 3 commits), and can't confirm it's the one you mean. It stays UNKNOWN until you confirm the owner/repo.
+
+### [2026-11-11 14:51:21] 👤 User (turn 4) <!--id:60f6d6eb-6a26-44ea-aec7-37e4750f3bc0-->
+
+<task-notification>
+<task-id>a9d054858d5815daa</task-id>
+<tool-use-id>toolu_01YYYq6BseVmhKgdhwZP8AoP</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b4ae81ecd30cf6ee\c2b32f21-af2a-4e6e-b324-6672cac094d3\tasks\a9d054858d5815daa.output</output-file>
+<status>completed</status>
+<summary>Agent "Evaluate existing repos" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>This agent's report was delivered to you as a message from "a9d054858d5815daa" (its SubagentHandback call). Read it there; it is not repeated here.
+</result>
+<usage><subagent_tokens>148379</subagent_tokens><tool_uses>29</tool_uses><duration_ms>945987</duration_ms></usage>
+</task-notification>
