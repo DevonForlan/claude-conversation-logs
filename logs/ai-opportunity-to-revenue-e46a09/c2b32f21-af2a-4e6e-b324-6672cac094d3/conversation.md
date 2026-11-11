@@ -1052,3 +1052,7 @@ Compiles cleanly. The agent can only produce comments and draft PRs, with no mer
 <summary>Agent "Sample open GitHub bounties" failed: Agent terminated early due to an API error: API Error: Can't reach the API server — check your internet or DNS (ENOTFOUND) (error type server_error)</summary>
 <note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
 </task-notification>
+
+### [2026-11-11 15:56:36] 🤖 Claude <!--id:a18e7591-daee-4a80-9591-198852b4f526-->
+
+API Error: Can't reach the API server — check your internet or DNS (ENOTFOUND)
