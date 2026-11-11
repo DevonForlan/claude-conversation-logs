@@ -849,3 +849,63 @@ Phase 0 的初版研究完成，結論是 **CONDITIONAL GO**，但路線不是�
 另外，我發現 commit 誤收了 `.claude/conversation-logs/`，已修正並加入 `.gitignore`；這次修正發生在 push 之前，沒有外流。
 
 檔案都在 `research/`，從 `research/CURRENT_STATUS.md` 和 `research/17_FINAL_RECOMMENDATION.md` 開始看。
+
+### [2026-11-11 14:56:38] 👤 User (turn 5) <!--id:f39f984e-a76d-4a3c-9795-5baf0956146a-->
+
+<pasted_content id="09cb">
+請現在開始把本專案移植成可完全在 GitHub 雲端執行的架構。
+
+先完成以下工作：
+
+1. 建立 private GitHub repository：
+   DevonForlan/ai-opportunity-to-revenue
+
+2. 將目前本機所有既有研究成果、research/、CURRENT_STATUS.md 與相關檔案 push 到 GitHub。
+   不要遺失目前 Phase 0 已完成的研究。
+
+3. 設定 origin remote，main 作為主分支。
+
+4. 評估並建立 GitHub Agentic Workflows / GitHub Actions 架構，使之後不需要這台電腦開機也可以運作。
+
+5. 第一版使用 Claude 作為主要 agent engine。
+
+6. 建立手機可操作的 GitHub Issue ChatOps 控制方式，至少支援：
+   /status
+   /continue
+   /research
+   /analyze
+   /finalize
+
+7. 每次 Agent 執行後必須：
+   - 更新 research/CURRENT_STATUS.md
+   - 保留研究結果
+   - commit / PR
+   - 在 Control Issue 回覆執行摘要
+
+8. 不允許 Agent 自動執行：
+   - 金錢付款
+   - Freelance 正式投遞
+   - Claim bounty
+   - 對第三方發訊息
+   - Production deployment
+   - merge 到 main
+   除非我之後另外授權。
+
+9. 先完成架構與設定，不要重新做已經完成的研究。
+
+如果過程需要我在 GitHub UI 設定 Secret、授權或其他無法由 CLI 完成的步驟，請明確告訴我：
+- 要去哪個頁面
+- 要填哪個欄位
+- 填什麼內容
+- 完成後如何驗證
+
+你有權自行完成不涉及金錢、帳號敏感設定或對外行為的技術工作，不需要每一步詢問我。
+</pasted_content id="09cb">
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue" && gh repo create DevonForlan/ai-opportunity-to-revenue --private --source=. --remote=origin --description "AI opportunity-to-revenue research (private)" 2>&1 && git push -u ori… <!--id:04819d2d-b005-40f8-af64-fac64c03a85c-->
+- 🔧 **WebSearch**: GitHub Agentic Workflows gh-aw Claude engine ANTHROPIC_API_KEY frontmatter safe-outputs <!--id:47521963-b088-4611-9d68-f75174f94899-->
+- ↩︎ result (410 chars): https://github.com/DevonForlan/ai-opportunity-to-revenue To https://github.com/DevonForlan/ai-opportunity-to-revenue.git * [new branch] main -> main branch 'main' set up to track 'origin/main'. origin https://github.com/DevonForlan/ai-opportunity-to-revenue.git (fetch) origin https://github.com/Devo… <!--id:b4a225ee-99a1-4924-a39f-d05aa68c71a8-->
+- ↩︎ result (2964 chars): Web search results for query: "GitHub Agentic Workflows gh-aw Claude engine ANTHROPIC_API_KEY frontmatter safe-outputs" Links: [{"title":"Configuration Reference","url":"https://htekdev.github.io/gh-aw-overview/configuration/"},{"title":"pkg.go.dev","url":"https://pkg.go.dev/github.com/github/gh-aw@… <!--id:df899988-cf1d-497d-b84a-0c464b4fd192-->
+- 🔧 **Bash**: gh api repos/anthropics/claude-code-action/releases/latest --jq '.tag_name,.published_at'; gh api repos/anthropics/claude-code-action/contents/action.yml --jq .content | base64 -d | grep -E "^ [a-z_]+:|^inputs" | head -50; echo ---; gh api … <!--id:f721e4cc-b262-4d09-a671-e511cb58e0a1-->
+- ↩︎ result (1040 chars): v1 2025-08-26T17:01:10Z icon: "at-sign" color: "orange" inputs: trigger_phrase: assignee_trigger: label_trigger: base_branch: branch_prefix: branch_name_template: allowed_bots: allowed_non_write_users: include_comments_by_actor: exclude_comments_by_actor: prompt: settings: anthropic_api_key: claude_… <!--id:5e609000-6f55-41a9-8bf2-adf6ba17383b-->
+- 🔧 **Bash**: gh extension install github/gh-aw 2>&1 | tail -2; gh aw version 2>&1 | head -3; gh aw --help 2>&1 | head -40 <!--id:f576a5e9-100e-4e42-ad1c-55188a0d6aaf-->
+- ↩︎ result (2177 chars): gh aw version v1.2.2 GitHub Agentic Workflows CLI Common Tasks: gh aw init # Set up a new repository gh aw doctor --repo owner/repo # Run diagnostics for authentication and repository setup gh aw add-wizard # Add workflows with interactive guided setup gh aw new my-workflow # Create your first workf… <!--id:4661f9df-d426-40ae-ac29-43f1bb7ec611-->
