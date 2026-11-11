@@ -727,3 +727,28 @@ The repo, platform and bounty agents are still running. I'll wait for them befor
 </result>
 <usage><subagent_tokens>91513</subagent_tokens><tool_uses>40</tool_uses><duration_ms>296950</duration_ms></usage>
 </task-notification>
+
+### [2026-11-11 14:42:41] 🤖 Claude <!--id:883feb32-5935-406c-9b26-f6487bc9ea39-->
+
+Platform and Taiwan payment research is in. Two agents are still running: repos and bounty samples. I'll wait for them before drafting the cross-cutting documents (07–15, 17).
+
+Key findings from the platform agent:
+- **Stripe:** Taiwan is listed for Global Payouts, but opening your own Stripe account in Taiwan is UNVERIFIED.
+- **Polar and Contra:** Polar's official payout list includes Taiwan. Contra's help page lists 180+ countries with USDC, PayPal, bank and Payoneer payout.
+- **Bounty platforms:** Algora now looks like a recruiting service. Opire claims create no automatic payment. Gitcoin bounties moved to Buidlbox, and Bountysource appears dead.
+- **Taiwan tax:** the NT$1M overseas-income exemption may not cover freelance work done in Taiwan, and the correct income category is UNKNOWN. The agent flagged this as not legal or tax advice.
+- **Unverified:** Upwork and Fiverr official pages returned 403, so their fees are UNVERIFIED. Taiwan local platform fees and most ToS positions on automation are also UNVERIFIED.
+
+### [2026-11-11 14:42:42] 👤 User (turn 3) <!--id:cd09ae15-874b-4ced-9d56-ca177dc4206c-->
+
+<task-notification>
+<task-id>acf1c33647921a667</task-id>
+<tool-use-id>toolu_01AyjtsTpqzfsvGeNCTtCisH</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b4ae81ecd30cf6ee\c2b32f21-af2a-4e6e-b324-6672cac094d3\tasks\acf1c33647921a667.output</output-file>
+<status>completed</status>
+<summary>Agent "Platforms and Taiwan payment" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>This agent's report was delivered to you as a message from "acf1c33647921a667" (its SubagentHandback call). Read it there; it is not repeated here.
+</result>
+<usage><subagent_tokens>134645</subagent_tokens><tool_uses>90</tool_uses><duration_ms>424633</duration_ms></usage>
+</task-notification>
