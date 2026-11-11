@@ -909,3 +909,63 @@ Phase 0 的初版研究完成，結論是 **CONDITIONAL GO**，但路線不是�
 - ↩︎ result (1040 chars): v1 2025-08-26T17:01:10Z icon: "at-sign" color: "orange" inputs: trigger_phrase: assignee_trigger: label_trigger: base_branch: branch_prefix: branch_name_template: allowed_bots: allowed_non_write_users: include_comments_by_actor: exclude_comments_by_actor: prompt: settings: anthropic_api_key: claude_… <!--id:5e609000-6f55-41a9-8bf2-adf6ba17383b-->
 - 🔧 **Bash**: gh extension install github/gh-aw 2>&1 | tail -2; gh aw version 2>&1 | head -3; gh aw --help 2>&1 | head -40 <!--id:f576a5e9-100e-4e42-ad1c-55188a0d6aaf-->
 - ↩︎ result (2177 chars): gh aw version v1.2.2 GitHub Agentic Workflows CLI Common Tasks: gh aw init # Set up a new repository gh aw doctor --repo owner/repo # Run diagnostics for authentication and repository setup gh aw add-wizard # Add workflows with interactive guided setup gh aw new my-workflow # Create your first workf… <!--id:4661f9df-d426-40ae-ac29-43f1bb7ec611-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/个人/ai-opportunity-to-revenue" 2>/dev/null || cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; git checkout -q -b infra/agentic-workflows; gh aw init --help 2>&1 | head -30 <!--id:cb73b354-8f38-4b90-820e-9bfde237cdc2-->
+- ↩︎ result (1226 chars): Initialize the repository for agentic workflows by configuring repository settings. This command performs non-interactive repository setup and does not prompt for engine selection or secret configuration. This command: - Configures .gitattributes to mark .lock.yml files as generated - Creates the di… <!--id:8944f9a7-a58a-464c-b4d7-cbc709a9bf2d-->
+- 🔧 **Bash**: cd /tmp 2>/dev/null; gh api repos/github/gh-aw/git/trees/main?recursive=1 --jq '.tree[].path' | grep -iE "docs/.*(command|safe-output|engine|trigger|frontmatter)" | head -20 <!--id:847ac8ca-934d-4de8-b673-ed85f13c1239-->
+- ↩︎ result (1409 chars): docs/adr/25830-opencode-engine-integration.md docs/adr/26297-split-compiler-safe-outputs-config-by-concern.md docs/adr/26903-frontmatter-redirect-support-for-workflow-updates.md docs/adr/26915-add-team-reviewer-support-to-safe-outputs.md docs/adr/27193-gated-merge-pull-request-safe-output.md docs/ad… <!--id:4a450b88-4dd6-4fe2-9edb-8bc3fe33e10b-->
+
+### [2026-11-11 14:58:32] 🤖 Claude <!--id:c5b6e507-7936-4010-8631-71b3c9036df5-->
+
+Pushed the repo (private, `main`). Now I'm reading the gh-aw docs for the slash-command and safe-outputs syntax before writing the workflows.
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; gh api repos/github/gh-aw/git/trees/main?recursive=1 --jq '.tree[].path' | grep -iE "^(docs|\.github/workflows).*(slash|command-trigger|triggers|safe-outputs|engines)\.(md|mdx)… <!--id:d46681f2-4c66-4a32-bfe2-771f097928af-->
+- ↩︎ result (839 chars): .github/workflows/archie.md .github/workflows/q.md .github/workflows/shared/q-safe-outputs.md .github/workflows/shared/sq.md docs/adr/26915-add-team-reviewer-support-to-safe-outputs.md docs/adr/28486-protect-top-level-dot-folders-in-safe-outputs.md docs/adr/36451-top-level-max-turns-across-agentic-e… <!--id:4b7febeb-6c7e-4c61-ae2c-af4d49c4b54a-->
+- 🔧 **Bash**: gh api repos/github/gh-aw/contents/.github/workflows/archie.md --jq .content | base64 -d | head -60 <!--id:997f7679-6eb6-4ee1-adc8-600cd8429fa9-->
+- ↩︎ result (1981 chars): --- private: true emoji: "🏛️" name: Archie description: Generates Mermaid diagrams to visualize issue and pull request relationships when invoked with the /archie command on: slash_command: name: archie strategy: centralized events: [issues, issue_comment, pull_request, pull_request_comment] reactio… <!--id:1f73caa7-076f-4af7-a6a3-eaafb6ab81ff-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; mkdir -p .github/workflows; cat > .github/workflows/control.md <<'EOF' --- name: Control Agent (ChatOps) description: Runs research steps on slash commands (/status /continue /… <!--id:a07cf4bd-1345-40c7-bac1-065fe887e36b-->
+- ↩︎ result (1399 chars): - ANTHROPIC_API_KEY Remediation options: 1. Use the --approve flag to allow the changes. 2. Revert the unapproved changes. 3. Use an interactive coding agent to review and approve the changes. ✓ .github\workflows\control.md (166.3 KB) ⚠ Detected 5 slash_command entries in this repository; 5 are not … <!--id:c11aade4-d89e-4f0b-99e1-8ebc0e3831e7-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; sed -i 's/ name: \[status, continue, research, analyze, finalize\]/ name: [status, continue, research, analyze, finalize]\n strategy: centralized/' .github/workflows/control.md… <!--id:8350b014-2268-4420-a979-6035c7202203-->
+- ↩︎ result (4056 chars): ✓ .github\workflows\control.md (165.5 KB) ✓ Compiled 1 workflow: 1 succeeded, 0 warnings agentic_commands.yml control.lock.yml control.md 2:# gh-aw-manifest: {"version":1,"secrets":["ANTHROPIC_API_KEY","COPILOT_GITHUB_TOKEN","GH_AW_CI_TRIGGER_TOKEN","GH_AW_DEFAULT_OTLP_ENDPOINT","GH_AW_DEFAULT_OTLP_… <!--id:93683dbb-c316-4402-af51-1a29da647c94-->
+
+### [2026-11-11 14:59:33] 🤖 Claude <!--id:4e3c9ec9-efda-4038-bdaa-d1e6240dd902-->
+
+Compiles cleanly. The agent can only produce comments and draft PRs, with no merge tool. Now the setup doc, the control issue, and the status update.
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; mkdir -p docs; cat > docs/CHATOPS_SETUP.md <<'EOF' # Cloud / ChatOps 架構 - Engine：gh-aw v1.2.2（`.github/workflows/control.md` → 編譯成 `control.lock.yml`），`engine: claude`。 - 觸發：在 … <!--id:9fce8b8a-dab8-420d-97c2-55991d102ac9-->
+- ↩︎ result (899 chars): warning: in the working copy of '.github/aw/actions-lock.json', LF will be replaced by CRLF the next time Git touches it warning: in the working copy of '.github/workflows/agentic_commands.yml', LF will be replaced by CRLF the next time Git touches it warning: in the working copy of '.github/workflo… <!--id:4d25dc96-e1f0-46a4-868e-a1fddaac187f-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; gh label create control --color 0E8A16 -d "Control issue for ChatOps" 2>&1|tail -1; gh label create agent-output --color 5319E7 -d "PR produced by agent" 2>&1|tail -1; gh issue… <!--id:a7f08d0b-a852-4ed8-99bf-ba48d6d894e6-->
+- ↩︎ result (125 chars): https://github.com/DevonForlan/ai-opportunity-to-revenue/issues/2 ## infra/agentic-workflows...origin/infra/agentic-workflows <!--id:a7cce1a9-e8d1-41b0-bf0c-9e5e10325e92-->
+
+### [2026-11-11 15:00:31] 🤖 Claude <!--id:3cc98921-5d0a-4671-a8fc-2d235cbb7a05-->
+
+雲端架構已建好，但還不能用，因為缺 API key，而且 ChatOps 的 PR 還沒合併到 `main`。到目前為止我只驗證了 `gh aw compile` 成功，端到端執行沒跑過。
+
+## 已完成
+- **Repo 與 push：** private repo `DevonForlan/ai-opportunity-to-revenue` 已建立，`origin` 已設定，`main` 已 push，Phase 0 的 `research/` 全部保留。
+- **ChatOps 架構：**
+  - **引擎與流程：** 我選了 GitHub Agentic Workflows（gh-aw v1.2.2），引擎用 Claude，流程在 `.github/workflows/control.md`。
+  - **可用指令：** `/status`、`/continue`、`/research`、`/analyze`、`/finalize`。
+  - **Control Issue：** 在 https://github.com/DevonForlan/ai-opportunity-to-revenue/issues/2 留言即可，手機 GitHub App 可以操作，只有 repo admin 能觸發。
+  - **每次執行後：** agent 更新 `research/CURRENT_STATUS.md`，開一個 draft PR，並在 Control Issue 回覆摘要。`/status` 只回留言，不開 PR。
+  - **規則：** `AGENTS.md` 寫明禁止項目。
+- **權限限制：** agent 唯讀，唯一能輸出的是 1 則留言和 1 個 draft PR，沒有 merge、付款、對外發訊息的工具。
+- **PR：** 這些設定在 https://github.com/DevonForlan/ai-opportunity-to-revenue/pull/1。我**沒有自己 merge**，因為你規定不能 merge 到 `main`，所以請你自己 merge。它不 merge，指令不會生效。
+
+## 你要做的三件事
+1. **Merge PR #1：** 在 https://github.com/DevonForlan/ai-opportunity-to-revenue/pull/1 按 Merge。
+2. **設定 Secret：**
+   - 網址：https://github.com/DevonForlan/ai-opportunity-to-revenue/settings/secrets/actions
+   - 按 New repository secret，Name 填 `ANTHROPIC_API_KEY`，Value 填你在 console.anthropic.com 建立的 key（建議設月額度上限）。
+   - 驗證：執行 `gh secret list -R DevonForlan/ai-opportunity-to-revenue`，清單裡要出現該名稱。
+3. **允許 Actions 開 PR：**
+   - 網址：https://github.com/DevonForlan/ai-opportunity-to-revenue/settings/actions
+   - 在 Workflow permissions 勾選「Allow GitHub Actions to create and approve pull requests」並 Save。
+   - 這個選項同時允許 Actions 核准 PR，所以請不要打開自動合併。
+
+## 驗證方式
+1. 到 Control Issue 留言 `/status`。
+2. 1–3 分鐘內應該先看到 👀 reaction，再看到摘要留言。
+3. 失敗的話，到 Actions 分頁看 "Control Agent (ChatOps)" 的執行紀錄。
+
+## 已知限制
+- 用 API key 計費，每次執行的實際成本 UNKNOWN，要看 Anthropic console。
+- `/research` 需要對外網路，gh-aw 預設只開部分網域，可能要在 `network.allowed` 加入需要的網域。
+- 完整說明在 `docs/CHATOPS_SETUP.md`。
