@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-11T14:51:25+08:00",
+  "updated_at": "2026-11-11T14:54:16+08:00",
   "projects": [
     {
-      "project": "ai-opportunity-to-revenue",
+      "project": "research",
       "project_safe": "ai-opportunity-to-revenue-e46a09",
-      "last_activity": "2026-11-11T14:51:25+08:00",
+      "last_activity": "2026-11-11T14:54:16+08:00",
       "latest_session": "c2b32f21-af2a-4e6e-b324-6672cac094d3",
       "latest_log": "logs/ai-opportunity-to-revenue-e46a09/c2b32f21-af2a-4e6e-b324-6672cac094d3/conversation.md",
-      "status": "idle",
+      "status": "working",
       "sessions": 1
     },
     {
