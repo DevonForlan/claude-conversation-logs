@@ -1171,3 +1171,24 @@ API Error: Can't reach the API server — check your internet or DNS (ENOTFOUND)
 - ↩︎ result (239 chars): "loggedIn": true, "authMethod": "claude.ai", "apiProvider": "firstParty", "subscriptionType": "team", exit=124 0 /c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b4ae81ecd30cf6ee/c2b32f21-af2a-4e6e-b324-6672cac094d3/scratchpad/st.out <!--id:19b17507-b23e-4bc6-b3ae-1cab943476c6-->
 - 🔧 **Bash**: S="/c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b4ae81ecd30cf6ee/c2b32f21-af2a-4e6e-b324-6672cac094d3/scratchpad"; rm -f "$S/st.out"; claude auth status 2>&1 | grep -E '"(loggedIn|authMethod|loginExpiresAt)"'; tasklist | grep -ic "claude.… <!--id:25df5e0b-6e74-4721-b85c-c882f177565f-->
 - ↩︎ result (98 chars): "loggedIn": true, "authMethod": "claude.ai", "loginExpiresAt": "2026-11-26T14:51:18.321Z", 2 <!--id:93c2903a-deeb-4602-89d3-b0fbd98d9aa8-->
+
+### [2026-11-13 00:43:01] 🤖 Claude <!--id:a7e5597a-b77f-45c1-8428-b84735b140d0-->
+
+結果：**UNKNOWN**，`claude setup-token` 在這個環境無法完整執行，所以沒有產生 token，也沒有測出 Team 帳號是否支援。
+
+我先確認了 `claude auth status`：已登入，方式是 `claude.ai`，provider 是 `firstParty`，訂閱類型是 `team`。接著執行 `claude setup-token`，輸入關到 null，60 秒後逾時結束（exit 124），沒有任何輸出，也沒有錯誤訊息。這和它需要在互動終端機裡開瀏覽器完成授權的設計一致，但我只是推測，沒有驗證。
+
+執行後我再查了一次，登入狀態沒變，仍是 `claude.ai`、有效至 2026-11-26，也沒有登出。臨時輸出檔已刪除，沒有 token 外洩、commit、push，也沒有動 GitHub Secret、Issue 或 workflow。
+
+| 項目 | 結果 |
+|---|---|
+| `setup-token` | UNKNOWN（無法在此環境互動完成） |
+| Team 帳號是否可用 | UNKNOWN。說明文字寫「requires Claude subscription」，沒有明說 Team 是否包含。 |
+| 能否給 GitHub Actions 用 | 若 token 成功產生：`claude-code-action` 可以，目前的 gh-aw workflow 不行（官方文件寫明會忽略 `CLAUDE_CODE_OAUTH_TOKEN`） |
+| 額外 API 費用 | 用 OAuth token 理論上走訂閱額度，不是 per-token API 計費，但 Team 方案實際規則 UNVERIFIED。用 `ANTHROPIC_API_KEY` 則一定是額外費用。 |
+| 對目前登入 session 的影響 | UNKNOWN，沒產生 token 所以沒測到。 |
+| 有效期限 | UNKNOWN。說明寫「long-lived」，實際天數我沒有證據。 |
+
+**下一步建議：** 請你在自己的終端機執行 `claude setup-token`，用瀏覽器完成授權。token 只會顯示在你的螢幕上，不要貼到對話裡，我們只需要你回報「有沒有成功」和錯誤訊息。如果失敗，錯誤訊息可以貼給我，我會幫你判斷原因。
+
+另外提醒：這是公司 WebComm 的 Team 帳號，把它的 token 放進個人公開 repo 的 Secret 有政策和洩漏風險，建議先確認公司是否允許，或改用你個人的 Anthropic API key。
