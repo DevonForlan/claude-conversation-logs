@@ -1081,3 +1081,50 @@ API Error: Can't reach the API server — check your internet or DNS (ENOTFOUND)
 `claude-conversation-logs` 本來就是 public，而且名稱顯示它存 Claude Code 對話紀錄。如果裡面有公司或客戶內容，會跟之前的公司政策衝突，建議你確認一下。
 
 另外，先前那個「bounty 樣本」subagent 剛回報 API 連線錯誤而失敗，但它的最終報告和 `04_REAL_BOUNTY_SAMPLES.md` 等檔案在失敗前就已經交付並 commit，所以沒有影響。
+
+### [2026-11-13 00:32:58] 👤 User (turn 9) <!--id:0b6717b2-e89d-4d62-91fa-6f93e40fae78-->
+
+<pasted_content id="09cb">
+請幫我確認目前 Claude Code 的認證方式。
+
+請執行必要的唯讀檢查，例如：
+
+- `claude auth status`
+- 確認 `claude setup-token` 是否適用於目前帳號
+
+不要登出、不要修改登入狀態、不要輸出任何實際 token 或 secret。
+
+請只告訴我：
+
+1. 目前 auth type
+2. 目前 provider
+3. 是否支援 `CLAUDE_CODE_OAUTH_TOKEN`
+4. `claude setup-token` 是否可用
+5. 是否可以用於 GitHub Actions
+6. 是否會產生額外 API 費用
+</pasted_content id="09cb">
+- 🔧 **Bash**: claude --version 2>&1; claude auth status 2>&1 | sed -E 's/(sk-[A-Za-z0-9_-]{6})[A-Za-z0-9_-]*/\1…/g'; echo ---; claude setup-token --help 2>&1 | head -15; echo ---; env | grep -E '^(ANTHROPIC_|CLAUDE_CODE_)' | sed -E 's/=.*/=<set>/' <!--id:0d2da35a-96f4-48b9-b8f9-e19f78c28570-->
+- ↩︎ result (920 chars): 2.1.322 (Claude Code) { "loggedIn": true, "authMethod": "claude.ai", "apiProvider": "firstParty", "analyticsDisabled": false, "projectsDirectory": "C:\\Users\\devon.tseng\\.claude\\projects", "configDirectory": "C:\\Users\\devon.tseng\\.claude", "loginExpiresAt": "2026-11-26T14:51:18.321Z", "email":… <!--id:5362e270-709c-4397-bd50-e351459f42fc-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; grep -c "CLAUDE_CODE_OAUTH_TOKEN" .github/workflows/control.lock.yml; gh api "search/code?q=CLAUDE_CODE_OAUTH_TOKEN+repo:github/gh-aw" --jq '.total_count,(.items[:5][]|.path)' … <!--id:8044bb52-26c3-4a80-99d6-ae200d1ba5fc-->
+- ↩︎ result (188 chars): 0 7 pkg/cli/engine_secrets.go docs/src/content/docs/setup/cli.md docs/src/content/docs/reference/faq.md docs/src/content/docs/reference/auth.mdx docs/src/content/docs/setup/quick-start.mdx <!--id:c848b251-2196-4676-82fb-056d51a4d73a-->
+- 🔧 **Bash**: gh api repos/github/gh-aw/contents/docs/src/content/docs/reference/auth.mdx --jq .content | base64 -d | grep -iE -B2 -A4 "OAUTH" | head -50 <!--id:b99c347f-a90e-4024-9953-91f759e58099-->
+- ↩︎ result (4063 chars): **Custom endpoints**: To route Copilot CLI through a custom endpoint (e.g., a corporate proxy or GHE Cloud data residency instance), set `GITHUB_COPILOT_BASE_URL` in `engine.env`. See [Custom API Endpoints via Environment Variables](/gh-aw/reference/engines/#custom-api-endpoints-via-environment-vari… <!--id:bbd379b6-a38b-4dad-916e-732b8914f85a-->
+
+### [2026-11-13 00:33:40] 🤖 Claude <!--id:8f37240d-3a35-46fc-b51f-ae7aaa58fef9-->
+
+我只做了唯讀檢查：`claude auth status`、`claude setup-token --help`，以及列出環境變數名稱（不含值）。我沒有執行 `setup-token`，因為它會產生新 token，屬於改動登入狀態。輸出裡沒有任何 token。
+
+| 項目 | 結果 |
+|---|---|
+| 1. Auth type | `claude.ai` 訂閱登入（OAuth），已登入，登入有效至 2026-11-26 |
+| 2. Provider | `firstParty`（Anthropic 直連，非 Bedrock / Vertex） |
+| 3. 支援 `CLAUDE_CODE_OAUTH_TOKEN` | Claude Code 本身與 `claude-code-action` 支援（action 有 `claude_code_oauth_token` 輸入）。**但 gh-aw 不支援**，官方文件寫明該 secret 會被忽略。 |
+| 4. `claude setup-token` | 指令存在，說明是「長效 token，需要 Claude 訂閱」。你的帳號是 WebComm 的 Team 方案，Team 是否能用它 UNVERIFIED，要實際執行才知道。 |
+| 5. 能否用於 GitHub Actions | 用 `claude-code-action`：可以，文件上支援。用目前的 gh-aw workflow：不行，只認 `ANTHROPIC_API_KEY`（或 Anthropic WIF 免金鑰驗證）。 |
+| 6. 額外 API 費用 | 用 `ANTHROPIC_API_KEY` 會按 token 計費，是額外費用。OAuth token 理論上走訂閱額度、沒有 per-token API 費用，但 Team 方案的實際計費與額度規則我沒查證，UNVERIFIED。 |
+
+**對目前架構的影響：** `control.md` 現在需要 `ANTHROPIC_API_KEY`，所以會有額外 API 費用。想改用訂閱，就得把 workflow 改成 `claude-code-action`，這會失去 gh-aw 的 safe-outputs 唯讀沙箱，我得重做 PR 和禁止 merge 的限制。
+
+**要先釐清的風險：** 這個登入是公司 WebComm 的 Team 帳號（`[REDACTED_EMAIL]`）。把公司訂閱的 token 放進個人公開 repo 的 secret 跑副業，可能違反公司政策，也可能讓 token 洩漏後影響公司帳號。更穩的做法是用你個人建立的 Anthropic API key，並設月額度上限。
+
+要改成 `claude-code-action` 嗎？還是維持 gh-aw 加個人 API key？
