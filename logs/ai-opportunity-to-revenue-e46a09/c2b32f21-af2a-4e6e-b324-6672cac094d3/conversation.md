@@ -1128,3 +1128,46 @@ API Error: Can't reach the API server — check your internet or DNS (ENOTFOUND)
 **要先釐清的風險：** 這個登入是公司 WebComm 的 Team 帳號（`[REDACTED_EMAIL]`）。把公司訂閱的 token 放進個人公開 repo 的 secret 跑副業，可能違反公司政策，也可能讓 token 洩漏後影響公司帳號。更穩的做法是用你個人建立的 Anthropic API key，並設月額度上限。
 
 要改成 `claude-code-action` 嗎？還是維持 gh-aw 加個人 API key？
+
+### [2026-11-13 00:41:27] 👤 User (turn 10) <!--id:37e696b0-5d47-44d7-8361-00673be783c1-->
+
+<pasted_content id="09cb">
+請先只測試目前 WebComm Team Claude Code 帳號是否支援 `claude setup-token`。
+
+要求：
+
+1. 先執行唯讀確認：
+   `claude auth status`
+
+2. 接著執行：
+   `claude setup-token`
+
+3. 如果 `setup-token` 成功產生 token：
+   - 不要把完整 token 顯示在對話中
+   - 不要 commit
+   - 不要 push
+   - 不要寫入任何 GitHub Issue
+   - 不要放進 GitHub Secret
+   - 不要修改目前 ai-opportunity-to-revenue workflow
+   - 只告訴我「是否成功產生」
+   - 告訴我該 token 是否適合做為 `CLAUDE_CODE_OAUTH_TOKEN`
+   - 告訴我 token 是否會影響目前登入 session
+   - 告訴我有效期限或是否為長效 token，但不要顯示 token 本身
+
+4. 如果不支援，請保留完整錯誤原因，但遮蔽任何 credential / email / token。
+
+5. 不要登出目前 Claude Code 帳號。
+
+6. 完成後請只整理：
+   - setup-token：SUPPORTED / NOT SUPPORTED / UNKNOWN
+   - Team 帳號是否可用
+   - 能否給 GitHub Actions 使用
+   - 是否需要額外 API 費用
+   - 下一步建議
+
+目前先做測試，不要進行 GitHub Actions 改造。
+</pasted_content id="09cb">
+- 🔧 **Bash**: S="/c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b4ae81ecd30cf6ee/c2b32f21-af2a-4e6e-b324-6672cac094d3/scratchpad"; claude auth status 2>&1 | grep -E '"(loggedIn|authMethod|apiProvider|subscriptionType)"'; timeout 60 claude setup-token </d… <!--id:63ecc4c5-2630-499a-a79c-60f8aa9571c2-->
+- ↩︎ result (239 chars): "loggedIn": true, "authMethod": "claude.ai", "apiProvider": "firstParty", "subscriptionType": "team", exit=124 0 /c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b4ae81ecd30cf6ee/c2b32f21-af2a-4e6e-b324-6672cac094d3/scratchpad/st.out <!--id:19b17507-b23e-4bc6-b3ae-1cab943476c6-->
+- 🔧 **Bash**: S="/c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b4ae81ecd30cf6ee/c2b32f21-af2a-4e6e-b324-6672cac094d3/scratchpad"; rm -f "$S/st.out"; claude auth status 2>&1 | grep -E '"(loggedIn|authMethod|loginExpiresAt)"'; tasklist | grep -ic "claude.… <!--id:25df5e0b-6e74-4721-b85c-c882f177565f-->
+- ↩︎ result (98 chars): "loggedIn": true, "authMethod": "claude.ai", "loginExpiresAt": "2026-11-26T14:51:18.321Z", 2 <!--id:93c2903a-deeb-4602-89d3-b0fbd98d9aa8-->
