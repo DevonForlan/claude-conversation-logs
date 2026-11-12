@@ -40223,3 +40223,49 @@ BLOCKER_IF_ANY =
 - 🔧 **PowerShell**: cd "C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽"; $env:PYTHONIOENCODING='utf-8'; python -m agent.ops.reconcile --date 2026-11-12 --accept-official --confirmed-by "Claude Code (Owner-delegated, Issues #54/#63/#65)" --note "Cash-on… <!--id:a59683b5-fa4a-477f-933a-c9293bc91f89-->
 - 🔧 **Bash**: cd "[REDACTED]"; sleep 20; for i in $(seq 1 52); do s=$(powershell -Command "(Get-ScheduledTask AI_CUP_Precompetition_DryRun_1930).State"); [ "$s" != "Running" ] && break; sleep 10; done; date +%H… <!--id:2efcab69-674d-4cea-bc92-3be606fe249f-->
 - ↩︎ result (51 chars): RECONCILIATION 2026-11-12: MATCH -> continue 00:19 <!--id:85073e2e-b335-43f3-bbf4-39b069dc8a72-->
+- ↩︎ result (175 chars): 00:26 2026-11-13T00:26:02.3264715+08:00 SCHEDULED_RUN PASS log=C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\logs\scheduled\precompetition_dryrun_20261113_001939.log <!--id:e59371b6-d5f4-421a-aeb6-127e356f6761-->
+- 🔧 **PowerShell**: cd "C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽"; $env:PYTHONIOENCODING='utf-8'; python -c " import json;r=json.load(open('logs/tactical/2026-11-13_TECH_OVERWEIGHT_V1.json',encoding='utf-8-sig')) for k in ('status','owner_tech_fl… <!--id:7f7f8c4e-2bc2-4809-ba41-459371e05375-->
+- ↩︎ result (1272 chars): status TECH_OVERWEIGHT_APPLIED owner_tech_floor 0.85 tech_weight_before_overlay 0.8165298054086364 quant_target_tech_weight 0.819736 selected_mode proportional selected_level 0.92 tech_weight_after_overlay 0.8970903188373202 cash_weight_after 0.10290968116267986 holdings_after 22 orders 20 active_sh… <!--id:98967edb-d21c-4f8e-916d-1544998adbd5-->
+- 🔧 **PowerShell**: $t=Get-ScheduledTask AI_CUP_Precompetition_DryRun_1930; $t.Settings | Select WakeToRun,StartWhenAvailable,DisallowStartIfOnBatteries,StopIfGoingOnBatteries,RunOnlyIfNetworkAvailable | Format-List; powercfg /query SCHEME_CURRENT SUB_SLEEP RT… <!--id:7c3cc7e2-9bdf-4168-97e6-22403336bede-->
+- ↩︎ result (308 chars): WakeToRun : True StartWhenAvailable : True DisallowStartIfOnBatteries : False StopIfGoingOnBatteries : False RunOnlyIfNetworkAvailable : False 此命令需要系統管理員權限，而且必須從已提升權限的命令提示字元執行。 待命 (S0 低電源閒置) 網路已連線 待命 (S1) 系統韌體不支援此待命狀態。 此命令需要系統管理員權限，而且必須從已提升權限的命令提示字元執行。 <!--id:4a464fae-93ca-4357-aec2-bbdde4c05064-->
+- 🔧 **PowerShell**: powercfg /query SCHEME_CURRENT SUB_SLEEP RTCWAKE | Select-Object -Last 6; Get-WinEvent -FilterHashtable @{LogName='System';ProviderName='Microsoft-Windows-Power-Troubleshooter';StartTime=(Get-Date).AddHours(-30)} -ErrorAction SilentlyContin… <!--id:6e38d226-8b13-47a9-b1db-0fc1d0f19453-->
+- ↩︎ result (125 chars): 可能設定易記名稱: 啟用 可能設定索引: 002 可能設定易記名稱: 僅重要喚醒計時器 目前的 AC 電源設定索引: 0x00000001 目前的 DC 電源設定索引: 0x00000001 <!--id:a7fea572-e79e-414e-88ae-5eb4a03ab93e-->
+- 🔧 **PowerShell**: cd "C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽"; Get-Content logs\evaluation\latest_status.json -Encoding UTF8 | Select-String '"(evaluation_date|status|blocked_reason|nav|daily_return|cumulative_return)"'; Get-Content logs\morn… <!--id:8e143c22-0b61-479c-855f-b3e6915918ac-->
+- ↩︎ result (301 chars): "evaluation_date": "2026-11-12", "status": "PASS", "blocked_reason": null, "nav": "816392897.19", "daily_return": -0.04244468957855142, "cumulative_return": -0.1836071028061925, "status": "SKIPPED", "trade_date": "2026-11-12", "action": "RUN", "reason": null, "superseded": false, <!--id:91298e82-a9c0-4351-a91a-f613bc834a74-->
+- 🔧 **Bash**: cd "[REDACTED]"; F=handoff/claude_sessions/2026-11-13_3c6e927b-3359-42ca-a4f8-73630a860dd3_issue65_1113.md; cat > $F <<'E' # Issue #65 - 2026-11-13 D-Plan recovery (19:30 run delayed by sleep) CUR… <!--id:6c771023-a33e-4382-828e-39ae9faead56-->
+- 🔧 **ScheduleWakeup**: Issue #65 follow-through. (1) Each check-in: `python agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --force`. (2) State: production HEAD 1af3ac7; persistent tech floor 0.85 with UPWARD search. 11/13 FINAL 6… <!--id:40c7bf65-24d8-4e94-9fd3-e3ce7355fdd6-->
+- ↩︎ result (185 chars): https://github.com/DevonForlan/ai-cup-2026-etf-agent/issues/65#issuecomment-6829457396 {"status": "PUBLISHED", "new_events": 9, "turn": 183, "session_status": "RUNNING", "pushed": true} <!--id:2d25db72-faa0-417f-9d53-8433b91ed187-->
+- ↩︎ result (234 chars): Next wakeup scheduled for 01:28:00 (in 3511s). If you owe the user a status update this tick, write it now as ordinary response text; then end the turn — the harness re-invokes you when the wakeup fires or a task-notification arrives. <!--id:050a8b80-4576-4c26-9272-d310e9228c99-->
+
+### [2026-11-13 00:29:36] 🤖 Claude <!--id:d1b922b8-b670-4828-97e6-22185d75a5f0-->
+
+你說的狀況我查完了，11/13 的 D-Plan 已經補產生、送出，入口網站讀回確認（SUBMISSION_CONFIRMED）。
+
+**發生了什麼**
+- **排程**：19:30 的排程不是沒觸發，而是延遲了。筆電從約 18:12 進入休眠，直到 23:46 才醒來，排程才補跑，晚了約 256 分鐘。
+- **為什麼沒叫醒**：排程設有「到點喚醒」，電源計畫的喚醒計時器 AC、電池都已開，但這台筆電仍沒被叫醒。完整原因我查不到，需要管理員權限或看硬體，我沒有往下追。
+- **對帳擋下**：23:52 那次又被結算對帳擋下，現金差 9,282 元（NAV 的 0.0011%），股數完全相同。我照前兩次做法確認後重跑，00:19 開始、00:26 通過。
+
+**11/13 D-Plan（FINAL sha `650cc5e2…`）**
+
+| 項目 | 數字 |
+|---|---|
+| 科技股比重 | 89.71%（Quant 自己的目標約 82.0%，下限 85%，搜尋到的最高合規水位） |
+| 現金 | 10.29% |
+| 持股 / 委託 | 22 檔 / 20 筆 |
+| Active Share | 45.47% |
+| 驗證 / 合規 | PASS / PASS |
+| 提交窗口 | 有效（到 11/13 08:55） |
+
+- 資金從 6446、2615 調出，沒有新增股票。
+- Shared State 已同步，Quant 指紋沒變。
+- 完整欄位已貼到 Issue #65：https://github.com/DevonForlan/ai-cup-2026-etf-agent/issues/65#issuecomment-6829457396。
+
+**11/12 正式評估**
+- NAV：816,392,897 元
+- 單日報酬：-4.24%
+- 累積報酬率：**-18.36%**
+
+**剩下的風險**
+- 筆電如果睡到 08:55 以後，那天就會漏掉。19:30 前請不要蓋上螢幕，最好接上電源。
+- 下一次檢查排在 01:28。之後會確認早上的排程沒有換掉這份 FINAL，17:10 的評估，以及 11/16 的預測。
