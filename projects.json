@@ -1,50 +1,55 @@
 {
-  "updated_at": "2026-11-13T12:30:06+08:00",
+  "updated_at": "2026-11-13T12:36:45+08:00",
   "projects": [
-    {
-      "project": "milanote",
-      "project_safe": "milanote-3fb634",
-      "last_activity": "2026-11-13T12:30:06+08:00",
-      "latest_session": "6628e952-b707-4ec8-b0e2-bc258a4801de",
-      "latest_log": "logs/milanote-3fb634/6628e952-b707-4ec8-b0e2-bc258a4801de/conversation.md",
-      "status": "ended",
-      "sessions": 5
-    },
-    {
-      "project": "mongodb-dba-trainer",
-      "project_safe": "mongodb-dba-trainer-4eaf92",
-      "last_activity": "2026-11-13T12:24:32+08:00",
-      "latest_session": "347c1401-65cb-4d94-bdd6-2efd1d0a7070",
-      "latest_log": "logs/mongodb-dba-trainer-4eaf92/347c1401-65cb-4d94-bdd6-2efd1d0a7070/conversation.md",
-      "status": "working",
-      "sessions": 1
-    },
     {
       "project": "AI CUP 2026玉山人工智慧公開挑戰賽",
       "project_safe": "AI-CUP-2026玉山人工智慧公開挑戰賽-afc2d6",
-      "last_activity": "2026-11-13T12:15:26+08:00",
+      "last_activity": "2026-11-13T12:36:45+08:00",
       "latest_session": "3c6e927b-3359-42ca-a4f8-73630a860dd3",
       "latest_log": "logs/AI-CUP-2026玉山人工智慧公開挑戰賽-afc2d6/3c6e927b-3359-42ca-a4f8-73630a860dd3/conversation.md",
-      "status": "idle",
+      "status": "working",
+      "latest_turn": 516,
       "sessions": 1
     },
     {
       "project": "ai-opportunity-to-revenue",
       "project_safe": "ai-opportunity-to-revenue-e46a09",
-      "last_activity": "2026-11-13T00:43:07+08:00",
+      "last_activity": "2026-11-13T12:36:45+08:00",
       "latest_session": "c2b32f21-af2a-4e6e-b324-6672cac094d3",
       "latest_log": "logs/ai-opportunity-to-revenue-e46a09/c2b32f21-af2a-4e6e-b324-6672cac094d3/conversation.md",
-      "status": "idle",
+      "status": "working",
+      "latest_turn": 10,
       "sessions": 1
     },
     {
       "project": "claude-conversation-logs",
       "project_safe": "claude-conversation-logs-8978cc",
-      "last_activity": "2026-11-10T11:51:45+08:00",
+      "last_activity": "2026-11-13T12:36:44+08:00",
       "latest_session": "30e5b156-8771-498c-a5a7-ff50b6e35047",
       "latest_log": "logs/claude-conversation-logs-8978cc/30e5b156-8771-498c-a5a7-ff50b6e35047/conversation.md",
-      "status": "idle",
+      "status": "working",
+      "latest_turn": 63,
       "sessions": 1
+    },
+    {
+      "project": "mongodb-dba-trainer",
+      "project_safe": "mongodb-dba-trainer-4eaf92",
+      "last_activity": "2026-11-13T12:36:44+08:00",
+      "latest_session": "347c1401-65cb-4d94-bdd6-2efd1d0a7070",
+      "latest_log": "logs/mongodb-dba-trainer-4eaf92/347c1401-65cb-4d94-bdd6-2efd1d0a7070/conversation.md",
+      "status": "working",
+      "latest_turn": 10,
+      "sessions": 1
+    },
+    {
+      "project": "phase1",
+      "project_safe": "milanote-3fb634",
+      "last_activity": "2026-11-13T12:36:42+08:00",
+      "latest_session": "0585a915-2b02-47a2-8837-fbe0edb6c4eb",
+      "latest_log": "logs/milanote-3fb634/0585a915-2b02-47a2-8837-fbe0edb6c4eb/conversation.md",
+      "status": "idle",
+      "latest_turn": 11,
+      "sessions": 5
     },
     {
       "project": "搬遷",
@@ -53,6 +58,7 @@
       "latest_session": "30e5b156-8771-498c-a5a7-ff50b6e35047",
       "latest_log": "logs/搬遷-977041/30e5b156-8771-498c-a5a7-ff50b6e35047/conversation.md",
       "status": "working",
+      "latest_turn": 45,
       "sessions": 1
     },
     {
@@ -62,6 +68,7 @@
       "latest_session": "3c6e927b-3359-42ca-a4f8-73630a860dd3",
       "latest_log": "logs/issue-49d-722c4b/3c6e927b-3359-42ca-a4f8-73630a860dd3/conversation.md",
       "status": "working",
+      "latest_turn": 493,
       "sessions": 1
     },
     {
@@ -71,6 +78,7 @@
       "latest_session": "3c6e927b-3359-42ca-a4f8-73630a860dd3",
       "latest_log": "logs/issue-49-v2-9bb6eb/3c6e927b-3359-42ca-a4f8-73630a860dd3/conversation.md",
       "status": "working",
+      "latest_turn": 324,
       "sessions": 1
     }
   ]

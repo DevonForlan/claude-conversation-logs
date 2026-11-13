@@ -75,7 +75,7 @@ def hook(L, tr, event, sid=SID):
 
 
 def meta(L, sid=SID):
-    return json.loads(next((L.REPO / "logs").glob(f"*/{sid}/metadata.json")).read_text(encoding="utf-8"))
+    return json.loads(next((L.REPO / "logs").glob(f"*/{sid}/metadata.json")).read_text(encoding="utf-8-sig"))
 
 
 def md(L, sid=SID):
