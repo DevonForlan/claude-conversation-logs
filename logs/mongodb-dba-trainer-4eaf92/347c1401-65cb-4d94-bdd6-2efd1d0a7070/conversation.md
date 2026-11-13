@@ -1567,3 +1567,116 @@ Practice ├ Certification Practice（既有，不動）
 - 你登入後，我完成 inspect、小批量收集和真實資料驗證，並更新 UI study 文件的「實際觀察」部分。
 
 另外，global logger 現在能自動記錄這個 session：中央 repo 已有 `conversation-log: mongodb-dba-trainer 347c1401` 的 commit。
+
+### [2026-11-08 13:02:26] 👤 User (turn 5) <!--id:3cc027bb-dae6-4552-8a82-e83c1d3c4fc8-->
+
+This session is being continued from a previous conversation that ran out of context. The summary below covers the earlier portion of the conversation.
+
+
+Summary:
+1. Primary Request and Intent:
+   - **Project:** `C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer`, a MongoDB Associate DBA certification trainer. Stack: FastAPI, plain `sqlite3` with hand-written SQL (no ORM), plain HTML/CSS/JS served by StaticFiles (no framework), `requirements.txt` only. The repo is public on GitHub.
+   - **Original requirement:** the Certification bank is 200 questions covering 31/31 objectives. These must not be broken: Random/Domain Practice, Mock Exam, Mistake Book, Weakness, Daily Review, Dashboard, Readiness, DBA Report, Labs, Incident Simulator.
+   - **Do not start M20.** Do not touch other projects (this milestone is mongodb-dba-trainer only). Only one writer agent at a time. Never run `taskkill /F /IM python.exe`; only PID-specific handling.
+   - **Latest authorization (turn 4):** autonomously complete the "University Review" milestone. It must be a usable feature in the trainer: `Practice ├─ Certification Practice └─ University Review`.
+     - **Data:** University data is built from content the user can legitimately see in their own logged-in MongoDB University account. It must be separate from the 200-question bank and separate in progress/metrics.
+     - **Required collector fields:** course, unit, lesson, page URL, question, type, options, selected answer, correct answer (only if the site shows it), explanation, feedback, first_seen, last_seen, stable fingerprint, source metadata. It needs incremental update, dedup, idempotency, validation, logging and safe failure.
+     - **UI requirements:** list, course/unit/lesson filters, random review, answer, reveal, explanation/feedback, next/previous, progress, review status. It must show "Correct answer not captured" and never guess. It needs empty and error states.
+     - **Progress tracked:** seen, answered, correct/incorrect, reviewed, last_reviewed_at, attempts. These must not pollute Certification readiness, mastery, 200-question metrics or Mock Exam.
+     - **Tests:** collector, storage, API, frontend/integration, plus a full pytest regression. Distinguish real regressions from environmental failures without weakening tests.
+     - **Docs:** update `docs/mongodb-university-ui-study.md` and `docs/university-review-bank-design.md`; optionally add `docs/university-review-implementation.md`.
+     - **Commit:** commit only public-suitable code, tests and docs. Do not mix in unrelated uncommitted changes.
+     - **Final report:** 16 items — architecture, technical decisions, features, files, APIs, local data schema, UI, collector behavior, real browser validation, number of questions collected, test results, regression results, commit SHA, local-only confirmation, limitations, next-stage suggestions. Then stop.
+   - **Security and scope constraints (verbatim intent):**
+     - Allowed: reading DOM, screenshots and structure of what the logged-in user normally sees.
+     - Forbidden: solving CAPTCHA, bypassing authentication or bot protection, stealing cookie/token/session, auto-answering to obtain answers, crawling unauthorized content, crawling the whole site.
+     - If login is needed, stop and let the user do it. This was the only listed stop condition.
+     - University raw questions, explanations, screenshots, learning history and user-specific data must stay in `local_data/mongodb_university/`, gitignored and local-only. Never commit `local_data/`, University raw questions, screenshots, private learning data, credentials, cookies or tokens.
+     - Not allowed: pixel-perfect cloning or copying proprietary CSS/JS/logos.
+     - Do not reset, clean or discard uncommitted work.
+   - **Global conversation logger (earlier request):** Claude Code conversation logs sync to the private repo `DevonForlan/claude-conversation-logs`.
+     - Scope: all projects.
+     - Redaction/secret scanning must remain: password, API key, token, JWT, cookie, Authorization, MongoDB URI credential, LDAP/SMTP, PEM and SSH keys, .env secrets.
+     - No file contents, binaries or attachments are synced.
+     - `latest.json` and `projects.json` are machine-readable indexes for ChatGPT.
+     - Merge settings, never overwrite them.
+     - The org policy (WebComm) says conversation content is company property; the user explicitly authorized this.
+     - The user said "完成這個同步問題後，再繼續 MongoDB University Study Integration".
+
+2. Key Technical Concepts:
+   - **Logger (`cc_global_log.py`):**
+     - Hooks: UserPromptSubmit, Stop, SessionEnd; Python script, incremental per-session transcript offset plus uuid-marker dedup.
+     - Locking: file locks per session/repo/worker.
+     - Batching: debounce of 90s (prompt) and 3s (Stop/SessionEnd); a detached worker commits and pushes with retry; `dirty.flag` and `errors.log` record failures.
+     - Redaction regexes plus env-var value masking, with `latest.json`/`projects.json` rebuilt by the worker.
+   - **University feature:**
+     - Collector JSON store (source of truth), derived SQLite index `university.db` with `PRAGMA user_version` migrations, a University-only progress table, and a fingerprint of sha256(course|unit|normalized question)[:16].
+     - Whitelist-only field storage, atomic writes with an O_EXCL lock and stale-lock breaking, and corrupt-file quarantine.
+     - The UI uses `textContent` only; routers are tested by direct function calls (not TestClient) because FastAPI `Query()` defaults break that style.
+     - `UNIVERSITY_DATA_DIR` env override.
+   - **Browser integration:**
+     - Playwright `connect_over_cdp` attaches to a dedicated Edge window (profile `local_data/mongodb_university/browser_profile`, debug port 127.0.0.1:9223) that the user logs into manually.
+     - Read-only operations only; request paths only, no cookies/headers/bodies.
+   - **Environment facts:**
+     - The old `.venv` pointed to the missing Python312. I repaired it with `python -m venv --upgrade` and a force-reinstall of requirements. I also created `.venv313`; both are gitignored via `.venv*/`.
+     - Docker commands hang on this machine, so the `/api/docker-lab/available` endpoint hangs.
+
+3. Files and Code Sections:
+   - `C:\Users\devon.tseng\.claude\hooks\cc_global_log.py` (created; later hardened)
+     - Global logger. Key later fixes: `rebuild_indexes` skips metadata lacking `project_safe/log_path/updated_at/session_id/project`; stdin decoded via `sys.stdin.buffer.read().decode("utf-8-sig")`; worker `finally` respawns if `PENDING.exists()`; turn counter recovered from md on state reset.
+     - Output layout: `logs/<project>-<hash>/<session>/{conversation.md,metadata.json}` plus root `latest.json` and `projects.json`.
+   - `C:\Users\devon.tseng\.claude\settings.json` (edited via Edit after backup `backups/settings.json.pre-global-logger-20261106094313`)
+     - Added a UserPromptSubmit hook, a SessionEnd hook, and a Stop hook entry running `python.exe cc_global_log.py` (timeout 20, async). Existing Stop hooks, statusLine and autoMode were preserved.
+   - `~/.claude/cc-log-repo` is the local clone of `DevonForlan/claude-conversation-logs` (private). Git identity DevonForlan / `[REDACTED_EMAIL]`.
+   - `scripts/university_collector.py` (rewritten, schema v2)
+     - Functions: `validate_raw_question`, `ingest_question`, `ingest_batch`, `ingest_file`, `load_all_collected`, `compute_fingerprint`, `_store_lock`, `_load_course_store` (moves corrupt files aside), `_save_course_store` (atomic). CLI: `ingest <file>` and `stats`.
+     - `LOCAL_DATA_ROOT` honors `UNIVERSITY_DATA_DIR`. A `collector.log` is written under local_data.
+   - `app/services/university_store.py` (new)
+     - Separate SQLite DB `university.db` with tables `university_items` and `university_progress`.
+     - Functions: `sync` (signature-cached), `status`, `list_courses`, `list_items`, `get_item`, `reveal`, `submit_answer` (result correct/incorrect/unkn
+…[truncated 10759 chars]
+
+### [2026-11-13 10:18:35] 👤 User (turn 6) <!--id:1a188f21-ebbe-4fb3-a33f-547b501c7e23-->
+
+<pasted_content id="69ce">
+我剛剛可能不小心把你先前開的專用 Edge 視窗關掉了。
+
+請重新啟動一次 MongoDB University 專用 Edge 視窗，沿用你目前這個專案既有的 browser helper / profile 設計，不要重新改架構。
+
+請做：
+
+1. 重新 launch 專用 Edge
+2. 打開：
+   https://learn.mongodb.com/
+3. 保持視窗開啟
+4. 不要自動登入
+5. 不要自動處理 CAPTCHA
+6. 不要自動點 Quiz 答案
+7. 不要重新建立另一套 browser profile，優先沿用原本 local_data/mongodb_university/ 下既有的 profile / browser state
+8. 開啟成功後先回報：
+   - Edge 是否成功啟動
+   - 使用的 profile 路徑
+   - 是否能 attach / inspect
+   - 目前頁面 URL
+
+開好後先停在登入頁或 MongoDB University 首頁，等我本人完成登入。
+
+我登入並進入 quiz 頁後會再通知你繼續。
+</pasted_content id="69ce">
+- 🔧 **PowerShell**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; .venv313\Scripts\python.exe -m scripts.university_capture launch; Start-Sleep 4; .venv313\Scripts\python.exe -m scripts.university_capture tabs <!--id:2b6d7cbb-d5ac-4a9e-86ef-270895a15382-->
+- ↩︎ result (1123 chars): Edge started with a dedicated profile. Log in to MongoDB University yourself, open a course/quiz page, then run `tabs` / `inspect`. (debug port 127.0.0.1:9223, local only) [0] 'MongoDB Courses and Trainings | MongoDB University' https://learn.mongodb.com/ [1] 'Loading https://account.mongodb.com/acc… <!--id:c4a22094-5302-4cf1-ba67-f7b1a58c10b8-->
+
+### [2026-11-13 10:19:20] 🤖 Claude <!--id:13fca8ce-85c4-4f8e-b7ab-be68bfe6a6db-->
+
+Edge 已重新啟動，現在停在登入流程，等你本人登入。
+
+- **Edge 是否啟動：** 成功，用的是原本的 `launch` helper，沒有改架構。
+- **Profile 路徑：** `local_data/mongodb_university/browser_profile`，沿用既有的，沒有另建。
+- **能否 attach / inspect：** 能。`tabs` 唯讀 attach 成功，debug port 是 127.0.0.1:9223，只開在本機。
+- **目前頁面：**
+  - 分頁 0：`https://learn.mongodb.com/`，標題是 MongoDB Courses and Trainings | MongoDB University。
+  - 分頁 1：正在載入 `https://account.mongodb.com/account/login?...`，這是 MongoDB 的 SAML 登入跳轉。看起來你之前的 profile 有保留一些狀態，或是首頁自動帶你去登入，我不確定哪一種。
+
+我沒有輸入帳密、沒有處理 CAPTCHA、沒有點任何 quiz 答案。視窗會保持開啟。
+
+請在那個視窗完成登入，進入你有權限的課程 quiz 頁，再通知我。我會用 `inspect` 唯讀記錄 DOM、截圖和 request 路徑，然後小批量收集。
