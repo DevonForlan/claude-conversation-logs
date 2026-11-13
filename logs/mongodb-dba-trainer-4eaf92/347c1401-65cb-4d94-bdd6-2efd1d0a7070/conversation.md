@@ -3515,3 +3515,72 @@ Skill Check reads are in progress, about two to three minutes per course. I'll r
 - ↩︎ result (6166 chars): === sc run 1 18:19:55 {"course": "cluster-reliability", "pass": 1, "error": "assessment frame did not load"} {"course": "crud-operations-in-mongodb-on-demand", "pass": 1, "error": "assessment frame did not load"} {"course": "data-resilience-self-managed", "pass": 1, "error": "assessment frame did no… <!--id:1f0b03bd-fef9-4c8d-a49f-967aa14df0f5-->
 - 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; export PYTHONIOENCODING=utf-8; cat > "$TEMP/two.py" <<'PYEOF' import sys sys.path.insert(0,".") from scripts import university_capture as uc from playwright.sync_api import sync_play… <!--id:6b00e003-5478-4beb-aa6c-68aa2ed703d5-->
 - ↩︎ result (1663 chars): == overview /course/mongodb-overview/mongodb-overview/skill-check?page=1 Previous | Next | | | Use the Skill Guide 📓, a one-page summary of the key concepts you just learned, to help with your skill check. | | | | | | You've already earned this badge! | | Earned on January 15, 2026 | | You have prev… <!--id:ca9c2a6d-b511-4388-9c52-5cdcbd1f91cf-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; export PYTHONIOENCODING=utf-8; cat > "$TEMP/patch7.py" <<'PYEOF' p='scripts/university_capture.py' s=open(p,encoding='utf-8').read() old=''' if not frame: raise RuntimeError("assessm… <!--id:2eb5b468-414e-42ea-ab02-988950abae32-->
+- ↩︎ result (432 chars): <unknown>:562: SyntaxWarning: invalid escape sequence '\s' ok C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer\scripts\university_capture.py:562: SyntaxWarning: invalid escape sequence '\s' rb = page.get_by_text(re.compile("^\s*retake assessment\s*$", re.I)) {"course": "mongodb-overview", "pass":… <!--id:7904ec59-7365-4190-8173-74ba2a857203-->
+
+### [2026-11-13 18:43:34] 🤖 Claude <!--id:2ae85522-75d0-4a4e-a7e3-8fb1780a61ef-->
+
+Overview worked (10 more). Fix the regex warning (use a raw string) and run CRUD.
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; export PYTHONIOENCODING=utf-8; python - <<'PYEOF' p='scripts/university_capture.py' s=open(p,encoding='utf-8').read() s=s.replace('re.compile("^\\s*retake assessment\\s*$", re.I)','r… <!--id:36efdfcd-46ef-4344-9307-a1620721c374-->
+- ↩︎ result (502 chars): <stdin>:3: SyntaxWarning: invalid escape sequence '\s' <stdin>:3: SyntaxWarning: invalid escape sequence '\s' 560: rb = page.get_by_role("button", name=re.compile("retake assessment", re.I)) 562: rb = page.get_by_text(re.compile(r"^\s*retake assessment\s*$", re.I)) {"course": "crud-operations-in-mon… <!--id:baaf683e-a9c0-421d-b52e-bf70a871842b-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; export PYTHONIOENCODING=utf-8; cat >> tests/test_university_capture_parse.py <<'PYEOF' def test_skillcheck_item_is_unanswered_and_never_guesses(): from scripts.university_capture imp… <!--id:8c638a68-37f4-4b74-99e5-fbfdbf6b3bbc-->
+- ↩︎ result (452 chars): ............ [100%] 12 passed in 0.08s TOTAL 140 with key 10 without 130 expl 10 answered 10 unanswered 130 "practice_domains": 10, "sidebar_university": true, "list_items": 140, "q1_banner": "Correct answer not captured — this question was collected without its answer, so it can't be graded.", "q1_… <!--id:bb62eae5-d57a-4d03-8cb1-d9efe5e88f46-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; export PYTHONIOENCODING=utf-8; cat > "$TEMP/docs2.py" <<'PYEOF' p='docs/university-review-implementation.md' s=open(p,encoding='utf-8').read() add=''' ### Skill Checks (scored assess… <!--id:c65c682b-def9-4606-8689-4a8464a07b5f-->
+- ↩︎ result (204 chars): .....................................................................s.. [ 83%] ........................................................ [100%] 342 passed, 2 skipped in 132.63s (0:02:12) <!--id:2456b824-b096-4de9-bb52-b6f9154b157b-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; git add scripts/university_capture.py tests/test_university_capture_parse.py docs/university-review-implementation.md docs/mongodb-university-ui-study.md; git diff --cached --name-on… <!--id:adf50e56-8a1b-4c29-9aa8-0fcd62fb9499-->
+- ↩︎ result (502 chars): warning: in the working copy of 'tests/test_university_capture_parse.py', LF will be replaced by CRLF the next time Git touches it docs/mongodb-university-ui-study.md docs/university-review-implementation.md scripts/university_capture.py tests/test_university_capture_parse.py 0 179518b University: S… <!--id:be8b2332-af3c-46e9-8ac3-5e013328f3fa-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; git diff 7f0519f..179518b | grep -inE "eyJ|@gmail|@yahoo|webcomm|launch_token|delivery_access|password" | head -5; git diff --stat 7f0519f..179518b | tail -1; export PYTHONIOENCODING… <!--id:8f5f896f-7887-4d1b-b274-6cbdba41e710-->
+- ↩︎ result (644 chars): 18 files changed, 3136 insertions(+), 1 deletion(-) remote main head=e0b4dfbf0a89287ce7a42150ec25f354357ca7b4 - mongodb-dba-trainer 347c1401 local turn 14 / remote turn 14 status working/working in_sync=True assistant response on remote: False queue: 0 redaction: True (25) last push: {'at': '2026-11… <!--id:76e9a704-1074-4cbe-8e63-38911e7bdc48-->
+
+### [2026-11-13 18:48:35] 🤖 Claude <!--id:70349085-4a0c-438a-9a6b-e58f664b3fc0-->
+
+十三個 Skill Check 都讀到了，University Review 目前共 140 題，但其中 130 題沒有正解。我沒有作答或送出任何一個 Skill Check，所以拿不到答案。
+
+## 結果
+
+1. **DBA Learning Path：** 1 條。
+2. **DBA 課程：** 14 門，已掃描。
+3. **自動報名：** 11 門，都是免費的，沒有付款或人工驗證。
+4. **Lesson／Unit：** 共 82 個學習頁，其中大部分是影片、程式摘要和 lab。
+5. **Quiz：** 4 個（Document Model 課程）。
+6. **Skill Check：** 13 個，全部讀到。
+7. **Assessment 總數：** 17 個（4 個 quiz 加 13 個 Skill Check）。
+8. **收集總題數：** 140 題，沒有重複。
+9. **已作答：** 10 題（你自己做過的 quiz）。
+10. **未作答：** 130 題（Skill Check，我只讀題目，沒有作答）。
+11. **有正解：** 10 題。
+12. **無正解：** 130 題。
+13. **有解析與回饋：** 10 題。
+
+## Skill Check 的運作方式
+
+14. **實際機制：**
+    - 測驗由 Caveon Scorpion 提供，內嵌在頁面裡。
+    - 頁面一載入，平台就會建立一份新的測驗交付（create-delivery）。
+    - 開始後，10 題會同時顯示在同一頁，都是單選，頁面底部有「Submit Exam」。不選任何選項就能讀完全部題目。
+    - 已經拿過徽章的課程會顯示「Retake Assessment」，說明重考不會再發新徽章。
+15. **Attempt、計時、重考規則：**
+    - 介面有計時器和「Exam Paused」狀態，但開始畫面沒有顯示時間限制。
+    - 官方文件和 FAQ 沒查到明確的 attempt 限制，只提到是 10 題的 skill check。
+    - 重複載入拿到的是同一份 10 題，題庫看起來是固定的。
+    - 這些規則我是從介面推得的，不是官方明文。
+16. **實際消耗的 attempt：** 沒有送出，所以沒有成績紀錄。但每次載入頁面都會建立一份未送出的測驗交付，我讀了 13 個頁面（含重試），所以平台上有多份未送出的紀錄。CRUD 的頁面顯示你的徽章是「今天」取得的，這不是我送出的，我沒有碰過 Submit。
+
+我決定不送出的原因：送出只會得到分數，不會得到逐題的正解，反而可能在你的紀錄上留下失敗分數；而且猜答案本來就不允許。我也沒有讀 Scorpion 的內部 API 內容來找正解，那是介面不會顯示的隱藏資料。
+
+## 工程
+
+17. **Collector 修改：** 新增 `enroll`（自動報名）、`skillchecks`（讀取 Skill Check）、路徑課程自動盤點、已拿徽章時的 Retake 開啟、純內容頁略過，以及失敗後從狀態檔續跑。
+18. **去重與續跑：** 重複讀取的結果都是 unchanged；狀態檔讓已處理的頁面不再重掃。
+19. **UI 驗證：** 用 140 題的真實資料副本在真實瀏覽器驗證過，列表、作答、隨機、缺少正解時顯示「Correct answer not captured」都正常，沒有 JS 錯誤。我用副本是為了不把我的測試作答寫進你的真實進度。
+20. **測試：** 完整 pytest 342 通過、2 略過、0 失敗。
+21. **Commit：** `179518b`。
+22. **推送：** 已推送到 GitHub（`7f0519f..179518b`，包含先前幾個 commit）。推送前掃過 diff，沒有 JWT、信箱或憑證，`local_data/` 沒有任何檔案被追蹤。
+23. **University Review 最終可用狀態：** 可用，共 140 題；Skill Check 的題目會顯示未捕捉正解。進度與 Certification 完全分離。
+24. **客觀上無法取得的內容：**
+    - 130 題的正解：不送出就看不到，送出也只有分數。
+    - 其他 DBA 以外領域的課程，我沒有掃，因為你限定範圍是 DBA 相關。
+
+## Logger
+
+目前這個 session 的狀態是 turn 14 `working`，因為這一輪還沒結束。我的回合內無法確認最終同步，請你在這輪結束後執行 `python ~/.claude/hooks/cc_global_log.py --health --session 347c1401-65cb-4d94-bdd6-2efd1d0a7070` 確認；佇列目前是空的，最後一次推送已通過遠端驗證。
