@@ -1642,3 +1642,54 @@ Git Bash 把 `/c` 轉成了 `C:/`（MSYS 路徑轉換），所以連線逾時。
 
 本機有 Chrome。為了不用額外下載瀏覽器，我把 MCP 改成使用系統 Chrome（`--browser chrome`），同時在研究目錄安裝官方 `playwright-core` 做獨立驗證。
 - 🔧 **Bash**: cd "[REDACTED]" && PROFW=$(cygpath -w "$LOCALAPPDATA/milanote-playwright-profile"); claude mcp remove playwright -s local >/dev/null 2>&1; MSYS_NO_PATHCONV=1 MSYS2_ARG_CONV_EXCL="*" claude mcp add --scope local… <!--id:5b26a060-2d42-4217-9cb1-376bd2b7ab0d-->
+- ↩︎ result ⚠️error (1240 chars): Exit code 1 1 registered Scope: Local config (private to you in this project) Status: ✔ Connected == playwright-core stable version latest 1.65.0 published 2026-11-05T20:17:40.688Z added 6 packages in 18s node:internal/modules/cjs/loader:714 throw e; ^ Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: Package … <!--id:6bbb8db2-73dc-40ee-8c97-2e22d19b2027-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\dupes.js <!--id:ac8680fb-6712-4ea5-9d6f-fa4b04d647c7-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\make-synthetic.js <!--id:c77d7e9f-33b0-43da-a943-d61ae3598097-->
+- ↩︎ result (167 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\dupes.js (file state is current in your context — no need to Read it back) <!--id:5764d87f-4fbe-41e6-8ddf-e65cf8e2451b-->
+- ↩︎ result (176 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\make-synthetic.js (file state is current in your context — no need to Read it back) <!--id:1cd57a6f-a9fe-414b-ada7-7ae172b74df3-->
+- 🔧 **Bash**: cd "[REDACTED]" && node make-synthetic.js ../data/synthetic && node dupes.js ../data/synthetic ../data/synthetic-result.json && node -e ' const r=require("../data/synthetic-result.json"); … <!--id:1930fbf0-6363-4b81-95e0-472048550e2a-->
+- ↩︎ result (2164 chars): synthetic images: 12 {"count":12,"exactGroups":1,"pixelGroups":0,"nearPairs":15,"rejected":0} exact: [["A_exact_copy.png","A_original.png"]] pixel-only: [] unreadable: [{"file":"corrupt.png","error":"Input buffer contains unsupported image format"}] near pairs (phash<=10 or dhash<=12): NEAR_DUPLICAT… <!--id:f49876e0-98d2-4676-acf7-2a8640c63572-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\dupes.js <!--id:ab75a3af-8493-4f4c-b0f9-dafc15a044d9-->
+- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/个人/milanote/research/phase1/tools" 2>/dev/null || cd "[REDACTED]"; sed -i 's/nearPairs: near.filter(n => n.verdict === "NEAR_DUPLICATE").length, rejected: … <!--id:47469044-9a21-466e-855d-cde76d898996-->
+- ↩︎ result (177 chars): The file C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\dupes.js has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:431f2bb3-b61a-4a68-a8b7-c6ee7de7edf5-->
+- ↩︎ result (523 chars): {"count":12,"exactGroups":1,"pixelGroups":0,"nearPairs":13,"possible":2,"rejected":0} ground-truth same-picture pairs: 15 | found at strict tier: 14 | true positives: 14 | false positives: 0 POSSIBLE tier: A_cropped_4pct.png ~ A_small_overlay.png [true dup]; U1_screenshot_light.png ~ U2_screenshot_o… <!--id:fce7fb90-122c-4006-916e-75e0429fecaa-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\login-and-probe.js <!--id:cb81af74-ea42-4483-9703-fafa277fd9f0-->
+- ↩︎ result (177 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\login-and-probe.js (file state is current in your context — no need to Read it back) <!--id:4746d946-f798-4b58-af54-fdf26c924cb5-->
+
+### [2026-11-13 12:19:42] 🤖 Claude <!--id:57b7fd8f-26b2-4d98-ade6-dce919f6bd7f-->
+
+正式開視窗請你登入之前，先用無害網頁驗證「Playwright 能操作系統 Chrome 與持久登入資料夾」這件事本身可行。
+- 🔧 **Bash**: cd "[REDACTED]" && node --check login-and-probe.js && echo "probe script syntax ok" && cat > /dev/null <<'EOF' EOF node -e ' const {chromium}=require("playwright-core");const path=require(… <!--id:68febfef-0937-47ec-a06a-b134bc29cd36-->
+- ↩︎ result (87 chars): probe script syntax ok chrome 157.0.8103.51 | title: Example Domain | profile reused ok <!--id:8ffa0a06-28eb-4a20-8292-6077a99c236e-->
+
+### [2026-11-13 12:20:23] 🤖 Claude <!--id:32d6dd6a-7323-40e1-aa0d-9964b6dc3ef0-->
+
+Chrome 157 可正常驅動，持久登入資料夾也可重用。現在**開啟登入視窗**：它會在背景等你，最多 25 分鐘；登入後只做只讀觀察。
+- 🔧 **Bash**: cd "[REDACTED]" && : > ../data/probe.log && LOGIN_WAIT_MIN=25 MAX_SAMPLES=3 node login-and-probe.js <!--id:d6d5e9da-7613-46af-8cd2-290bb1e49c12-->
+- ↩︎ result (604 chars): Command running in background with ID: bhb5wlppt. Output is being written to: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\789a05257270d83c\0585a915-2b02-47a2-8837-fbe0edb6c4eb\tasks\bhb5wlppt.output. You will be notified when it completes — do not poll that file or sleep while waiting. Read the f… <!--id:d7ea04dd-1860-45b9-ab2d-e9abcd875fda-->
+
+### [2026-11-13 12:20:37] 🤖 Claude <!--id:4bf6ad84-74e7-4b1c-a034-e9643407c3eb-->
+
+登入視窗已在背景等待。我趁這段時間做不需要登入的研究：讀 Milanote 官方匯出說明，以及自動化存取的使用條款。
+- 🔧 **ToolSearch**: select:WebFetch <!--id:20bca7d9-407d-4f32-b1bb-d69df5868966-->
+- ↩︎ result (0 chars):  <!--id:66be7974-f830-4014-8d3d-5c752a5118ad-->
+- 🔧 **WebFetch**: https://help.milanote.com/en/articles/111395-exporting-your-work <!--id:4e098d84-5d1c-467b-89ee-402d15adeecc-->
+- ↩︎ result (1158 chars): **Board export** - Open a board (not your Home board, which "cannot be exported") and click **Export** at the top right. - Formats: PDF Standard, PDF Large, PNG, Word, Markdown, and Plain text. - The export "will download as soon as it's complete." **ZIP export of images and files** - Use the Export… <!--id:61ccf2de-78e0-4d16-8ac0-ef1b637bb780-->
+- 🔧 **WebFetch**: https://milanote.com/terms <!--id:51448ee7-651a-46ad-912b-4b37944d83e8-->
+- ↩︎ result (215 chars): The server returned HTTP 404 Not Found. The response body was not retrieved. If this URL requires authentication, use an authenticated tool (e.g. `gh` for GitHub, or an MCP-provided fetch tool) instead of WebFetch. <!--id:d67638f6-8595-4eeb-896b-a5dda25d2f45-->
+- 🔧 **WebSearch**: Milanote terms of service automated access scraping bots prohibited <!--id:047c578f-514d-4d76-8359-0e88a7c7b754-->
+- ↩︎ result (3906 chars): Web search results for query: "Milanote terms of service automated access scraping bots prohibited" Links: [{"title":"Terms of service","url":"https://milanote.com/legal/terms-of-service"},{"title":"X · X Terms of Service · View original document ↗","url":"https://conductatlas.com/platform/x/x-terms… <!--id:1b51a84f-5844-476e-8d27-5b2210d31d75-->
+
+### [2026-11-13 12:21:08] 🤖 Claude <!--id:c53939c4-6ff2-4a0e-8bed-2a28a1806eb2-->
+
+探測腳本已正常結束（結束碼 0 代表登入成功並完成探測）。我先看紀錄和結果。
+- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/milanote/research/phase1/data" && cat probe.log; ls -la --time-style=+%F_%T . samples | awk '{print $6,$5,$7}' | head -20; F=$(ls -t probe-*.json | head -1); echo "== $F"; node -e ' const r=require("./"+p… <!--id:ef3e7488-0def-4cd6-b71f-9f71e21b49f5-->
+- ↩︎ result (3346 chars): 2026-11-13T04:20:32.505Z opening Milanote; waiting for YOU to log in manually in the browser window (up to 25 min) 2026-11-13T04:20:35.996Z login detected; settling, then observing read-only 2026-11-13T04:20:48.008Z probe saved: probe-1794543648004.json (network patterns: 24, images seen: 2, sample … <!--id:5427c05c-525c-4be4-9e9c-3795f6faa505-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\login-and-probe.js <!--id:8d8fbe3a-729d-4890-90d9-3a15cfbbcb14-->
+- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/milanote/research/phase1" && node --check tools/login-and-probe.js && mv data/probe-1794543648004.json data/probe-LOGINPAGE-ONLY-falsepositive.json && rm -f data/samples/sample1.png data/samples/sample2.s… <!--id:43001ee0-87f5-41bf-b311-d0f5b51209cc-->
+- ↩︎ result (187 chars): The file C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\login-and-probe.js has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:60af3420-4535-4113-9fb9-53af79651b30-->
+- ↩︎ result (157 chars): data: probe.log probe-LOGINPAGE-ONLY-falsepositive.json samples synthetic synthetic-result.json data/samples: relaunching with the corrected login detection <!--id:b6d1333c-e84a-4826-87d7-e04a027aba10-->
+- 🔧 **Bash**: cd "[REDACTED]" && LOGIN_WAIT_MIN=30 MAX_SAMPLES=3 node login-and-probe.js <!--id:645ee274-67b1-4737-b2d8-28c717875f4a-->
+- 🔧 **WebFetch**: https://milanote.com/legal/terms-of-service <!--id:bf206c63-12b8-4de5-a64b-fe729b29f2fd-->
+- ↩︎ result (598 chars): Command running in background with ID: bir236vwr. Output is being written to: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\789a05257270d83c\0585a915-2b02-47a2-8837-fbe0edb6c4eb\tasks\bir236vwr.output. You will be notified when it completes — do not poll that file or sleep while waiting. Read the f… <!--id:e004ca5d-4c97-498c-b4a9-59dc1d5d3bb0-->
+- ↩︎ result (1981 chars): **Note:** Quotes are kept under 125 characters. Where a clause was longer, I quoted only the relevant part. **Automated access (scraping, bots, scripts, automated means):** Not addressed. **API use:** Not addressed directly. The closest clause is under **7.3 Software-as-a-Service**, (c)(ii): > "no '… <!--id:5e941e33-f7c9-47a0-8aaf-312182973c4f-->
