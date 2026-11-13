@@ -191,7 +191,7 @@ def test_latest_json_stale_is_detected_and_rebuilt(L):
     tr2 = Transcript(L.tmp / "b.jsonl")
     tr2.user("b"); tr2.assistant("B"); hook(L, tr2, "Stop", SID2)
     assert L.flush_once() is True
-    L.atomic_write(L.REPO / "latest.json", json.dumps({"session_id": SID, "latest_turn": 1, "status": "idle", "updated_at": "2000-01-01"}))
+    L.atomic_write(L.REPO / "latest.json", json.dumps({"session_id": "ghost-session", "latest_turn": 7, "status": "working", "updated_at": "2000-01-01"}))
     assert "latest_json_stale" in {i["kind"] for i in L.detect_stale(fetch=False)}
     L.repair()
     assert "latest_json_stale" not in {i["kind"] for i in L.detect_stale(fetch=False)}

@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-13T12:24:32+08:00",
+  "updated_at": "2026-11-13T12:30:06+08:00",
   "projects": [
     {
-      "project": "phase1",
+      "project": "milanote",
       "project_safe": "milanote-3fb634",
-      "last_activity": "2026-11-13T12:24:32+08:00",
-      "latest_session": "0585a915-2b02-47a2-8837-fbe0edb6c4eb",
-      "latest_log": "logs/milanote-3fb634/0585a915-2b02-47a2-8837-fbe0edb6c4eb/conversation.md",
-      "status": "idle",
+      "last_activity": "2026-11-13T12:30:06+08:00",
+      "latest_session": "6628e952-b707-4ec8-b0e2-bc258a4801de",
+      "latest_log": "logs/milanote-3fb634/6628e952-b707-4ec8-b0e2-bc258a4801de/conversation.md",
+      "status": "ended",
       "sessions": 5
     },
     {
