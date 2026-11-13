@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-13T10:21:02+08:00",
+  "updated_at": "2026-11-13T10:49:20+08:00",
   "project": "mongodb-dba-trainer",
   "project_safe": "mongodb-dba-trainer-4eaf92",
   "session_id": "347c1401-65cb-4d94-bdd6-2efd1d0a7070",
   "latest_log": "logs/mongodb-dba-trainer-4eaf92/347c1401-65cb-4d94-bdd6-2efd1d0a7070/conversation.md",
   "metadata": "logs/mongodb-dba-trainer-4eaf92/347c1401-65cb-4d94-bdd6-2efd1d0a7070/metadata.json",
-  "latest_turn": 7,
-  "status": "idle",
-  "last_user_message": "我現在已經登入了 再來就都交給你嗎?",
+  "latest_turn": 8,
+  "status": "working",
+  "last_user_message": "<pasted_content id=\"69ce\"> 請讀取 GitHub： DevonForlan/claude-conversation-logs Issue #3： [mongodb-dba-trainer] Autonomous MongoDB University collection + University Review validation 目前 MongoDB University 已完成登入。 請依照 Issue #3 開始執行。 這次請自主完成，不需要再要求我手動選課程、開 Quiz 或逐步操作。 只有真的需要重新登入、CAPTCHA 或人工驗證時再通知我。 完成後請讓完整結果透過 global conversation logger 同步回 GitHub。 </pasted_content id=\"69ce\">",
   "last_assistant_message": "對，登入之後的步驟我來做。不過我還差一個動作：目前分頁停在 Learner Dashboard（`learn.mongodb.com/dashboard`），不是 quiz 頁。 我剛對 dashboard 做了唯讀 `inspect`： - 登入狀態確認，沒有出現登入連結或 CAPTCHA。 - DOM 大綱和截圖已存到 `local_data/mongodb_university/ui_reference/`，只存在本機，不會被 commit。 請你在同一個 Edge 視窗點進一門你有權限的課程，打開一個有 quiz 或 knowledge check 的頁面，停在題目畫面，然後告訴我。我不自己在站內亂跳，是因為你的規則限制不能爬未授權內容，由你選課程，範圍最清楚。 你開好之後，我會做這些事： 1. 用 `inspect` 確認題目是在 DOM 裡，還是從 API 來，並找出穩定的選擇器。 2. 小批量收集這一門課的題目，存進 `local_data/`，再用 UI 驗證列表、作答、解析和進度。 3. 補上 UI study 文件的「實際觀察」，跑完整 pytest，最後給 16 項報告。 作答的部分，我不會替你選答案去換取正解。題目頁上如果沒有顯示正解，就會記成「Correct answer not captured」。如果你自己作答後頁面出現解析，我再唯讀記錄下來。",
   "active_sessions": [
     "347c1401-65cb-4d94-bdd6-2efd1d0a7070",

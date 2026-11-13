@@ -1705,3 +1705,35 @@ Edge 已重新啟動，現在停在登入流程，等你本人登入。
 3. 補上 UI study 文件的「實際觀察」，跑完整 pytest，最後給 16 項報告。
 
 作答的部分，我不會替你選答案去換取正解。題目頁上如果沒有顯示正解，就會記成「Correct answer not captured」。如果你自己作答後頁面出現解析，我再唯讀記錄下來。
+
+### [2026-11-13 10:47:49] 👤 User (turn 8) <!--id:a92f97f2-6d8b-48ca-9d0a-9b95620048d7-->
+
+<pasted_content id="69ce">
+請讀取 GitHub：
+
+DevonForlan/claude-conversation-logs
+
+Issue #3：
+[mongodb-dba-trainer] Autonomous MongoDB University collection + University Review validation
+
+目前 MongoDB University 已完成登入。
+
+請依照 Issue #3 開始執行。
+這次請自主完成，不需要再要求我手動選課程、開 Quiz 或逐步操作。
+
+只有真的需要重新登入、CAPTCHA 或人工驗證時再通知我。
+
+完成後請讓完整結果透過 global conversation logger 同步回 GitHub。
+</pasted_content id="69ce">
+- 🔧 **Bash**: gh issue view 3 --repo DevonForlan/claude-conversation-logs --comments 2>&1 | head -200 <!--id:b5c938ff-6f97-490c-98ca-83300bede5c2-->
+- ↩︎ result (31 chars): (Bash completed with no output) <!--id:a380e941-c20b-43e6-9af1-580a701f1224-->
+- 🔧 **Bash**: gh issue view 3 --repo DevonForlan/claude-conversation-logs --json title,body,state,author 2>&1 | head -150; echo "exit=$?"; gh auth status 2>&1 | head -5 <!--id:094ce219-3d16-41b6-a015-d5ae71204d24-->
+- ↩︎ result (10321 chars): {"author":{"id":"U_kgDOCkkrbg","is_bot":false,"login":"DevonForlan","name":"Devon"},"body":"# mongodb-dba-trainer — Autonomous MongoDB University Collection & University Review Validation\n\n## Project\n\n`C:\\Users\\devon.tseng\\Desktop\\個人\\mongodb-dba-trainer`\n\nCurrent known session:\n`347c1401… <!--id:10615745-df38-47e4-85c2-af6ba3b10561-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; ls local_data/mongodb_university/ui_reference/; wc -l scripts/university_capture.py; grep -n "def \|add_parser\|add_argument" scripts/university_capture.py <!--id:1f1254b5-65d7-43bd-94eb-6dbf8bcdf1f1-->
+- ↩︎ result (742 chars): inspect-20261113-102049.json outline-20261113-102049.txt shot-20261113-102049.png 177 scripts/university_capture.py 78:def _connect(pw): 82:def _pick_page(browser, match: str | None): 89:def cmd_launch(args) -> int: 102:def cmd_tabs(_args) -> int: 115:def cmd_inspect(args) -> int: 143:def cmd_captur… <!--id:f5b9cad2-833a-4c31-824c-d39686664c14-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer\local_data\mongodb_university\ui_reference"; head -c 6000 outline-20261113-102049.txt; echo; python -c " import json;d=json.load(open('inspect-20261113-102049.json'));print(list(d.keys… <!--id:d172e9d2-d652-4a7c-a96c-e63ccab4ca05-->
+- ↩︎ result (7399 chars): body :: a [href=# | aria-hidden=true] :: ___ div div [id=page-view] div [class=css-cepb2a-NotificationsContainer] div [class=lms-secondary-nav] div [class=css-v13hrf-Nav] nav [role=navigation | class=css-1ufg0d5-NavBar] div [class=css-fedhnt-Desktop] div [class=css-hyzhss-NavBar] a [href=https://www… <!--id:90d98c7d-169d-4c8a-a9b6-a391a0839b4b-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; cat > "$TEMP/links.py" <<'EOF' import sys, json from playwright.sync_api import sync_playwright with sync_playwright() as pw: b = pw.chromium.connect_over_cdp("http://127.0.0.1:9223"… <!--id:3b66527d-03fc-4081-b013-868224920f68-->
+- ↩︎ result (3734 chars): https://learn.mongodb.com/dashboard https://learn.mongodb.com/ | https://learn.mongodb.com/skills | Skills https://learn.mongodb.com/pages/certification-program | Register Today https://learn.mongodb.com/learn/learning-path/mongodb-database-admin-self-managed-path | MongoDB Database Admin Path (Self… <!--id:7b221d0c-f87e-49f8-87ae-58cbaf1a8402-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; cat > "$TEMP/nav.py" <<'EOF' import sys from playwright.sync_api import sync_playwright url = sys.argv[1] with sync_playwright() as pw: b = pw.chromium.connect_over_cdp("http://127.0… <!--id:87ea14d8-af1c-4656-8c50-a9c3c0039100-->
+- ↩︎ result ⚠️error (2241 chars): Exit code 1 https://learn.mongodb.com/learn/learning-path/mongodb-database-admin-self-managed-path | MongoDB Courses and Trainings | MongoDB University Traceback (most recent call last): File "C:\Users\DEVON~1.TSE\AppData\Local\Temp/nav.py", line 14, in <module> txt = pg.inner_text('#page-view') Fil… <!--id:b0f9e0ab-10d6-484c-9484-ee9ee8220831-->
