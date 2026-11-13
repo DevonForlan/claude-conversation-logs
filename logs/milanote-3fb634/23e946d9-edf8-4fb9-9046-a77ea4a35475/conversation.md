@@ -389,3 +389,90 @@ Batch export is running in the background (13 boards). While it runs, I'm saving
 ### [2026-11-13 18:26:33] 🤖 Claude <!--id:9e1f4d2d-f402-4991-84af-b29728ae1135-->
 
 The batch is moving but slowly: 1 of 13 downloaded so far. I'll wait for the completion notification rather than poll.
+
+### [2026-11-13 18:37:32] 👤 User (turn 12) <!--id:5a228074-8b79-4de0-8ed2-e33e469af311-->
+
+<task-notification>
+<task-id>kufct4ikd</task-id>
+<status>completed</status>
+<summary>MCP task kufct4ikd (playwright/browser_run_code_unsafe) completed.</summary>
+<result>
+### Result
+[["TGL_0210#0","ok","Generate ZIP file (1.4 MB)","b01_TGL_0210_0.zip"],["TGL_0211#0","fail","TimeoutError: page.waitForEvent: Timeout 120000ms exceeded while waiting for event \"download\"\n======"],["TGL_0212#0","fail","TimeoutError: page.waitForEvent: Timeout 120000ms exceeded while waiting for event \"download\"\n======"],["TGL_0212#1","ok","Generate ZIP file (9.2 MB)","b04_TGL_0212_1.zip"],["TGL_0310#0","fail","TimeoutError: page.waitForEvent: Timeout 120000ms exceeded while waiting for event \"download\"\n======"],["TGL_0309#0","ok","Generate ZIP file (5.6 MB)","b06_TGL_0309_0.zip"],["TGL_0324 PLR#0","ok","Generate ZIP file (1.3 MB)","b07_TGL_0324_PLR_0.zip"],["TGL_0327+0330+0331#0","ok","Generate ZIP file (12.4 MB)","b08_TGL_0327_0330_0331_0.zip"],["TGL_0325#0","fail","TimeoutError: page.waitForEvent: Timeout 120000ms exceeded while waiting for event \"download\"\n======"],["TGL_0331_0401 重設憑證#0","ok","Generate ZIP file (2.9 MB)","b10_TGL_0331_0401_0.zip"],["TGL_0402 連線至Oracle#0","ok","Generate ZIP file (4.4 MB)","b11_TGL_0402_Oracle_0.zip"],["0424雙CA憑證-正式機#0","ok","Generate ZIP file (5.0 MB)","b12_0424_CA_-_0.zip"],["0506 0507 LDAP設定#0","fail","TimeoutError: page.waitForEvent: Timeout 120000ms exceeded while waiting for event \"download\"\n======"]]
+### Ran Playwright code
+```js
+await (async (page) =&gt; {
+  const outDir = '[REDACTED]/';
+  const targets = [['TGL_0210',0],['TGL_0211',0],['TGL_0212',0],['TGL_0212',1],['TGL_0310',0],['TGL_0309',0],['TGL_0324 PLR',0],['TGL_0327+0330+0331',0],['TGL_0325',0],['TGL_0331_0401 重設憑證',0],['TGL_0402 連線至Oracle',0],['0424雙CA憑證-正式機',0],['0506 0507 LDAP設定',0]];
+  const coll = 'https://app.milanote.com/1VPZPZ1LORZ4cj/tgl_collection';
+  const res = [];
+  for (const [name, k] of targets) {
+    const key = name + '#' + k;
+    try {
+      await page.goto(coll); await page.waitForTimeout(2500);
+      await page.getByText(name, {exact:true}).nth(k).dblclick();
+      await page.waitForTimeout(2500);
+      await page.locator('#popup-export-button').click();
+      const btn = page.getByRole('button', {name: /Generate ZIP file/});
+      if (await btn.count() === 0) { res.push([key,'no-files']); continue; }
+      const label = await btn.first().innerText();
+      const [dl] = await Promise.all([page.waitForEvent('download', {timeout: 120000}), btn.first().click()]);
+      const file = outDir + 'b' + String(res.length+1).padStart(2,'0') + '_' + key.replace(/[^\w.-]+/g,'_') + '.zip';
+      await dl.saveAs(file);
+      res.push([key,'ok',label,file.split('/').pop()]);
+    } catch (e) { res.push([key,'fail',String(e).slice(0,100)]); }
+  }
+  return res;
+})(page);
+```
+### Page
+- Page URL: https://app.milanote.com/1Wkx391gz1A88u/0506-0507-ldap
+- Page Title: 0506 0507 LDAP設定 - Milanote
+- Console: 0 errors, 3 warnings
+### Events
+- New console entries: .playwright-mcp\console-2026-11-13T10-23-37-976Z.log#L8-L98
+- Downloading file TGL_0210.zip ...
+- Downloaded file TGL_0210.zip to ".playwright-mcp\TGL-0210.zip"
+- Downloading file TGL_0212.zip ...
+- Downloaded file TGL_0212.zip to ".playwright-mcp\TGL-0212.zip"
+- Downloading file TGL_0309.zip ...
+- Downloaded file TGL_0309.zip to ".playwright-mcp\TGL-0309.zip"
+- Downloading file TGL_0324 PLR.zip ...
+- Downloaded file TGL_0324 PLR.zip to ".playwright-mcp\TGL-0324-PLR.zip"
+- Downloading file TGL_0327+0330+0331.zip ...
+- Downloaded file TGL_0327+0330+0331.zip to ".playwright-mcp\TGL-0327-0330-0331.zip"
+- Downloading file TGL_0331_0401 重設憑證.zip ...
+- Downloaded file TGL_0331_0401 重設憑證.zip to ".playwright-mcp\TGL-0331-0401-重設憑證.zip"
+- Downloading file TGL_0402 連線至Oracle.zip ...
+- Downloaded file TGL_0402 連線至Oracle.zip to ".playwright-mcp\TGL-0402-連線至Oracle.zip"
+- Downloading file 0424雙CA憑證-正式機.zip ...
+- Downloaded file 0424雙CA憑證-正式機.zip to ".playwright-mcp\0424雙CA憑證-正式機.zip"
+</result>
+</task-notification>
+- 🔧 **Bash**: cd "[REDACTED]" && cat > "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/789a05257270d83c/23e946d9-edf8-4fb9-9046-a77ea4a35475/scratchpad/an.py" <<'EOF' import zipfile,hashlib,glob,… <!--id:593b9648-2b70-4049-a4e6-46e9daf3854d-->
+- ↩︎ result (371 chars): 9 zips 264 entries {'png': 225, 'txt': 16, 'yml': 3, 'docx': 6, 'pfx': 4, 'rpm': 1, 'odt': 1, 'csv': 4, 'sql': 4} unique 260 dup groups 4 dup extra files 4 bad [] b01_TGL_0210_0.zip b04_TGL_0212_1.zip b06_TGL_0309_0.zip b07_TGL_0324_PLR_0.zip b08_TGL_0327_0330_0331_0.zip b10_TGL_0331_0401_0.zip b11_… <!--id:21b5e86d-8baf-4f68-9941-a21026bc840b-->
+- 🔧 **Bash**: cat > "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/789a05257270d83c/23e946d9-edf8-4fb9-9046-a77ea4a35475/scratchpad/c2.md" <<'EOF' ## CC 進度回報 #2（去識別摘要，2026-11-13） **自動 ZIP 匯出：已驗證可行**（Playwright MCP 操作 Export → Generate ZIP → 下載，全程無人工）。 -… <!--id:4af20b14-22ea-46b4-966d-b1ac4dfb03eb-->
+- ↩︎ result (89 chars): https://github.com/DevonForlan/milanote-cc-session-audit/issues/1#issuecomment-6850487310 <!--id:ee421fd0-1673-4318-9aca-13a6bc62d0fc-->
+
+### [2026-11-13 18:38:04] 🤖 Claude <!--id:4326bb63-cb49-4395-a3ed-0865d375bfcf-->
+
+自動匯出已經跑通，不用你手動操作 Milanote。目前還沒做重複相似分析、OCR、分類和備份還原。
+
+**匯出結果**
+- 驗證用的小白板成功自動下載，ZIP 完整，SHA-256 已記錄。
+- 實測發現，ZIP 只含該白板自己這一層的圖片和檔案，結構是扁平的，不保留白板階層。只有子白板的容器白板，匯出按鈕是停用的。所以每個有檔案的白板都要單獨匯出，位置對照表要另外存，不能靠 ZIP。
+- 批次匯出 TGL 第一層的 13 個白板，成功 8 個，另外 5 個逾時失敗，可以重試。
+- 目前共 9 個 ZIP、264 個檔案，全部通過完整性檢查。其中 PNG 225 張，其他是 txt、docx、csv、sql、yml 等。
+- 精確重複（SHA-256）有 4 組、多出 4 個檔案。
+- 已匯出的白板約佔有檔案白板的一半。
+
+**需要注意**
+- ZIP 裡有 4 個 `.pfx` 檔，那是憑證或金鑰類，屬於你說的「真正敏感」類型，所以我沒有解壓分析，也沒有送模型。它們還留在本機的 exports 資料夾，建議你自行處理或刪除。
+- 預估 920 MB 的那個白板主要是第三方軟體壓縮檔，我沒有下載。
+
+**進度與下一步**
+- Milanote 寫入、移動、刪除都是 0。
+- 我已在 Issue #1 發了去識別的進度摘要：https://github.com/DevonForlan/milanote-cc-session-audit/issues/1#issuecomment-6850487310
+- 接下來我會重試 5 個失敗的白板，補上其餘有檔案的白板，再跑 pHash 相似分析、OCR 和分類。整理 Milanote 之前，我會先把位置對照表和還原方案做好並驗證。
+
+檔案都在 `research/phase1/data/exports/`，策略筆記在 `research/phase1/data/EXPORT_STRATEGY.md`。
