@@ -1680,3 +1680,28 @@ Edge 已重新啟動，現在停在登入流程，等你本人登入。
 我沒有輸入帳密、沒有處理 CAPTCHA、沒有點任何 quiz 答案。視窗會保持開啟。
 
 請在那個視窗完成登入，進入你有權限的課程 quiz 頁，再通知我。我會用 `inspect` 唯讀記錄 DOM、截圖和 request 路徑，然後小批量收集。
+
+### [2026-11-13 10:20:29] 👤 User (turn 7) <!--id:d4f6e5a6-be19-4d9d-8886-bb625e9d5b8b-->
+
+我現在已經登入了 再來就都交給你嗎?
+- 🔧 **PowerShell**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; .venv313\Scripts\python.exe -m scripts.university_capture tabs | ForEach-Object { if ($_.Length -gt 200) { $_.Substring(0,200) } else { $_ } } <!--id:41732131-1639-4a8f-a1d0-7e3b4979d8d1-->
+- ↩︎ result (70 chars): [0] 'Learner Dashboard | MongoDB' https://learn.mongodb.com/dashboard <!--id:bcc063e2-c470-45c3-a6c6-f69d25629a88-->
+- 🔧 **PowerShell**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; .venv313\Scripts\python.exe -m scripts.university_capture inspect --match dashboard 2>&1 | Select-Object -First 60 <!--id:9ccb5899-c824-4475-84bd-949e9f9475b4-->
+- ↩︎ result (263 chars): {"title": "Learner Dashboard | MongoDB", "url": "https://learn.mongodb.com/dashboard", "signed_in_hint": {"has_sign_in_link": false, "has_captcha_frame": false}} wrote inspect/outline/screenshot (20261113-102049) under local_data/mongodb_university/ui_reference/ <!--id:2ca6864a-c6de-4a76-a73a-374343585941-->
+
+### [2026-11-13 10:20:58] 🤖 Claude <!--id:f9c5d7c3-319e-48b9-97d3-a0a516766065-->
+
+對，登入之後的步驟我來做。不過我還差一個動作：目前分頁停在 Learner Dashboard（`learn.mongodb.com/dashboard`），不是 quiz 頁。
+
+我剛對 dashboard 做了唯讀 `inspect`：
+- 登入狀態確認，沒有出現登入連結或 CAPTCHA。
+- DOM 大綱和截圖已存到 `local_data/mongodb_university/ui_reference/`，只存在本機，不會被 commit。
+
+請你在同一個 Edge 視窗點進一門你有權限的課程，打開一個有 quiz 或 knowledge check 的頁面，停在題目畫面，然後告訴我。我不自己在站內亂跳，是因為你的規則限制不能爬未授權內容，由你選課程，範圍最清楚。
+
+你開好之後，我會做這些事：
+1. 用 `inspect` 確認題目是在 DOM 裡，還是從 API 來，並找出穩定的選擇器。
+2. 小批量收集這一門課的題目，存進 `local_data/`，再用 UI 驗證列表、作答、解析和進度。
+3. 補上 UI study 文件的「實際觀察」，跑完整 pytest，最後給 16 項報告。
+
+作答的部分，我不會替你選答案去換取正解。題目頁上如果沒有顯示正解，就會記成「Correct answer not captured」。如果你自己作答後頁面出現解析，我再唯讀記錄下來。
