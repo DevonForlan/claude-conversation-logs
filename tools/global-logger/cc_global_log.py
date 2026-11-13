@@ -679,6 +679,19 @@ def flush_once(sids=None):
     if sids:
         settle(set(sids))
     reconcile_all()
+    locks = []
+    for sid in (sids or []):                       # a concurrent hook must not rewrite files between add and verify
+        lk = FileLock(STATE / "sessions" / f"{sid}.lock", timeout=15)
+        if lk.acquire():
+            locks.append(lk)
+    try:
+        return _flush_locked(sids)
+    finally:
+        for lk in locks:
+            lk.release()
+
+
+def _flush_locked(sids):
     with FileLock(STATE / "repo.lock", timeout=60):
         rebuild_indexes()
         final_scan()

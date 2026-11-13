@@ -1,10 +1,10 @@
 {
-  "updated_at": "2026-11-13T12:52:14+08:00",
+  "updated_at": "2026-11-13T12:55:42+08:00",
   "projects": [
     {
       "project": "mongodb-dba-trainer",
       "project_safe": "mongodb-dba-trainer-4eaf92",
-      "last_activity": "2026-11-13T12:52:14+08:00",
+      "last_activity": "2026-11-13T12:55:42+08:00",
       "latest_session": "347c1401-65cb-4d94-bdd6-2efd1d0a7070",
       "latest_log": "logs/mongodb-dba-trainer-4eaf92/347c1401-65cb-4d94-bdd6-2efd1d0a7070/conversation.md",
       "status": "working",
@@ -14,12 +14,12 @@
     {
       "project": "logger-acceptance",
       "project_safe": "logger-acceptance-6cf32c",
-      "last_activity": "2026-11-13T12:51:56+08:00",
-      "latest_session": "505d41b1-5681-4527-abe0-d2ac08703a5c",
-      "latest_log": "logs/logger-acceptance-6cf32c/505d41b1-5681-4527-abe0-d2ac08703a5c/conversation.md",
-      "status": "ended",
-      "latest_turn": 1,
-      "sessions": 1
+      "last_activity": "2026-11-13T12:55:40+08:00",
+      "latest_session": "16fc3800-5023-426b-8d8c-b724b4d09355",
+      "latest_log": "logs/logger-acceptance-6cf32c/16fc3800-5023-426b-8d8c-b724b4d09355/conversation.md",
+      "status": "working",
+      "latest_turn": 0,
+      "sessions": 2
     },
     {
       "project": "milanote",
