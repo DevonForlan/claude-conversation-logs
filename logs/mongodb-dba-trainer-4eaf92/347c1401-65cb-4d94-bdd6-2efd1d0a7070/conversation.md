@@ -2077,3 +2077,426 @@ Issue #3
 
 **需要你決定的事**
 如果要涵蓋其餘 DBA 課程，你需要在 University 裡自己報名（或明確授權我按報名鈕），報名後我再重跑 `collect`。這一步會改變你的帳號狀態，所以我不自行決定。
+
+### [2026-11-13 12:11:28] 👤 User (turn 10) <!--id:1bfc14f2-6557-4a16-b47b-1c96a08a9629-->
+
+<pasted_content id="69ce">
+請重新讀取 GitHub：
+
+`DevonForlan/claude-conversation-logs`
+
+並在本輪依序處理：
+
+1. Issue #3 最新 comments
+2. Issue #4：
+   `[global-logger] Guarantee complete final-response sync + remote verification`
+
+這一輪請不要只處理其中一項，兩項都要完成。
+
+## A. MongoDB University DBA 工作
+
+後續分工正式定義如下：
+
+我只負責：
+
+- MongoDB University 登入
+- CAPTCHA
+- 真正只能人工完成的身分驗證
+
+除此之外全部由你自行處理。
+
+不要再要求我：
+
+- 手動選課
+- 手動 Enroll
+- 手動開 Course
+- 手動進 Lesson
+- 手動開 Quiz
+- 手動點 Next / Previous
+- 決定掃描哪些 DBA 課程
+- 執行 collector
+- 執行 tests
+- 操作一般 UI
+
+只要 MongoDB University 的 DBA 相關課程符合：
+
+- 目前帳號正常可存取
+- 免費
+- 正常 UI 可以 Enroll
+- 不需要付款
+- 不會消耗考試或 assessment attempt
+- 不會啟動計時測驗
+- 不會造成其他重大不可逆影響
+
+你已獲得明確授權：
+
+**可以自行點 Enroll / Start / Begin Course。**
+
+不需要再問我。
+
+報名後自行：
+
+- 進入課程
+- 掃描 Units / Lessons
+- 找出所有 DBA Quiz / Practice / Knowledge Check
+- 已作答與未作答都納入
+- 未作答 Quiz 如果正常點 Start 就能看到題目，直接自行開啟
+- 蒐集題目與選項
+- 有正解就收集
+- 沒有正解就記為 `not captured`
+- 不要為了取得正解亂答或 submit
+- 不要啟動會消耗 attempt 或啟動 timer 的正式計分測驗
+
+目標是盡可能完整涵蓋 DBA 相關 University Quiz，而不是只收已經做過的題目。
+
+遇到單一頁面失敗請記錄並繼續，不要整體停止。
+
+---
+
+## B. Global Conversation Logger
+
+目前同步機制仍有漏洞：
+
+Claude Code 本機已經產生完整最終回應，但 GitHub 有時仍停留在較早的：
+
+`status = working`
+
+導致 ChatGPT 無法讀到最新完整回應。
+
+請完整執行 Issue #4，直接修改並驗證 global logger。
+
+我的要求不是「盡量同步」，而是：
+
+**每一輪 CC 的完整最終回應，都必須具備可驗證、可補救的同步機制。**
+
+請至少完成：
+
+### 1. 完整 response capture
+
+每個 assistant response 必須完整保存。
+
+canonical：
+
+`conversation.md`
+
+不能因為訊息太長而截斷。
+
+不要只依賴：
+
+`last_assistant_message`
+
+這類 summary 欄位。
+
+### 2. Turn lifecycle
+
+每個 turn 至少要能辨識：
+
+- user prompt 已看到
+- assistant response 已看到
+- Stop 已看到
+- SessionEnd 已看到
+- sync pending
+- sync complete
+
+不能因為 UserPromptSubmit 已 push 就誤判整個 turn 已同步完成。
+
+### 3. Hook reconciliation
+
+不要假設 Stop 一定會成功。
+
+`UserPromptSubmit`
+`Stop`
+`SessionEnd`
+
+必須可以互相補救。
+
+例如：
+
+Stop 漏掉最終 response，
+下一個 hook 必須能自動發現並補回。
+
+### 4. Durable pending queue
+
+如果：
+
+- GitHub push 失敗
+- 網路失敗
+- repo lock
+- timeout
+- temporary error
+
+不能把 event 丟掉。
+
+建立 local durable queue / journal。
+
+下一次 hook 自動 retry。
+
+Logger 失敗不能阻塞 Claude Code 正常工作。
+
+### 5. Remote verification
+
+不能只做到：
+
+`git commit`
+
+或：
+
+`git push`
+
+就當成成功。
+
+push 後必須確認 remote GitHub 實際已經包含：
+
+- 最新 turn
+- 最新 assistant response
+- 正確 metadata
+
+確認成功後才能：
+
+`sync_complete = true`
+
+至少記錄：
+
+- local commit SHA
+- push result
+- remote verification
+- latest synced turn
+- latest synced event
+
+### 6. Stale detection
+
+自動偵測：
+
+- local conversation 比 GitHub 新
+- remote 停在 working
+- user turn 有了但 assistant response 沒有
+- latest.json 過期
+- projects.json 過期
+- project latest 指錯 session
+- metadata 與 conversation.md 不一致
+
+偵測後直接修復，不需要我介入。
+
+### 7. Atomic / concurrency
+
+要處理：
+
+- overlapping hooks
+- concurrent writes
+- partial JSON
+- duplicate append
+- duplicate Git commit
+- race condition
+
+使用：
+
+- atomic write
+- lock
+- stable event ID
+- idempotent ingestion
+
+或其他你認為更合理的設計。
+
+### 8. Encoding
+
+先前曾發生：
+
+`Unexpected UTF-8 BOM`
+
+請保留對：
+
+`utf-8-sig`
+
+等 BOM 情境的處理。
+
+### 9. Secret redaction
+
+特別檢查：
+
+- JWT
+- OAuth token
+- API key
+- cookie
+- Authorization
+- Mongo URI credentials
+- LDAP credentials
+- SMTP credentials
+- SSH key
+- .env
+- checkout URL query 中的 token / 個資
+
+都不能被同步到 GitHub。
+
+### 10. Recovery / Backfill
+
+新增一個安全的 repair/backfill 方法。
+
+可以指定某個：
+
+- project
+- session
+
+然後：
+
+- 重掃本機完整 session
+- 補漏 turn
+- 補漏 assistant response
+- 重建 metadata/index
+- retry Git sync
+- remote verify
+
+不能刪除其他專案紀錄。
+
+### 11. Health Check
+
+新增 logger health/status。
+
+至少回報：
+
+- project
+- session
+- latest local turn
+- latest remote turn
+- local/remote 是否一致
+- pending queue count
+- last push result
+- last verified remote commit
+- redaction 狀態
+- stale/incomplete warning
+
+我要可以很快判斷：
+
+「現在 ChatGPT 到底看不看得到 CC 最新完整回應」。
+
+---
+
+## C. 真實驗收
+
+請直接使用目前：
+
+`mongodb-dba-trainer`
+
+Session：
+
+`347c1401-65cb-4d94-bdd6-2efd1d0a7070`
+
+當 acceptance case。
+
+目前已知曾發生：
+
+GitHub 停在 Turn 9 / working，
+但本機其實已經有後續完整回答。
+
+請先：
+
+1. 找出真正 root cause
+2. 補回這次漏掉的完整回應
+3. 確認 GitHub remote 已經真的存在
+4. 修 logger
+5. 做新的實際 turn 測試
+6. 再做第二輪實際測試，確認不是偶發成功
+
+最後 GitHub 必須可以讓 ChatGPT 正確讀到：
+
+- 最新 user prompt
+- 最新完整 assistant response
+- idle / Stop 狀態
+- 正確 turn number
+- 正確 session
+- 正確 latest pointer
+
+---
+
+## D. Git / 安全限制
+
+不要：
+
+- reset
+- clean
+- discard unrelated work
+- 刪除歷史 log
+- 覆蓋其他 Claude hooks
+- 覆蓋整份 settings.json
+- 破壞 Windows migration / AI CUP / 其他 project logs
+
+如果需要修改：
+
+`~/.claude/settings.json`
+
+只能安全 merge。
+
+適合公開的 logger 程式碼、tests、docs 可以 commit / push。
+
+Private conversation logs 繼續留在 private repo。
+
+---
+
+## E. 執行模式
+
+不要因為一般技術決策詢問我。
+
+你可以自行決定：
+
+- logger schema
+- queue format
+- lock strategy
+- retry strategy
+- remote verification 方法
+- backfill implementation
+- health-check implementation
+- University collector traversal
+- Enroll 流程
+- tests
+- refactor
+
+只有以下狀況才通知我：
+
+1. MongoDB University 需要重新登入
+2. CAPTCHA
+3. 人工身分驗證
+4. 付款
+5. 需要新的外部權限
+6. 會消耗正式測驗 attempt
+7. 會啟動正式計時測驗
+
+其餘全部自行完成。
+
+---
+
+完成後請一次性回報：
+
+### University
+1. DBA Learning Paths
+2. DBA Courses
+3. 自動 Enroll 數量
+4. Units / Lessons
+5. Quiz / Practice / Knowledge Check
+6. 收集題數
+7. 已作答 / 未作答題數
+8. 有答案 / 無答案題數
+9. Skill Check / scored assessment 狀態
+10. collector / dedup / resume 結果
+11. tests
+12. commit SHA
+
+### Logger
+13. 漏同步 root cause
+14. logger 架構修改
+15. hooks 修改
+16. queue/retry
+17. remote verification
+18. stale detection
+19. backfill 方法
+20. health-check 方法
+21. redaction 驗證
+22. 真實 mongodb-dba-trainer backfill 結果
+23. 第一輪 fresh sync acceptance
+24. 第二輪 fresh sync acceptance
+25. GitHub remote 最新 turn / status
+26. logger commit SHA
+27. 已知限制
+
+完成前不要停止目前工作。
+</pasted_content id="69ce">
+- 🔧 **Bash**: gh issue view 4 --repo DevonForlan/claude-conversation-logs --json title,body,comments --jq '.title, .body, (.comments[]|"---- "+.createdAt+"\n"+.body)' 2>&1 | head -250; echo =====3; gh issue view 3 --repo DevonForlan/claude-conversation-l… <!--id:27814b10-3356-41e8-89b4-1a28ec8e3176-->
+- ↩︎ result (7141 chars): [global-logger] Guarantee complete final-response sync + remote verification # Global Claude Code Conversation Logger — Reliability Hardening ## Goal Strengthen the existing global Claude Code conversation logging/synchronization mechanism so ChatGPT can reliably read the **complete latest Claude Co… <!--id:bdcd73e6-3a67-4288-8c8a-0f1c9f49240f-->
