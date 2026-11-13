@@ -1614,3 +1614,18 @@ Issue 提到這個 repo 目前在 GitHub 顯示為 **Public**，但我之前驗�
 - 🔧 **Bash**: cd "[REDACTED]" && R=DevonForlan/claude-conversation-logs; P="logs/milanote-3fb634/0585a915-2b02-47a2-8837-fbe0edb6c4eb/conversation.md"; gh api "repos/$R/contents/$P" --jq .content | base64 -d > "C:/Users/DEVO… <!--id:fd56ef4e-a1b7-497a-818c-95d6e884e603-->
 - ↩︎ result (599 chars): published turns headers: 0 local per-turn files: 9 == markers from the latest completed turn (turn 9) in the PUBLISHED copy GitHub 同步與重試測試：PASS : 2 唯一必要的人工操作 : 2 回覆項目 : 2 == published copy contains raw username/emails/paths? 36 occurrences of username 0 email-like strings 4:- cwd: `C:\Users\devon.ts… <!--id:3a986943-0dff-458a-b788-0a76a03b7ccb-->
 - 🔧 **Bash**: cd "[REDACTED]" && echo "== existing MCP (this project)"; claude mcp list 2>&1 | head -8; echo "== npm metadata @playwright/mcp"; npm view @playwright/mcp name version license repository.url dist-tags.latest ti… <!--id:5adbe6eb-a83e-4f72-aae8-bf5f1b7e7d5e-->
+- ↩︎ result (1375 chars): == existing MCP (this project) Checking MCP server health… claude.ai Claude Data: https://api.anthropic.com/api/dashboards/mcp - ✔ Connected claude.ai Claude Docs: https://api.anthropic.com/v1/pages/mcp - ✔ Connected claude.ai Meetings: https://api.anthropic.com/api/meetings/mcp - ✔ Connected claude… <!--id:30acf73d-9ab2-442d-9ef0-93d466e885b2-->
+
+### [2026-11-13 12:13:43] 🤖 Claude <!--id:b400cd38-0001-4205-a6d7-2d7d7dd2c8ea-->
+
+官方套件確認：Microsoft 維護、Apache-2.0、4 天前才更新、倉庫未封存，目前沒有安裝。我確認指令列旗標，再用**固定版本**只針對本專案註冊。
+- 🔧 **Bash**: cd "[REDACTED]" && timeout 100 npx -y @playwright/mcp@0.0.84 --help 2>&1 | grep -E "^\s+--(user-data-dir|isolated|browser|headless|storage-state|allowed-origins|blocked-origins|caps|output-dir|extension|save-se… <!--id:b526be66-ba59-418d-b408-cb2c9d23e37d-->
+- ↩︎ result (1452 chars): --allowed-origins <origins> semicolon-separated list of TRUSTED --blocked-origins <origins> semicolon-separated list of origins to --browser <browser> browser or chrome channel to use, --caps <caps> comma-separated list of additional --device <device> device to emulate, for example: "iPhone --device… <!--id:b9803f9d-8d1d-46ed-a1dd-4932dcc11389-->
+
+### [2026-11-13 12:14:13] 🤖 Claude <!--id:4c86da29-b13d-46c7-ad8b-ba42fc4acf98-->
+
+`--image-responses` 這個旗標對你的授權限制很重要：Playwright MCP 預設會把截圖回傳給模型，那等於把私密圖片交給模型處理。我確認它的選項值。
+- 🔧 **Bash**: cd "[REDACTED]" && timeout 100 npx -y @playwright/mcp@0.0.84 --help 2>&1 | grep -A4 -E "^\s+--(image-responses|allowed-origins|caps|user-data-dir)" | cut -c1-140 <!--id:3d2067f0-f1e1-43a7-a4a6-119e9777f25c-->
+- ↩︎ result (1486 chars): --allowed-origins <origins> semicolon-separated list of TRUSTED origins to allow the browser to request. Default is to allow all. Important: *does not* serve as a security boundary and *does not* affect -- --caps <caps> comma-separated list of additional capabilities to enable, possible values: visi… <!--id:1aa2fed8-00c3-42e3-88eb-91ee57d7c603-->
+- 🔧 **Bash**: cd "[REDACTED]" && PROF="$LOCALAPPDATA/milanote-playwright-profile" && mkdir -p "$PROF" && PROFW=$(cygpath -w "$PROF") && echo "profile dir: <LOCALAPPDATA>\\milanote-playwright-profile" && claude mcp add --scop… <!--id:24ba8562-82c5-4732-8819-262d98aa8e43-->
+- ↩︎ result (945 chars): profile dir: <LOCALAPPDATA>\milanote-playwright-profile Added stdio MCP server playwright with command: cmd C:/ npx -y @playwright/mcp@0.0.84 --user-data-dir C:\Users\devon.tseng\AppData\Local\milanote-playwright-profile --image-responses omit to local config File modified: C:\Users\devon.tseng\.cla… <!--id:9ee2c9cf-d2df-4c11-970d-bd3db7f4b4da-->
