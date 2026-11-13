@@ -2045,3 +2045,35 @@ Issue #3
 - 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; cat >> tests/test_university_capture_parse.py <<'PYEOF' def test_unattempted_question_has_no_answer_key_and_is_marked(): d = {"question": "Q?", "options": [_opt("a", "A"), _opt("b", … <!--id:edad8ac8-fb51-460d-ae3c-5b7a05edc264-->
 - ↩︎ result (572 chars): {"learning_paths": 2, "courses": 2, "quiz_pages": 5, "scored_assessments": 1, "errors": 0, "added": 0, "updated": 0, "unchanged": 8, "rejected": 0, "questions_read": 8} {'https://learn.mongodb.com/learn/course/crud-operations-in-mongodb-on-demand/crud-operations-in-mongodb/skill-check': 'discovered-… <!--id:5d77ad8c-40f4-4495-b7f7-858f442b80e0-->
 - 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; timeout 280 .venv313/Scripts/python.exe -m pytest tests -q -x --deselect tests/test_dev_server_safety.py 2>&1 | tail -3; python - <<'PYEOF' p='docs/university-review-implementation.m… <!--id:2d053261-3cf6-4b2c-a709-f1fd1016f70f-->
+- ↩︎ result (489 chars): ................................................................s....... [ 85%] ............................................... [100%] 333 passed, 2 skipped, 5 deselected in 97.14s (0:01:37) warning: in the working copy of 'tests/test_university_capture_parse.py', LF will be replaced by CRLF the nex… <!--id:24ff35df-ffa7-4447-a024-ae69e451d29b-->
+
+### [2026-11-13 12:00:58] 🤖 Claude <!--id:ac68d093-c089-42cd-b891-d5026b0f3039-->
+
+我已按 Issue #3 的新留言改了 collector，也重掃了一次。結果是沒有新增題目，因為這個帳號能開的 quiz 都已經收完了。
+
+**修改內容**
+- 收 quiz 不再要求已作答。遇到沒有成績頁的 quiz，collector 只會找單純的 Start、Begin、Take quiz 按鈕來開啟，不點 Retake Quiz。
+- 開啟後如果頁面有題目和選項就讀取。不選任何選項、不提交、不重考。
+- 如果 Next 要先作答才能按，就停在那裡，已讀到的保留。
+- 沒有正解的題目存成 `correct_option_ids = null`，解析與回饋也是空的，UI 會顯示「Correct answer not captured」。
+- 計分的外部評量（Skill Check、考試）只記錄成「發現但未收集」，不啟動。
+- 續跑與去重不變。
+
+**重掃結果（回報 9 項）**
+1. **DBA quiz 頁：** 5 頁（Document Model 課程的 5 個 Practice 頁）。其中 4 頁是 quiz，1 頁是 lab。
+2. **已作答與未作答：** 4 頁已作答，0 頁未作答。
+3. **收集總題數：** 8 題。
+4. **有正解：** 8 題。
+5. **無正解：** 0 題。
+6. **發現但未收集的計分評量：** 1 個，CRUD 課程的 Skill Check。
+7. **去重與續跑：** 強制重讀後 0 筆新增、8 筆 unchanged。
+8. **測試：** 333 通過、2 略過，沒有失敗。我另外取消選取了 `tests/test_dev_server_safety.py`（5 個測試）。上一輪它 5 個全過，這一輪沒有重跑。
+9. **Commit：** `68cf64f`，共 4 個 commit（`43b7156`、`68dae2b`、`1d53902`、`68cf64f`），都只在本機，沒有推送。上次 `git push origin master` 被權限分類器擋下，這次我沒有再試。
+
+**為什麼沒有更多題目**
+- 其他約 12 門 DBA 課程只有公開介紹頁。頁面上只有登入或註冊連結，沒有 Start 或 Enroll 按鈕，也沒有學習畫面。
+- 要進去只能先報名或猜網址。報名會改你的帳號狀態，猜網址可能順便報名，所以我都沒做。
+- 兩門已報名課程裡，所有 quiz 你都已經交過，所以真實網站上沒有未作答的 quiz 可以試「開始」這條路。這條邏輯目前只有單元測試驗證。
+
+**需要你決定的事**
+如果要涵蓋其餘 DBA 課程，你需要在 University 裡自己報名（或明確授權我按報名鈕），報名後我再重跑 `collect`。這一步會改變你的帳號狀態，所以我不自行決定。
