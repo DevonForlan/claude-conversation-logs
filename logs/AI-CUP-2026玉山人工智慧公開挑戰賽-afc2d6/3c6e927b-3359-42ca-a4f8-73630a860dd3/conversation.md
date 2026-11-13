@@ -40355,3 +40355,87 @@ The 11/13 evaluation hasn't run yet. Checking the task state.
 - **評估延遲**：17:00 的評估因為筆電休眠，17:22 才開始跑，17:26 完成。市場資料沒問題，不用重跑。
 - **下一個重點**：今晚 19:30 的 11/16（週一）預測。筆電如果又休眠，會晚跑。對話紀錄已同步（第 190 回合）。
 - **下一次檢查**：排在 18:22，之後在 19:45 左右確認預測、對帳和當晚的送出。
+
+### [2026-11-13 17:46:34] 👤 User (turn 517) <!--id:9d2d07e4-5b51-4b4b-8621-a184e33edc9a-->
+
+<pasted_content id="f0c0">
+請立即讀取並完整執行 GitHub Issue #68。
+
+這是目前最新的 Owner strategy directive，優先級高於 Issue #65 中「highest compliant tech weight」的舊邏輯。
+
+核心要求：
+
+1. Frozen Quant v1 本體、config、fingerprint 全部保持不變。
+2. 所有新策略邏輯都放在 tactical / owner overlay。
+3. 科技曝險最低 >=85%。
+4. 不再追求最高可達科技占比。
+5. 改為：
+
+best risk-adjusted portfolio subject to tech_weight >= 85%
+
+6. 一般科技曝險操作區間為 85%～92%。
+7. 只有 clearly strong technology regime 才可提高至 90%～95%。
+8. High-volatility / deteriorating breadth 時應維持約 85%～88%，不要因為仍合規就硬推到更高。
+9. 科技內部選股除了 Frozen Quant v1 ranking 外，overlay 至少納入：
+   - 5-day relative strength
+   - 20-day relative strength
+   - recent institutional flow
+   - 20-day realized volatility
+   - extreme gap / sharp-move risk
+10. 加入科技子產業 concentration control，避免 ticker 看似分散但實際集中在同一 risk factor。
+11. 加入 turnover / transaction-cost discipline，不要只為了科技占比小幅變化而大量換股。
+12. 所有競賽 hard guards 保持不變。
+
+請自行完成：
+
+implementation
+→ tests
+→ self-review
+→ PR
+→ CI
+→ merge
+→ production deploy
+→ runtime verification
+
+不需要等待我額外批准。
+
+另外最重要：
+
+2026-11-15 星期日 19:30 Asia/Taipei，請直接使用這套新策略執行 production forecast，產生下一個合法交易日的 D-Plan，預期為 2026-11-16。
+
+19:30 執行時：
+
+最新資料
+→ 新策略產生 FINAL
+→ settlement / validation / compliance / stress / Active Share / order cap
+→ 全部通過
+→ 直接提交 Portal
+→ Portal read-back
+→ SUBMISSION_CONFIRMED
+→ shared-state / GitHub evidence sync
+
+不要等待 Owner review，也不要等我再次確認。
+
+之後所有正常 D-Plan 都持續沿用 Issue #68 的策略。
+
+如果 Owner 沒有新的介入：
+- 不要改回舊的 highest compliant tech weight
+- 不要自行調整策略政策
+- 不需要再次向 Owner 詢問
+- 直接按照 Issue #68 持續執行與提交
+
+若同一 trade date 已存在舊 FINAL，而 submission window 仍允許新版：
+- 保留舊 FINAL 作 audit evidence
+- 標記 SUPERSEDED
+- 提交新版
+
+完成實作後請先在 Issue #68 回報 implementation / CI / production deployment 狀態；星期日 19:30 執行完成後，再補上 FINAL、科技曝險、regime、turnover、Portal read-back 與 submission evidence。
+</pasted_content id="f0c0">
+- 🔧 **PowerShell**: cd "C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽"; Get-Date -Format "yyyy-MM-dd HH:mm"; gh issue view 68 --json title,body,comments --jq '.title, .body, (.comments[]|.createdAt+" "+.body)' <!--id:0ecc87bc-0c70-460b-9184-1aeadec1e877-->
+- ↩︎ result ⚠️error (58 chars): Exit code 1 2026-11-13 17:46 accepts 1 arg(s), received 2 <!--id:f10aabb1-8c2f-486e-b440-c8c350c63caf-->
+- 🔧 **PowerShell**: cd "C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽"; $env:PYTHONIOENCODING='utf-8'; gh issue view 68 --json title,body,comments | python -c " import sys,json;d=json.load(sys.stdin);print(d['title']);print(d['body']);[print(c['create… <!--id:a996f5c3-d1c8-4e89-ba66-c3b910c69d5d-->
+- ↩︎ result ⚠️error (911 chars): Exit code 1 Traceback (most recent call last): File "<string>", line 2, in <module> import sys,json;d=json.load(sys.stdin);print(d['title']);print(d['body']);[print(c['createdAt'],c['body']) for c in d['comments']] ~~~~~~~~~^^^^^^^^^^^ File "C:\Users\devon.tseng\AppData\Local\Programs\Python\Python3… <!--id:bb99c153-665a-46e6-a235-fda82744db45-->
+
+### [2026-11-13 17:47:09] 🤖 Claude <!--id:f2afe470-915f-47b8-b310-6127fdd19390-->
+
+Please run /login · API Error: 403 Attention Required! | Cloudflare
