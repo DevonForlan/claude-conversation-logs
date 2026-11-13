@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-13T11:28:15+08:00",
+  "updated_at": "2026-11-13T11:45:06+08:00",
   "projects": [
     {
       "project": "mongodb-dba-trainer",
       "project_safe": "mongodb-dba-trainer-4eaf92",
-      "last_activity": "2026-11-13T11:28:15+08:00",
+      "last_activity": "2026-11-13T11:45:06+08:00",
       "latest_session": "347c1401-65cb-4d94-bdd6-2efd1d0a7070",
       "latest_log": "logs/mongodb-dba-trainer-4eaf92/347c1401-65cb-4d94-bdd6-2efd1d0a7070/conversation.md",
-      "status": "working",
+      "status": "idle",
       "sessions": 1
     },
     {

@@ -1902,3 +1902,104 @@ No leftover processes. I'll run one script at a time now.
 - 🔧 **Bash**: cd "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/91fcc5d2453c02b7/347c1401-65cb-4d94-bdd6-2efd1d0a7070/tasks"; echo "--shot:"; cut -c1-250 bavc6bg1i.output | tail -4; echo "--pid:"; cat bes9doyco.output | head -8 <!--id:aae6da41-7ca5-491f-97d8-ed62ab888c5d-->
 - ↩︎ result (289 chars): --shot: - <ws connected> ws://127.0.0.1:9223/devtools/browser/ef33a3c3-cefb-47a8-a571-f46d0a4a8a4a [exited with code 0] --pid: ProcessId ParentProcessId --------- --------------- 23156 22052 Shell cwd was reset to C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer <!--id:4fb863cf-9d4a-4b34-9253-6d295dcb67a3-->
 - 🔧 **PowerShell**: Stop-Process -Id 23156 -Force; Start-Sleep 4; cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; .venv313\Scripts\python.exe -m scripts.university_capture launch --url https://learn.mongodb.com/dashboard; Start-Sleep 8; (Invoke-WebRe… <!--id:f787743e-dfcd-479b-b8f7-cfcb55ef7f85-->
+- ↩︎ result (646 chars): Edge started with a dedicated profile. Log in to MongoDB University yourself, open a course/quiz page, then run `tabs` / `inspect`. (debug port 127.0.0.1:9223, local only) Invoke-WebRequest : The operation has timed out. At line:1 char:530 + ... t-Sleep 8; (Invoke-WebRequest -UseBasicParsing -Timeou… <!--id:2f519393-533f-485c-8544-3db0524d645e-->
+- 🔧 **Bash**: sleep 10; curl -s -m 10 http://127.0.0.1:9223/json | python -c "import sys,json;[print(t['title'][:50],t['url'][:90]) for t in json.load(sys.stdin) if t['type']=='page']" <!--id:1ea38c06-4d4f-4d8a-8005-8c747f897915-->
+- ↩︎ result ⚠️error (1278 chars): Exit code 1 Traceback (most recent call last): File "<string>", line 1, in <module> import sys,json;[print(t['title'][:50],t['url'][:90]) for t in json.load(sys.stdin) if t['type']=='page'] ~~~~~~~~~^^^^^^^^^^^ File "C:\Users\devon.tseng\AppData\Local\Programs\Python\Python313\Lib\json\__init__.py",… <!--id:5b677685-6bb5-4f86-8e80-8835de591ff6-->
+- 🔧 **Bash**: sleep 5; tasklist /FI "IMAGENAME eq msedge.exe" 2>/dev/null | head -5; netstat -ano | grep 9223 | head -3; curl -s -m 5 -o /dev/null -w "%{http_code}\n" http://127.0.0.1:9223/json/version <!--id:11f14245-ad96-4660-9eeb-cbbcd5469bed-->
+- ↩︎ result ⚠️error (247 chars): Exit code 28 TCP 127.0.0.1:5463 127.0.0.1:9223 FIN_WAIT_2 32756 TCP 127.0.0.1:9223 0.0.0.0:0 LISTENING 23156 TCP 127.0.0.1:9223 127.0.0.1:5463 CLOSE_WAIT 23156 000 <!--id:44ab6fca-4344-44b4-a66b-66b63f00cdc9-->
+- 🔧 **Bash**: taskkill /PID 23156 /F /T 2>&1 | head -5; sleep 3; netstat -ano | grep ":9223 " | head -3 <!--id:e980dc8e-9b65-433e-81de-de9ca0d3d74e-->
+- ↩︎ result (311 chars): ���~: ���~���޼�/�ﶵ - 'C:/Program Files/Git/PID'�C ��J "TASKKILL /?" ���o�ϥΤ覡�C TCP 127.0.0.1:5463 127.0.0.1:9223 FIN_WAIT_2 32756 TCP 127.0.0.1:9223 0.0.0.0:0 LISTENING 23156 TCP 127.0.0.1:9223 127.0.0.1:5463 CLOSE_WAIT 23156 <!--id:51b50f02-f088-420e-979b-5f929e3a6239-->
+
+### [2026-11-13 11:29:54] 🤖 Claude <!--id:f594ecdc-8269-4a4b-a84a-73fa9bbff209-->
+
+Git Bash 把 `/PID` 當成路徑轉換了，改用 PowerShell 的 cmd 呼叫，仍然只針對這個 PID。
+- 🔧 **PowerShell**: cmd /c "taskkill /PID 23156 /F /T"; Start-Sleep 3; netstat -ano | Select-String ":9223 " <!--id:fc55ef0b-cbdd-4c51-b47c-29ec9ce7e425-->
+- ↩︎ result (1996 chars): SUCCESS: The process with PID 6440 (child process of PID 23156) has been terminated. SUCCESS: The process with PID 2808 (child process of PID 23156) has been terminated. SUCCESS: The process with PID 28476 (child process of PID 23156) has been terminated. SUCCESS: The process with PID 32820 (child p… <!--id:37a8539d-9f1f-4f21-960f-c0f86ba27d6f-->
+- 🔧 **PowerShell**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; .venv313\Scripts\python.exe -m scripts.university_capture launch --url https://learn.mongodb.com/dashboard; Start-Sleep 10; try { (Invoke-WebRequest -UseBasicParsing -TimeoutSec 8 ht… <!--id:9001b95c-d12b-4924-89d0-85ce614ca446-->
+- ↩︎ result (171 chars): Edge started with a dedicated profile. Log in to MongoDB University yourself, open a course/quiz page, then run `tabs` / `inspect`. (debug port 127.0.0.1:9223, local only) <!--id:ded41ed9-3629-4856-bbe9-1b4c50c89f98-->
+- 🔧 **Bash**: sleep 8; curl -s -m 10 http://127.0.0.1:9223/json | python -c "import sys,json;[print(t['title'][:50],'|',t['url'][:90]) for t in json.load(sys.stdin) if t['type']=='page']" <!--id:1494fa07-23e2-4da2-9a15-7d334faa7fb3-->
+- ↩︎ result (65 chars): Learner Dashboard | MongoDB | https://learn.mongodb.com/dashboard <!--id:1f125719-50ab-44a6-ac40-02db55bf9e29-->
+
+### [2026-11-13 11:31:24] 🤖 Claude <!--id:bde6e856-bb76-423c-b5ab-ae278709c4b6-->
+
+狀況：專用 Edge 已用同一個 profile 重啟，登入狀態保留，目前在 Dashboard。現在修換題問題，先確認分頁編號的行為。
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; export PYTHONIOENCODING=utf-8; cat > "$TEMP/pg5.py" <<'EOF' from playwright.sync_api import sync_playwright Q="()=>{const q=document.querySelector('.question__container');return q?q.… <!--id:36190bef-0aee-471b-9c1d-f6c1fead664a-->
+- ↩︎ result (462 chars): q1: What is considered a best practice when naming fields in Mon ['1:n--bare btn--no-padding-left btn--no-padding-right:ember-view topic__index', '2:n--bare btn--no-padding-left btn--no-padding-right:ember-view topic__index'] q2: What is considered a best practice when naming fields in Mon eneric na… <!--id:7efac105-c2c6-4fc8-ad78-036907ab2ec8-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; export PYTHONIOENCODING=utf-8; cat > "$TEMP/pg6.py" <<'EOF' from playwright.sync_api import sync_playwright Q="()=>{const q=document.querySelector('.question__container');return q?q.… <!--id:fe9e57ca-90ff-4098-818e-a05ebfb1b3a2-->
+- ↩︎ result (1189 chars): C:\Users\DEVON~1.TSE\AppData\Local\Temp/pg6.py:8: SyntaxWarning: invalid escape sequence '\s' print(pg.evaluate("()=>document.querySelector('.topic__index').parentElement.outerHTML.replace(/\s+/g,' ').slice(0,900)")) ['BUTTON|Next|ember-view btn btn--large btn--primary btn--right|'] <div id="ember30… <!--id:0ca93708-1c97-4d06-86c1-8e02f8984d03-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; cat > "$TEMP/fix.py" <<'PYEOF' p='scripts/university_capture.py' s=open(p,encoding='utf-8').read() old=''' for qi in range(n): if n > 1: page.locator(".topic__index__number").nth(qi)… <!--id:0114f1ec-af61-45f2-93c7-1f585221b0fa-->
+- ↩︎ result (2 chars): ok <!--id:da8e2225-67c0-4c66-b64c-58bd25e4e405-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer\local_data\mongodb_university"; ls collected; rm -f collected/hide.json collect_state.json university.db; cd ../..; export PYTHONIOENCODING=utf-8; timeout 280 .venv313/Scripts/python.e… <!--id:367afc00-0968-4855-b857-fe2ca8fefc39-->
+- ↩︎ result (153 chars): hide.json {"learning_paths": 2, "courses": 1, "quiz_pages": 5, "errors": 0, "added": 8, "updated": 0, "unchanged": 0, "rejected": 0, "questions_read": 8} <!--id:50e76866-a1d0-42fb-89ca-e3de424d8e44-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; export PYTHONIOENCODING=utf-8; python - <<'EOF' import json,glob inv=json.load(open('local_data/mongodb_university/inventory.json',encoding='utf-8')) print({k:v for k,v in inv['cours… <!--id:d149f796-4830-4426-acc3-36361b4360bc-->
+- ↩︎ result ⚠️error (270 chars): Exit code 1 File "<stdin>", line 6 d=json.load(open(f,encoding='utf-8')); print(f.split('\')[-1],len(d)) ^ SyntaxError: unterminated string literal (detected at line 6); perhaps you escaped the end quote? <!--id:668d7af4-f206-431a-8f33-b2b4e8cffd17-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; export PYTHONIOENCODING=utf-8; cat > "$TEMP/sum.py" <<'PYEOF' import json,glob,os inv=json.load(open('local_data/mongodb_university/inventory.json',encoding='utf-8')) print(inv['cour… <!--id:9e9db436-a4f2-439f-af73-bbb46b08ae70-->
+- ↩︎ result (1107 chars): {'https://learn.mongodb.com/learn/course/mongodb-and-the-document-model-2025-12-31': {'title': 'MongoDB and the Document Model', 'sidebar_links': 14, 'quiz_pages': 5}} [('lesson-1-overview-of-the-docum', 'done'), ('lesson-2-data-types-in-mongodb', 'done'), ('lesson-3-managing-databases-co', 'no-revi… <!--id:567b3633-1cf9-411c-9301-570952b17ee9-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; export PYTHONIOENCODING=utf-8; cat > "$TEMP/l3.py" <<'EOF' from playwright.sync_api import sync_playwright with sync_playwright() as pw: b = pw.chromium.connect_over_cdp("http://127.… <!--id:e362bf79-6c6e-42a8-bde5-f49607b36478-->
+- ↩︎ result (414 chars): Previous | Next | | Lab: Managing Databases, Collections, and Documents in Atlas | | Integrated Developer Environment | | No need to install anything. Launch our in-browser Integrated Development Environment to complete this exercise. | | | If you wish to retake your labs, please visit the resources… <!--id:35950238-e6cc-43cb-9693-7e0191a1b534-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; cat > "$TEMP/fix2.py" <<'PYEOF' p='scripts/university_capture.py' s=open(p,encoding='utf-8').read() old=''' unit = (item.get("unit") or _slug_title(parts[-2]) or "Quiz").strip() less… <!--id:750fbcbe-0f30-4c4a-8452-e493336787b3-->
+- ↩︎ result (284 chars): C:\Users\DEVON~1.TSE\AppData\Local\Temp/fix2.py:16: SyntaxWarning: invalid escape sequence '\d' m = re.match(r"lesson-(\d+)-(.+)", slug) {"learning_paths": 2, "courses": 2, "quiz_pages": 5, "errors": 0, "added": 8, "updated": 0, "unchanged": 0, "rejected": 0, "questions_read": 8} <!--id:39a99eaa-bfb0-44a3-90d7-7ea861f76bbe-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; python "$TEMP/sum.py" 2>&1 | head -14 | cut -c1-260 <!--id:1a27819d-a339-4804-8525-90df4b8e3363-->
+- ↩︎ result (1537 chars): {'https://learn.mongodb.com/learn/course/mongodb-and-the-document-model-2025-12-31': {'title': 'MongoDB and the Document Model', 'sidebar_links': 14, 'quiz_pages': 5}, 'https://learn.mongodb.com/learn/course/crud-operations-in-mongodb-on-demand': {'title': 'CR [('lesson-1-overview-of-the-docum', 'do… <!--id:7a6ee512-952b-440e-9ae8-25251f6513a4-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; export PYTHONIOENCODING=utf-8; echo RESUME:; timeout 200 .venv313/Scripts/python.exe -u -m scripts.university_capture collect 2>&1 | tail -1 | cut -c1-300; echo FORCE:; timeout 300 .… <!--id:f7094f69-3769-4319-b3a0-80550eb662c4-->
+- ↩︎ result (303 chars): RESUME: {"learning_paths": 2, "courses": 2, "quiz_pages": 5, "errors": 0, "added": 0, "updated": 0, "unchanged": 0, "rejected": 0, "questions_read": 0} FORCE: {"learning_paths": 2, "courses": 2, "quiz_pages": 5, "errors": 0, "added": 0, "updated": 0, "unchanged": 8, "rejected": 0, "questions_read": … <!--id:252b98ff-119a-4c0a-a007-0a4d4a65d66c-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; export PYTHONIOENCODING=utf-8; timeout 150 .venv313/Scripts/python.exe -u "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/91fcc5d2453c02b7/347c1401-65cb-4d94-bdd6-2efd1d0a7070/scratc… <!--id:6d8c78c9-d9a1-46dd-8161-d10d0288e840-->
+- ↩︎ result (1232 chars): { "practice_domains": 10, "practice_has_university_tab": true, "sidebar_university": true, "list_items": 8, "xss_safe": true, "q1_banner": "Incorrect", "q1_expl": "Explanation: A key characteristic of MongoDB's document model that allows for handling polymorphic data is its flexible schema, Which al… <!--id:856a1b5b-6dff-4d61-a6d9-4f8b01cd8bb9-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; rm -f local_data/mongodb_university/university.db; cat > tests/test_university_capture_parse.py <<'PYEOF' """parse_question / _unit_title: pure functions of scripts/university_captur… <!--id:8c2f6c0b-c89c-4331-a2a0-c0dd549c8b7b-->
+- ↩︎ result (460 chars): ........................................................................ [ 21%] ........s............................................................... [ 43%] ........................................................................ [ 64%] ............................................................… <!--id:c62b0d6c-5762-4ff4-b758-8047d26f7cf7-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; timeout 280 .venv313/Scripts/python.exe -m pytest tests/test_dev_server_safety.py -q 2>&1 | tail -6 | cut -c1-200; git status --short | head -20 <!--id:b062d15a-59a8-4736-9386-ac01fddf7ce9-->
+- ↩︎ result (505 chars): ..... [100%] 5 passed in 81.13s (0:01:21) M CLAUDE.md M scripts/university_capture.py M scripts/university_collector.py ?? claude-context-audit.md ?? optimization-ab-test1.md ?? optimization-phase1.md ?? optimization-phase2a-glob-test.md ?? optimization-phase2b.md ?? optimization-phase2c-bash-output… <!--id:4f5ac6e7-f3b2-4c45-b15e-b5837c9afe34-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; cat > "$TEMP/docs.py" <<'PYEOF' p='docs/mongodb-university-ui-study.md' s=open(p,encoding='utf-8').read() head='# MongoDB University UI Study — Status: awaiting first authenticated o… <!--id:4bf0195b-f519-4c42-8b85-da3b18e16491-->
+- ↩︎ result (444 chars): warning: in the working copy of 'CLAUDE.md', LF will be replaced by CRLF the next time Git touches it CLAUDE.md | 9 ++ docs/mongodb-university-ui-study.md | 49 ++++++- docs/university-review-implementation.md | 28 +++- scripts/university_capture.py | 225 ++++++++++++++++++++++++++++++- scripts/unive… <!--id:88907777-b69f-4b75-8d1e-085bba5d305e-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; git add scripts/university_capture.py scripts/university_collector.py tests/test_university_capture_parse.py docs/mongodb-university-ui-study.md docs/university-review-bank-design.md… <!--id:8a030c8a-adaa-4902-9739-9e55eafee20f-->
+- ↩︎ result (574 chars): warning: in the working copy of 'tests/test_university_capture_parse.py', LF will be replaced by CRLF the next time Git touches it docs/mongodb-university-ui-study.md docs/university-review-implementation.md scripts/university_capture.py scripts/university_collector.py tests/test_university_capture_… <!--id:6e075cbb-3ff6-445e-8f80-349a266bade9-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; python - <<'PYEOF' p='docs/university-review-bank-design.md' s=open(p,encoding='utf-8').read() k='> **Update (University Review milestone):**' assert k in s s=s.replace(k,'> **Update… <!--id:dc0452e5-96c0-4e50-a62b-5ee0ac634a9d-->
+- ↩︎ result ⚠️error (1036 chars): Permission for this action was denied by the Claude Code auto mode classifier. Reason: [Destructive or Unwanted Actions]. If you have other tasks that don't depend on this action, continue working on those. IMPORTANT: You *may* attempt to accomplish this action using other tools that might naturally… <!--id:9b2c27b7-e603-466b-832e-4a91221f34b3-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; git log --oneline -3; git status --short | head -4; grep -c "Update 2" docs/university-review-bank-design.md <!--id:a91b98d4-7871-4096-b8a2-24976a122662-->
+- ↩︎ result (378 chars): 68dae2b University Review: autonomous read-only collect from learner DOM (resumable), learning_path field, parse tests, docs 43b7156 Add local-only University Review (collector v2, separate store, API, UI) 7f0519f Translate all repository content from Traditional Chinese to English M CLAUDE.md ?? cl… <!--id:8b1b0dfa-fbcc-49d1-b911-694a8f6a5de7-->
+
+### [2026-11-13 11:44:39] 🤖 Claude <!--id:f31ccc91-e757-4608-8352-015b09ad02ac-->
+
+狀況：推送到公開 GitHub 的動作被權限分類器擋下，我不繞過，等你決定。本機的部分我繼續完成：補上設計文件的註記並 commit。
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer\docs\university-review-bank-design.md <!--id:ceecfa06-9f0e-41dd-a02a-432e2c740fc0-->
+- ↩︎ result (129 chars): The file C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer\docs\university-review-bank-design.md has been updated successfully. <!--id:08b8001b-615c-4e0b-883f-b9f13b0327a9-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; git add docs/university-review-bank-design.md && git commit -q -m "docs: note autonomous collection in University Review design Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.c… <!--id:41a682ce-8f25-4f03-b6e5-f05ab35f2915-->
+- ↩︎ result (278 chars): 1d53902 docs: note autonomous collection in University Review design 68dae2b University Review: autonomous read-only collect from learner DOM (resumable), learning_path field, parse tests, docs 43b7156 Add local-only University Review (collector v2, separate store, API, UI) 0 0 <!--id:6d3b4418-c8fb-4408-8b20-6e2547a2b1a8-->
+
+### [2026-11-13 11:45:03] 🤖 Claude <!--id:e9eac9d8-3363-4315-8b41-f5c049e12a09-->
+
+Issue #3 的收集與驗證已經做完，但範圍比 Issue 預期的小，而且推送到 GitHub 被擋下。
+
+## 完成報告
+
+1. **瀏覽器狀態：** 專用 Edge 已登入。中途頁面渲染卡死，我只針對該視窗的 PID 重啟（用同一個 profile），登入狀態保留。
+2. **Learning Path：** Dashboard 上有 2 個連結，是同一條 DBA 自管路徑的兩個版本。
+3. **課程：** 你已報名 2 門（MongoDB and the Document Model、CRUD Operations）。公開頁列出約 14 個技能課程，其餘我沒有開啟或報名。
+4. **檢視的頁面：** 5 個 quiz 或 lab 頁，另有 2 個課程頁。
+5. **Quiz 頁：** 4 個有題目的 quiz，1 個 lab，已略過。CRUD 課只有影片、程式摘要、lab 和 Skill Check。
+6. **收集題數：** 8 題。
+7. **有正解：** 8 題。
+8. **無正解：** 0 題。
+9. **有解析與回饋：** 8 題。
+10. **去重：** 第一次收集新增 8 題。
+11. **續跑驗證：** 續跑時 0 筆新增、0 題讀取；`--force` 重讀時 8 題都是 unchanged。
+12. **DOM 與 API：** 題目、選項、逐選項回饋和你的作答標記都直接在頁面 DOM 裡，我採用 DOM。頁面有 `POST /graphql`，我沒有讀它的內容。
+13. **UI 驗證：** 用 8 題真實資料在真實瀏覽器跑過，列表、作答、解析、回饋、隨機都正常，沒有 JS 錯誤。上一題/下一題我只驗到下一題，上一題那項檢查失敗，是檢查腳本的假設不符，不是頁面問題。真實 quiz 頁的標題與單選/複選判斷也確認過。
+14. **Certification 題庫：** 沒動，仍是 200 題、31/31。University 資料與它完全分開，進度存在獨立的 `university.db`。
+15. **pytest：** 完整測試 336 通過、2 略過、0 失敗。之前那個 dev-server 測試這次通過，我判斷是環境因素（docker 指令卡住）。新增 6 個 parse 測試。
+16. **檔案：**
+    - 修改 `scripts/university_capture.py`（新增 `collect`）、`scripts/university_collector.py`（新增 `learning_path`）。
+    - 新增 `tests/test_university_capture_parse.py`。
+    - 更新三份 university docs。
+17. **Commit：** `68dae2b`（collect、測試、docs）和 `1d53902`（設計文件註記），前面還有 `43b7156`。
+18. **推送：** 沒有推送。`git push origin master` 被權限分類器擋下，我沒有繞過。三個 commit 都在本機。你要推的話，請自己執行 `git push origin master`，或加一條 Bash 權限規則後告訴我。
+19. **本機資料確認：** `local_data/` 被 git 忽略，沒有任何檔案被追蹤，commit 的 diff 也沒有題目文字或憑證。
+20. **限制：**
+    - 只能讀你已經交過的 quiz，沒作答的 quiz 不會顯示題目，我也不會替你作答。
+    - Skill Check 是計分的外部測驗，我沒有開始也沒有爬。
+    - 未報名的課程沒有學習畫面，所以整體只有 8 題。
+    - 其中一題是單選，但紀錄顯示你選了兩個選項，我沒有查明原因。
+    - 頁面的 Ember class 名稱日後可能改變。
+21. **下一步建議：** 如果你想增加題量，先在 University 自己報名其餘課程並完成 quiz，我再跑 `collect`。另外可以把公開文件寫成新題目，補進 Certification 題庫，不要複製 University 的題目。
+
+另外，有一件事要提醒你：盤點 Dashboard 時，輸出曾顯示一個含 JWT 的結帳連結，裡面帶有個人資料。我沒有保存或使用它，但它出現在這次 session 的對話紀錄裡，而這份紀錄會被 logger 同步到私有 repo。logger 有遮蔽 JWT 的規則，建議你抽查那份紀錄確認。
