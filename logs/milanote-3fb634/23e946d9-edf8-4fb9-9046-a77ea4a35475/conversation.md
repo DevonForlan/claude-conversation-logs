@@ -327,3 +327,33 @@ https://github.com/DevonForlan/milanote-cc-session-audit/issues/1#issuecomment-6
 - ↩︎ result (0 chars):  <!--id:a726b59e-98f7-4b83-9d7b-0922f09f59cb-->
 - 🔧 **mcp__playwright__browser_navigate**: https://app.milanote.com/1VPZPZ1LORZ4cj/tgl_collection <!--id:4dece528-0d57-4bd2-9f89-acabcfe9b87d-->
 - ↩︎ result (426 chars): ### Ran Playwright code ```js await page.goto('https://app.milanote.com/1VPZPZ1LORZ4cj/tgl_collection'); ``` ### Page - Page URL: https://app.milanote.com/1VPZPZ1LORZ4cj/tgl_collection - Page Title: TGL_collection - Milanote - Console: 0 errors, 1 warnings ### Snapshot - [Snapshot](.playwright-mcp\p… <!--id:feba2fef-58ca-4b48-b54f-9b4334dd9845-->
+- 🔧 **mcp__playwright__browser_click**: {"element": "TGL_0209 board tile", "target": "text=TGL_0209", "doubleClick": true} <!--id:0c1d84c9-3865-48d4-8d39-75121271886f-->
+- ↩︎ result (387 chars): ### Ran Playwright code ```js await page.locator('text=TGL_0209').dblclick(); ``` ### Page - Page URL: https://app.milanote.com/1VPiiK1ObQPS9n/tgl_0209 - Page Title: TGL_0209 - Milanote - Console: 0 errors, 3 warnings ### Snapshot - [Snapshot](.playwright-mcp\page-2026-11-13T10-22-09-844Z.yml) ### E… <!--id:c50d71c1-ddbe-4287-9e0f-3f31c5ebdfa4-->
+- 🔧 **mcp__playwright__browser_click**: {"element": "Export button", "target": "#popup-export-button"} <!--id:3beb3b7d-0d75-4c38-b95b-811be08f57ea-->
+- ↩︎ result (298 chars): ### Ran Playwright code ```js await page.locator('#popup-export-button').click(); ``` ### Page - Page URL: https://app.milanote.com/1VPiiK1ObQPS9n/tgl_0209 - Page Title: TGL_0209 - Milanote - Console: 0 errors, 3 warnings ### Snapshot - [Snapshot](.playwright-mcp\page-2026-11-13T10-22-37-022Z.yml) <!--id:0cc37d8c-a922-4767-af85-a39c04831f38-->
+- 🔧 **Bash**: cd "[REDACTED]/.playwright-mcp" && grep -n -i -E "zip|pdf|export|download|generate|image" page-2026-11-13T10-22-37-022Z.yml | head -30 <!--id:54e3fb0b-f895-46bf-8569-365a9e1b33da-->
+- ↩︎ result (637 chars): 33: - button "Export" [active] [ref=e92] [cursor=pointer] 36: - heading "Export the current board layout" [level=3] [ref=e1053] 37: - button "PDF standard (small file size)" [ref=e1054] [cursor=pointer] 38: - button "PDF high quality (large file size)" [ref=e1061] [cursor=pointer] 39: - button "PNG … <!--id:6502f183-1812-4611-8403-9a074d54e7f0-->
+
+### [2026-11-13 18:22:44] 🤖 Claude <!--id:5677d65f-7f78-4de1-9443-0574d701ee8d-->
+
+Export 選單已開，有「Generate ZIP file (1.0 MB)」，我現在點它產生並下載這個小白板的 ZIP。
+- 🔧 **mcp__playwright__browser_click**: {"element": "Generate ZIP file button", "target": "e1112"} <!--id:5c2923ab-c923-4307-a518-64eb28f87517-->
+- ↩︎ result (326 chars): ### Ran Playwright code ```js await page.getByRole('button', { name: 'Generate ZIP file (1.0 MB)' }).click(); ``` ### Page - Page URL: https://app.milanote.com/1VPiiK1ObQPS9n/tgl_0209 - Page Title: TGL_0209 - Milanote - Console: 0 errors, 3 warnings ### Snapshot - [Snapshot](.playwright-mcp\page-202… <!--id:ad913c2a-ac6b-454f-8de9-0317ba9cd2a6-->
+- 🔧 **mcp__playwright__browser_wait_for**: {"time": 8} <!--id:5fc9e7d5-ff75-476f-9a6b-43c7525ba182-->
+- ↩︎ result (439 chars): ### Result Waited for 8 seconds ### Ran Playwright code ```js await new Promise(f => setTimeout(f, 8 * 1000)); ``` ### Page - Page URL: https://app.milanote.com/1VPiiK1ObQPS9n/tgl_0209 - Page Title: TGL_0209 - Milanote - Console: 0 errors, 3 warnings ### Snapshot - [Snapshot](.playwright-mcp\page-20… <!--id:e9901e1b-e4ca-44be-b96f-c4d158951976-->
+
+### [2026-11-13 18:22:59] 🤖 Claude <!--id:9df532fa-34f8-4e55-a9b1-8d2b3b96ad3c-->
+
+The download finished. Next I'm checking the file's SHA-256 and listing what's inside the ZIP, without opening any content.
+- 🔧 **Bash**: cd "[REDACTED]" && mkdir -p research/phase1/data/exports && mv ".playwright-mcp/TGL-0209.zip" research/phase1/data/exports/ && cd research/phase1/data/exports && sha256sum TGL-0209.zip && ls -l TGL-0209.zip && … <!--id:9cbeebfb-04c8-41f4-9cc4-57cb24505e8d-->
+- ↩︎ result (327 chars): 3166440e80db6722f3564352fa43081f4290d5b4080780f2c825a47c5988e77b *TGL-0209.zip -rw-r--r-- 1 devon.tseng 1049089 943435 Nov 13 18:22 TGL-0209.zip testzip: None 68484 png 9 64062 png 13 164657 png 13 100918 png 13 77211 png 13 66535 png 13 112172 png 13 81154 png 13 77889 png 13 79817 png 13 71537 png… <!--id:ff70b437-b1a2-4c2b-8e4d-eb7efb01ebce-->
+
+### [2026-11-13 18:23:16] 🤖 Claude <!--id:e0e97156-ef00-44f4-85c5-91f0e38f5229-->
+
+小白板驗證成功：ZIP 完整（`testzip` 無錯），含 11 張 PNG 和 1 個 txt，是平的結構。下一步用有子白板的「壓力測試」確認 ZIP 會不會包含子白板內容。
+- 🔧 **mcp__playwright__browser_navigate**: https://app.milanote.com/1VPZPZ1LORZ4cj/tgl_collection <!--id:f8955b50-f450-4d0d-a8ae-0a79e6bbeba1-->
+- ↩︎ result (426 chars): ### Ran Playwright code ```js await page.goto('https://app.milanote.com/1VPZPZ1LORZ4cj/tgl_collection'); ``` ### Page - Page URL: https://app.milanote.com/1VPZPZ1LORZ4cj/tgl_collection - Page Title: TGL_collection - Milanote - Console: 0 errors, 1 warnings ### Snapshot - [Snapshot](.playwright-mcp\p… <!--id:2c6f9e63-b179-4479-aaa9-7f53141f3d9c-->
+- 🔧 **mcp__playwright__browser_click**: {"element": "壓力測試 board tile", "target": "text=壓力測試", "doubleClick": true} <!--id:2a88dd15-834e-4f23-a953-e4b57db66884-->
+- ↩︎ result (370 chars): ### Ran Playwright code ```js await page.locator('text=壓力測試').dblclick(); ``` ### Page - Page URL: https://app.milanote.com/1X1CI81WePqrad - Page Title: 壓力測試 - Milanote - Console: 0 errors, 3 warnings ### Snapshot - [Snapshot](.playwright-mcp\page-2026-11-13T10-23-25-324Z.yml) ### Events - New conso… <!--id:1c87050e-8d71-4972-9dca-ba75b3d488eb-->
+- 🔧 **mcp__playwright__browser_click**: {"element": "Export button", "target": "#popup-export-button"} <!--id:c5fb27c8-d90e-4841-9583-cbb8cd785c92-->
+- ↩︎ result (285 chars): ### Ran Playwright code ```js await page.locator('#popup-export-button').click(); ``` ### Page - Page URL: https://app.milanote.com/1X1CI81WePqrad - Page Title: 壓力測試 - Milanote - Console: 0 errors, 3 warnings ### Snapshot - [Snapshot](.playwright-mcp\page-2026-11-13T10-23-29-242Z.yml) <!--id:e97d8da7-3143-40b3-a54b-0e5ebbe3aa1e-->
