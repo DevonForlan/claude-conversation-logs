@@ -22,8 +22,8 @@
   "last_user_message": "",
   "last_assistant_message": "",
   "started_at": "2026-11-13T17:54:35+08:00",
-  "updated_at": "2026-11-13T17:54:35+08:00",
-  "last_event": "SessionStart",
+  "updated_at": "2026-11-13T18:22:03+08:00",
+  "last_event": "UserPromptSubmit",
   "redaction_applied": false,
   "redaction_count": 0
 }
