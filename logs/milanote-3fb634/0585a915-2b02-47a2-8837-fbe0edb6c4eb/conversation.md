@@ -1629,3 +1629,9 @@ Issue 提到這個 repo 目前在 GitHub 顯示為 **Public**，但我之前驗�
 - ↩︎ result (1486 chars): --allowed-origins <origins> semicolon-separated list of TRUSTED origins to allow the browser to request. Default is to allow all. Important: *does not* serve as a security boundary and *does not* affect -- --caps <caps> comma-separated list of additional capabilities to enable, possible values: visi… <!--id:1aa2fed8-00c3-42e3-88eb-91ee57d7c603-->
 - 🔧 **Bash**: cd "[REDACTED]" && PROF="$LOCALAPPDATA/milanote-playwright-profile" && mkdir -p "$PROF" && PROFW=$(cygpath -w "$PROF") && echo "profile dir: <LOCALAPPDATA>\\milanote-playwright-profile" && claude mcp add --scop… <!--id:24ba8562-82c5-4732-8819-262d98aa8e43-->
 - ↩︎ result (945 chars): profile dir: <LOCALAPPDATA>\milanote-playwright-profile Added stdio MCP server playwright with command: cmd C:/ npx -y @playwright/mcp@0.0.84 --user-data-dir C:\Users\devon.tseng\AppData\Local\milanote-playwright-profile --image-responses omit to local config File modified: C:\Users\devon.tseng\.cla… <!--id:9ee2c9cf-d2df-4c11-970d-bd3db7f4b4da-->
+
+### [2026-11-13 12:15:29] 🤖 Claude <!--id:3497b557-6671-479a-a3ec-e7c8b02ac612-->
+
+Git Bash 把 `/c` 轉成了 `C:/`（MSYS 路徑轉換），所以連線逾時。我關掉路徑轉換後重新註冊。
+- 🔧 **Bash**: cd "[REDACTED]" && claude mcp remove playwright -s local 2>&1 | tail -1; PROFW=$(cygpath -w "$LOCALAPPDATA/milanote-playwright-profile"); MSYS_NO_PATHCONV=1 MSYS2_ARG_CONV_EXCL="*" claude mcp add --scope local … <!--id:f6855ada-6ad3-4fc2-b349-bdd2fa36537b-->
+- ↩︎ result (658 chars): File modified: C:\Users\devon.tseng\.claude.json [project: [REDACTED]] Added stdio MCP server playwright with command: cmd /c npx -y @playwright/mcp@0.0.84 --user-data-dir C:\Users\<u>\AppData\Local\milanote-playwright-profile --image-responses omit to local config File… <!--id:d14a932b-be50-4bee-aa4e-b58259377c91-->
