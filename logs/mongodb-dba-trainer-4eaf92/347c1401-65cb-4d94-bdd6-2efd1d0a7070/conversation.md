@@ -3116,3 +3116,58 @@ Collection is still in progress; no results yet to report. I'm waiting on the ba
 - 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; export PYTHONIOENCODING=utf-8; timeout 280 .venv313/Scripts/python.exe -u -m scripts.university_capture collect --course monitoring 2>&1 | tail -3 | cut -c1-300 <!--id:a1c179e5-4b4e-47c6-bcc0-6939fe52a034-->
 - ↩︎ result (168 chars): {"learning_paths": 2, "courses": 1, "quiz_pages": 7, "scored_assessments": 1, "errors": 0, "added": 0, "updated": 0, "unchanged": 0, "rejected": 0, "questions_read": 0} <!--id:8ae294dc-ac41-4ae1-964a-ecdc0430bca6-->
 - 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; export PYTHONIOENCODING=utf-8; python "$TEMP/sum2.py" | tail -3; python - <<'PYEOF' p='docs/university-review-implementation.md' s=open(p,encoding='utf-8').read() add=''' ### Enrollm… <!--id:64981e31-6c63-4a9a-928d-705adb1a955f-->
+- ↩︎ result (515 chars): pages 82 {'done': 6, 'lab-or-non-quiz': 1, 'video-or-reading': 26, 'no-questions': 6, 'lab': 43} mongodb-and-the-document-model.json 10 key 10 expl 10 answered 10 TOTAL 10 with key 10 without 0 expl 10 answered 10 unanswered 0 ........................................................................ … <!--id:ead02203-fed1-4bb6-af6e-441440edc905-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; git add scripts/university_capture.py tests/test_university_capture_parse.py docs/university-review-implementation.md; git diff --cached --name-only; git ls-files local_data | wc -l;… <!--id:ca4af99a-3ba5-4acb-9ec8-db0626d79f8c-->
+- ↩︎ result (563 chars): warning: in the working copy of 'tests/test_university_capture_parse.py', LF will be replaced by CRLF the next time Git touches it docs/university-review-implementation.md scripts/university_capture.py tests/test_university_capture_parse.py 0 38318ba University: enroll command, DBA-path traversal in… <!--id:5e209569-0b99-4b2f-acbb-9d3308c5cfca-->
+
+### [2026-11-13 13:37:17] 🤖 Claude <!--id:4116810d-6a8c-4119-8844-3852d873f9c2-->
+
+Issue #3 和 #4 都做完了，但 University 只收到 10 題，logger 在這個 session 的最終同步要等這一輪 Stop 之後才能確認。
+
+## University（Issue #3）
+
+1. **DBA Learning Path：** 1 條（Dashboard 有 2 個連結，是同一條路徑的兩個版本）。
+2. **DBA 課程：** 14 門已掃描，其中 Database Administrator 認證考試不在內，我沒有碰。
+3. **自動報名：** 11 門，都是免費的 Register Now。沒有遇到付款或人工驗證。
+4. **Units / Lessons：** 共 82 個學習頁，其餘影片、程式摘要、lab 頁依規則略過或只記錄。
+5. **Quiz 頁：** 4 個有題目的 quiz，都在 Document Model 課程。其餘課程只有影片、lab 和 Skill Check。
+6. **收集題數：** 10 題。
+7. **已作答與未作答：** 10 題都是你已作答的，未作答 0 題。沒有未作答的非計分 quiz 可以開，所以「按 Start 開啟」這條路只有單元測試驗證。
+8. **有答案與無答案：** 10 題都有答案，0 題沒有。10 題都有解析與回饋。
+9. **Skill Check：** 13 個計分評量，都是發現但沒有開始，因為它們是計分評量，開始會消耗 attempt。
+10. **收集器、去重、續跑：** 重掃兩次沒有重複，`collect_state.json` 讓已處理的頁面不會重掃。課程頁偶發載入失敗，記錄後繼續，Monitoring Tooling 重試後成功。
+11. **測試：** 完整 pytest 340 通過、2 略過、0 失敗。
+12. **Commit：** `38318ba`（只在本機，沒有推送）。
+
+過程中我發現並修了一個漏洞：第一次全掃只讀了 Dashboard 上的 2 門課，新報名的 9 門沒掃到。現在會從 DBA 學習路徑頁面取得所有課程。
+
+## Logger（Issue #4）
+
+13. **漏同步的 root cause：**
+    - 長回合中途沒有同步，只有 UserPromptSubmit 和 Stop 會讀 transcript。遠端的 `working` 快照只是別的 session 的 hook 順帶產生的。這個 session 的遠端就停在 turn 9 / `working` 約 8 分鐘。
+    - Stop 事件直接設成 `idle`，不檢查最終回應是否已寫入。
+    - 推送成功被當成同步成功，沒有遠端驗證。
+    - 助理文字被截在 20000 字元。
+    - 每次重掃都改寫 `updated_at`，造成多餘 commit 和 latest 亂跳。
+    
+    我沒有找到「最終回應確實遺失」的證據：turn 9 的最終回應在 12:01:03 已推上去，漏的是中途狀態。
+14. **架構：** 新版 `cc_global_log.py`，回合狀態由 `conversation.md` 推導，metadata 增加 `turn_state`、`assistant_complete`、雜湊與最後助理訊息 ID。
+15. **Hooks：** 保留原有 UserPromptSubmit、Stop、SessionEnd，新增 SessionStart。settings 只做合併，備份在 `backups/settings.json.pre-logger-v2-20261113`，只新增了 SessionStart。
+16. **佇列與重試：** `queue.json` 加 `journal.jsonl`。只有遠端驗證成功才從佇列移除，失敗會保留，任何後續 hook 都會重試。
+17. **遠端驗證：** 用 `git ls-remote` 確認 GitHub 分支頭包含本機 HEAD，再確認遠端的 conversation 和 metadata 與提交內容一致，且含最新助理回應 ID。結果記在 `sync_status.json`。
+18. **失效偵測：** 偵測本機比遠端新、遠端卡在 working、有使用者回合沒有助理回應、metadata 與雜湊不一致、latest/projects 過期、佇列積壓。`--repair` 會自動修復並重新驗證。
+19. **補漏方法：** `--backfill --session S` 或 `--project P`，從本機 transcript 重建，只動指定 session。
+20. **健康檢查：** `--health`，回報本機與遠端回合、佇列數、最後推送、最後驗證的 commit，以及「ChatGPT 現在看得到最新完整回應」是或否。
+21. **遮蔽驗證：** selftest 18 項通過，10 組密鑰測試（含結帳連結 JWT、Mongo URI、SSH 金鑰等）確認不會出現在遠端內容。我也掃過現有紀錄和歷史，先前那個含 JWT 的結帳連結沒有進到 GitHub。
+22. **真實 session backfill：** 已補，轉換後 10 個回合，同步並通過遠端驗證。
+23. **第一輪新對話驗收：** 用真實的 `claude -p` 觸發真 hook。第一次遠端驗證偵測到 hook 與 worker 的競態失敗，約 25 秒後自動重試成功，GitHub API 直接讀回確認。
+24. **第二輪新對話驗收：** 我加上鎖定修正後重跑，約 20 秒一次成功，GitHub API 讀回確認，不是偶發。
+25. **GitHub 遠端最新狀態：** 這個 session 的 turn 10 目前仍是 `working`，因為這一輪還沒結束。本輪 Stop 之後才會變 `idle`，我在回合內無法確認，請你執行 `python ~/.claude/hooks/cc_global_log.py --health --session 347c1401-65cb-4d94-bdd6-2efd1d0a7070` 確認。
+26. **Logger commit：** 原始碼、測試和說明在私有 log repo 的 `tools/global-logger/`，最新含鎖修正的版本是 `57c509e`（自動同步提交）；另有 `db3699b` 清理快取檔。
+27. **已知限制：**
+    - 回合進行中是 `working`，這是準確的，但不會中途更新（沒有裝 PostToolUse hook，以免增加開銷）。
+    - 遠端驗證證明 GitHub 分支有該內容，不代表讀取方的快取已更新。
+    - logger 測試約 10 分鐘，因為每個測試都要建 git repo。
+    - 真實的 `claude -p` 短對話結束時狀態是 `ended`，互動式回合才是 `idle`，後者由單元測試涵蓋。
+
+**University 還需要你決定的事：** 要增加題量，現在只剩 Document Model 之外的課程沒有 quiz 可收，這 11 門都只有計分 Skill Check。如果要收那些，需要你明確授權我開始計分評量，但那會消耗 attempt，我預設不做。
