@@ -1635,3 +1635,10 @@ Issue 提到這個 repo 目前在 GitHub 顯示為 **Public**，但我之前驗�
 Git Bash 把 `/c` 轉成了 `C:/`（MSYS 路徑轉換），所以連線逾時。我關掉路徑轉換後重新註冊。
 - 🔧 **Bash**: cd "[REDACTED]" && claude mcp remove playwright -s local 2>&1 | tail -1; PROFW=$(cygpath -w "$LOCALAPPDATA/milanote-playwright-profile"); MSYS_NO_PATHCONV=1 MSYS2_ARG_CONV_EXCL="*" claude mcp add --scope local … <!--id:f6855ada-6ad3-4fc2-b349-bdd2fa36537b-->
 - ↩︎ result (658 chars): File modified: C:\Users\devon.tseng\.claude.json [project: [REDACTED]] Added stdio MCP server playwright with command: cmd /c npx -y @playwright/mcp@0.0.84 --user-data-dir C:\Users\<u>\AppData\Local\milanote-playwright-profile --image-responses omit to local config File… <!--id:d14a932b-be50-4bee-aa4e-b58259377c91-->
+- 🔧 **Bash**: cd "[REDACTED]" && mkdir -p research/phase1/{tools,data} && echo "== MCP 0.0.84 deps"; npm view @playwright/mcp@0.0.84 dependencies 2>&1 | head -6; echo "== installed browsers"; ls "/c/Program Files/Google/Chro… <!--id:49a754de-02bc-4eb2-beb5-4d173e6d562c-->
+- ↩︎ result (431 chars): == MCP 0.0.84 deps { playwright: '1.65.0-alpha-2026-10-30', 'playwright-core': '1.65.0-alpha-2026-10-30' } == installed browsers missing: '/c/Program Files/Microsoft/Edge/Application/msedge.exe': No such file or directory /c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe /c/Program Files/… <!--id:7275f362-5220-4bf0-9d91-a23afaf10cac-->
+
+### [2026-11-13 12:16:26] 🤖 Claude <!--id:2a18f63b-c97e-483a-b2dd-5bd87db706f0-->
+
+本機有 Chrome。為了不用額外下載瀏覽器，我把 MCP 改成使用系統 Chrome（`--browser chrome`），同時在研究目錄安裝官方 `playwright-core` 做獨立驗證。
+- 🔧 **Bash**: cd "[REDACTED]" && PROFW=$(cygpath -w "$LOCALAPPDATA/milanote-playwright-profile"); claude mcp remove playwright -s local >/dev/null 2>&1; MSYS_NO_PATHCONV=1 MSYS2_ARG_CONV_EXCL="*" claude mcp add --scope local… <!--id:5b26a060-2d42-4217-9cb1-376bd2b7ab0d-->
