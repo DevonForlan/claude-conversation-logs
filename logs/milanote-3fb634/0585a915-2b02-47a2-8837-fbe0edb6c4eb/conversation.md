@@ -1859,3 +1859,29 @@ heredoc 把正規表示式的反斜線吃掉了。我用 Edit 工具修正那一
 https://github.com/DevonForlan/milanote-cc-session-audit/issues/1#issuecomment-6844120000
 
 這是第二則脫敏留言，第一則見上一輪。
+
+### [2026-11-13 12:47:41] 👤 User (turn 12) <!--id:46865119-4754-4bd2-9dab-850cb23270a6-->
+
+1. 重啟 Claude Code，讓 Playwright MCP 載入。>>我重啟之後我要說什麼
+
+### [2026-11-13 12:47:52] 🤖 Claude <!--id:8d2df82d-e483-4e8c-ab31-31cf92e26d25-->
+
+重啟後直接貼這段就行：
+
+```
+接續 Milanote Phase 1（Issue #1）。我已重啟，請確認 Playwright MCP 已載入，然後開啟 Milanote 讓我登入。
+卡片與白板標題：可以 / 不可以 被模型看到（請擇一保留）。
+```
+
+標題那一句請你保留「可以」或「不可以」其中一個，這是我上一輪問你的事。
+
+## 重啟後我會做的事
+1. 檢查 `playwright` 的工具有沒有出現。如果沒有，我會告訴你原因，不會假裝可以用。
+2. 用 MCP 開啟 `app.milanote.com`，停在登入頁，請你自己登入。我不碰密碼、MFA 或 CAPTCHA。
+3. 你登入後，我先確認是不是真的登入成功，再開始只讀盤點。
+4. 盤點只做導覽和讀取，不移動、不修改、不刪除任何東西。
+
+## 重啟時要注意
+- 請用同一個專案資料夾 `C:\Users\devon.tseng\Desktop\個人\milanote` 啟動 Claude Code。MCP 只對這個專案註冊。
+- 第一次啟動時，Claude Code 可能會問你要不要信任 `playwright` 這個 MCP 伺服器，請選允許。它是官方 Microsoft 套件，我之前檢查過。
+- 重啟後，我不會記得這次對話的細節，但專案記憶和 `research/phase1/` 的文件都在，我會從那裡接續，不用你重新說明背景。
