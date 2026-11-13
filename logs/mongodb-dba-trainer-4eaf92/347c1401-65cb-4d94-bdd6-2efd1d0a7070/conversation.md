@@ -502,8 +502,262 @@ MobaXterm tool
 都會自動記錄。
 
 --------------------------------------------------
-B7. Secur
-…[truncated 3866 chars]
+B7. Security / Secret Redaction
+--------------------------------------------------
+
+這是強制要求。
+
+GitHub 不得出現：
+
+- password
+- API key
+- private key
+- bearer token
+- cookie
+- session token
+- JWT
+- Authorization header
+- MongoDB URI credential
+- LDAP password
+- SMTP credential
+- .env content
+- SSH private key
+- certificate private key
+
+建立 sanitization layer。
+
+至少要有：
+
+- common secret patterns
+- URI password masking
+- Authorization masking
+- token masking
+- PEM private key blocking
+- environment variable secret masking
+
+如果偵測到高風險 secret：
+
+不要 push 該原文。
+
+替換：
+
+[REDACTED]
+
+並在 metadata 記錄：
+
+redaction_applied=true
+
+不要記錄真正的 secret。
+
+--------------------------------------------------
+B8. Sensitive local/private content
+--------------------------------------------------
+
+不要自動將以下內容上傳：
+
+mongoDB上課/
+local_data/
+.env
+credentials
+private course material
+customer files
+company internal files
+binary attachments
+
+Conversation 中如果只是提到：
+
+file path / filename
+
+可以記錄。
+
+但不要自動把檔案內容一起同步。
+
+--------------------------------------------------
+B9. GitHub repo
+--------------------------------------------------
+
+請先盤點是否已有適合的 GitHub conversation log repo。
+
+如果已有：
+
+優先沿用。
+
+如果沒有：
+
+請先提出建議 repo 結構，
+不要直接建立多個重複 repo。
+
+如果需要建立新的 central logging repo，
+
+建議：
+
+claude-conversation-logs
+
+或沿用既有：
+
+claude-conversation-logger
+
+但不要假定名稱。
+
+先 inspect。
+
+--------------------------------------------------
+B10. ChatGPT readability
+--------------------------------------------------
+
+重要目標：
+
+之後我要可以對 ChatGPT 說：
+
+「幫我看 CC 最新進度」
+
+然後 ChatGPT 可以透過 GitHub 直接找到：
+
+- latest session
+- latest message
+- latest Claude response
+- current task
+- latest result
+- remaining blockers
+
+因此請增加一個 machine-readable index：
+
+latest.json
+
+例如：
+
+{
+  "updated_at": "...",
+  "project": "...",
+  "session_id": "...",
+  "latest_log": "...",
+  "latest_turn": 57,
+  "status": "active"
+}
+
+以及：
+
+projects.json
+
+列出最近活動的 projects。
+
+這樣 ChatGPT 不需要每次掃整個 repository。
+
+--------------------------------------------------
+B11. Validation
+--------------------------------------------------
+
+請做真實驗證：
+
+1. 開一個 harmless test session
+2. 發一個測試 message
+3. 讓 CC 回答
+4. hook 自動觸發
+5. log 產生
+6. sanitization 執行
+7. commit
+8. push
+9. GitHub remote 確認最新 log 存在
+10. latest.json 指向正確 session
+
+再測：
+
+- duplicate hook
+- temporary network failure
+- git push failure
+- secret redaction
+- concurrent sessions
+
+--------------------------------------------------
+B12. Do not destroy existing configuration
+--------------------------------------------------
+
+如果 ~/.claude/settings.json 已有：
+
+- permissions
+- hooks
+- MCP
+- Chrome integration
+- custom settings
+
+不得整份覆蓋。
+
+要：
+
+merge
+
+並先 backup。
+
+==================================================
+EXECUTION ORDER
+==================================================
+
+請按照以下順序處理：
+
+Phase 1
+- inspect current mongodb-dba-trainer git status
+- inspect existing user-level Claude configuration
+- inspect existing logger / hooks
+- inspect existing GitHub logging repository
+
+Phase 2
+- 回報目前架構
+- 判斷哪些可以沿用
+- 確認是否真的需要新增 component
+
+Phase 3
+- 實作 global conversation logging
+- secret redaction
+- incremental logging
+- Git batching / push
+- latest.json / projects.json
+
+Phase 4
+- real end-to-end validation
+
+Phase 5
+- 回來繼續 MongoDB University Study Integration
+
+==================================================
+IMPORTANT
+==================================================
+
+不要只是寫設計文件。
+
+如果現有環境允許，請實際完成設定、測試與驗證。
+
+不要要求我手動做可以由你安全完成的 PowerShell / Git / file 操作。
+
+但如果遇到：
+
+- GitHub authentication
+- browser security confirmation
+- CAPTCHA
+- destructive operation
+- credential input
+
+才停下來讓我本人處理。
+
+所有修改完成後：
+
+請清楚回報：
+
+1. Global logger 是否已啟用
+2. 使用哪些 hook events
+3. user-level config 放哪裡
+4. local logs 放哪裡
+5. GitHub repo 是哪一個
+6. conversation log path schema
+7. latest.json 是否正常
+8. secret redaction 是否通過測試
+9. duplicate protection 是否通過
+10. push retry 是否可用
+11. concurrent session 是否安全
+12. 真實 GitHub E2E 是否成功
+13. MongoDB University integration 下一步狀態
+
+不要開始 M20。
+</pasted_content id="69ce">
 
 ### [2026-11-06 09:35:30] 🤖 Claude <!--id:84f7abbc-52af-4b3f-8fd1-2a41afedea10-->
 
@@ -1633,8 +1887,69 @@ Summary:
      - `LOCAL_DATA_ROOT` honors `UNIVERSITY_DATA_DIR`. A `collector.log` is written under local_data.
    - `app/services/university_store.py` (new)
      - Separate SQLite DB `university.db` with tables `university_items` and `university_progress`.
-     - Functions: `sync` (signature-cached), `status`, `list_courses`, `list_items`, `get_item`, `reveal`, `submit_answer` (result correct/incorrect/unkn
-…[truncated 10759 chars]
+     - Functions: `sync` (signature-cached), `status`, `list_courses`, `list_items`, `get_item`, `reveal`, `submit_answer` (result correct/incorrect/unknown), `set_reviewed`, `random_item`, `progress_summary`.
+     - Does not import the Certification DB layer.
+   - `app/routers/university.py` (new; `/api/university`)
+     - Endpoints: `GET /status` (always 200), `/courses`, `/items`, `/random`, `/progress`, `/items/{fp}`; `POST /items/{fp}/answer|reveal|reviewed`. Registered in `app/main.py`.
+   - `app/static/university.html` and `university.js` (new): filters, stats tiles, list, quiz view, empty state, prev/next, random, reviewed checkbox.
+   - Edited existing files: `app/static/js/shell.js` (nav item `university` with `sub:true`, icon, PAGE_META), `app/static/index.html` (practice tabs nav), `app/static/css/pages.css` (appended University/tab styles), `.gitignore` (added `.venv*/`).
+   - `scripts/university_capture.py` (new)
+     - Commands: `launch`, `tabs`, `inspect`, `capture`. `capture` is a stub that only reports options found.
+     - Verified: `launch` plus `tabs` attached to Edge and listed `MongoDB Courses and Trainings | MongoDB University` (unauthenticated).
+   - Tests (new): `tests/test_university_collector_v2.py` (12), `tests/test_university_store.py` (17), alongside the existing `tests/test_university_collector.py` (9). Combined result: 37 passed (the 9+12+16 runs were 37 total at the time). Tests cover isolation from trainer.db table counts, empty/corrupt states, and static frontend checks.
+   - Docs: `docs/university-review-implementation.md` (new); updated `docs/mongodb-university-ui-study.md` (Round 2: verified vs unverified) and `docs/university-review-bank-design.md` (update note).
+   - Scratchpad scripts (not committed): `e2e_local.py`, `outage.py`, `ui_check.py`.
+
+4. Errors and fixes:
+   - **Logger hooks not installed:** the settings.json edit was denied twice by the classifier (Data Exfiltration), and I stopped and reported. It later succeeded on retry after the user's diagnosis request.
+   - **BOM JSON error from PowerShell stdin:** fixed with `utf-8-sig` decoding.
+   - **KeyError risk from foreign `metadata.json` schema** (written by a different session): fixed by key validation.
+   - **Turn counter reset after state loss:** fixed by recovering from md markers.
+   - **Worker race leaving pending work:** fixed with a respawn in `finally`.
+   - **Router `Query()` defaults broke direct-call tests:** replaced with plain defaults.
+   - **Test bugs:** a docstring mentioning `app.db` tripped the import-guard test (reworded); search `q="gamma"` matched option text (changed to "gamma question").
+   - **Baseline pytest failed to collect:** the old `.venv` was broken (Python312 missing) and the system Python lacked fastapi. Fixed with `.venv313`; the old `.venv` was then repaired.
+   - **`git commit -F -` via PowerShell pipe failed:** committed with `-m $msg` instead.
+   - **Persistent `test_dev_server_safety.py::test_start_writes_pid_file_and_server_is_reachable` failure:** environmental. The test hits `/api/docker-lab/available`, which hangs because docker commands hang here. It failed identically at baseline before my changes. A second failure (`test_stop_only_kills_tracked_pid...`) appeared once and passed on rerun, so it was flaky.
+   - **Full regression:** baseline 301 passed / 1 failed / 2 skipped; after the milestone 329 passed / 1 failed (the environmental one) / 2 skipped.
+
+5. Problem Solving:
+   - **Solved:**
+     - The global logger is now installed and works. Remote commits include `e39acad conversation-log: mongodb-dba-trainer 347c1401 2026-11-08 11:24:51`, so Stop auto-sync was confirmed live for this session.
+     - The University Review backend, UI, tests and docs are done.
+     - A real-browser UI check with synthetic data (headless Edge via Playwright, server on a throwaway port, killed by PID) passed: the empty state works; the list, ordered/random review, answer/explanation/feedback and "Correct answer not captured" all work; HTML in question text renders as text; no JS errors; the Practice page shows 10 domains, the sidebar shows 200 questions / 100% coverage, and the University tab/nav are present.
+     - Collector idempotency was verified via CLI (first run added 3, second unchanged 3).
+   - **Ongoing/blocked:** authenticated real-data validation.
+     - The dedicated Edge window was launched with a fresh profile and is NOT logged in; the user must log in manually (the sanctioned stop point).
+     - There are no verified selectors/DOM for MongoDB University yet, so no real questions have been collected (0).
+
+6. All user messages:
+   - Turn 1: A long task. Part A restores mongodb-dba-trainer context (200 questions, 31/31, University integration, local-only data, browser constraints: no CAPTCHA solving, no login bypass; no M20; PID-specific process handling only). Part B builds a global Claude Code conversation logging mechanism to GitHub, reusing any existing logger and merging (not overwriting) `~/.claude/settings.json` after backup. Requirements: sanitize/redact; incremental/dedup/concurrency-safe; batched, non-blocking git push with retry; log structure `logs/<project>/<session>/{conversation.md,metadata.json}`; `latest.json`/`projects.json`; real E2E validation; do not upload mongoDB上課/, local_data/, .env, credentials, private course material, customer files, company internal files, binary attachments. Stop only for GitHub auth, browser security confirmation, CAPTCHA, destructive operations, or credential input. A 13-item final report was requested.
+   - Answer to my AskUserQuestion: allow all projects (no per-project/customer exclusions) with the stated safety premises (work PC is managed/monitored; data already de-identified/masked). Central repo must be private. Redaction/secret scanning must remain and replace secrets with `[REDACTED]`. High-risk secrets must be redacted before any push. No file contents/binaries/attachments synced; local_data/.env/credentials stay local-only. Global user-level default. Back up and merge settings. Reuse the existing logger if possible. A second answer approved creating a new private repo.
+   - Turn 2: Focus only on mongodb-dba-trainer. Check git status/log/remote and the University files. Verify browser integration without opening an unauthenticated tab, read-only, no answering or CAPTCHA. If readable, do real UI/quiz reconnaissance and update docs. Do a small real-data collector prototype for the current course only, written to `local_data/mongodb_university/`. Validate and report, then stop. No M20.
+   - Turn 3: Pause University work. Diagnose why this session (347c1401-65cb-4d94-bdd6-2efd1d0a7070) isn't synced to the central repo `DevonForlan/claude-conversation-logs`. Check hooks, local log, and sanitize/stage/commit/push. Sync this session, make it searchable by session id, update `latest.json`/`projects.json`, and run an E2E check that a further Stop auto-updates. Don't delete or overwrite trainer dev content. Report root cause, changes, commit SHA, log path, latest.json path, searchability; then resume University integration.
+   - Turn 4: The large autonomous milestone described above (University Review as a usable feature; separate from the 200 questions; "如果可以擴充就務必請擴充" for the Certification bank was a parenthetical; the acceptance pass requires the bank to remain 200). Stop only if manual login is needed. Final 16-item report. No M20; no other projects; no large Trainer UI rework.
+   - Turn 5: the request for this summary.
+
+7. Pending Tasks:
+   - **Stop and request the user's one-time manual login.** The dedicated Edge window (profile `local_data/mongodb_university/browser_profile`) must be logged in by the user, with a course/quiz page opened by the user.
+   - **After login:** run `python -m scripts.university_capture tabs` and `inspect` (read-only: title, URL, DOM outline, screenshot, request paths). Determine DOM vs XHR, then write verified selectors.
+   - **Collect a small batch from one authorized course:** validate UI, dedup, explanation rendering, progress and local-only behavior; expand within the same authorized course only. Update `docs/mongodb-university-ui-study.md` with "actual observed" vs "unverified".
+   - **Final acceptance pass and 16-item report**, then stop. The Certification bank was left unexpanded (it must stay 200 per the acceptance list); mention this as a limitation or next-stage suggestion.
+   - **Uncommitted non-milestone files, left intentionally:** `CLAUDE.md` (modified), `claude-context-audit.md`, `optimization-*.md`, `repeated-trigger-audit.md`, `token-usage-baseline.md`.
+
+8. Current Work:
+   - The milestone code is committed as **43b7156** ("Add local-only University Review (collector v2, separate store, API, UI)", trailer `Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>`; not pushed). Working tree was verified: no `local_data` entries in git status, 0 tracked `local_data` files, and `local_data/` ignored via `.gitignore` line 22.
+   - The last action was checking logger sync; it showed commit `e39acad` for this session in the central repo.
+   - The immediate state is awaiting the user's manual MongoDB University login in the dedicated Edge window. Real-data validation, browser-observation docs and the final report remain. The 12 acceptance items are mostly verified with synthetic data: the sidebar showed Question Bank 200 and Objective Coverage 100%; Random Practice domain list shows 10 domains; University Review entry and empty state work. Mock Exam, Mistake Book and Dashboard are covered by the passing full pytest run (329 passed).
+
+9. Optional Next Step:
+   - Per the user's turn 4 ("如果 fallback 需要我本人登入，才停下來要求我操作"), the next step is to stop and tell the user: "請在已開啟的專用 Edge 視窗（learn.mongodb.com，profile 位於 local_data/mongodb_university/browser_profile）自行登入 MongoDB University 並開啟一個你有權限的課程/quiz 頁面，完成後告訴我". After that, run `.venv313\Scripts\python.exe -m scripts.university_capture tabs` and `inspect --match mongodb.com`, and continue with the real-data validation, docs update and 16-item final report.
+
+If you need specific details from before compaction (like exact code snippets, error messages, or content you generated), read the full transcript at: C:\Users\devon.tseng\.claude\projects\C--Users-devon-tseng-Desktop----mongodb-dba-trainer\347c1401-65cb-4d94-bdd6-2efd1d0a7070.jsonl
+Continue the conversation from where it left off without asking the user any further questions. Resume directly — do not acknowledge the summary, do not recap what was happening, do not preface with "I'll continue" or similar. Pick up the last task as if the break never happened.
+
+The messages after this summary are the most recent messages from before compaction, kept verbatim. The summary was written without seeing them, so something it says has not happened yet may already have happened in them.
 
 ### [2026-11-13 10:18:35] 👤 User (turn 6) <!--id:1a188f21-ebbe-4fb3-a33f-547b501c7e23-->
 
@@ -2582,3 +2897,8 @@ Private conversation logs 繼續留在 private repo。
 狀況：新版 logger 已部署到 hooks，selftest 18 項全過，settings 已備份。我接著用安全合併的方式加上 SessionStart hook，然後對真實 session 做 backfill。
 - 🔧 **Bash**: cd ~/.claude; python - <<'PYEOF' import json,copy p='C:/Users/devon.tseng/.claude/settings.json' raw=open(p,encoding='utf-8-sig').read() s=json.loads(raw) h=s['hooks'] ours=[e for e in h['Stop'] if any('cc_global_log' in x.get('command','')… <!--id:b85fda97-cd6d-4f40-a1b5-c128d2cf83d8-->
 - ↩︎ result ⚠️error (284 chars): Exit code 1 added SessionStart {'UserPromptSubmit': 1, 'SessionEnd': 1, 'Stop': 3, 'SessionStart': 1} ['model', 'statusLine', 'enabledPlugins', 'theme', 'autoMode'] 1c1 < ['hooks', 'statusLine', 'theme'] --- > ['autoMode', 'enabledPlugins', 'hooks', 'model', 'statusLine', 'theme'] <!--id:f2a55b15-0a16-4a52-a4c6-2ee57844e334-->
+- 🔧 **Bash**: cd ~/.claude; python - <<'PYEOF' import json a=json.load(open('backups/settings.json.pre-logger-v2-20261113',encoding='utf-8-sig')); b=json.load(open('settings.json',encoding='utf-8')) for k in set(a)|set(b): if a.get(k)!=b.get(k): print("c… <!--id:805d554f-d70b-4bd7-8ce0-32f4bcb2bd7a-->
+- ↩︎ result (452 chars): changed: hooks {'SessionStart'} remote main head=None skipped - mongodb-dba-trainer 347c1401 local turn 10 / remote turn 0 status working/None in_sync=False assistant response on remote: False queue: 1 redaction: True (24) last push: None last verified commit: None WARNING: local transcript has data… <!--id:54a27ed0-5405-443c-83bb-463284d10098-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; export PYTHONIOENCODING=utf-8; timeout 250 python ~/.claude/hooks/cc_global_log.py --health --session 347c1401-65cb-4d94-bdd6-2efd1d0a7070 | cut -c1-250 <!--id:1620f7b0-4fcd-4563-81c2-115578a5ff10-->
+- ↩︎ result (397 chars): remote main head=bc20146fc992a0eb28ddc1c51d12dff177ecbcda - mongodb-dba-trainer 347c1401 local turn 10 / remote turn 10 status working/working in_sync=True assistant response on remote: True queue: 1 redaction: True (24) last push: None last verified commit: None WARNING: local transcript has data n… <!--id:c1611fc2-5809-4015-b0df-02aecf12bda5-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; export PYTHONIOENCODING=utf-8; timeout 400 python ~/.claude/hooks/cc_global_log.py --backfill --session 347c1401-65cb-4d94-bdd6-2efd1d0a7070 | cut -c1-250; echo rc=$? <!--id:3a4dd169-c2f6-456b-b86f-7e7d59419cc0-->

@@ -1,6 +1,16 @@
 {
-  "updated_at": "2026-11-13T12:36:45+08:00",
+  "updated_at": "2026-11-13T12:37:14+08:00",
   "projects": [
+    {
+      "project": "mongodb-dba-trainer",
+      "project_safe": "mongodb-dba-trainer-4eaf92",
+      "last_activity": "2026-11-13T12:37:14+08:00",
+      "latest_session": "347c1401-65cb-4d94-bdd6-2efd1d0a7070",
+      "latest_log": "logs/mongodb-dba-trainer-4eaf92/347c1401-65cb-4d94-bdd6-2efd1d0a7070/conversation.md",
+      "status": "working",
+      "latest_turn": 10,
+      "sessions": 1
+    },
     {
       "project": "AI CUP 2026玉山人工智慧公開挑戰賽",
       "project_safe": "AI-CUP-2026玉山人工智慧公開挑戰賽-afc2d6",
@@ -29,16 +39,6 @@
       "latest_log": "logs/claude-conversation-logs-8978cc/30e5b156-8771-498c-a5a7-ff50b6e35047/conversation.md",
       "status": "working",
       "latest_turn": 63,
-      "sessions": 1
-    },
-    {
-      "project": "mongodb-dba-trainer",
-      "project_safe": "mongodb-dba-trainer-4eaf92",
-      "last_activity": "2026-11-13T12:36:44+08:00",
-      "latest_session": "347c1401-65cb-4d94-bdd6-2efd1d0a7070",
-      "latest_log": "logs/mongodb-dba-trainer-4eaf92/347c1401-65cb-4d94-bdd6-2efd1d0a7070/conversation.md",
-      "status": "working",
-      "latest_turn": 10,
       "sessions": 1
     },
     {
