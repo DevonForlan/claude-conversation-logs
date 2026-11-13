@@ -1,15 +1,15 @@
 {
-  "updated_at": "2026-11-13T12:49:11+08:00",
+  "updated_at": "2026-11-13T12:49:32+08:00",
   "projects": [
     {
-      "project": "phase1",
+      "project": "milanote",
       "project_safe": "milanote-3fb634",
-      "last_activity": "2026-11-13T12:49:11+08:00",
-      "latest_session": "0585a915-2b02-47a2-8837-fbe0edb6c4eb",
-      "latest_log": "logs/milanote-3fb634/0585a915-2b02-47a2-8837-fbe0edb6c4eb/conversation.md",
-      "status": "ended",
-      "latest_turn": 12,
-      "sessions": 5
+      "last_activity": "2026-11-13T12:49:32+08:00",
+      "latest_session": "23e946d9-edf8-4fb9-9046-a77ea4a35475",
+      "latest_log": "logs/milanote-3fb634/23e946d9-edf8-4fb9-9046-a77ea4a35475/conversation.md",
+      "status": "working",
+      "latest_turn": 0,
+      "sessions": 7
     },
     {
       "project": "mongodb-dba-trainer",

@@ -1,0 +1,29 @@
+{
+  "schema": 2,
+  "session_id": "23e946d9-edf8-4fb9-9046-a77ea4a35475",
+  "project": "milanote",
+  "project_safe": "milanote-3fb634",
+  "cwd": "C:\\Users\\devon.tseng\\Desktop\\個人\\milanote",
+  "log_path": "logs/milanote-3fb634/23e946d9-edf8-4fb9-9046-a77ea4a35475/conversation.md",
+  "turns": 0,
+  "status": "working",
+  "latest_turn": 0,
+  "turn_state": {
+    "user_prompt_seen": false,
+    "assistant_response_seen": false,
+    "stop_seen": false,
+    "session_end_seen": false
+  },
+  "assistant_complete": false,
+  "last_user_id": null,
+  "last_assistant_id": null,
+  "conversation_sha256": "185e3608d8e3a69b1ad4df22f76d47ccc0c36dcb6978f00a4131ab6af3877eaa",
+  "conversation_bytes": 190,
+  "last_user_message": "",
+  "last_assistant_message": "",
+  "started_at": "2026-11-13T12:49:32+08:00",
+  "updated_at": "2026-11-13T12:49:41+08:00",
+  "last_event": "UserPromptSubmit",
+  "redaction_applied": false,
+  "redaction_count": 0
+}
