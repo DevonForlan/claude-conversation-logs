@@ -40449,3 +40449,80 @@ Please run /login · API Error: 403 Attention Required! | Cloudflare
 ### [2026-11-13 17:53:58] 👤 User (turn 519) <!--id:760a81c4-889d-44ef-bd79-1e81871af4f1-->
 
 <local-command-stdout>Login interrupted</local-command-stdout>
+
+### [2026-11-13 17:54:33] 👤 User (turn 520) <!--id:9d33d813-ba9f-4ee1-a580-bc71f2df89b6-->
+
+<pasted_content id="f0c0">
+請立即讀取並完整執行 GitHub Issue #68。
+
+這是目前最新的 Owner strategy directive，優先級高於 Issue #65 中「highest compliant tech weight」的舊邏輯。
+
+核心要求：
+
+1. Frozen Quant v1 本體、config、fingerprint 全部保持不變。
+2. 所有新策略邏輯都放在 tactical / owner overlay。
+3. 科技曝險最低 >=85%。
+4. 不再追求最高可達科技占比。
+5. 改為：
+
+best risk-adjusted portfolio subject to tech_weight >= 85%
+
+6. 一般科技曝險操作區間為 85%～92%。
+7. 只有 clearly strong technology regime 才可提高至 90%～95%。
+8. High-volatility / deteriorating breadth 時應維持約 85%～88%，不要因為仍合規就硬推到更高。
+9. 科技內部選股除了 Frozen Quant v1 ranking 外，overlay 至少納入：
+   - 5-day relative strength
+   - 20-day relative strength
+   - recent institutional flow
+   - 20-day realized volatility
+   - extreme gap / sharp-move risk
+10. 加入科技子產業 concentration control，避免 ticker 看似分散但實際集中在同一 risk factor。
+11. 加入 turnover / transaction-cost discipline，不要只為了科技占比小幅變化而大量換股。
+12. 所有競賽 hard guards 保持不變。
+
+請自行完成：
+
+implementation
+→ tests
+→ self-review
+→ PR
+→ CI
+→ merge
+→ production deploy
+→ runtime verification
+
+不需要等待我額外批准。
+
+另外最重要：
+
+2026-11-15 星期日 19:30 Asia/Taipei，請直接使用這套新策略執行 production forecast，產生下一個合法交易日的 D-Plan，預期為 2026-11-16。
+
+19:30 執行時：
+
+最新資料
+→ 新策略產生 FINAL
+→ settlement / validation / compliance / stress / Active Share / order cap
+→ 全部通過
+→ 直接提交 Portal
+→ Portal read-back
+→ SUBMISSION_CONFIRMED
+→ shared-state / GitHub evidence sync
+
+不要等待 Owner review，也不要等我再次確認。
+
+之後所有正常 D-Plan 都持續沿用 Issue #68 的策略。
+
+如果 Owner 沒有新的介入：
+- 不要改回舊的 highest compliant tech weight
+- 不要自行調整策略政策
+- 不需要再次向 Owner 詢問
+- 直接按照 Issue #68 持續執行與提交
+
+若同一 trade date 已存在舊 FINAL，而 submission window 仍允許新版：
+- 保留舊 FINAL 作 audit evidence
+- 標記 SUPERSEDED
+- 提交新版
+
+完成實作後請先在 Issue #68 回報 implementation / CI / production deployment 狀態；星期日 19:30 執行完成後，再補上 FINAL、科技曝險、regime、turnover、Portal read-back 與 submission evidence。
+</pasted_content id="f0c0">
+- 🔧 **PowerShell**: cd "C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽"; $S="C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\8f718917fde93c02\3c6e927b-3359-42ca-a4f8-73630a860dd3\scratchpad"; gh issue view 68 --json title,body,comments > "$S\i68.json"; … <!--id:97a0208e-e303-4b22-b1b8-5390f633b30b-->

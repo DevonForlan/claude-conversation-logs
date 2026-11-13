@@ -1,0 +1,29 @@
+{
+  "schema": 2,
+  "session_id": "3ae118f5-89eb-43a0-9949-4d8c4d59de7f",
+  "project": "AI CUP 2026玉山人工智慧公開挑戰賽",
+  "project_safe": "AI-CUP-2026玉山人工智慧公開挑戰賽-afc2d6",
+  "cwd": "C:\\Users\\devon.tseng\\Desktop\\個人\\AI CUP 2026玉山人工智慧公開挑戰賽",
+  "log_path": "logs/AI-CUP-2026玉山人工智慧公開挑戰賽-afc2d6/3ae118f5-89eb-43a0-9949-4d8c4d59de7f/conversation.md",
+  "turns": 0,
+  "status": "working",
+  "latest_turn": 0,
+  "turn_state": {
+    "user_prompt_seen": false,
+    "assistant_response_seen": false,
+    "stop_seen": false,
+    "session_end_seen": false
+  },
+  "assistant_complete": false,
+  "last_user_id": null,
+  "last_assistant_id": null,
+  "conversation_sha256": "6934b0bbe029adcd678ca63d6273c2f2fca01af1d717b9c8a1cb2a3eb1ae131e",
+  "conversation_bytes": 262,
+  "last_user_message": "",
+  "last_assistant_message": "",
+  "started_at": "2026-11-13T17:54:35+08:00",
+  "updated_at": "2026-11-13T17:54:35+08:00",
+  "last_event": "SessionStart",
+  "redaction_applied": false,
+  "redaction_count": 0
+}
