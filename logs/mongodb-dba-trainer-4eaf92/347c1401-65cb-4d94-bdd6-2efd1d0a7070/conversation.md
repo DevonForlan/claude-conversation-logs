@@ -2003,3 +2003,27 @@ Issue #3 的收集與驗證已經做完，但範圍比 Issue 預期的小，而�
 21. **下一步建議：** 如果你想增加題量，先在 University 自己報名其餘課程並完成 quiz，我再跑 `collect`。另外可以把公開文件寫成新題目，補進 Certification 題庫，不要複製 University 的題目。
 
 另外，有一件事要提醒你：盤點 Dashboard 時，輸出曾顯示一個含 JWT 的結帳連結，裡面帶有個人資料。我沒有保存或使用它，但它出現在這次 session 的對話紀錄裡，而這份紀錄會被 logger 同步到私有 repo。logger 有遮蔽 JWT 的規則，建議你抽查那份紀錄確認。
+
+### [2026-11-13 11:52:45] 👤 User (turn 9) <!--id:0a012a6b-4e77-493f-a8ed-25559ee17399-->
+
+<pasted_content id="69ce">
+請重新讀取 GitHub：
+
+DevonForlan/claude-conversation-logs
+Issue #3
+
+我剛剛已經補充新的需求 comment。
+
+重點是：
+所有 DBA 相關 MongoDB University Quiz 都要納入，
+不管是否已經作答。
+
+請依照最新 Issue comment 修改 collector / traversal 邏輯，
+重新掃描 DBA 相關課程並繼續蒐集。
+
+不需要再詢問我一般技術決策。
+只有登入失效、CAPTCHA 或人工驗證才通知我。
+</pasted_content id="69ce">
+- 🔧 **Bash**: gh issue view 3 --repo DevonForlan/claude-conversation-logs --json comments --jq '.comments[] | "---- " + .createdAt + "\n" + .body' 2>&1 | head -200 <!--id:70ab3f4d-333a-4dc7-b9c0-5fbe177459d1-->
+- ↩︎ result (2267 chars): ---- 2026-11-13T03:51:18Z Requirement update from user: All DBA-related MongoDB University quiz content should be included in University Review regardless of whether the user has already answered it. Please revise the collector/traversal rules accordingly: - Do NOT use "already answered" as a prereq… <!--id:3e34629e-79e7-43e8-98a3-d745b6f5b487-->
+- 🔧 **Bash**: cd "C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer"; export PYTHONIOENCODING=utf-8; cat > "$TEMP/probe.py" <<'EOF' import sys from playwright.sync_api import sync_playwright slugs="mongodb-overview fundamentals-of-data-transformation i… <!--id:c205cb29-744c-4f77-a5a8-727284051743-->
