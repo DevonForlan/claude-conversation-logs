@@ -476,3 +476,223 @@ await (async (page) =&gt; {
 - 接下來我會重試 5 個失敗的白板，補上其餘有檔案的白板，再跑 pHash 相似分析、OCR 和分類。整理 Milanote 之前，我會先把位置對照表和還原方案做好並驗證。
 
 檔案都在 `research/phase1/data/exports/`，策略筆記在 `research/phase1/data/EXPORT_STRATEGY.md`。
+
+### [2026-11-14 10:11:58] 👤 User (turn 13) <!--id:212d70a2-6a22-41dc-9c14-a449934790d6-->
+
+<pasted_content id="08c1">
+請補充修正目前的 SOP 截圖整理策略。
+
+我前面提到 LDAP、憑證、Oracle、MongoDB 都只是舉例，**不要把分類限制在這幾個主題**。
+
+Milanote 裡面還有很多不同系統、建置流程、維運操作、問題排除與設定 SOP，我自己也無法事先把所有主題完整列出。
+
+因此請改成「從實際資料自動發現 SOP 主題」的方式處理。
+
+## 一、不要使用固定主題白名單
+
+不要只建立：
+
+- LDAP
+- 憑證
+- Oracle
+- MongoDB
+
+這些只能當作可能出現的例子。
+
+請根據實際：
+
+- 白板名稱
+- 子白板名稱
+- 檔名
+- OCR 文字
+- 畫面 UI
+- CLI 指令
+- 系統名稱
+- 主機名稱
+- 錯誤訊息
+- 前後截圖關係
+- 相似圖片群組
+- 白板階層
+- 操作上下文
+
+自行發現有哪些 SOP 主題。
+
+## 二、採用階層式分類
+
+不要只給每張圖片一個簡單 tag。
+
+請建立類似以下的階層，但實際類別由資料決定：
+
+技術領域  
+→ 系統 / 產品  
+→ 工作類型  
+→ SOP / 任務  
+→ 操作階段  
+→ 截圖
+
+例如可能形成：
+
+Infrastructure
+→ Linux
+→ System Configuration
+→ 某項設定流程
+→ Pre-check / Configure / Verify / Troubleshooting
+
+或：
+
+Database
+→ 某資料庫產品
+→ Security
+→ 某項整合
+→ Preparation / Configuration / Testing / Verification
+
+這只是分類方式範例，不是固定 taxonomy。
+
+## 三、先做 Topic Discovery
+
+完成 OCR 與基本內容分析後，先自動產生一份：
+
+`DISCOVERED_TOPICS.md`
+
+至少列出：
+
+- 發現的主題
+- 主題可能名稱
+- 涵蓋圖片數
+- 來源白板
+- 主要 OCR 關鍵字
+- 相關技術／產品
+- 是否看起來是一套完整 SOP
+- 是否可能與其他主題合併
+- 信心程度
+
+相近主題可以自動合併。
+
+例如不同白板可能其實都是同一套建置流程，不要因為白板名稱不同就拆成不同 SOP。
+
+## 四、辨識「一套 SOP」
+
+不要只做圖片分類。
+
+請進一步判斷哪些圖片可能共同形成同一套操作流程。
+
+可以根據：
+
+- 時間或畫面演進
+- OCR 文字
+- 檔名
+- 相同 UI
+- 相同主機／系統
+- 白板相鄰位置
+- before / after 差異
+- 設定 → 執行 → 驗證的邏輯順序
+
+嘗試建立：
+
+`SOP_GROUPS.csv`
+
+例如：
+
+SOP_ID  
+Topic  
+Subtopic  
+Step_Order  
+Screenshot  
+Step_Type  
+Confidence  
+Status
+
+其中 Step_Type 可自行判斷，例如：
+
+- Prerequisite
+- Pre-check
+- Configuration
+- Execution
+- Verification
+- Troubleshooting
+- Rollback
+- Reference
+
+## 五、同一 SOP 內要判斷新舊版本
+
+這是重要要求。
+
+如果同一操作出現很多相似截圖，不要全部保留成正式素材。
+
+請嘗試判斷：
+
+- 哪張是舊設定
+- 哪張是調整後設定
+- 哪張有錯誤
+- 哪張是修正後成功結果
+- 哪張 UI 最完整
+- 哪張資訊最清楚
+- 哪張最適合拿來寫正式 SOP
+
+最後標記：
+
+- `FINAL_CANDIDATE`
+- `SUPPORTING`
+- `OLD_VERSION`
+- `FAILED_STATE`
+- `DUPLICATE`
+- `UNCERTAIN`
+
+無法判斷時標記 `UNCERTAIN`，不要自行猜測。
+
+## 六、不要因為一張圖無法分類就阻塞
+
+若某張圖片無法判斷：
+
+先歸到：
+
+`Unclassified / Needs Review`
+
+繼續處理其他資料。
+
+後續再利用其他圖片、OCR 或白板上下文重新分類。
+
+不要因少數不確定項目停止整體流程。
+
+## 七、最終我要的是 SOP 素材知識庫
+
+最後請產出：
+
+- `DISCOVERED_TOPICS.md`
+- `TOPIC_TAXONOMY.md`
+- `SOP_GROUPS.csv`
+- `SOP_CANDIDATE_SCREENSHOTS.csv`
+- `OUTDATED_SCREENSHOTS.csv`
+- `FAILED_OR_WRONG_SCREENSHOTS.csv`
+- `UNCERTAIN_SCREENSHOTS.csv`
+- `DUPLICATE_GROUPS.csv`
+- `SOP_GAPS.md`
+
+`SOP_GAPS.md` 特別列出每套 SOP：
+
+- 已有哪些步驟
+- 哪些步驟已有適合的截圖
+- 哪些步驟只有舊圖
+- 哪些步驟只有失敗畫面
+- 哪些關鍵步驟完全缺圖
+- 哪些地方之後值得重新截圖
+
+## 八、分類原則
+
+整個流程請採：
+
+**資料驅動、自動發現主題，而不是我事先列出主題。**
+
+LDAP、MongoDB、Oracle、憑證等都只是例子。
+
+如果實際資料裡還有 20、50 或更多不同 SOP 主題，就全部依內容辨識並建立合理分類。
+
+這次請以「幫我建立完整的 SOP 截圖知識庫」作為最終目標，而不是完成幾個預先指定的技術分類。
+</pasted_content id="08c1">
+- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/milanote/research/phase1/tools" && (where tesseract 2>&1 | head -2; ls "C:/Program Files/Tesseract-OCR" 2>&1 | head -3; python -I -c "import sys;print(sys.version.split()[0])"; python -I -c "import pytess… <!--id:e1b3111f-8c09-4df0-aaaf-b97f59ab3a98-->
+- ↩︎ result (637 chars): ��T: �䤣�촣�ѼҦ����ɮסC ls: cannot access 'C:/Program Files/Tesseract-OCR': No such file or directory 3.13.16 ModuleNotFoundError: No module named 'pytesseract' ModuleNotFoundError: No module named 'easyocr' ModuleNotFoundError: No module named 'rapidocr_onnxruntime' { "name": "tools", "version": "1.0.0… <!--id:beba1302-c591-4a86-bdc2-89d85212f6e1-->
+
+### [2026-11-14 10:13:13] 🤖 Claude <!--id:8cb99081-6fbf-49fb-aa36-3e2365293762-->
+
+本機目前沒有 OCR 引擎。我在專案內建一個獨立的 Python 環境，安裝離線 OCR（RapidOCR，支援中英文），不動全域設定。
+- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/milanote/research/phase1/tools" && python -m venv ocr-venv && ./ocr-venv/Scripts/python -m pip install -q rapidocr-onnxruntime pillow imagehash 2>&1 | tail -5; ./ocr-venv/Scripts/python -c "import rapidoc… <!--id:ea737858-b434-4d3b-a118-a4c8dcfd9d17-->
