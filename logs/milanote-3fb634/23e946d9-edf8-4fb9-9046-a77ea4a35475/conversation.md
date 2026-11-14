@@ -727,3 +727,36 @@ While that installs, I'm saving the new classification requirements to memory so
 - ZIP 不保留白板階層，階層分類要靠我自己維護的「白板名稱／位置對照表」。
 
 OCR 環境裝好後，我會依序做：補完匯出、OCR、`DISCOVERED_TOPICS.md`，再往後做 SOP 分組和版本標記。
+
+### [2026-11-14 10:34:37] 👤 User (turn 14) <!--id:0cb4ddef-c115-4d53-b571-5a7a0f3d1e33-->
+
+<task-notification>
+<task-id>bw0tlcxme</task-id>
+<tool-use-id>toolu_01WpJnLv66kSc981HkHYjCtW</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\789a05257270d83c\23e946d9-edf8-4fb9-9046-a77ea4a35475\tasks\bw0tlcxme.output</output-file>
+<status>completed</status>
+<summary>Background command "Create venv and install offline OCR and hashing libs" completed (exit code 0)</summary>
+</task-notification>
+- 🔧 **Bash**: cat "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/789a05257270d83c/23e946d9-edf8-4fb9-9046-a77ea4a35475/tasks/bw0tlcxme.output" | tail -5 <!--id:0e15f101-a2fb-4ed6-8911-b810d9595eed-->
+- ↩︎ result (356 chars): [notice] A new release of pip is available: 26.2.1 -> 26.3 [notice] To update, run: C:\Users\devon.tseng\Desktop\�ӤH\milanote\research\phase1\tools\ocr-venv\Scripts\python.exe -m pip install --upgrade pip ok C:\Users\devon.tseng\Desktop\�ӤH\milanote\research\phase1\tools\ocr-venv\Lib\site-packages\r… <!--id:8dc37d01-88e8-4968-9ce5-9f125633ef6f-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\ocr_pipeline.py <!--id:1b068939-0f19-473f-a0c0-e4426974d081-->
+- ↩︎ result (174 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\ocr_pipeline.py (file state is current in your context — no need to Read it back) <!--id:47833463-a8fb-47b2-a440-5bebc04bac32-->
+- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/milanote/research/phase1" && ./tools/ocr-venv/Scripts/python tools/ocr_pipeline.py data/exports data/analysis > data/analysis_run.log 2>&1; tail -3 data/analysis_run.log <!--id:b2227694-d240-4ded-9e95-6511e853b1c0-->
+- ↩︎ result (604 chars): Command running in background with ID: byx1lramh. Output is being written to: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\789a05257270d83c\23e946d9-edf8-4fb9-9046-a77ea4a35475\tasks\byx1lramh.output. You will be notified when it completes — do not poll that file or sleep while waiting. Read the f… <!--id:710a024d-d9bc-4e26-b2b8-a50973e40958-->
+
+### [2026-11-14 10:36:00] 🤖 Claude <!--id:1135a4d6-bb88-4270-9f80-77c75b545f3a-->
+
+本機 OCR 和雜湊流程已在背景跑，處理 225 張 PNG，完成時會通知我。
+
+**目前狀況**
+- 離線 OCR（RapidOCR）和 pHash 函式庫已裝好，在專案內的 `ocr-venv`，沒動全域設定。
+- 腳本是 `research/phase1/tools/ocr_pipeline.py`。它只解壓圖片，其他檔案類型（含 `.pfx`、`.sql`）不會被打開。
+- 每張圖會記錄 SHA-256、pHash、dHash、尺寸和 OCR 文字。OCR 文字含 password、token、private key 等字樣的圖會標成 `sensitive`，之後不送模型。
+- 結果寫在 `research/phase1/data/analysis/ocr.jsonl`，中斷後可續跑。全部只在本機，不會上傳。
+
+**接下來**，OCR 跑完我會依序做：
+1. 重試 5 個失敗的白板匯出，並補其餘有檔案的白板。
+2. 產出 `DISCOVERED_TOPICS.md`，內容是從 OCR 關鍵字、白板名稱、檔名自動歸納的主題。
+3. 做 SOP 分組和新舊版本標記，產出你要的 CSV 與 `SOP_GAPS.md`。
+
+整理 Milanote 之前，我會先驗證備份與還原方案，目前 Milanote 寫入仍是 0。
