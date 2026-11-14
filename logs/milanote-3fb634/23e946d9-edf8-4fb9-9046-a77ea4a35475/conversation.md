@@ -783,3 +783,31 @@ https://github.com/DevonForlan/milanote-cc-session-audit/issues/1#issuecomment-6
 - 🔧 **Bash**: gh api repos/DevonForlan/milanote-cc-session-audit/issues/comments/6870319260 --jq '.user.login + "\n" + .created_at + "\n" + .body'; echo ----; cd "C:/Users/devon.tseng/Desktop/個人/milanote/research/phase1/data" && wc -l analysis/ocr.jsonl;… <!--id:5f677409-7d60-46b8-a9ea-e03777341c7b-->
 - ↩︎ result (2456 chars): DevonForlan 2026-11-14T02:37:00Z ## Owner 最終執行指示：目前無硬性 blocker，請持續自主完成 SOP 截圖知識庫 Owner 已確認：目前看到的問題都不是需要停工等待人工決策的 blocker。 請從現在開始把本專案視為 **continuous autonomous execution**，不要再把一般工程細節升級為阻塞。 ### 1. CAPTCHA / MFA / 登入驗證 這類不是技術 blocker，也不是停止專案的理由。 正確處理方式： - CC 自動導航到需要驗證的頁面。 - 保持既有 browser/session。 - 只通知 … <!--id:27120038-1e8f-4284-837d-b57ffe620840-->
 - 🔧 **mcp__playwright__browser_run_code_unsafe**: {"code": "async (page) => {\n const outDir = 'C:/Users/devon.tseng/Desktop/個人/milanote/research/phase1/data/exports/';\n const coll = 'https://app.milanote.com/1VPZPZ1LORZ4cj/tgl_collection';\n const home = 'https://app.milanote.com/1Vgavo1… <!--id:9276b0fb-d3bd-4459-8d32-f45bd77939a3-->
+- ↩︎ result (344 chars): MCP tool "playwright/browser_run_code_unsafe" is still running after 120s. It was moved to the background as task kpjcctmsz and keeps running; you'll receive a notification with the result when it completes. You can keep working in the meantime. To stop it, use TaskStop with task_id "kpjcctmsz". Not… <!--id:508b71ed-d176-48c0-90ab-34260a98d285-->
+
+### [2026-11-14 10:44:37] 🤖 Claude <!--id:e33156f1-b311-4e8d-8a8c-076207531a41-->
+
+Retry batch is running in the background. I'm writing the topic-discovery script now so it's ready when OCR data arrives.
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\discover.py <!--id:c4d123af-c9b5-4975-ac8f-84195a8d181b-->
+- ↩︎ result (170 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\discover.py (file state is current in your context — no need to Read it back) <!--id:89c3adde-6714-4423-af42-59086413a532-->
+- 🔧 **Bash**: cd "[REDACTED]" && wc -l analysis/ocr.jsonl; ls exports | wc -l; ls exports <!--id:de9a08dd-12a2-40cc-baad-a6d66255e803-->
+- ↩︎ result (230 chars): 26 analysis/ocr.jsonl 10 b01_TGL_0210_0.zip b04_TGL_0212_1.zip b06_TGL_0309_0.zip b07_TGL_0324_PLR_0.zip b08_TGL_0327_0330_0331_0.zip b10_TGL_0331_0401_0.zip b11_TGL_0402_Oracle_0.zip b12_0424_CA_-_0.zip manifest.json TGL-0209.zip <!--id:f23252e1-9a6b-4162-830a-71f86c78f344-->
+
+### [2026-11-14 10:45:15] 🤖 Claude <!--id:37d15d16-6aef-43da-be53-6af757356253-->
+
+兩項背景作業都在跑，我先等它們完成，不再輪詢。
+
+**目前進度**
+- **匯出重試**：TGL_0211、TGL_0212、TGL_0310、TGL_0325、0506 0507 LDAP設定 五個逾時白板，加上 iisi、一銀Mongo，共 7 個，已改成 10 分鐘逾時、每個最多重試 2 次，在背景匯出。單一白板失敗只記錄，不影響其餘。
+- **OCR 與雜湊**：已完成 26 張，總共 225 張，預估還需要約半小時。
+- **分析腳本**：`research/phase1/tools/discover.py` 已寫好，會產出重複群組、`DISCOVERED_TOPICS.md`、`SOP_GROUPS.csv` 等。主題是從 OCR 關鍵字和白板名稱自動歸納，白板關鍵字重疊高的會自動合併。
+
+**我的處理規則**
+- Moodboard、第四組這兩個含第三人個資和人事文件的白板，維持排除。
+- 含密碼、Token、金鑰字樣的圖片，會標成 `UNCERTAIN` 並跳過，不送模型。
+- 判斷舊版、失敗畫面、最佳版本，目前靠近似群組內的錯誤關鍵字、OCR 行數、解析度。證據不足一律標 `UNCERTAIN`，不亂猜。
+
+**尚未完成**
+- 其餘有檔案的白板還沒補齊。「借Dan蹭一下」有 50 個子白板，子白板的檔案數我還不知道。
+- 白板位置對照表、備份與還原驗證、小批次整理都還沒做。Milanote 寫入仍然是 0。
+- 目前沒有需要你處理的事。
