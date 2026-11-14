@@ -3718,3 +3718,26 @@ If you need specific details from before compaction (like exact code snippets, e
 Continue the conversation from where it left off without asking the user any further questions. Resume directly — do not acknowledge the summary, do not recap what was happening, do not preface with "I'll continue" or similar. Pick up the last task as if the break never happened.
 
 The messages after this summary are the most recent messages from before compaction, kept verbatim. The summary was written without seeing them, so something it says has not happened yet may already have happened in them.
+
+### [2026-11-14 10:30:24] 👤 User (turn 16) <!--id:91a692b6-873f-4a09-9a50-fc1bf9378380-->
+
+<pasted_content id="69ce">
+請重新讀取 GitHub Issue #3 最新 comment。
+
+請直接依照最新的 Information-resolution policy 執行。
+
+目前 130 題 Skill Check 不要再停在「平台沒有 answer key」。
+
+請對全部題目進行官方資料查證、答案研究、信心分級與 provenance 標記，然後繼續完成 University Review。
+
+所有可查證的 MongoDB／軟體／資料庫／資訊類問題，都由你自行研究、判斷、執行與驗證，不要再因這類問題詢問我。
+
+只有真正無法透過資料、文件、程式、測試、UI、DOM、API 或實際行為判斷的事項，才可以列為 unresolved。
+
+請直接做到目前可達的最大完成度後，再一次性回報。
+</pasted_content id="69ce">
+- 🔧 **Bash**: gh issue view 3 -R DevonForlan/claude-conversation-logs --comments --json comments --jq '.comments[-1].body' | head -c 6000 <!--id:283949b3-a748-4a9b-b3a7-922c783ff0cf-->
+- 🔧 **Bash**: cd "[REDACTED]" && ls local_data/mongodb_university/collected | head -30 && ls scripts | head -30 && grep -n "correct\|answer" database/university_schema.sql 2>/dev/null | head <!--id:041f9af6-abb5-4990-b846-81d5f13aa8cf-->
+- ↩︎ result (4050 chars): Additional autonomy policy from the user — apply immediately to this MongoDB University DBA task and use it as the default decision rule for this project. ## Core principle For ordinary information / software / database / engineering questions, Claude Code must NOT stop merely because the answer is … <!--id:3e3074c9-c118-4f40-81c1-72df01e368fe-->
+- ↩︎ result (544 chars): cluster-reliability.json crud-operations-in-mongodb.json data-resilience-self-managed.json encryption-at-rest.json fundamentals-of-data-transformation.json indexing-design-fundamentals.json mongodb-and-the-document-model.json mongodb-overview.json monitoring-tooling.json networking-security-self-man… <!--id:6b7da609-df63-43ff-a3ee-3f647047109f-->
+- 🔧 **Bash**: cd "[REDACTED]" && python - <<'E' import json,glob n=0 for f in sorted(glob.glob('local_data/mongodb_university/collected/*.json')): d=json.load(open(f,encoding='utf-8')) qs=d if isinstance(d,list) e… <!--id:a83bc1c4-bbb6-463a-b416-ff43a42a298f-->
