@@ -944,3 +944,14 @@ I'm on the TGL_0211 export dialog now, checking what the ZIP button says before 
 - ↩︎ result (456 chars): -rw-r--r-- 1 devon.tseng 1049089 8790756 11:23 r02_TGL_0212_0.zip -rw-r--r-- 1 devon.tseng 1049089 11994802 18:32 C:/Users/devon.tseng/Desktop/個人/milanote/.playwright-mcp/TGL-0327-0330-0331.zip -rw-r--r-- 1 devon.tseng 1049089 2815780 18:34 C:/Users/devon.tseng/Desktop/個人/milanote/.playwright-mcp/TG… <!--id:20feb0a6-1b31-40f7-b871-9868a6791978-->
 - 🔧 **mcp__playwright__browser_run_code_unsafe**: {"code": "async (page) => {\n const coll = 'https://app.milanote.com/1VPZPZ1LORZ4cj/tgl_collection';\n const home = 'https://app.milanote.com/1Vgavo1UDyg65v/home';\n const targets = [[coll,'TGL_0310',0],[coll,'TGL_0325',0],[coll,'0506 0507 … <!--id:3bf0105f-a2a0-47ab-9d54-7642f3658aca-->
 - ↩︎ result (344 chars): MCP tool "playwright/browser_run_code_unsafe" is still running after 120s. It was moved to the background as task kri97nnno and keeps running; you'll receive a notification with the result when it completes. You can keep working in the meantime. To stop it, use TaskStop with task_id "kri97nnno". Not… <!--id:0c5ceaf7-a4b0-471e-91b3-87cfdfdab0f7-->
+
+### [2026-11-14 23:09:54] 🤖 Claude <!--id:7c3d26a6-8e4c-4b72-86f2-eb1e66b867d1-->
+
+While that runs, I'm improving the analysis script: cross-board merging on OCR body text, DUPLICATE labels, and the two missing files (taxonomy and gaps).
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\discover.py <!--id:878af1cc-19c7-4aff-bc38-7d55c50d72ce-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\discover.py <!--id:97b9da69-394d-4028-881a-dfe272fd4078-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\discover.py <!--id:c295c375-0094-44c4-b20a-11eefaf4c65e-->
+- ↩︎ result (180 chars): The file C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\discover.py has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:97265ff2-4afd-4173-808f-9018ae492942-->
+- ↩︎ result (180 chars): The file C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\discover.py has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:7f9a266e-6ff5-40aa-bdd4-6b40f333daed-->
+- ↩︎ result (180 chars): The file C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\discover.py has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:3f43d989-f7cc-43ef-93dc-3a8da1750bf6-->
+- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/milanote/research/phase1" && ./tools/ocr-venv/Scripts/python tools/ocr_pipeline.py data/exports data/analysis 2>&1 | tail -2 && ./tools/ocr-venv/Scripts/python tools/discover.py data/analysis data/kb 2>&1… <!--id:567c6fd4-59a6-44a0-a87d-d8f248730576-->
