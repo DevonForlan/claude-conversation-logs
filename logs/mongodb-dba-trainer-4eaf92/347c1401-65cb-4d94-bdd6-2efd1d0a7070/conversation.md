@@ -3821,3 +3821,59 @@ Add a list badge for the answer basis, update tests, and run them.
 - 🔧 **Bash**: cd "[REDACTED]" && .venv313/Scripts/python.exe - <<'E' from fastapi.testclient import TestClient from app.main import app import shutil, os c=TestClient(app) print(c.get("/api/university/status").jso… <!--id:40883eaa-dbf4-4a22-9413-c72469cd128a-->
 - ↩︎ result (849 chars): C:\Users\devon.tseng\Desktop\�ӤH\mongodb-dba-trainer\.venv313\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead. from starlette.testclient import TestClient as TestClient # noqa {'available': True… <!--id:061095ac-8e9c-4f0c-aec2-8f046701351b-->
 - 🔧 **Bash**: cd "[REDACTED]" && (node --check app/static/university.js && echo js-ok || echo no-node) ; cat >> docs/university-review-implementation.md <<'E' ## Answer provenance (research pass over Skill Check q… <!--id:93bf4fa2-8047-41e5-b8c4-3a570014ac26-->
+- ↩︎ result (300 chars): js-ok =========================== short test summary info =========================== FAILED tests/test_dev_server_safety.py::test_start_writes_pid_file_and_server_is_reachable !!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!! 1 failed, 71 passed in 217.04s (0:03:37) <!--id:bb9191dc-e803-4f2a-aa62-6ddc8b6600e9-->
+- 🔧 **Bash**: cd "[REDACTED]" && .venv313/Scripts/python.exe -m pytest -q 2>&1 | tail -6 <!--id:3e58fafd-25c8-468a-8a25-1a2cd12e7d02-->
+- ↩︎ result (377 chars): E + where <function _pid_running at 0x000001587393FB00> = dev_server._pid_running tests\test_dev_server_safety.py:146: AssertionError =========================== short test summary info =========================== FAILED tests/test_dev_server_safety.py::test_start_writes_pid_file_and_server_is_reach… <!--id:c840e5ff-2baf-4d54-a75c-a3d3bd64ca0a-->
+- 🔧 **Bash**: cd "[REDACTED]" && .venv313/Scripts/python.exe -m pytest tests/test_dev_server_safety.py -q -k reachable 2>&1 | tail -25 <!--id:0974445e-7a78-4352-b71f-6312481ecb28-->
+- ↩︎ result (1488 chars): # 30 seconds (not the original 15) �X testing found that under heavier # system load (e.g. multiple pytest/Docker operations running at once), # the uvicorn subprocess occasionally takes more than 15 seconds to start, # causing this test to fail spuriously (dev_server.py itself is fine �X it # passe… <!--id:6fa16036-4be7-4533-8893-d3c6cfd9ec48-->
+
+### [2026-11-14 10:55:01] 🤖 Claude <!--id:6dc431d3-32aa-4e65-a1f2-ff9c85f04169-->
+
+The dev-server test hits `/api/docker-lab/available`, which calls Docker. I'm checking whether Docker is hanging again, since that would make the failure unrelated to my change.
+- 🔧 **Bash**: cd "[REDACTED]" && (timeout 15 docker version --format '{{.Server.Version}}' ; echo "docker exit=$?") 2>&1 | tail -3; git stash -q && .venv313/Scripts/python.exe -m pytest tests/test_dev_server_safet… <!--id:1ca278f3-38c2-422a-95da-3c59dc2cd150-->
+- ↩︎ result (1118 chars): failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot find the file specified. docker exit=1 warning: in the working copy of 'CLAUDE.md', LF will be replac… <!--id:429d2bce-3def-4ff3-aec1-30121fc92b82-->
+
+### [2026-11-14 10:56:28] 🤖 Claude <!--id:061795d7-537f-4ca5-bb76-981d923d9f63-->
+
+The test also fails without my changes, because Docker Desktop isn't running. So it's an environment problem, not a regression. I'm committing only my files now.
+- 🔧 **Bash**: cd "[REDACTED]" && git add app/services/university_store.py app/static/university.js docs/university-review-implementation.md tests/test_university_store.py && git diff --cached --stat | tail -6 && g… <!--id:af9900a4-fbeb-46f8-a824-d7df7f01beef-->
+- ↩︎ result (483 chars): app/services/university_store.py | 69 ++++++++++++++++++++++++++++---- app/static/university.js | 16 +++++++- docs/university-review-implementation.md | 15 +++++++ tests/test_university_store.py | 27 +++++++++++++ 4 files changed, 118 insertions(+), 9 deletions(-) 8bc44d7 University Review: answer p… <!--id:8bd519db-8156-40ef-b60d-22639d7ea6d2-->
+
+### [2026-11-14 10:57:21] 🤖 Claude <!--id:b96fac05-3a87-4680-a745-2b9e2fc81015-->
+
+130 道 Skill Check 題都已完成答案研究，University Review 現在能標示每題答案的來源與信心。這 130 題的答案都是我查證後推導的，不是平台公布的。我沒有送出任何 Skill Check 來驗證，因為送出只會得到分數，不會得到逐題正解，還可能在你的紀錄上留下失敗分數。
+
+已提交並推送（`8bc44d7`，master 與 origin 同步，`local_data` 沒有任何檔案被追蹤）。完整測試是 342 通過、2 略過、1 失敗。失敗的是 `test_dev_server_safety` 的 dev server 可達性測試，原因是 Docker Desktop 沒在跑，docker API 連不上。我用 stash 掉我的改動重跑，它同樣失敗，所以不是這次改動造成的。
+
+1. **platform_verified：** 10 題，都是 Document Model quiz，答案和解析取自平台的作答檢視。
+2. **research_verified：** 130 題，全部是 Skill Check。
+3. **unresolved：** 0 題。
+4. **信心分布：** 高 108、中 18、低 4。
+5. **官方來源涵蓋：**
+   - 9 題我實際抓取並讀過官方文件：
+     - Ops Manager 分片叢集還原。
+     - `reshardCollection` 流程。
+     - `slowms` 預設值與設定。
+     - 覆蓋查詢（covered query）定義。
+     - Atlas 加密至 cluster 的步驟。
+     - 複合索引。
+     - TLS 憑證建議。
+   - 1 題只讀到搜尋結果裡官方文件的摘要。
+   - 其餘 120 題是依 MongoDB 的既定行為判斷，沒有逐題抓官方頁面。這些題目多半是基礎概念，所以大多給高信心，但它們的證據層級低於上面那 10 題。每題都在 `evidence_basis` 欄位標明是哪一種。
+6. **仍不確定的題目：**
+   - 沒有任何一題列為 unresolved，但有 4 題是低信心：
+     - `fc2c19dd`：Ops Manager 監控步驟，選項描述對不上我查到的 UI。
+     - `92fa22dd`：TLS 設定的第一步，題目用語不精確。
+     - `9321000d`：評估索引成效的工具，選項裡沒有 `explain`。
+     - `8885ca93`：哪個查詢能被索引覆蓋。我選 a，但依官方定義 c 也能被覆蓋，這題可能有兩個合理答案。
+   - 另有 18 題中信心。
+7. **平台送出驗證：** 沒有用。
+8. **UI 是否區分答案來源：**
+   - 題目列表有標籤：「platform answer」、「researched (信心)」或「no answer」。
+   - 作答或顯示答案後會列出答案來源、信心、證據層級、理由與來源網址。
+   - 用真實資料透過 API 驗證過：140 題中 130 題是 research_verified、10 題是 platform_verified，揭示答案時能取回研究理由。
+   - 我只做了 JS 語法檢查和 API 層驗證，沒有重新用瀏覽器走一遍畫面。
+9. **測試：** 新增一個 provenance 單元測試，涵蓋平台答案不被覆蓋、無效選項被忽略、狀態統計。University 相關測試 50 項全過。完整測試結果見上方。
+10. **提交與推送：** `8bc44d7` 已推送。
+
+研究答案存在本機的 `local_data/mongodb_university/answer_research.json`，不進 git。你在練習時遇到研究答案和你的判斷不一致，優先信自己的判斷，尤其是中、低信心的題目。
