@@ -966,3 +966,5 @@ Issue #68 的新策略已經上線，我驗證過，不需要我再改程式。�
 那次背景同步已經結束，結果就是我剛才回報的：推送逾時，狀態 `PUBLISH_PENDING`，沒有新的變化。資料還留在本機，下次同步會重送。
 
 我會在 09:16 的檢查再確認它有沒有補上。如果連續逾時，我會查是網路還是 GitHub 的問題。
+- 🔧 **PowerShell**: cd "C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽"; Get-Date -Format "yyyy-MM-dd HH:mm"; python agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --force 2>&1 | Select-Object -Last 1 <!--id:c3d253db-ac24-44d5-b9dc-831be9e5debe-->
+- 🔧 **ScheduleWakeup**: Issue #68 follow-through (supersedes #65 'highest compliant' logic; #65 floor 0.85 stays). (1) Each check-in: `python agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --force` (a PUBLISH_PENDING from a git pu… <!--id:b65ddba3-645b-455e-9b48-da6a816aa659-->
