@@ -932,3 +932,7 @@ I'm on the TGL_0211 export dialog now, checking what the ZIP button says before 
 - 目前已觸發寄信的只有 TGL_0211。要取得 TGL_0212、TGL_0310、TGL_0325、0506 0507 LDAP設定、iisi、一銀Mongo，我需要先觸發它們寄信。你把信裡的 ZIP 存到 `research/phase1/data/exports/` 就行。要我現在觸發嗎？
 
 **我接下來會做**，不用你介入：改善跨白板合併，例如降低合併門檻、改用 OCR 內文關鍵字而不是白板名稱，補上兩個缺的 md，修正重複標記，再做備份與還原方案的驗證。
+
+### [2026-11-14 23:06:31] 👤 User (turn 19) <!--id:29705912-bccd-40fc-ada1-af844a62a804-->
+
+繼續執行，完成後回報統計

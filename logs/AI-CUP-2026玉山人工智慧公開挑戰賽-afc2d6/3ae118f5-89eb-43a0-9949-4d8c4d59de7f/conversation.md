@@ -1014,3 +1014,6 @@ GitHub 和證交所現在都連得上。前兩次推送逾時是暫時的網路�
 那次背景同步已結束，沒有留下新的輸出。我之前看到的 `BUSY` 只代表當時有另一個同步在跑，不是錯誤。
 
 我會在 12:11 的檢查重新同步，確認紀錄有補上。其他沒有變化，要做的事還是等週日 11/15 19:30 的第一次新策略執行。
+- 🔧 **Bash**: cd "[REDACTED]"; date "+%Y-%m-%d %H:%M"; timeout 100 python agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --force 2>&1 | tail -1 <!--id:47597b72-6b88-472f-a341-e2f61359ef22-->
+- ↩︎ result (35 chars): 2026-11-14 23:06 {"status": "BUSY"} <!--id:44662575-0fde-4605-8838-773e11cf6c8e-->
+- 🔧 **PowerShell**: Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -match "cc_session_sync|shared-state" } | Select ProcessId,CreationDate,@{n='cmd';e={$_.CommandLine.Substring(0,[Math]::Min(120,$_.CommandLine.Length))}}; cd "C:\Users\devon.tsen… <!--id:5511d84a-9624-4b07-b099-d4bbd309bc65-->
