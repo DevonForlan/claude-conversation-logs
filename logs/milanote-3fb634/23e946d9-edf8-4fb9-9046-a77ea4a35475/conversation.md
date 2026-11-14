@@ -1004,3 +1004,50 @@ OCR 和分析的重跑還在背景進行，我先等它完成，再把 iisi 和�
 - 改良版的 `discover.py`（跨白板合併、補 DUPLICATE 標記、產出 `TOPIC_TAXONOMY.md` 和 `SOP_GAPS.md`）正在跑，跑完會通知我。
 
 接下來我會重新跑一次 OCR，把 iisi 的圖片加進去，再更新全部 CSV 和 md，把最新統計回報給你。Milanote 寫入仍是 0。
+
+### [2026-11-14 23:37:49] 👤 User (turn 20) <!--id:45f005db-fe54-42a6-983f-5cca40cb2cdd-->
+
+<task-notification>
+<task-id>b1xb63t81</task-id>
+<tool-use-id>toolu_012692j1FVBrykeTkFbTTKrY</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\789a05257270d83c\23e946d9-edf8-4fb9-9046-a77ea4a35475\tasks\b1xb63t81.output</output-file>
+<status>completed</status>
+<summary>Background command "Process new ZIPs and rerun improved discovery" completed (exit code 0)</summary>
+</task-notification>
+- 🔧 **Bash**: cd "[REDACTED]" && ./tools/ocr-venv/Scripts/python tools/ocr_pipeline.py data/exports data/analysis 2>&1 | tail -1 && ./tools/ocr-venv/Scripts/python tools/discover.py data/analysis data/kb 2>&1… <!--id:dc0aae47-cc86-4d67-9aa2-3ed1394157b5-->
+- ↩︎ result (1257 chars): new records: 1 total: 326 topics 7 labels {'SUPPORTING': 124, 'FINAL_CANDIDATE': 6, 'FAILED_STATE': 31, 'UNCERTAIN': 63, 'DUPLICATE': 102} merges 3 TGL-0209 | TGL_0210 | 0.28 | near-image TGL_0212 | TGL_0327_0330_0331 | 0.02 | near-image TGL_0327_0330_0331 | TGL_0331_0401 | 0.14 | near-image ## Data… <!--id:ecc3ecc1-fb85-429d-9335-5c4031bb7b42-->
+- 🔧 **Bash**: cat > "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/789a05257270d83c/23e946d9-edf8-4fb9-9046-a77ea4a35475/scratchpad/c4.md" <<'EOF' ## CC 進度回報 #4（去識別摘要，2026-11-14） **資料量**：取得 11 個白板 ZIP（另有 1 個與既有 ZIP 內容相同）；共 326 筆圖片紀錄，SHA-256 精確重複 102 筆（其… <!--id:84330b71-2557-4245-b127-bba0ea87bcb3-->
+- ↩︎ result (89 chars): https://github.com/DevonForlan/milanote-cc-session-audit/issues/1#issuecomment-6879896199 <!--id:4c6c57f0-17c5-4b89-9f45-3ed51ac97cd2-->
+
+### [2026-11-14 23:38:49] 🤖 Claude <!--id:cbf58315-a5e6-4646-a87f-700815660b98-->
+
+我已產出 9 個知識庫檔案，但這版還是草稿，品質有限，Milanote 也完全沒有改動。檔案在 `research/phase1/data/kb/`。
+
+**統計**
+- 取得 11 個白板的 ZIP，共 326 筆圖片紀錄。精確重複 102 筆，其中約 99 筆是 TGL_0212 被匯出兩次，所以唯一圖片是 224 張。
+- OCR 全部成功。40 張含密碼、Token 或金鑰字樣，已跳過，不送模型。
+- 合併後有 7 個主題，其中 1 個是 Unclassified，內容是 Database 和 Security / Certificates 兩個領域。
+- 標記結果：
+  - SUPPORTING 124
+  - FAILED_STATE 31
+  - UNCERTAIN 63
+  - FINAL_CANDIDATE 6
+  - DUPLICATE 102
+- `SOP_GAPS.md` 已列出每個主題缺哪些步驟。幾乎每個主題都缺 Prerequisite、Pre-check 和 Rollback 的截圖，這個結果有可能是啟發式判斷太粗造成的，需要人工確認。
+- 摘要已寫入 Issue #1：https://github.com/DevonForlan/milanote-cc-session-audit/issues/1#issuecomment-6879896199
+
+**品質上的警告**
+- 有一個主題由 3 個白板因為共享相似圖片而合併，其中兩個白板的關鍵字重疊只有 0.02，這個合併很可能過度。
+- 主題和版本判斷都是啟發式，只靠 OCR 關鍵字和相似度，6 張 FINAL_CANDIDATE 的信心偏低。
+- 領域名稱（Database、Security）來自一小組關鍵字，不是真正從資料發現的主題，內容分類還不夠細。
+
+**還沒取得的資料**
+- 4 個大白板的 ZIP 要從信箱取連結：TGL_0211（103 MB）、TGL_0310（66 MB）、TGL_0325（63 MB）、0506 0507 LDAP設定（340 MB）。其中只有 TGL_0211 和 TGL_0310 確認有觸發寄信，另外兩個不確定，請你看信箱有沒有收到。收到後把 ZIP 放進 `research/phase1/data/exports/` 就行，我會接著處理。
+- 其他有檔案的白板，包括「借Dan蹭一下」的 50 個子白板，還沒逐個匯出。
+
+**整理 Milanote 的前置條件還沒到位**
+- ZIP 不保留階層，也沒有卡片位置，所以我還沒有可靠的位置對照表。
+- 備份與還原方案沒有驗證過。
+- 依你的「沒有可靠還原方案前不動」原則，我還沒有對 Milanote 做任何移動或寫入，數字仍然是 0。
+
+要不要我下一步優先補位置對照表和還原驗證，再讓你複核過度合併的主題？

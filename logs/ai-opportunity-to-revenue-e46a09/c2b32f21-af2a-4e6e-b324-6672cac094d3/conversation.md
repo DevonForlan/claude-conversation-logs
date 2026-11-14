@@ -1347,3 +1347,51 @@ PR #3 會把 gh-aw 的檔案整批刪掉，換成新的 `control.yml`，所以�
 
 ## 風險
 這個 token 綁 WebComm Team 帳號，用量走公司訂閱，是否產生額外費用、公司是否允許在個人 public repo 使用，我沒辦法證實。token 一旦懷疑外洩，請立刻撤銷並重新執行 `claude setup-token`。
+
+### [2026-11-14 23:37:51] 👤 User (turn 12) <!--id:0290331d-d46e-431b-aa65-9dc0701050a1-->
+
+<pasted_content id="09cb">
+請幫我完成目前 GitHub ChatOps 部署中你可以直接處理的部分。
+
+1. 檢查 PR #3：
+   `infra: ChatOps via claude-code-action (OAuth token), replaces gh-aw`
+
+2. 如果 PR #3 目前仍然 mergeable，請直接 merge 到 main。
+   這次我明確授權你執行 merge，不需要再詢問。
+
+3. 檢查 repository Actions settings，嘗試開啟：
+   `Allow GitHub Actions to create and approve pull requests`
+
+4. 如果可以透過 GitHub CLI / API 完成，請直接設定。
+   如果目前 token 權限不允許，請明確告訴我哪個設定需要我人工操作。
+
+5. 不要要求、讀取或顯示我的 `CLAUDE_CODE_OAUTH_TOKEN`。
+   我會自行把 token 放進 GitHub Secret。
+
+6. 完成後請確認：
+   - PR #3 是否已 merge
+   - Actions PR permission 是否已開啟
+   - 現在只剩哪些步驟需要我人工完成
+</pasted_content id="09cb">
+- 🔧 **Bash**: gh pr view 3 --json state,mergeable,mergeStateStatus,isDraft --jq .; gh pr merge 3 --merge 2>&1 | tail -2; gh pr view 3 --json state,mergedAt --jq . <!--id:35bcf1cc-a4f0-4cef-915f-15606d1604df-->
+- ↩︎ result (136 chars): {"isDraft":false,"mergeStateStatus":"CLEAN","mergeable":"MERGEABLE","state":"OPEN"} {"mergedAt":"2026-11-14T15:38:25Z","state":"MERGED"} <!--id:f1628987-4a26-4778-b0ef-de79f93360f3-->
+- 🔧 **Bash**: R=DevonForlan/ai-opportunity-to-revenue; gh api -X PUT repos/$R/actions/permissions/workflow -f default_workflow_permissions=read -F can_approve_pull_request_reviews=true 2>&1 | tail -3; echo "---"; gh api repos/$R/actions/permissions/workf… <!--id:b2aa69b3-696b-4ca8-b400-068c6348d08a-->
+- ↩︎ result (113 chars): --- {"can_approve_pull_request_reviews":true,"default_workflow_permissions":"read"} .github/workflows/control.yml <!--id:cf45bcb3-59b7-4fd2-9cc3-43f46b0939ef-->
+
+### [2026-11-14 23:38:51] 🤖 Claude <!--id:2cd00f5d-850f-4876-96d2-a347e7df413f-->
+
+PR #3 已經 merge 進 `main`，Actions 的 PR 權限也已開啟，只剩下新增 Secret 這一步需要你手動做。
+
+- **PR #3**：已 merge（2026-11-14）。`main` 上的 `.github/` 現在只剩 `control.yml`，gh-aw 的檔案都已移除，沒有兩套 workflow 並存。
+- **Actions PR 權限**：已透過 API 設好，驗證結果是 `can_approve_pull_request_reviews: true`，預設 workflow 權限維持 `read`。這個選項同時允許 Actions 核准 PR，所以請不要在 `main` 開自動合併。我的 `work` job 沒有 merge 步驟。
+- **Secret**：我沒有要求、讀取或顯示你的 token。`gh secret list` 目前是空的，代表還沒設。
+
+## 還需要你做的
+1. **新增 Secret：**
+   - 網址：https://github.com/DevonForlan/ai-opportunity-to-revenue/settings/secrets/actions
+   - 按 New repository secret，Name 填 `CLAUDE_CODE_OAUTH_TOKEN`，Secret 貼上你保存的 token，按 Add secret。
+   - 驗證：在你的終端機執行 `gh secret list -R DevonForlan/ai-opportunity-to-revenue`，要看到這個名稱。
+2. **E2E 測試：** 到 Issue #2 留言 `/status`，1–3 分鐘內應出現 Actions 執行紀錄和摘要回覆。
+3. **（建議）** 對 `main` 設 ruleset，要求走 PR、禁止 force push。這個我沒有做，因為你這次只授權 merge 和 Actions 權限。
+
+我沒測過 workflow 實際執行。第一次 `/status` 若失敗，把 `status` job 的錯誤訊息貼給我就行（先遮掉任何 credential）。
