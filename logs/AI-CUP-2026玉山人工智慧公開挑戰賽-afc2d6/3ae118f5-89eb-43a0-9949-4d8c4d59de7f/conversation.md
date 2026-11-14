@@ -986,3 +986,5 @@ Issue #68 的新策略已經上線，我驗證過，不需要我再改程式。�
 GitHub 和證交所現在都連得上。前兩次推送逾時是暫時的網路問題，不是設定壞掉，所以我沒有改任何東西。
 
 要做的事還是等週日 11/15 19:30 的第一次新策略執行。下次檢查排在 10:59。
+- 🔧 **Bash**: cd "[REDACTED]"; date "+%Y-%m-%d %H:%M"; timeout 100 python agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --force 2>&1 | tail -1 <!--id:4b0b1d5b-b671-42ab-8c3a-1184499c6e71-->
+- 🔧 **ScheduleWakeup**: Issue #68 follow-through (supersedes #65 'highest compliant' logic; #65 floor 0.85 stays). (1) Each check-in: `python agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --force` (use `timeout 100`; a PUBLISH_PE… <!--id:6a8e5337-ef67-41a9-862e-81220ac7b382-->

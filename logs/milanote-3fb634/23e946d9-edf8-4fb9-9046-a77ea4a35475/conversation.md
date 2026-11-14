@@ -825,3 +825,15 @@ Retry batch is running in the background. I'm writing the topic-discovery script
 OCR 和匯出還在跑，兩個都正常：OCR 已處理 34 張（共 225 張），每張約 50 行文字，速度偏慢；7 個白板的重試匯出還在背景等下載。
 
 等兩邊跑完，我會自動接手，依序跑 `discover.py`、產出 9 個交付檔，最後把統計回報給你，並更新 Issue #1 的去識別摘要。
+
+### [2026-11-14 11:12:35] 👤 User (turn 17) <!--id:776ed23e-339f-41de-a29b-957d1edb6c26-->
+
+<task-notification>
+<task-id>kpjcctmsz</task-id>
+<status>failed</status>
+<summary>MCP task kpjcctmsz (playwright/browser_run_code_unsafe) failed.</summary>
+<result>
+Task failed: MCP server "playwright" tool "browser_run_code_unsafe" sent no response or progress for 1800s; aborting. If this server is configured in your MCP settings, set a per-server "timeout" (ms) to allow longer silent runs for just this server; otherwise set CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT (ms) globally (0 disables).
+</result>
+</task-notification>
+- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/milanote/research/phase1/data" && ls -l exports | grep zip; wc -l analysis/ocr.jsonl <!--id:67ba9113-c5a1-42d7-b81c-36913805ca37-->
