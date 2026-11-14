@@ -689,10 +689,41 @@ LDAP、MongoDB、Oracle、憑證等都只是例子。
 
 這次請以「幫我建立完整的 SOP 截圖知識庫」作為最終目標，而不是完成幾個預先指定的技術分類。
 </pasted_content id="08c1">
-- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/milanote/research/phase1/tools" && (where tesseract 2>&1 | head -2; ls "C:/Program Files/Tesseract-OCR" 2>&1 | head -3; python -I -c "import sys;print(sys.version.split()[0])"; python -I -c "import pytess… <!--id:e1b3111f-8c09-4df0-aaaf-b97f59ab3a98-->
+- 🔧 **Bash**: cd "[REDACTED]" && (where tesseract 2>&1 | head -2; ls "C:/Program Files/Tesseract-OCR" 2>&1 | head -3; python -I -c "import sys;print(sys.version.split()[0])"; python -I -c "import pytess… <!--id:e1b3111f-8c09-4df0-aaaf-b97f59ab3a98-->
 - ↩︎ result (637 chars): ��T: �䤣�촣�ѼҦ����ɮסC ls: cannot access 'C:/Program Files/Tesseract-OCR': No such file or directory 3.13.16 ModuleNotFoundError: No module named 'pytesseract' ModuleNotFoundError: No module named 'easyocr' ModuleNotFoundError: No module named 'rapidocr_onnxruntime' { "name": "tools", "version": "1.0.0… <!--id:beba1302-c591-4a86-bdc2-89d85212f6e1-->
 
 ### [2026-11-14 10:13:13] 🤖 Claude <!--id:8cb99081-6fbf-49fb-aa36-3e2365293762-->
 
 本機目前沒有 OCR 引擎。我在專案內建一個獨立的 Python 環境，安裝離線 OCR（RapidOCR，支援中英文），不動全域設定。
-- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/milanote/research/phase1/tools" && python -m venv ocr-venv && ./ocr-venv/Scripts/python -m pip install -q rapidocr-onnxruntime pillow imagehash 2>&1 | tail -5; ./ocr-venv/Scripts/python -c "import rapidoc… <!--id:ea737858-b434-4d3b-a118-a4c8dcfd9d17-->
+- 🔧 **Bash**: cd "[REDACTED]" && python -m venv ocr-venv && ./ocr-venv/Scripts/python -m pip install -q rapidocr-onnxruntime pillow imagehash 2>&1 | tail -5; ./ocr-venv/Scripts/python -c "import rapidoc… <!--id:ea737858-b434-4d3b-a118-a4c8dcfd9d17-->
+- ↩︎ result (804 chars): Command did not complete within its 400s timeout and was moved to the background (ID: bw0tlcxme). Output is being written to: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\789a05257270d83c\23e946d9-edf8-4fb9-9046-a77ea4a35475\tasks\bw0tlcxme.output. You will be notified when it completes. It is run… <!--id:ddcc534d-7450-4446-b760-99e12b643b7e-->
+
+### [2026-11-14 10:20:05] 🤖 Claude <!--id:a87663f3-26d3-4964-b435-f51485e66c74-->
+
+While that installs, I'm saving the new classification requirements to memory so they persist.
+- 🔧 **Write**: C:\Users\devon.tseng\.claude\projects\C--Users-devon-tseng-Desktop----milanote\memory\milanote-sop-kb-goal.md <!--id:34ed4c87-2c58-48cf-8fc1-476080c1b95d-->
+- 🔧 **Edit**: C:\Users\devon.tseng\.claude\projects\C--Users-devon-tseng-Desktop----milanote\memory\MEMORY.md <!--id:7ba852e7-b1d3-417c-8e3c-0122a11505ef-->
+- ↩︎ result (139 chars): File created successfully at: C:\Users\devon.tseng\.claude\projects\C--Users-devon-tseng-Desktop----milanote\memory\milanote-sop-kb-goal.md <!--id:e653045d-2ab9-4b14-b275-3ca74fd74641-->
+- ↩︎ result (135 chars): The file C:\Users\devon.tseng\.claude\projects\C--Users-devon-tseng-Desktop----milanote\memory\MEMORY.md has been updated successfully. <!--id:52a9b5eb-bd94-4335-8f37-e12087ea4b99-->
+
+### [2026-11-14 10:20:23] 🤖 Claude <!--id:2d98947a-4a00-44cc-9bf6-a1a4af536ed9-->
+
+新的分類要求我已經記進專案記憶，並開始準備本機 OCR 環境，但還沒有開始分類。
+
+**策略調整（已採用）**
+- 不用固定主題清單，主題從白板名稱、檔名、OCR 文字、指令、主機名、錯誤訊息、相似圖片群組等實際資料中發現。
+- 分類採階層式：技術領域 → 系統／產品 → 工作類型 → SOP → 操作階段 → 截圖。
+- 無法分類的圖歸到 `Unclassified / Needs Review`，不會中斷整體流程。
+- 每套 SOP 內用 `FINAL_CANDIDATE` 等六種標記區分新舊版本，沒把握的標 `UNCERTAIN`。
+- 最後輸出你列的 9 個檔案：`DISCOVERED_TOPICS.md`、`TOPIC_TAXONOMY.md`、`SOP_GROUPS.csv`、`SOP_CANDIDATE_SCREENSHOTS.csv`、`OUTDATED_SCREENSHOTS.csv`、`FAILED_OR_WRONG_SCREENSHOTS.csv`、`UNCERTAIN_SCREENSHOTS.csv`、`DUPLICATE_GROUPS.csv`、`SOP_GAPS.md`。
+
+**目前進度**
+- 本機原本沒有 OCR 引擎，我正在專案內的獨立 Python 環境（`research/phase1/tools/ocr-venv`）裝離線 OCR（RapidOCR）和 pHash 函式庫，安裝在背景跑，完成後會通知。
+- 還需要重試 5 個失敗的白板，並補匯出其餘有檔案的白板。
+
+**要先說清楚的限制**
+- 判斷哪張是舊版、失敗畫面或最佳版本，要靠 OCR 文字，例如錯誤關鍵字和設定值差異，加上相似度比對和前後順序。Playwright 設定了不回傳圖片給模型，我看不到畫面，所以畫面上沒有文字線索的，只能標 `UNCERTAIN`。
+- 含密碼、Token、金鑰（如 `.pfx`）的項目，以及人事或第三人個資的項目，我仍然跳過。
+- ZIP 不保留白板階層，階層分類要靠我自己維護的「白板名稱／位置對照表」。
+
+OCR 環境裝好後，我會依序做：補完匯出、OCR、`DISCOVERED_TOPICS.md`，再往後做 SOP 分組和版本標記。
