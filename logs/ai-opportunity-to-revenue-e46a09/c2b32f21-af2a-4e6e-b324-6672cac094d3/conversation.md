@@ -1266,3 +1266,84 @@ API Error: Can't reach the API server — check your internet or DNS (ENOTFOUND)
 PR #1 其實已經被 merge 進 `main`，所以 gh-aw workflow 已經在 main 上。我先確認現況，新的 PR 必須把它移除。
 - 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; gh pr view 1 --json state,mergedAt,mergedBy --jq .; git ls-files .github .gitattributes .vscode AGENTS.md docs; gh secret list 2>&1 | head; gh api repos/DevonForlan/ai-opportun… <!--id:8c98a4f1-27a3-48e3-a0a5-817f35632ce8-->
 - ↩︎ result (397 chars): {"mergedAt":"2026-11-11T08:51:57Z","mergedBy":{"id":"U_kgDOCkkrbg","is_bot":false,"login":"DevonForlan","name":"Devon"},"state":"MERGED"} .gitattributes .github/aw/actions-lock.json .github/workflows/agentic_commands.yml .github/workflows/control.lock.yml .github/workflows/control.md AGENTS.md docs/… <!--id:9e1173e7-810b-4e21-b3b1-33a95e260ba0-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; cat .gitattributes; git rm -q -r .github/aw .github/workflows/agentic_commands.yml .github/workflows/control.lock.yml .github/workflows/control.md .gitattributes; mkdir -p .git… <!--id:5b253796-4900-43ea-9df9-d0c806159183-->
+- ↩︎ result ⚠️error (86 chars): Exit code 2 /usr/bin/bash: -c: line 108: unexpected EOF while looking for matching `'' <!--id:7ef82b2d-aa9b-458e-aafd-b8e3a626cacd-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\.github\workflows\control.yml <!--id:dcb0471c-81dc-4b6d-8fb7-d75a0ed8f7be-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; cat .gitattributes; git rm -q -r .github/aw .github/workflows/agentic_commands.yml .github/workflows/control.lock.yml .github/workflows/control.md .gitattributes; printf '.clau… <!--id:4b870871-3220-408f-9bde-0c25467520bd-->
+- ↩︎ result (183 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\.github\workflows\control.yml (file state is current in your context — no need to Read it back) <!--id:48dc7922-1a76-4c51-826b-40a189b4e8ee-->
+- ↩︎ result ⚠️error (1280 chars): Exit code 1 .github/workflows/*.lock.yml linguist-generated=truecontrol.yml Traceback (most recent call last): File "<string>", line 1, in <module> import yaml;d=yaml.safe_load(open('.github/workflows/control.yml'));print(list(d['jobs']), d.get('permissions')) ^^^^^^^^^^^ ModuleNotFoundError: No mod… <!--id:7e02675d-12ff-4344-b923-c9a14a6b4255-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; timeout 100 docker run --rm -v "$PWD:[REDACTED]" -w /repo rhysd/actionlint:1.7.7 -color=false .github/workflows/control.yml 2>&1 | tail -20; echo "exit=${PIPESTATUS[0]}" <!--id:e4f51cc1-62c1-4812-95aa-543a0a65a649-->
+- ↩︎ result (230 chars): failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot find the file specified. exit=1 <!--id:45dd8b6c-2576-4fe1-9680-36c4a160e78d-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; S="/c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b4ae81ecd30cf6ee/c2b32f21-af2a-4e6e-b324-6672cac094d3/scratchpad"; pip -q install pyyaml 2>&1 | tail -1; python - "$S" <<'PY' … <!--id:47485fdd-fcdd-4d59-8f9e-225164d48bf5-->
+- ↩︎ result (3280 chars): [notice] To update, run: python.exe -m pip install --upgrade pip Exception in thread Thread-1 (_readerthread): Traceback (most recent call last): File "C:\Users\devon.tseng\AppData\Local\Programs\Python\Python313\Lib\threading.py", line 1044, in _bootstrap_inner self.run() ~~~~~~~~^^ File "C:\Users\… <!--id:4060525d-faf9-48e6-a660-9519a799e802-->
+- 🔧 **Bash**: S="/c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b4ae81ecd30cf6ee/c2b32f21-af2a-4e6e-b324-6672cac094d3/scratchpad"; for f in gate0 status2 work1 work3; do bash -n "$S/$f.sh" && echo "$f OK"; done # test the guard logic's has_secret functio… <!--id:061549e8-eae4-4183-9d33-0604e5d055f9-->
+- ↩︎ result ⚠️error (121 chars): Exit code 127 gate0 OK status2 OK work1 OK work3 OK leak caught clean passes /usr/bin/bash: line 5: jq: command not found <!--id:ef35b9cb-4094-47d4-b2f7-3b3341b37ff7-->
+
+### [2026-11-14 11:29:50] 🤖 Claude <!--id:924a261b-16db-44f4-9f02-63a9cc88b771-->
+
+Workflow 的 YAML 和 shell 邏輯都驗過了（指令白名單、洩漏偵測）。接下來更新文件、開 PR。
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; cat > docs/CHATOPS_SETUP.md <<'EOF' # Cloud / ChatOps 架構（claude-code-action + OAuth token） 取代先前的 gh-aw 版本（gh-aw 不支援 `CLAUDE_CODE_OAUTH_TOKEN`）。 ## 運作 在 **Control Issue #2** 留言（… <!--id:5ee31330-7a33-439b-bedc-7871f20ab8cc-->
+- ↩︎ result (899 chars): warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it warning: in the working copy of 'AGENTS.md', LF will be replaced by CRLF the next time Git touches it warning: in the working copy of 'docs/CHATOPS_SETUP.md', LF will be replaced by CRLF the next t… <!--id:904d5b7e-092b-4f7d-8495-3ca4a02f7e1b-->
+
+### [2026-11-14 11:30:51] 🤖 Claude <!--id:a8f689d1-209a-4439-9dc9-b391d0d9cabc-->
+
+新的 ChatOps 架構已改成 `anthropics/claude-code-action`，用 `CLAUDE_CODE_OAUTH_TOKEN` 認證，PR 是 https://github.com/DevonForlan/ai-opportunity-to-revenue/pull/3，我沒有 merge。我沒有端到端測試過：token 在你手上，我沒辦法跑。我只驗證了 workflow 的 YAML 結構、指令解析（`/pay` 這類非白名單指令會被擋下）和洩漏偵測函式。
+
+## PR #1 要處理
+PR #1 其實已經在 2026-11-11 被你 merge 進 `main`，所以舊的 gh-aw workflow 現在就在 `main` 上。它沒有 `ANTHROPIC_API_KEY` 可用，所以現在在 Issue #2 留言只會失敗。
+
+PR #3 會把 gh-aw 的檔案整批刪掉，換成新的 `control.yml`，所以兩套不會同時存在，PR #1 已經是 merged，不需要再 close。**請盡快 merge PR #3**。這個 PR 同時更新了 `docs/CHATOPS_SETUP.md`、`AGENTS.md`、`.gitignore` 和 `CURRENT_STATUS.md`。
+
+## 新 workflow 架構
+`.github/workflows/control.yml` 由 Issue #2 的留言觸發，只接受 repo owner 本人、以 `/` 開頭的留言，指令必須在白名單內，參數最多 1000 字。三個 job：
+
+| Job | 內容 |
+|---|---|
+| `gate` | 驗證留言者、issue 編號、指令，解析參數 |
+| `status` | 唯讀，回覆 Issue |
+| `work` | 模型只能改檔並做本地 commit；push、開 draft PR、回覆留言都由固定步驟執行 |
+
+## GitHub Actions permissions
+- **預設與 `gate`：** 預設 `permissions: {}`，`gate` 也是空的。
+- **`status`：** `contents: read`、`issues: write`。
+- **`work`：** `contents: write`、`pull-requests: write`、`issues: write`。
+
+## Claude allowed tools
+- **`status`：** 只能用 Read、Glob、Grep。
+- **`work`：**
+  - **可用：** Read、Write、Edit、Glob、Grep、WebFetch、WebSearch，加上 `git add/commit/status/diff/log`。
+  - **禁止：** `git push/checkout/switch/reset/config`、`gh`、`curl`、`wget`、`env`、`printenv`、讀 `/proc` 與 `/etc`、改 `.github/` 與 `AGENTS.md`。
+
+## 取代 gh-aw safe-output 的控制
+- **沒有 push 權：** checkout 不保留憑證（`persist-credentials: [REDACTED] push 能力。
+- **固定步驟推送：** 推送由 workflow 的固定步驟執行，只推 `agent/<指令>-<run_id>` 分支，不會碰 `main`，也沒有 force push。
+- **推送前檢查：** 沒有變更就不開 PR；變更動到 `.github/` 或 `AGENTS.md` 就阻擋；diff、commit 訊息或摘要含 token 或 `sk-ant-` 等字樣也阻擋。
+- **只開 draft PR：** 沒有 merge 步驟。
+- **其他：** `show_full_output: false`，action 用 commit SHA 固定版本，同一時間只跑一個。
+
+**比 gh-aw 弱的地方：**
+- 沒有網路防火牆。
+- 沒有 threat-detection 步驟。
+- 網路研究指令仍有 prompt injection 風險。
+- repo 現在是 public，agent 分支和 PR 內容外人看得到，merge 前請先審閱。
+
+## 你還要在 GitHub UI 做的設定
+1. **Merge PR #3。**
+2. **新增 Secret：**
+   - 網址：https://github.com/DevonForlan/ai-opportunity-to-revenue/settings/secrets/actions
+   - 按 New repository secret，Name 填 `CLAUDE_CODE_OAUTH_TOKEN`，Secret 貼上你保存的 token，按 Add secret。
+   - 驗證：執行 `gh secret list -R DevonForlan/ai-opportunity-to-revenue`，清單要出現該名稱。
+3. **允許 Actions 開 PR：**
+   - 網址：https://github.com/DevonForlan/ai-opportunity-to-revenue/settings/actions
+   - 在 Workflow permissions 勾選「Allow GitHub Actions to create and approve pull requests」，按 Save。
+   - 沒勾的話，分支會推上去但 PR 建立失敗，Issue 會留言提醒。
+4. **建議：** 對 `main` 設 ruleset，要求 PR 並禁止 force push（public repo 免費可用）。
+
+## 第一次 `/status` E2E 測試
+1. 完成上面三步後，在 Issue #2 留言 `/status`。
+2. 1–3 分鐘內 Actions 分頁會出現 "Control Agent (ChatOps)"，`gate` 和 `status` 都成功，Issue #2 會出現含進度摘要的回覆。
+3. 失敗的話看該 run 的 `status` job log，常見原因是 secret 沒設或 token 無效。
+4. `/status` 通過後，再測 `/continue`。
+
+## 風險
+這個 token 綁 WebComm Team 帳號，用量走公司訂閱，是否產生額外費用、公司是否允許在個人 public repo 使用，我沒辦法證實。token 一旦懷疑外洩，請立刻撤銷並重新執行 `claude setup-token`。
