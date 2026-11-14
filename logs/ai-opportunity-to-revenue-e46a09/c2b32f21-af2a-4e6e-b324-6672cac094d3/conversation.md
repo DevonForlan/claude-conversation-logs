@@ -1192,3 +1192,68 @@ API Error: Can't reach the API server — check your internet or DNS (ENOTFOUND)
 **下一步建議：** 請你在自己的終端機執行 `claude setup-token`，用瀏覽器完成授權。token 只會顯示在你的螢幕上，不要貼到對話裡，我們只需要你回報「有沒有成功」和錯誤訊息。如果失敗，錯誤訊息可以貼給我，我會幫你判斷原因。
 
 另外提醒：這是公司 WebComm 的 Team 帳號，把它的 token 放進個人公開 repo 的 Secret 有政策和洩漏風險，建議先確認公司是否允許，或改用你個人的 Anthropic API key。
+
+### [2026-11-14 11:22:19] 👤 User (turn 11) <!--id:9b2e7cfe-e2cc-451f-903c-807b7da3e797-->
+
+<pasted_content id="09cb">
+`claude setup-token` 已成功完成。
+
+結果：
+- WebComm Team Claude Code 帳號可以產生 long-lived OAuth token
+- token 有效期 1 年
+- 我已自行安全保存
+- 不會把 token 提供給你
+
+請現在把目前 `ai-opportunity-to-revenue` 的 GitHub 雲端 ChatOps 架構，從不支援 `CLAUDE_CODE_OAUTH_TOKEN` 的 gh-aw，改成官方 `anthropics/claude-code-action`。
+
+認證方式請改成：
+
+`claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}`
+
+要求：
+
+1. 不要要求 `ANTHROPIC_API_KEY`
+2. 不要把任何 token 寫入 repo、workflow、log、Issue 或 commit
+3. GitHub Secret 名稱固定使用：
+   `CLAUDE_CODE_OAUTH_TOKEN`
+4. 保留目前手機 Issue ChatOps 的操作目標
+5. 至少保留：
+   - `/status`
+   - `/continue`
+   - `/research <題目>`
+   - `/analyze <題目>`
+   - `/finalize`
+6. 僅允許 repo admin 觸發
+7. `/status` 只能讀取並回報，不修改 repo
+8. 其他指令只能：
+   - 修改本 repo
+   - 更新 `research/CURRENT_STATUS.md`
+   - 建立 branch / draft PR
+   - 回覆 Control Issue
+9. 禁止：
+   - 自動 merge 到 main
+   - force push
+   - payment
+   - freelance proposal/application
+   - claim bounty
+   - 聯絡第三方
+   - 修改其他 repository
+   - production deployment
+10. 不要開啟 `show_full_output`
+11. GitHub Actions logs 不得輸出 secrets 或 environment credential
+12. 請重新評估原本 gh-aw safe-output 提供的限制，並用 GitHub Actions permissions、Claude allowed tools、branch/PR 流程補足相同或更嚴格的控制。
+13. 先在新的 branch 完成修改並開 PR，不要 merge。
+14. 更新 `docs/CHATOPS_SETUP.md`，移除 `ANTHROPIC_API_KEY` 的要求，改成 `CLAUDE_CODE_OAUTH_TOKEN`。
+15. 完成後告訴我：
+   - 修改哪些檔案
+   - 新 workflow 架構
+   - GitHub Actions permissions
+   - Claude allowed tools
+   - 還需要我在 GitHub UI 做哪些設定
+   - 如何做第一次 `/status` E2E 測試
+
+另外，請確認現有 PR #1 是否已被這次架構取代；如果是，請明確說明應該 close、supersede 還是更新，不要讓兩套 workflow 同時進 main。
+</pasted_content id="09cb">
+
+結果：UNKNOWN，claude setup-token 在這個環境無法完整執行，所以am 帳
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; git fetch -q origin; git status -sb | head -3; gh api repos/anthropics/claude-code-action/git/ref/tags/v1 --jq '.object.type+" "+.object.sha'; gh api repos/anthropics/claude-co… <!--id:36af2307-3c07-4a6a-8d43-b83e3f1925cb-->

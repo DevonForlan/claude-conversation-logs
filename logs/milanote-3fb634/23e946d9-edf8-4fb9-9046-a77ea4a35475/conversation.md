@@ -867,3 +867,25 @@ I'm on the TGL_0211 export dialog now, checking what the ZIP button says before 
 - 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/milanote/.playwright-mcp" && grep -n -i -E "ZIP|email|mail|prepar|generat|download|progress|%" page-2026-11-14T03-17-39-060Z.yml | head; ls -l *.zip 2>/dev/null <!--id:88426e29-31fc-4298-afa8-b0a7ac81c49f-->
 - ↩︎ result (1109 chars): 33: - button "View 100%" [ref=f187e99] [cursor=pointer]: 36: - generic [ref=f187e104]: 100% 71: - code [ref=f187e1687]: parted -s /dev/sdb mklabel gpt parted -s /dev/sdb mkpart primary 0% 100% parted -s /dev/sdb set 1 lvm on partprobe /dev/sdb 74: - generic [ref=f187e1691]: pvcreate /dev/sdb1 vgcrea… <!--id:0014bc3f-99d1-4663-8905-6a54ce6cb518-->
 - 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/milanote/research/phase1/data" && wc -l analysis/ocr.jsonl; tail -2 analysis_run.log <!--id:ee19d4d0-277a-4a8f-a573-064b5446c20a-->
+- ↩︎ result (22 chars): 141 analysis/ocr.jsonl <!--id:5ecc6cfb-44c6-4790-b8b8-8799a4fd4a6f-->
+
+### [2026-11-14 11:19:42] 🤖 Claude <!--id:d749401f-41f0-404f-a778-f39a9cd0a362-->
+
+找到重試失敗的原因了。這是目前唯一需要你處理的事，OCR 還在跑，我會在它跑完後接著產出統計。
+
+**原因**
+- 大一點的白板，Milanote 不會直接下載，而是顯示「Generating ZIP file, we'll email you a link when it's ready」，連結會寄到你的信箱。
+- 小的（約 12 MB 以內）會直接下載，大的（例如 TGL_0211 預估 103 MB）一律改寄信。
+- 我已經試過延長等待到 10 到 30 分鐘、重試，都沒有下載事件。這是 Milanote 本身的限制，不是我的腳本問題。
+
+**需要你做的**
+- 我剛剛已經對 TGL_0211 觸發過一次寄信。其餘白板（TGL_0212、TGL_0310、TGL_0325、0506 0507 LDAP設定、iisi、一銀Mongo）我也可以逐個觸發，信會一起寄到你的信箱。
+- 你收到信後，把連結的 ZIP 存進 `research/phase1/data/exports/` 就行，不用整理檔名，我會自己辨識並接手。
+- 如果你不想自己點信，也可以授權 Gmail 連接器讓我讀信取連結。這會讓我能讀你的信箱，所以我不主動啟用。
+
+**進度**
+- OCR 已完成 141 / 225 張，跑完我就執行 `discover.py`，產出 9 個交付檔和統計，並更新 Issue #1。
+- 目前已匯出 9 個 ZIP，共 264 個檔案、全部通過完整性檢查。
+- Milanote 寫入仍是 0。
+
+請告訴我要不要我現在幫你一次觸發剩下 6 個白板的寄信。
