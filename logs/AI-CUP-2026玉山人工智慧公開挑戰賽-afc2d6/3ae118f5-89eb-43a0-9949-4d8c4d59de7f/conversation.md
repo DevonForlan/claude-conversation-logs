@@ -1194,3 +1194,11 @@ Sync fixed itself on retry. Clean, in sync with origin. Rescheduling.
 - GitHub 連線正常，對話紀錄已同步（第 224 回合）。
 
 筆電目前醒著，請保持到 19:30 後執行完成，不要蓋上螢幕，最好接上電源。下次檢查排在 18:58，之後是 19:30 前後。
+- 🔧 **Bash**: cd "[REDACTED]"; date "+%Y-%m-%d %H:%M"; timeout 100 python agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --force 2>&1 | tail -1 | cut -c1-160 <!--id:b9603788-f400-4601-8ac7-76a9a17b229b-->
+- 🔧 **ScheduleWakeup**: Issue #68 follow-through (supersedes #65 'highest compliant' logic; #65 floor 0.85 stays). (1) Each check-in: `timeout 100 python agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --force`. If it returns BUSY … <!--id:89a46293-3bc5-4a8e-bd53-94956d59eef0-->
+- ↩︎ result (124 chars): 2026-11-15 18:58 {"status": "PUBLISHED", "new_events": 0, "turn": 224, "session_status": "WAITING_SCHEDULE", "pushed": true} <!--id:2ebea2f2-ad24-4e6a-8adc-e02711623f9c-->
+- ↩︎ result (234 chars): Next wakeup scheduled for 19:41:00 (in 2554s). If you owe the user a status update this tick, write it now as ordinary response text; then end the turn — the harness re-invokes you when the wakeup fires or a task-notification arrives. <!--id:8a3872a7-dc74-4dda-bc03-769d524f58ee-->
+
+### [2026-11-15 18:58:28] 🤖 Claude <!--id:a5c367f4-6a10-4175-a18c-43113b6761e8-->
+
+18:58 的檢查沒有異常，對話紀錄已同步。離 19:30 還有半小時，現在只重新排程，下次是 19:41，會檢查新策略第一次正式執行的結果。
