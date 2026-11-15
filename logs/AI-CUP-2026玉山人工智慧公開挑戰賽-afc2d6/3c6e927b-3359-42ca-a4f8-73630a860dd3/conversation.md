@@ -41228,3 +41228,25 @@ The run started on time at 19:30:01 and is still running. It has already created
 - ↩︎ result (1792 chars): { "trade_date": "2026-11-16", "state": "SUBMISSION_CONFIRMED", "history": [ { "at": "2026-11-15T19:35:27.265148+08:00", "from": "NOT_READY", "to": "READY_TO_SUBMIT", "reason": "FINAL verified by ManualSubmissionProvider.prepare", "dplan_sha256": "sha256:1e31deef35b7c36a6508a4bfd6f9612d26c0b6bf9f355e… <!--id:6a49238b-144f-444d-bff7-1acabb4563e3-->
 - ↩︎ result (40 chars): 2026年11月15日 下午 07:36:01 Running 267009 <!--id:f364598c-5059-4e01-9860-3892631c2559-->
 - 🔧 **Bash**: cd "[REDACTED]" && sleep 20; (python -m agent.ops.shared_state_sync --date 2026-11-16 2>&1 | tail -3; python -m agent.ops.shared_state_tactical 2>&1 | tail -2; python -m agent.ops.shared_state_sch… <!--id:c926f742-c84b-4161-a99f-a16a73b6066c-->
+- ↩︎ result (470 chars): {"trade_date": "2026-11-16", "status": "ALREADY_SYNCED", "detail": "", "final_sha256": "1e31deef35b7c36a6508a4bfd6f9612d26c0b6bf9f355e834db2cbf7e7a96f37", "action": "UNCHANGED"} {"record": "supersede_20261109_latest.json", "status": "ALREADY_SYNCED"} {"record": "supersede_20261110_latest.json", "sta… <!--id:139844ce-c312-4888-8c19-d1a7d9004156-->
+- 🔧 **Bash**: cd "[REDACTED]" && cat > handoff/claude_sessions/2026-11-15_3c6e927b-3359-42ca-a4f8-73630a860dd3_issue68_first_run.md <<'EOF' # Issue #68 — first production run (trade date 2026-11-16) - Run: AI_C… <!--id:da4eaa76-487a-4e2e-83e2-e54ac017186a-->
+- ↩︎ result (86 chars): https://github.com/DevonForlan/ai-cup-2026-etf-agent/issues/68#issuecomment-6893727741 <!--id:c22a135a-f39f-4bcc-a5cf-9325a982c80b-->
+- 🔧 **ScheduleWakeup**: Issue #68 follow-through. (1) Each check-in: `python agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --force` (slow; run in background). (2) State: Issue #68 policy (risk_adjusted tech overlay) ran 2026-11-1… <!--id:8191c604-3d72-4663-b63d-eb8470c3702d-->
+- ↩︎ result (234 chars): Next wakeup scheduled for 20:36:00 (in 3532s). If you owe the user a status update this tick, write it now as ordinary response text; then end the turn — the harness re-invokes you when the wakeup fires or a task-notification arrives. <!--id:97f242db-9645-4350-8077-717f12b6b019-->
+
+### [2026-11-15 19:37:16] 🤖 Claude <!--id:ef464848-928b-4c47-a531-4484bfc683b0-->
+
+**11/16 的 D-Plan 已用 Issue #68 新策略產生，並在 Portal 確認提交成功（SUBMISSION_CONFIRMED）。**
+
+- **執行**：週日 19:30:01 準時開跑，19:35 提交完成，正式環境版本 6bc442f，Frozen Quant v1 沒有動。
+- **Portal 回看**：歷史列第 15 筆「已繳交」，回看內容與 FINAL 一致，沒有拒絕或檢核失敗標記。FINAL 的 sha256 開頭是 `1e31deef`，我也重算過本機檔案，吻合。
+- **市場狀態**：判定為防禦（DEFENSIVE）。原因是科技股 20 日波動率 ≥ 2.0%，而且站上 20 日均線的比例低於 45%。科技股區間因此是 85–88%。
+- **選擇**：選了「proportional@0.87」，這是風險調整後效用最高的候選。原本持股的科技比例是 89.6%，但記憶體／儲存這個子產業佔 34.6%，超過 30% 上限，所以沒有被選。
+- **科技曝險 85.50%**：Quant 自己的目標只有 82.10%，是 overlay 把它補到 85% 下限之上；沒有去追更高的比例。
+- **其他數字**：現金 14.50%，持股 22 檔，下單 10 筆，換手約 10.2%。子產業佔比是記憶體 29.5%、PCB/CCL/材料 14.1%、ASIC/IC 設計 11.9%、其他科技 30.0%。
+- **風控**：Active Share 官方口徑 45.23%（門檻 15%），validator 與合規檢查都通過。結算對帳只差現金 604 元，屬輕微差異，沒有被擋，也沒有退回 Quant 原始結果。
+- **證據**：已貼到 Issue #68，shared state 已同步，交接檔在 `handoff/claude_sessions/2026-11-15_3c6e927b-…_issue68_first_run.md`。
+
+這次做的是離線演練以外的第一次真實執行，結果符合設計。防禦狀態下科技比例貼著 85% 下限，是依 #68 的規則該有的樣子。
+
+排程工作本身還顯示執行中，我沒等它結束。下一次檢查排在 20:36，之後的重點是週一早上確認 MorningFinal 沒有蓋掉這份 FINAL，以及 17:10 的 11/16 評估結果。
