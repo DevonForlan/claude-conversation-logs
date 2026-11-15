@@ -3965,35 +3965,35 @@ Four agents are verifying the weaker answers in the background. I'm now smoke-te
 - ↩︎ result (383 chars): assert by_q["platform q"]["answer_provenance"] == "platform_verified" > assert by_q["researched q"]["answer_provenance"] == "official_source_verified" and by_q["researched q"]["answer_confidence"] == "medium" E AssertionError: assert ('research_inferred' == 'official_source_verified' E E - official_… <!--id:ff15092c-7bfc-44aa-9587-8e7e148b4739-->
 - 🔧 **Bash**: cd "[REDACTED]" && python - <<'E' t="tests/test_university_store.py" s=open(t,encoding="utf-8").read() a='fp["researched q"]: {"correct_option_ids": ["b"], "confidence": "medium",' assert a in s s=s.… <!--id:f12822e3-8fa3-48bf-a192-e9c938cf9e76-->
 - ↩︎ result (100 chars): .................. [100%] 18 passed in 21.60s <!--id:a4965158-28cd-4823-a142-63265b5ea4c5-->
-- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/mongodb-dba-trainer" && python - <<'E' import json,glob,difflib,itertools,re q=[] for f in glob.glob('local_data/mongodb_university/collected/*.json'): q+=json.load(open(f,encoding='utf-8')) norm=lambda s… <!--id:fe4b35c9-45eb-4eae-84c9-4f8a1edf7b45-->
+- 🔧 **Bash**: cd "[REDACTED]" && python - <<'E' import json,glob,difflib,itertools,re q=[] for f in glob.glob('local_data/mongodb_university/collected/*.json'): q+=json.load(open(f,encoding='utf-8')) norm=lambda s… <!--id:fe4b35c9-45eb-4eae-84c9-4f8a1edf7b45-->
 - ↩︎ result (2451 chars): 140 items 140 unique fp near-dups >0.85: 0 option-quality issues: [] 12: <aside class="sidebar" id="shell-sidebar"></aside> 14: <header class="top-header" id="shell-header"></header> 23: <section id="empty-view" class="card hidden"> 25: <h2 class="section-heading" id="empty-title">No University data… <!--id:732672c3-6e9e-478c-a228-0e2f99bb4f8a-->
-- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/mongodb-dba-trainer" && sed -n 45,110p app/static/university.js <!--id:30450871-e9c3-4e2a-aa77-029b78caafc0-->
+- 🔧 **Bash**: cd "[REDACTED]" && sed -n 45,110p app/static/university.js <!--id:30450871-e9c3-4e2a-aa77-029b78caafc0-->
 - ↩︎ result (3152 chars): async function init() { Shell.init(); let status; try { status = await api("/status"); } catch (e) { return showEmpty("University Review is unavailable", "The local University store could not be reached: " + e.message); } if (!status.available) { if (status.reason === "error") return showEmpty("Univ… <!--id:445df288-4d61-43ab-bc3c-94daeedef06c-->
 
 ### [2026-11-15 11:22:29] 🤖 Claude <!--id:b5aadac5-5b75-4672-987e-1c833ee5ac9f-->
 
 Status: adding an evidence-coverage line and a provenance filter to the University page.
-- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/mongodb-dba-trainer" && sed -n 238,262p app/services/university_store.py; sed -n 40,64p app/routers/university.py; grep -n "function filters" -A8 app/static/university.js; grep -n "function renderStats" -… <!--id:c2a8d3d1-8135-4577-82a5-e41d1f6a1f4f-->
+- 🔧 **Bash**: cd "[REDACTED]" && sed -n 238,262p app/services/university_store.py; sed -n 40,64p app/routers/university.py; grep -n "function filters" -A8 app/static/university.js; grep -n "function renderStats" -… <!--id:c2a8d3d1-8135-4577-82a5-e41d1f6a1f4f-->
 - ↩︎ result (5290 chars): return row["last_result"] return "seen" if (row["seen_count"] or 0) else "unseen" def _public_item(row: sqlite3.Row, *, reveal: bool = False) -> dict[str, Any]: correct = json.loads(row["correct_json"]) if row["correct_json"] else None item = { "fingerprint": row["fingerprint"], "course": row["cours… <!--id:75c35b47-0c69-424f-9345-7c2150ae3a87-->
-- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/mongodb-dba-trainer" && grep -n "def _where" -A18 app/services/university_store.py <!--id:5b7d30a8-c7de-437f-b903-80b517d8aaac-->
+- 🔧 **Bash**: cd "[REDACTED]" && grep -n "def _where" -A18 app/services/university_store.py <!--id:5b7d30a8-c7de-437f-b903-80b517d8aaac-->
 - ↩︎ result (849 chars): 272:def _where(course=None, unit=None, lesson=None, status=None, q=None) -> tuple[str, list[Any]]: 273- clauses, params = [], [] 274- if course: 275- clauses.append("i.course = ?"); params.append(course) 276- if unit: 277- clauses.append("i.unit = ?"); params.append(unit) 278- if lesson: 279- clause… <!--id:12a9bb7c-eef2-4517-a3e3-6531b6ceb3c5-->
-- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/mongodb-dba-trainer" && python - <<'E' def patch(p,pairs): s=open(p,encoding="utf-8").read() for a,b in pairs: assert s.count(a)==1,(p,a); s=s.replace(a,b) open(p,"w",encoding="utf-8",newline="\n").write(… <!--id:c4877abf-0fc2-4eaa-8f44-c387621119df-->
+- 🔧 **Bash**: cd "[REDACTED]" && python - <<'E' def patch(p,pairs): s=open(p,encoding="utf-8").read() for a,b in pairs: assert s.count(a)==1,(p,a); s=s.replace(a,b) open(p,"w",encoding="utf-8",newline="\n").write(… <!--id:c4877abf-0fc2-4eaa-8f44-c387621119df-->
 - ↩︎ result (775 chars): Traceback (most recent call last): File "<stdin>", line 42, in <module> File "<stdin>", line 4, in patch AssertionError: ('app/static/university.html', ' <p class="uni-private-note">') 8: mode: "ordered", // "ordered" | "random" 9: history: [], // random-mode back stack of fingerprints 10: seen: [],… <!--id:8112d65a-3a69-409e-a3a6-dbc0fe905737-->
-- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/mongodb-dba-trainer" && python - <<'E' p="app/static/university.html" s=open(p,encoding="utf-8").read() a='<p class="uni-private-note">' assert s.count(a)==1 s=s.replace(a,'<p class="text-small text-muted… <!--id:279c74c8-d985-4243-818c-4c4e81d06b6f-->
+- 🔧 **Bash**: cd "[REDACTED]" && python - <<'E' p="app/static/university.html" s=open(p,encoding="utf-8").read() a='<p class="uni-private-note">' assert s.count(a)==1 s=s.replace(a,'<p class="text-small text-muted… <!--id:279c74c8-d985-4243-818c-4c4e81d06b6f-->
 - ↩︎ result (190 chars): Traceback (most recent call last): File "<stdin>", line 4, in <module> AssertionError .................. [100%] 18 passed in 3.86s <!--id:0eeb8465-23b5-444f-a9c7-b6c8ac5bf6e7-->
-- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/mongodb-dba-trainer" && grep -n "private-note" app/static/university.html | cat -A | cut -c1-120; grep -c "f-prov" app/static/university.js <!--id:d5225bc6-6a9d-478c-b4d8-0df929d89470-->
+- 🔧 **Bash**: cd "[REDACTED]" && grep -n "private-note" app/static/university.html | cat -A | cut -c1-120; grep -c "f-prov" app/static/university.js <!--id:d5225bc6-6a9d-478c-b4d8-0df929d89470-->
 - ↩︎ result (243 chars): 27: <p class="uni-private-note">University Review reads only from <code>local_data/mongodb_university/</code> o 52: <p class="uni-private-note">Private study material collected from your own MongoDB University account. Loca 2 <!--id:f8b2f311-6449-4465-bfe0-74976cba601b-->
-- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/mongodb-dba-trainer" && python - <<'E' p="app/static/university.html" s=open(p,encoding="utf-8").read() a='<p class="uni-private-note">Private study' assert s.count(a)==1 s=s.replace(a,'<p class="text-sma… <!--id:1892726b-d09d-41ec-ba53-ffb846d8d6fb-->
+- 🔧 **Bash**: cd "[REDACTED]" && python - <<'E' p="app/static/university.html" s=open(p,encoding="utf-8").read() a='<p class="uni-private-note">Private study' assert s.count(a)==1 s=s.replace(a,'<p class="text-sma… <!--id:1892726b-d09d-41ec-ba53-ffb846d8d6fb-->
 - ↩︎ result (99 chars): ................... [100%] 19 passed in 4.76s <!--id:c882082a-f3e1-4c2b-9021-68fd0299fa22-->
 
 ### [2026-11-15 11:23:29] 🤖 Claude <!--id:ffa870fd-16f4-44fd-b069-3820dd35dc73-->
 
 Status: running a real-browser validation against a copy of the data, so nothing touches your real progress.
-- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/mongodb-dba-trainer" && SP="C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/91fcc5d2453c02b7/347c1401-65cb-4d94-bdd6-2efd1d0a7070/scratchpad" && rm -rf "$SP/udata" && mkdir -p "$SP/udata" && cp -r local_da… <!--id:a63f9c93-1691-4fff-bb01-c6f198d0be3a-->
+- 🔧 **Bash**: cd "[REDACTED]" && SP="C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/91fcc5d2453c02b7/347c1401-65cb-4d94-bdd6-2efd1d0a7070/scratchpad" && rm -rf "$SP/udata" && mkdir -p "$SP/udata" && cp -r local_da… <!--id:a63f9c93-1691-4fff-bb01-c6f198d0be3a-->
 - ↩︎ result (684 chars): count: 140 questions evidence: Answer evidence: 10 platform �P 46 official source �P 79 inferred �P 5 ambiguous. Inferred and ambiguous answers are not confirmed by the platform; prefer the 'Tru trusted -> 56 questions official_source_verified -> 46 questions research_inferred -> 79 questions ambigu… <!--id:ffebb557-d49a-4879-af79-98b906e53a84-->
 - 🔧 **PowerShell**: $c = Get-NetTCPConnection -LocalPort 8124 -State Listen -ErrorAction SilentlyContinue; if ($c) { Stop-Process -Id $c.OwningProcess -Force; "stopped $($c.OwningProcess)" } else { "none" }; Get-NetTCPConnection -LocalPort 8000 -State Listen -… <!--id:e657c622-73c6-42f9-b670-c49ae15171d9-->
 - ↩︎ result ⚠️error (25 chars): Exit code 1 stopped 33980 <!--id:f7aa5665-4702-4ac4-866f-53d47ba029fe-->
-- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/mongodb-dba-trainer" && printf '%s\r\n' '@echo off' 'rem Starts the MongoDB DBA Trainer on http://127.0.0.1:8000 (works from any location; uses the first working venv).' 'cd /d "%~dp0"' 'set PORT=%1' 'if … <!--id:37b767be-8238-4860-b42d-473bf2a7ca0e-->
+- 🔧 **Bash**: cd "[REDACTED]" && printf '%s\r\n' '@echo off' 'rem Starts the MongoDB DBA Trainer on http://127.0.0.1:8000 (works from any location; uses the first working venv).' 'cd /d "%~dp0"' 'set PORT=%1' 'if … <!--id:37b767be-8238-4860-b42d-473bf2a7ca0e-->
 - ↩︎ result (63 chars): dashboard 000 'start.bat' ���O�����Υ~���R�O�B�i���檺�{���Χ妸�ɡC <!--id:c04038a1-a1b1-4829-9619-a90bfb690d90-->
 - 🔧 **PowerShell**: $p = Start-Process -FilePath cmd.exe -ArgumentList '/c','start.bat 8125' -WorkingDirectory (Get-Location) -PassThru -WindowStyle Hidden; Start-Sleep 10; try { (Invoke-WebRequest http://127.0.0.1:8125/dashboard.html -UseBasicParsing -Timeout… <!--id:d7e5a17c-ac22-4d80-9c37-2dcad8f1fb9e-->
 - ↩︎ result ⚠️error (484 chars): Exit code 1 fail 無法連接至遠端伺服器 Invoke-WebRequest : 無法連接至遠端伺服器 At line:1 char:584 + ... ail $_" }; (Invoke-WebRequest http://127.0.0.1:8125/api/university/st ... + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ + CategoryInfo : InvalidOperation: (System.Net.HttpWebRequest:HttpWebRequest) [Inv… <!--id:1936f371-f562-4d5a-a84e-f70633a7c5a7-->
@@ -4005,6 +4005,56 @@ Status: running a real-browser validation against a copy of the data, so nothing
 ### [2026-11-15 11:26:19] 🤖 Claude <!--id:09f2fb0e-d356-435b-a42d-18f74f6c07cd-->
 
 Status: updating the docs, then running the full regression and committing.
-- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/mongodb-dba-trainer" && python - <<'E' p="docs/university-review-implementation.md" s=open(p,encoding="utf-8").read() i=s.index("## Answer provenance (research pass over Skill Check questions)") s=s[:i]+'… <!--id:bf2d987b-c1e3-48ac-9e87-3aea60df10ff-->
+- 🔧 **Bash**: cd "[REDACTED]" && python - <<'E' p="docs/university-review-implementation.md" s=open(p,encoding="utf-8").read() i=s.index("## Answer provenance (research pass over Skill Check questions)") s=s[:i]+'… <!--id:bf2d987b-c1e3-48ac-9e87-3aea60df10ff-->
 - ↩︎ result (655 chars): ```bash pip install -r requirements.txt python -m app.db.init_db # create database/trainer.db python -m app.db.seed # import JSON from curriculum/ and questions/ uvicorn app.main:app --reload ``` To enable the AI Tutor (M13), copy `.env.example` to `.env` and fill in a real `AI_TUTOR_API_KEY` (an An… <!--id:2fce0fd6-df63-48eb-9398-64b6d0014347-->
-- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/mongodb-dba-trainer" && python - <<'E' r=open("README.md",encoding="utf-8").read() a="To enable the AI Tutor (M13)" assert r.count(a)==1 r=r.replace(a,"On Windows, `start.bat` does the same without activa… <!--id:bd76831a-dedd-45ba-9117-c7d38bb3e854-->
+- 🔧 **Bash**: cd "[REDACTED]" && python - <<'E' r=open("README.md",encoding="utf-8").read() a="To enable the AI Tutor (M13)" assert r.count(a)==1 r=r.replace(a,"On Windows, `start.bat` does the same without activa… <!--id:bd76831a-dedd-45ba-9117-c7d38bb3e854-->
+- ↩︎ result (285 chars): ........................................................................ [ 62%] .....................................................................s.. [ 82%] ........................................................... [100%] 345 passed, 2 skipped in 167.15s (0:02:47) <!--id:20cea53c-0309-4bff-b700-fb2c0298f368-->
+- 🔧 **Bash**: cd "[REDACTED]" && git add start.bat README.md docs/university-review-implementation.md app/services/university_store.py app/routers/university.py app/static/university.html app/static/university.js … <!--id:78aca5d0-8a4c-4390-821b-82438fcd8f66-->
+- ↩︎ result (1581 chars): warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it warning: in the working copy of 'app/routers/university.py', LF will be replaced by CRLF the next time Git touches it warning: in the working copy of 'app/services/university_store.py', LF will be r… <!--id:4b175b84-6ce5-47a1-9eec-894f62677b18-->
+
+### [2026-11-15 11:29:51] 🤖 Claude <!--id:1b570b61-c06f-40b8-a281-e6ce995088ba-->
+
+工具現在可以正式開始使用。只剩一件事要你自己留意：Docker Labs 和 Incident Simulator 需要先開 Docker Desktop，本機現在沒開。
+
+**目前狀態**
+- **Certification Practice：** 題庫維持 200 題，31/31 個 objective 都有涵蓋，我沒有動它。程式已經過測試，但我沒有用瀏覽器實際操作過練習流程。dashboard 的 readiness 顯示 Developing 49.2 分，信心低，這是你以前的練習資料累積出來的。
+- **University Review：**
+  - 共 140 題（10 題來自測驗檢視，130 題是 Skill Check），資料與 Certification 完全分離。
+  - 現在可以依答案證據篩選題目，也能看到證據覆蓋摘要。
+  - 答案來源分布：
+    - 平台公布 10 題。
+    - 官方文件查證 46 題。
+    - 推論 79 題（信心最高到中，不是已查證）。
+    - 有爭議 5 題。
+    - 沒有答案 0 題。
+  - 130 題都不是平台公布的答案；其中 46 題有官方文件佐證，其餘是我推導的。
+- **Labs／Incident／Practical DBA：**
+  - 頁面和 API 都正常回應。
+  - Command Trainer、Practical Readiness 不需要 Docker，可直接用。
+  - 4 個 Docker Lab 和 4 個 Incident 情境（`requires_docker: True`）要先開 Docker Desktop。沒開時頁面會顯示 "Docker Unavailable"，不會當掉。
+  - 我沒有實際跑過任何 Lab 或 Incident，因為本機 Docker 沒開。
+- **會擋住學習的問題：** 沒有。以下是限制，不是 blocker：
+  - 79 題是推論答案，可能有錯。
+  - 5 題題目本身有爭議，兩個選項都說得通。
+  - 沒有真實 mongod 可驗證，所以沒有任何答案是 runtime 驗證的。
+- **測試：** 完整測試 345 通過、2 略過、0 失敗。University 頁面另外用真實 Edge 瀏覽器、在資料副本上驗證過，沒有 JS 錯誤。
+- **Commit：** `1d6dc16`，已推送到 origin/master。
+
+**這輪我額外做的事**
+- 把 22 題中、低信心的題目重新用官方文件查，答案沒有任何一題被改掉。
+- 另外隨機抽 39 題做獨立重查，結果 38 題確認、1 題有爭議、0 題需要修改，所以沒有系統性錯誤，也就沒有擴大查證範圍。
+- 重新校準信心：只有官方文件佐證的才算高，推論的最高到中。
+- 檢查 140 題沒有重複題，選項格式也都沒問題。
+- 新增 `start.bat`，更新 `Quick Start.txt` 和 README；舊的 Quick Start 指向過期的 OneDrive 路徑。
+- 子代理的查證很快（每個約 1 分鐘），所以推論的 79 題中有些只讀到官方文件的摘要，沒逐字比對。
+
+**接下來怎麼做**
+1. 雙擊專案資料夾裡的 `start.bat`，瀏覽器會自動開 `http://127.0.0.1:8000/dashboard.html`。要停止就按 Ctrl+C。
+2. 要用 Docker Lab 或 Incident，先開 Docker Desktop。
+
+**建議從哪裡開始與學習順序**
+1. 先在 `index.html` 做 Certification Practice，這是主線；錯題進 Mistakes 和 Weakness。
+2. 每天固定做 `review.html` 的每日複習。
+3. 每週做一次 `mock-exam.html`，用來檢查進度。
+4. 補強題型用 University Review。想要確定的答案時，把 "Answer evidence" 篩選設成 Trusted（平台公布或官方文件查證）；Skill Check 題當作補充題庫。
+5. 實作練習用 Command Trainer；開了 Docker Desktop 之後，再做 Labs 和 Incident。
