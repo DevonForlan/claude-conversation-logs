@@ -1113,7 +1113,7 @@ Now the main sync entry point: incremental manifest, analysis only for new or ch
 - 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\sync\run_full_sync.ps1 <!--id:bc905e37-e1d8-409f-a1b3-4d979c0db2ee-->
 - ↩︎ result (178 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\sync\sync_milanote_sop.py (file state is current in your context — no need to Read it back) <!--id:1e2a4e77-a097-4a75-80b8-fbcc361d8e4b-->
 - ↩︎ result (175 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\sync\run_full_sync.ps1 (file state is current in your context — no need to Read it back) <!--id:bb8962d4-8259-491f-9769-780e1b4f0be9-->
-- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/milanote/research/phase1/sync" && python -I - <<'EOF' import re s=open('sync_milanote_sop.py',encoding='utf-8').read() s=s.replace("reg_by_key = {stem_key(b['name']): b for b in registry}","reg_by_key = {… <!--id:5b37f05c-f04e-4385-b034-9c81c44a8b5d-->
+- 🔧 **Bash**: cd "[REDACTED]/sync" && python -I - <<'EOF' import re s=open('sync_milanote_sop.py',encoding='utf-8').read() s=s.replace("reg_by_key = {stem_key(b['name']): b for b in registry}","reg_by_key = {… <!--id:5b37f05c-f04e-4385-b034-9c81c44a8b5d-->
 - ↩︎ result (2 chars): 73 <!--id:db541ff4-e02c-4348-812b-2a8a28947941-->
 - 🔧 **Bash**: cd "[REDACTED]" && ls | grep -c '^d'; ls -l --time-style=+%H:%M | grep '^-.* d[0-9]' | awk '{print $5,$7}' | tail -30; date +%H:%M <!--id:aed15c61-e0ea-4904-8073-638a3cd07973-->
 - ↩︎ result (74 chars): 3 46161506 d02_07-02.zip 1051094 d03_07-08.zip 5646664 d04_07-23.zip 11:26 <!--id:9aaf4ebd-d00e-4120-b56c-33e967fc427d-->
@@ -1281,4 +1281,78 @@ await (async (page) =&gt; {
 - Downloaded file 05-15.zip to ".playwright-mcp\05-15.zip"
 </result>
 </task-notification>
-- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/milanote/research/phase1" && i=1; for f in data/exports/e_*.zip; do b=$(basename "$f"); mv "$f" "data/exports/e$(printf %02d $i)_${b#e_}"; i=$((i+1)); done; ls data/exports | wc -l; python -I - <<'EOF' im… <!--id:508dfa5a-fce0-4536-87bf-dfcf1cdf9ba3-->
+- 🔧 **Bash**: cd "[REDACTED]" && i=1; for f in data/exports/e_*.zip; do b=$(basename "$f"); mv "$f" "data/exports/e$(printf %02d $i)_${b#e_}"; i=$((i+1)); done; ls data/exports | wc -l; python -I - <<'EOF' im… <!--id:508dfa5a-fce0-4536-87bf-dfcf1cdf9ba3-->
+- ↩︎ result (4381 chars): 35 2026-11-15T11:52:01 [20261115-115201] INFO manifest TGL-0209.zip: 12 files role=primary 2026-11-15T11:52:01 [20261115-115201] INFO manifest b01_TGL_0210_0.zip: 22 files role=primary 2026-11-15T11:52:01 [20261115-115201] INFO manifest b04_TGL_0212_1.zip: 102 files role=primary 2026-11-15T11:52:02 … <!--id:b8673ee2-51c3-4893-8535-38d97080db29-->
+
+### [2026-11-15 11:56:23] 🤖 Claude <!--id:d4d0abdc-1416-4743-9183-56bb7692b9a9-->
+
+Run 1 完成。接著跑 Run 2（資料沒變），再放一個本機測試 ZIP 驗證只處理新增項目。
+- 🔧 **Bash**: cd "[REDACTED]" && echo "=== RUN 2 (no change) ===" && time ./tools/ocr-venv/Scripts/python.exe -I sync/sync_milanote_sop.py 2>&1 | tail -4; cp sync/SUMMARY.md sync/logs/SUMMARY-run2.md ./tools/… <!--id:265f2558-b8d5-4681-945c-02b78acfc200-->
+- ↩︎ result (1030 chars): === RUN 2 (no change) === 2026-11-15T11:56:27 [20261115-115627] INFO analysis: nothing new (unchanged) 2026-11-15T11:56:27 [20261115-115627] INFO knowledge base: unchanged (not rebuilt) 2026-11-15T11:56:27 [20261115-115627] INFO done {"unchanged": 34, "kb_unchanged": 1, "blocked": 9, "pending_export… <!--id:dd34724a-62db-495e-8b78-a2c453f0281d-->
+- 🔧 **mcp__playwright__browser_navigate**: https://app.milanote.com/1Vgavo1UDyg65v/home <!--id:09971456-9709-42a7-ad31-d98cf1c782d4-->
+- ↩︎ result (389 chars): ### Ran Playwright code ```js await page.goto('https://app.milanote.com/1Vgavo1UDyg65v/home'); ``` ### Page - Page URL: https://app.milanote.com/1Vgavo1UDyg65v/home - Page Title: Milanote - Console: 0 errors, 1 warnings ### Snapshot - [Snapshot](.playwright-mcp\page-2026-11-15T03-56-52-175Z.yml) ###… <!--id:55794ae7-fe4b-486a-9087-53d3900a159b-->
+- 🔧 **mcp__playwright__browser_run_code_unsafe**: {"code": "async (page) => {\n const main = page.locator('main').first();\n const box = await main.boundingBox();\n const pos = {x: Math.floor(box.width*0.15), y: Math.floor(box.height*0.78)};\n await page.locator('#element-tool-card').dragT… <!--id:508efa9b-6667-486b-9bb1-950c19644ab6-->
+- ↩︎ result (902 chars): ### Result {"box":{"x":63,"y":44,"width":1213,"height":536},"pos":{"x":181,"y":418},"found":0} ### Ran Playwright code ```js await (async (page) => { const main = page.locator('main').first(); const box = await main.boundingBox(); const pos = {x: Math.floor(box.width*0.15), y: Math.floor(box.height*… <!--id:83dc1cdc-21f2-4e53-b5be-6c12071b4a4e-->
+- 🔧 **mcp__playwright__browser_snapshot**: {"filename": "C:\\Users\\devon.tseng\\Desktop\\個人\\milanote\\research\\phase1\\data\\snap-home-after.yml"} <!--id:68b4d34c-c0dc-4da1-9704-7393fb42bdf1-->
+- ↩︎ result (188 chars): ### Page - Page URL: https://app.milanote.com/1Vgavo1UDyg65v/home - Page Title: Milanote - Console: 0 errors, 3 warnings ### Snapshot - [Snapshot](research\phase1\data\snap-home-after.yml) <!--id:6d38043c-4101-4d82-a622-b1c38af21eb6-->
+- 🔧 **Bash**: cd "[REDACTED]/data" && grep -n -E "generic \[ref=\w+\]: " snap-home-after.yml | sed 's/^\([0-9]*\):.*generic \[ref=[a-z0-9]*\]: /\1 /' | head -40; grep -n -i -E "paragraph|textbox|Unsorted" sna… <!--id:f5547359-f383-4d32-bd52-2d0d40ab778f-->
+- ↩︎ result (430 chars): 7 Home 22 Note 23 Link 24 To-do 25 Line 26 Board 39 TGL_collection 40 87 boards, 3 cards 42 Moodboard 43 2 cards, 8 files 45 第四組秘密基地+心南 46 8 cards, 1 file 48 人生難題的系統思考法 49 15 cards 51 iisi 52 2 cards, 6 files 54 代辦事項 55 2 cards 57 scan_report.zip 58 1.0 GB 60 一銀Mongo 61 1 card, 11 files 64 "0" 34: -… <!--id:f42796b1-cbbe-4516-9e56-e0b780eba008-->
+- 🔧 **mcp__playwright__browser_run_code_unsafe**: {"code": "async (page) => {\n page.on('dialog', d => d.accept().catch(()=>{}));\n await page.goto('https://app.milanote.com/1Vgavo1UDyg65v/home'); await page.waitForTimeout(3000);\n await page.getByText('第四組秘密基地+心南', {exact:true}).first().d… <!--id:1060a1b4-7659-4bb0-8ad3-b412f4e2ff0a-->
+- ↩︎ result (842 chars): ### Result {"url":"https://app.milanote.com/1VpWX41jMINe3L","testNoteHits":0} ### Ran Playwright code ```js await (async (page) => { page.on('dialog', d => d.accept().catch(()=>{})); await page.goto('https://app.milanote.com/1Vgavo1UDyg65v/home'); await page.waitForTimeout(3000); await page.getByTex… <!--id:4973d062-496e-44d5-92fc-f5802cc0fb4d-->
+- 🔧 **mcp__playwright__browser_run_code_unsafe**: {"code": "async (page) => {\n const info = await page.evaluate(() => {\n const out = [];\n document.querySelectorAll('main [class*=\"Card\"], main [class*=\"card\"]').forEach((e, i) => {\n const r = e.getBoundingClientRect();\n if (r.width … <!--id:91749b65-1314-48b1-9178-9172d1563042-->
+- ↩︎ result (3461 chars): ### Result [{"i":0,"cls":"Card drag-handle contrast-shadow element-instance ","len":81,"w":304,"h":223,"x":441,"y":112},{"i":1,"cls":"ResizableCardEditorContainer","len":81,"w":304,"h":223,"x":441,"y":112},{"i":2,"cls":"card-editor-container-contents","len":81,"w":304,"h":223,"x":441,"y":112},{"i":3… <!--id:ce8de99b-5954-4882-95a9-e314c177ae5a-->
+
+### [2026-11-15 11:57:55] 🤖 Claude <!--id:0a1ffae1-f4c7-42e2-84f5-0f41bb1f52c9-->
+
+找到了：那張是空白、位在 Unsorted 清單裡的卡片，就是我的測試卡。我把它刪到垃圾桶（可還原），然後確認白板卡片數回到 7。
+- 🔧 **mcp__playwright__browser_run_code_unsafe**: {"code": "async (page) => {\n const before = await page.evaluate(() => [...document.querySelectorAll('main .Card')].length);\n const target = page.locator('main .Card.in-list-unsorted-, main [class*=\"in-list-unsorted-\"]').first();\n const… <!--id:eec08f84-0a75-468c-9afa-fc162278e93a-->
+- ↩︎ result (967 chars): ### Result {"before":8,"after":7,"unsortedLeft":0} ### Ran Playwright code ```js await (async (page) => { const before = await page.evaluate(() => [...document.querySelectorAll('main .Card')].length); const target = page.locator('main .Card.in-list-unsorted-, main [class*="in-list-unsorted-"]').firs… <!--id:be874dfe-30d8-4d5a-b503-f2703e082ebd-->
+
+### [2026-11-15 11:58:12] 🤖 Claude <!--id:5064eb36-de59-4b83-b788-1f895ecc4e55-->
+
+清掉了：卡片數從 8 回到 7，其他白板的數字都沒變。這個意外我會在回報裡說明。現在補上「ZIP 被移除」的處理，清掉測試 ZIP 並重跑同步。
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\sync\sync_milanote_sop.py <!--id:f982256b-e3f0-479e-a89e-07804bdf873b-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\sync\sync_milanote_sop.py <!--id:db40e166-fb7e-4cb7-8a81-2565f271af07-->
+- 🔧 **Bash**: cd "[REDACTED]" && rm data/exports/t01_SYNC_TEST.zip && python -I - <<'EOF' import json q='sync/export_status.json'; S=json.load(open(q,encoding='utf-8')) S['05-11']={'status':'suspect','reason'… <!--id:0adcb1fc-896e-4c46-948d-f91bff20f868-->
+- ↩︎ result (122 chars): The file C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\sync\sync_milanote_sop.py has been updated successfully. <!--id:b1e66d4a-e414-46ba-9612-5c04adea60db-->
+- ↩︎ result (122 chars): The file C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\sync\sync_milanote_sop.py has been updated successfully. <!--id:3418d5c6-bff6-4a00-946a-c8f95da2e38e-->
+- ↩︎ result (3810 chars): 2026-11-15T11:58:22 [20261115-115822] INFO t01_SYNC_TEST.zip no longer in exports: removed from manifest and analysis 2026-11-15T11:58:22 [20261115-115822] INFO analysis: nothing new (unchanged) 2026-11-15T11:58:23 [20261115-115822] INFO knowledge base rebuilt: topics 16 labels {'SUPPORTING': 132, '… <!--id:2a450c7d-e3ed-4f26-a884-3772c1e4c274-->
+- 🔧 **Bash**: cd "[REDACTED]/sync" && python -I - <<'EOF' s=open('sync_milanote_sop.py',encoding='utf-8').read() old=s[s.index("def stem_key(name):"):s.index("# ---------- registry")] new='''def stem_key(name… <!--id:13aef35c-f709-4ba1-aa9e-8809b767ac6e-->
+- ↩︎ result (766 chars): <stdin>:7: SyntaxWarning: invalid escape sequence '\d' 5 2026-11-15T11:58:45 [20261115-115845] INFO knowledge base: unchanged (not rebuilt) 2026-11-15T11:58:45 [20261115-115845] INFO done {"unchanged": 34, "kb_unchanged": 1, "blocked": 9, "pending_export": 12} {'unchanged': 34, 'kb_unchanged': 1, 'b… <!--id:2a3a22ba-a494-4d02-a26b-4e47875ce10a-->
+- 🔧 **Bash**: cat > "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/789a05257270d83c/23e946d9-edf8-4fb9-9046-a77ea4a35475/scratchpad/c5.md" <<'EOF' ## CC 進度回報 #5（去識別摘要，2026-11-15） **同步系統（已建立並實測）**：`sync/sync_milanote_sop.py`（一鍵：`sync/run_full_sync.ps1`），… <!--id:79d43f9e-15e4-43d7-bb05-853bf76c0ce6-->
+- 🔧 **Write**: C:\Users\devon.tseng\.claude\projects\C--Users-devon-tseng-Desktop----milanote\memory\milanote-sync-system.md <!--id:7c4f5054-771b-4b36-9394-9e7da878bd1a-->
+- 🔧 **Edit**: C:\Users\devon.tseng\.claude\projects\C--Users-devon-tseng-Desktop----milanote\memory\MEMORY.md <!--id:80129f54-a2a4-4188-8382-a2b4b8b5f214-->
+- ↩︎ result (89 chars): https://github.com/DevonForlan/milanote-cc-session-audit/issues/1#issuecomment-6888871752 <!--id:01aefcb1-33a5-4e52-b5c1-5f956eab5c95-->
+- ↩︎ result (139 chars): File created successfully at: C:\Users\devon.tseng\.claude\projects\C--Users-devon-tseng-Desktop----milanote\memory\milanote-sync-system.md <!--id:e7d6412a-10a0-4cb1-aeb1-f5f0e78eebd9-->
+- ↩︎ result (135 chars): The file C:\Users\devon.tseng\.claude\projects\C--Users-devon-tseng-Desktop----milanote\memory\MEMORY.md has been updated successfully. <!--id:cbade188-d9c3-45dd-aa48-29b3c0eaf980-->
+
+### [2026-11-15 11:59:24] 🤖 Claude <!--id:31deb730-f094-4b4c-9332-ff8866b1b11d-->
+
+這一輪沒有全部完成：同步系統和知識庫做好了，但「回滾實測」和「實際整理 Milanote」我沒做，原因在下面。
+
+**已完成**
+- **同步系統**：入口是 `research/phase1/sync/run_full_sync.ps1`，會執行 `sync_milanote_sop.py`。它會留下固定的 state、manifest、log 和 `SUMMARY.md`。
+- **增量與重入驗證**：
+  - Run 1：34 個 ZIP 全部建立 manifest，分析 32 個，另外 2 個內容相同的略過。
+  - Run 2（資料沒變）：34 個全是 unchanged，0.4 秒、沒跑任何 OCR、知識庫沒有重建。
+  - Run 3（加入 1 個本機測試 ZIP）：只分析新增的 1 張圖，其他都不動。
+  - 測試 ZIP 移除後，同步會自動把它從 manifest 和分析結果中剔除。
+- **資料量**：圖片紀錄 339 筆，SHA-256 重複 102 筆。其中約 99 筆是 TGL_0212 被匯出兩次造成的，不是 Milanote 裡真的重複。
+- **過度合併已修正**：現在要「關鍵字重疊」和「近似圖比例」兩種證據都達標才合併。這次沒有任何合併，共 16 個主題，只有一種證據的列在 `MERGE_LOG.txt` 當候選。
+- **標記結果（啟發式）**：SUPPORTING 132、UNCERTAIN 65、FAILED_STATE 34、FINAL_CANDIDATE 6、DUPLICATE 102。
+- **知識庫檔案**：你要求的 12 份檔案都已產出，放在 `research/phase1/data/kb/`，包含 `BOARD_FILE_MAPPING.csv`、`BOARD_HIERARCHY.json`、`RESTORE_MAPPING.csv`。
+- 去識別統計已寫入 Issue #1：https://github.com/DevonForlan/milanote-cc-session-audit/issues/1#issuecomment-6888871752
+
+**我犯的失誤**
+回滾測試時，我把測試卡片拖到首頁，結果它掉進「第四組秘密基地+心南」白板的 Unsorted，卡片數從 7 變成 8。那是我說過要避開的白板。我只刪掉那張空白測試卡（進垃圾桶、可還原），卡片數已回到 7，其他白板的數字沒變。我沒有看或動那個白板的其他內容。
+
+**沒做的事**
+- 「移動後還原」沒有驗證通過，所以我沒整理任何真實內容。
+- 這次失誤說明我用 UI 拖放寫入的可靠度不夠，貿然搬真實卡片風險太高。另外，ZIP 沒有卡片位置，我也沒辦法把某個檔案對應回畫面上的哪張卡。
+- 我不建議現在進入批次整理。如果你希望我繼續，我會先在一個專門建立的空白測試白板裡，驗證「建立、移動、還原」三步都可靠。
+
+**需要你處理（第三方限制）**
+- 9 個大白板 Milanote 只寄連結到你的信箱，不提供下載：TGL_0211、TGL_0310、TGL_0325、0506 0507 LDAP設定、TGL_0325_Dan、05-25（10.5 GB）、05-27、05-28、06-17。你把 ZIP 存進 `research/phase1/data/exports/`，下次跑同步就會自動處理。
+- 另有 3 個白板不處理：Moodboard、第四組（依政策排除），還有一個約 920 MB 的第三方安裝包白板只建索引。
+- 05-11 白板的匯出和 05-15 的內容完全相同，很可能抓錯了，需要重新匯出。
+- 瀏覽器匯出步驟需要已登入的瀏覽器，我沒有做成無人值守排程，因為會反覆失敗。
