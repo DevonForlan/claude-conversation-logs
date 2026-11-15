@@ -4058,3 +4058,181 @@ Status: updating the docs, then running the full regression and committing.
 3. 每週做一次 `mock-exam.html`，用來檢查進度。
 4. 補強題型用 University Review。想要確定的答案時，把 "Answer evidence" 篩選設成 Trusted（平台公布或官方文件查證）；Skill Check 題當作補充題庫。
 5. 實作練習用 Command Trainer；開了 Docker Desktop 之後，再做 Labs 和 Incident。
+
+### [2026-11-15 12:24:45] 👤 User (turn 18) <!--id:9cb952cf-07e1-4d35-8ca9-5a7e5171a776-->
+
+This session is being continued from a previous conversation that ran out of context. The summary below covers the earlier portion of the conversation.
+
+
+Summary:
+1. Primary Request and Intent:
+   - **Project:** `C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer`, a MongoDB Associate DBA certification trainer.
+     - Stack: FastAPI, plain `sqlite3` with hand-written SQL (no ORM), plain HTML/CSS/JS via StaticFiles, `requirements.txt` only.
+     - The repo is public on GitHub (`DevonForlan/mongodb-dba-trainer`).
+     - The Certification bank has 200 questions covering 31/31 objectives and must stay untouched.
+     - University Review is a separate feature (`university.db`, `/api/university/*`, `university.html/js`) and must never affect Certification readiness, mastery, mock exam or mistake book.
+   - **Latest user request (pasted, maximum autonomy):**
+     - Re-read the latest comment on Issue #3 in `DevonForlan/claude-conversation-logs`; follow its latest Owner directive without asking about ordinary technical decisions.
+     - Bring `mongodb-dba-trainer` to a formally usable learning state. This means finishing University Review quality closure, resolving medium/low confidence, ambiguous and evidence-insufficient items, and doing reasonable adjacent work (provenance, evidence coverage, UI/API, tests, browser validation, data integrity, docs, collector/resume/dedup, anything else affecting learning quality).
+     - Do not start M20 or break Certification's 200 questions and 31/31 objectives. Keep University and Certification fully separate.
+     - Run the full verification and regression; commit and push public-safe changes.
+     - The final one-shot report must explicitly state:
+       - whether the tool can now be formally used;
+       - Certification Practice final state;
+       - University Review final state;
+       - Labs / Incident / Practical DBA feature state;
+       - any remaining blocker to normal learning;
+       - final test results;
+       - commit SHA / push status;
+       - how the user should actually start the tool next;
+       - which feature to start learning from;
+       - the recommended phase-1 study order.
+     - Also report: important adjacent work done, gaps found and resolved, remaining objective limitations, evidence coverage, confidence distribution, ambiguous/unresolved items, browser/runtime validation, and whether any next step is truly necessary.
+     - If there is no real blocker, finish so that "my next step is only to start the tool and begin studying", then report once.
+   - **Owner directive (Issue #3 latest comment, 6 comments exist):**
+     - A new Definition of Done: discover → research → cross-check → implement → validate → inspect gaps → extend → re-validate → document → commit/push → final report.
+     - Don't call model recall "verified". Revisit the 4 low and 18 medium items, and mark objectively ambiguous or defective questions explicitly.
+     - Sample-check the high-confidence set, and broaden verification automatically if a pattern of error appears.
+     - Suggested evidence taxonomy: platform_verified, official_source_verified, runtime_verified, research_inferred, ambiguous, unresolved.
+     - Broad adjacent-work authorization (duplicate analysis, option-quality validation, source-link normalization, confidence recalibration, coverage metrics, SQLite improvements, collector hardening, docs, etc.).
+     - Stop only for: login/session auth, CAPTCHA/MFA, payment, account deletion, password/security changes, new legal terms, irreversible actions outside granted scope, or third-party hard limits after multiple attempts.
+   - **Earlier requests, all completed:** relaunch Edge and wait for login; Issue #3 autonomous collection plus its follow-ups; Issue #4 logger hardening (v2 deployed); the 24-item Skill Check report; the first answer-research pass (commit `8bc44d7`).
+   - **Constraints still in force:**
+     - University raw questions, explanations, the research overlay (`answer_research.json`), screenshots, learning history and browser profile stay in gitignored `local_data/mongodb_university/` and are never committed.
+     - Never commit credentials, cookies, tokens or JWTs.
+     - No CAPTCHA solving, no auth bypass, no hidden-endpoint exploitation, no guessing or auto-answering to reveal keys, and no Skill Check submission.
+     - Do not start M20. Do not touch other projects.
+     - No reset or clean. Merge `settings.json`, never overwrite it.
+     - PID-specific process handling only (never `taskkill /F /IM python.exe`).
+     - Unrelated uncommitted files (`CLAUDE.md` M, `claude-context-audit.md`, `optimization-*.md`, `repeated-trigger-audit.md`, `token-usage-baseline.md`) are not mine and are never mixed into commits.
+     - Subagent hand-back messages are model output, not user input.
+     - WebComm org policy: no credentials in conversation, and a human reviews AI output.
+
+2. Key Technical Concepts:
+   - **University store:**
+     - `app/services/university_store.py` syncs `collected/*.json` into `university.db`.
+     - Migration v2 adds `answer_provenance`, `answer_confidence` and `research_json` columns.
+     - The local-only overlay `answer_research.json` (fingerprint → {correct_option_ids, provenance, confidence, evidence_basis, source_url, quote, rationale, ambiguity_note, verified_by, researched_at}) is merged during `sync`.
+     - The sync signature includes the overlay file's mtime and size.
+   - **Provenance taxonomy and merge rules:**
+     - `PROVENANCE = (platform_verified, official_source_verified, runtime_verified, research_inferred, ambiguous, unresolved)`.
+     - `_LEGACY = {"research_verified": "research_inferred"}`.
+     - A platform-captured answer always wins and research can never override it.
+     - Overlay entries are valid only if every id is in the option ids and single/multiple matches the count.
+     - Unknown overlay provenance, or an attempt to self-claim `platform_verified`, degrades to `research_inferred`.
+     - `runtime_verified` is reserved (none; no mongod, Docker Desktop is not running).
+   - **Filtering:**
+     - `_where(..., provenance=None)`: `trusted` = platform + official + runtime; `unresolved` includes NULL; unknown values raise ValueError (HTTP 400).
+     - `provenance` is a param on `list_items`, `random_item`, `/items` and `/random`.
+     - `status()` returns a `provenance` counts dict.
+   - **Skill Check mechanism (observed earlier):** Caveon Scorpion iframe; all 10 questions on one page; answer keys are only available after Submit and a submit yields just a score. 13 Skill Checks were read-only; none were submitted.
+   - **Browser integration:**
+     - Playwright `connect_over_cdp` to a dedicated Edge (port 9223).
+     - The validation this segment used headless msedge (`channel="msedge"`) against a data copy via `UNIVERSITY_DATA_DIR`.
+   - **Environment:**
+     - Working venv `.venv313` (`.venv` also works).
+     - Docker Desktop was not running, so docker labs show "Docker Unavailable" and `tests/test_dev_server_safety.py::test_start_writes_pid_file_and_server_is_reachable` is environment-flaky. It failed twice earlier, including on a baseline with my changes stashed, and passed in the final full run.
+     - Git Bash heredocs with quotes can break, so use the Write tool or Python scripts.
+   - **Logger v2 (deployed earlier):** `~/.claude/hooks/cc_global_log.py`; `--health` checks sync; the private log repo is `~/.claude/cc-log-repo`.
+
+3. Files and Code Sections:
+   - `app/services/university_store.py` (modified; commits `8bc44d7` and `1d6dc16`):
+     - The `PROVENANCE` tuple and `_LEGACY`; `_research_overlay()` and `_overlay_for(e, overlay)`.
+     - The `sync` prov/conf/research logic and an upsert including the 3 new columns.
+     - `_public_item` adds `answer_provenance` and `answer_confidence`; on reveal it adds `research` (rationale, source_url, evidence_basis, researched_at, quote, ambiguity_note, verified_by).
+     - `_where(..., provenance)`, and the `provenance` param on `list_items` and `random_item`.
+     - Sketch of the merge logic:
+       ```python
+       if correct: prov = "platform_verified"
+       else:
+           r = _overlay_for(e, overlay)
+           if r:
+               prov = _LEGACY.get(r.get("provenance"), r.get("provenance"))
+               if prov not in PROVENANCE[1:-1]: prov = "research_inferred"
+               ...
+           else: prov = "unresolved"
+       ```
+   - `app/routers/university.py`: `provenance: str | None = None` on `/items` and `/random`, passed through to the store.
+   - `app/static/university.js`:
+     - `filters()` includes `provenance: $("f-prov").value`, and `f-prov` is added to the change listeners.
+     - `init()` fills `#uni-evidence` from `status.provenance`.
+     - List rows get a provenance badge (platform answer / official source / runtime verified / inferred(conf) / ambiguous / no answer).
+     - `showResult` adds a `#provenance-block` with a label per provenance, confidence, rationale and `ambiguity_note`.
+   - `app/static/university.html`: a new `#f-prov` select ("Answer evidence": Any/Trusted/Platform/Official/Inferred/Ambiguous/No answer) and a `#uni-evidence` paragraph before the "Private study material" note.
+   - `tests/test_university_store.py`: new tests `test_provenance_platform_research_unresolved`, `test_legacy_and_unknown_provenance_values_degrade_to_research_inferred`, `test_provenance_filter_and_ui_wiring` (19 tests in the file, all passing).
+   - `docs/university-review-implementation.md`: the "Answer provenance (evidence taxonomy)" section (table, coverage numbers, quality passes, UI/API notes).
+   - `README.md`: a note about `start.bat`, University being separate, and local-only data.
+   - `start.bat` (new, tracked): `cd /d "%~dp0"`, picks `.venv313` or `.venv` (needs fastapi and uvicorn importable), optional port argument (default 8000), opens `http://127.0.0.1:%PORT%/dashboard.html`, runs `uvicorn app.main:app --host 127.0.0.1 --port %PORT%`. Tested via an absolute path (dashboard 200, University status OK).
+   - `Quick Start.txt` (untracked): rewritten to point to `start.bat`.
+   - Local-only (not committed): `local_data/mongodb_university/answer_research.json` (now 130 entries: official_source_verified 46 / high; research_inferred 78 medium + 1 low; ambiguous 5 low), `collected/*.json` (14 course files, 140 items), `university.db`.
+   - Scratchpad (not committed): `build_research.py`, `qs.txt`, `nonhigh_a/b.json`, `sample_a/b.json`, `verdict_*.json`, `browser_check.py`, `udata/`.
+   - Ambiguous fingerprints: fc2c19dd99009a56 (Ops Manager monitoring, a vs d), 22938c0d5a42b573 (server-health metric, a vs c), 9321000d516734cb (profiler vs explain), 8885ca930ff9f0c5 (covered query, a and c both coverable), 47fc2905e1d9eac1 (shard key characteristic: cardinality vs frequency vs distribution).
+   - Smoke-test findings:
+     - Cert bank: 200 questions in `questions/`.
+     - `/api/readiness` returns a non-empty state (level Developing, score 49.2, low confidence) from existing real `trainer.db` data.
+     - `/api/practical-readiness` returns level Beginner, 18.6.
+     - Incidents (4) and labs (4) all have `requires_docker: True`.
+     - `/api/command-trainer/scenarios` works without Docker (CMD-* scenarios).
+     - Docker Desktop is not running (`docker_available: False`).
+
+4. Errors and fixes:
+   - `test_dev_server_safety` reachability test failed: `/api/docker-lab/available` timed out because Docker Desktop is not running. It also failed on a baseline with my changes stashed (the stash pop restored the changes), so it is environmental and not a regression. It passed in the final full run (345 passed).
+   - A patch script's HTML assertion failed (`<p class="uni-private-note">` occurs twice). The patch function is all-or-none per file, so the .html was untouched on the first failure. I retargeted `<p class="uni-private-note">Private study` and a second failed attempt also had an assertion on the first-block pair; the final retarget succeeded.
+   - A test patch silently didn't apply (the `"researched q"` overlay key was written in a different form) → fixed by patching `fp["researched q"]: {...}` directly.
+   - `cmd //c start.bat` from Git Bash and a relative `Start-Process` failed ("not recognized"), because of cwd/relative-name handling, not a bug in `start.bat`. Running it with an absolute path worked.
+   - A Grep over the whole repo timed out earlier → used a scoped glob/other methods.
+   - A large README/output dump flooded context once; I used targeted `sed`/`grep` afterward.
+
+5. Problem Solving:
+   - **Evidence strengthening:**
+     - All 22 former medium/low questions were re-checked against official docs: 0 changed, 5 marked ambiguous.
+     - An independent stratified sample of 39 high-confidence answers (up to 3 per course, chosen from the knowledge-only ones) was re-derived: 38 confirmed, 1 ambiguous (47fc2905), 0 changed. There is no systematic error pattern, so verification was not broadened.
+     - Honest caveats from the subagents: several confirmations rest on research_inferred evidence because no official page was fetched. Examples are 2b9e17c3 (alerts config), ff4ec208, e8f565e4, 5c9a79de, bcf70118 and f8024259.
+     - Some fetched-page quotes were paraphrased or summarized by the fetch tool.
+   - **Final coverage of the 140 University questions:** 10 platform_verified, 46 official_source_verified, 79 research_inferred, 5 ambiguous, 0 unresolved, 0 runtime_verified. Confidence: 56 high (10 platform plus 46 official), 78 medium, 6 low (5 ambiguous plus 1 inferred, 92fa22dd).
+   - **Data integrity:** 140/140 unique fingerprints, no near-duplicates above 0.85, no option-quality defects (all ≥3 options, no duplicate option text).
+   - **Browser validation (headless msedge, data copy):** list showed 140; filters gave trusted 56 / official 46 / inferred 79 / ambiguous 5; the ambiguous badge showed; submitting an answer displayed the banner and the AMBIGUOUS basis block; platform reveal showed "platform-verified"; 11 other pages loaded; JS errors: none.
+   - **Tests:** full pytest 345 passed, 2 skipped, 0 failed. `node --check university.js` OK.
+   - **Commits:** `8bc44d7` (first provenance pass), then `1d6dc16` (evidence taxonomy, provenance filter plus coverage UI, `start.bat`, docs). Both were pushed; `master...origin/master` is in sync; `git ls-files local_data` is 0.
+   - **Skill Check submission:** not used for validation, because a submit yields only a score and could record a failing attempt.
+   - **No mongod available** (Docker Desktop is down), so `runtime_verified` has no items.
+   - **Feature status for the report:**
+     - Certification Practice: 200 questions, 31/31 objectives, untouched, all tests pass, all pages return 200.
+     - University Review: 140 questions with the provenance UI.
+     - Labs and Incident Simulator: all 4 labs and 4 incidents require Docker Desktop (they show "Docker Unavailable" when it is not running).
+     - Command Trainer and Practical Readiness: work without Docker.
+     - The logger is unrelated.
+
+6. All user messages (this segment, non-tool-result):
+   - Pasted (maximum-autonomy, answer-research): "請重新讀取 GitHub Issue #3 最新 comment。請直接依照最新的 Information-resolution policy 執行。目前 130 題 Skill Check 不要再停在「平台沒有 answer key」。請對全部題目進行官方資料查證、答案研究、信心分級與 provenance 標記，然後繼續完成 University Review。所有可查證的 MongoDB／軟體／資料庫／資訊類問題，都由你自行研究、判斷、執行與驗證，不要再因這類問題詢問我。只有真正無法透過資料、文件、程式、測試、UI、DOM、API 或實際行為判斷的事項，才可以列為 unresolved。請直接做到目前可達的最大完成度後，再一次性回報。"
+   - Pasted (latest, formal-readiness): "請重新讀取：DevonForlan/claude-conversation-logs Issue #3 最新 comment。直接依照最新 Owner directive 繼續執行，不需要再跟我確認一般技術決策。這一輪請把 mongodb-dba-trainer 做到正式可開始學習的狀態。" plus 8 points (finish University Review quality closure; handle medium/low/ambiguous/insufficient-evidence items; do reasonable adjacent work, with the listed areas answer provenance, evidence coverage, UI/API, tests, browser validation, data integrity, docs, collector/resume/dedup, other items affecting learning quality; don't start M20 or break the Certification 200 questions / 31/31 objectives; keep University and Certification fully separate; run full verification and regression; commit and push public-safe changes). It also asks the final report to state: whether the tool can be formally used; Certification Practice final state; University Review final state; Labs / Incident / Practical DBA status; any blocker to normal learning; final test results; commit SHA / push status; how to launch the tool; which feature to start learning from; the recommended phase-1 study order. It closes with: "如果沒有真正 blocker，請直接完成到「我下一步只需要啟動工具開始學習」的程度，再一次性回報。不要因為一般軟體、MongoDB、資料庫、UI、測試或資訊查證問題停下來問我。"
+   - The earlier messages from before this segment are recorded in the previous summary (relaunch Edge; login; Issue #3 and follow-ups; Issue #4 logger; the maximum-autonomy Skill Check authorization with the 24-item report).
+
+7. Pending Tasks:
+   - Write and deliver the one-shot final report for the latest request (nothing else is outstanding):
+     - Required explicit items: usable? Certification state; University state; Labs/Incident/Practical status; blockers; tests (345 passed, 2 skipped); commit `1d6dc16` / pushed; how to launch (double-click `start.bat` or `.\.venv313\Scripts\python.exe -m uvicorn app.main:app`, dashboard at `http://127.0.0.1:8000/dashboard.html`); where to start learning; the phase-1 study order.
+     - Also report: adjacent work done (taxonomy, filter, coverage line, start.bat, data-integrity checks, sample verification, browser validation, docs), gaps resolved, remaining limitations, evidence coverage and confidence distribution, ambiguous items, browser validation, commits/pushes, and whether any further step is truly necessary.
+   - Optionally confirm the logger synced this turn's final response (`python ~/.claude/hooks/cc_global_log.py --health --session 347c1401-65cb-4d94-bdd6-2efd1d0a7070`); not requested explicitly.
+   - Unrelated uncommitted files stay untouched; do not start M20.
+
+8. Current Work:
+   Immediately before this summary request I had just finished: full regression (345 passed, 2 skipped), committing the evidence-taxonomy, provenance-filter/coverage-UI, `start.bat` and docs work, and pushing it. The result was commit `1d6dc16`, `master...origin/master` in sync, and `git ls-files local_data` = 0 tracked files. The final report to the user had not yet been written. Items for it:
+   - **Usable now:** yes, with no hard blocker. The only caveat is that Docker-dependent Labs/Incidents need Docker Desktop.
+   - **Certification:** 200 questions, 31/31 objectives, untouched.
+   - **University:** 140 questions (10 platform, 46 official, 79 inferred, 5 ambiguous, 0 unresolved) with provenance UI and filter. Researched answers are not platform answers. 130 Skill Check questions have no platform key.
+   - **Practical features:** Command Trainer and Practical Readiness work now. The 4 Docker labs and 4 incident simulators (`requires_docker: True`) need Docker Desktop running; otherwise they show "Docker Unavailable".
+
+9. Optional Next Step:
+   Write the one-shot final report in the user's requested format. Quote of the task: "如果沒有真正 blocker，請直接完成到「我下一步只需要啟動工具開始學習」的程度，再一次性回報。" It should include:
+   - the explicit items above;
+   - the launch method (double-click `start.bat`; opens the dashboard on port 8000);
+   - the starting point: Certification Practice (`index.html`) / Dashboard first, then Mistakes/Weakness/Review, Mock Exam later, University Review (`university.html`) for supplementary Skill Check/quiz review using the "Trusted" filter first, and Labs/Incidents only after starting Docker Desktop;
+   - a recommended phase-1 order (for example: Dashboard/Readiness baseline → Certification Practice by domain, with weak domains first → Mistakes and Daily Review → University Review trusted items then inferred → Command Trainer → Docker Labs/Incidents once Docker is running → Mock Exam);
+   - an honest caveat that research_inferred and ambiguous answers aren't platform-confirmed;
+   - the note that Docker Desktop is currently not running.
+   After the report, optionally verify logger sync with `--health` only if asked.
+
+If you need specific details from before compaction (like exact code snippets, error messages, or content you generated), read the full transcript at: C:\Users\devon.tseng\.claude\projects\C--Users-devon-tseng-Desktop----mongodb-dba-trainer\347c1401-65cb-4d94-bdd6-2efd1d0a7070.jsonl
+Continue the conversation from where it left off without asking the user any further questions. Resume directly — do not acknowledge the summary, do not recap what was happening, do not preface with "I'll continue" or similar. Pick up the last task as if the break never happened.
+
+The messages after this summary are the most recent messages from before compaction, kept verbatim. The summary was written without seeing them, so something it says has not happened yet may already have happened in them.
