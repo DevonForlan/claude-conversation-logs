@@ -1276,3 +1276,11 @@ The run started on time at 19:30 and passed at 19:36. Verifying the result.
 ### [2026-11-15 23:40:32] 🤖 Claude <!--id:7c51c56a-61c8-42b7-a7c7-d3748673f92d-->
 
 週日 23:40 的例行檢查沒有異常，對話紀錄已同步（第 233 回合）。11/16 的 FINAL 已確認，現在只重新排程，下次是 00:39。
+- 🔧 **Bash**: cd "[REDACTED]"; date "+%Y-%m-%d %H:%M"; timeout 100 python agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --force 2>&1 | tail -1 | cut -c1-160 <!--id:c8618bf1-23fd-42d5-9176-b1dd07397601-->
+- 🔧 **ScheduleWakeup**: Issue #68 follow-through (policy risk_adjusted persists; do not revert to highest-compliant; #65 floor 0.85 stays). (1) Each check-in: `timeout 100 python agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --fo… <!--id:7c377de9-6aa4-4767-a63c-598695aef089-->
+- ↩︎ result (124 chars): 2026-11-16 00:39 {"status": "PUBLISHED", "new_events": 5, "turn": 235, "session_status": "WAITING_SCHEDULE", "pushed": true} <!--id:2d017189-741b-4020-9a75-466e3a2e85e1-->
+- ↩︎ result (234 chars): Next wakeup scheduled for 01:38:00 (in 3520s). If you owe the user a status update this tick, write it now as ordinary response text; then end the turn — the harness re-invokes you when the wakeup fires or a task-notification arrives. <!--id:4b3c3c20-0deb-447c-ba58-610078bc3485-->
+
+### [2026-11-16 00:39:21] 🤖 Claude <!--id:658d7bf6-c9ef-4de5-bde9-75f52a2a34cb-->
+
+週一 00:39 的例行檢查沒有異常，對話紀錄已同步（第 235 回合）。11/16 的 FINAL 已確認，現在只重新排程，下次是 01:38。07:30 之後要確認早上的排程沒有換掉這份 FINAL。
