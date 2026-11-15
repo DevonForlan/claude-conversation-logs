@@ -1131,3 +1131,83 @@ Now the main sync entry point: incremental manifest, analysis only for new or ch
 1. 同步 Run 1，再做 Run 2 驗證不重複處理，並放一個本機測試 ZIP 驗證只處理新增項目。
 2. 用我自己新建的測試卡片做回滾實測，不碰你的真實內容。
 3. 更新 Issue #1，回報最終統計。
+
+### [2026-11-15 11:45:56] 👤 User (turn 22) <!--id:f44f43ae-6211-47ae-aa29-58b357f74a7f-->
+
+<task-notification>
+<task-id>kjsh4zwjw</task-id>
+<status>completed</status>
+<summary>MCP task kjsh4zwjw (playwright/browser_run_code_unsafe) completed.</summary>
+<result>
+### Result
+[["TGL_0325_Dan","emailed","Generate ZIP file (383 MB)"],["07-02","ok","Generate ZIP file (46.2 MB)"],["07-08","ok","Generate ZIP file (1.1 MB)"],["07-23","ok","Generate ZIP file (7.5 MB)"],["07-28","ok","Generate ZIP file (412 KB)"],["07-31","ok","Generate ZIP file (18 KB)"],["07-30","ok","Generate ZIP file (37 KB)"],["08-03","ok","Generate ZIP file (441 KB)"],["08-04","no-download","Generate ZIP file (4 KB)"],["08-11","ok","Generate ZIP file (128 KB)"],["08-12","ok","Generate ZIP file (2 KB)"],["08-13","ok","Generate ZIP file (417 KB)"],["08-21","ok","Generate ZIP file (472 KB)"],["08-26","no-download","Generate ZIP file (398 KB)"],["0428Dan","ok","Generate ZIP file (49.9 MB)"],["05-07","fail","TimeoutError: locator.dblclick: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for ge"],["05-06","fail","TimeoutError: locator.dblclick: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for ge"],["05-08","fail","TimeoutError: locator.dblclick: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for ge"],["05-11","fail","TimeoutError: locator.dblclick: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for ge"],["05-15","ok","Generate ZIP file (20.3 MB)"],["05-18","ok","Generate ZIP file (30 KB)"],["05-26","ok","Generate ZIP file (20.9 MB)"],["05-25","emailed","Generate ZIP file (10.5 GB)"],["05-27","fail","TimeoutError: locator.dblclick: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for ge"],["05-28","emailed","Generate ZIP file (883 MB)"],["06-03","ok","Generate ZIP file (430 KB)"],["06-17","emailed","Generate ZIP file (165 MB)"]]
+### Ran Playwright code
+```js
+await (async (page) =&gt; {
+  const outDir = 'C:/Users/devon.tseng/Desktop/個人/milanote/research/phase1/data/exports/';
+  const parent = 'https://app.milanote.com/1Wkvwd1Ywudq5n/dan';
+  const names = ['TGL_0325_Dan','07-02','07-08','07-23','07-28','07-31','07-30','08-03','08-04','08-11','08-12','08-13','08-21','08-26','0428Dan','05-07','05-06','05-08','05-11','05-15','05-18','05-26','05-25','05-27','05-28','06-03','06-17'];
+  page.on('dialog', d =&gt; d.accept().catch(()=&gt;{}));
+  const res = [];
+  let i = 0;
+  for (const name of names) {
+    i++;
+    try {
+      await page.goto(parent); await page.waitForTimeout(2500);
+      await page.getByText(name, {exact:true}).first().dblclick();
+      await page.waitForTimeout(2500);
+      await page.locator('#popup-export-button').click();
+      await page.waitForTimeout(800);
+      const btn = page.getByRole('button', {name: /Generate ZIP file/});
+      if (await btn.count() === 0) { res.push([name,'no-files']); continue; }
+      const label = await btn.first().innerText();
+      const dlp = page.waitForEvent('download', {timeout: 90000}).catch(()=&gt;null);
+      await Promise.all([btn.first().click()]);
+      const dl = await dlp;
+      if (dl) { await dl.saveAs(outDir + 'd' + String(i).padStart(2,'0') + '_' + name.replace(/[^\w.-]+/g,'_') + '.zip'); res.push([name,'ok',label]); }
+      else res.push([name, (await page.getByText(/email you a link/).count()) ? 'emailed' : 'no-download', label]);
+    } catch (e) { res.push([name,'fail',String(e).slice(0,90)]); }
+  }
+  return res;
+})(page);
+```
+### Page
+- Page URL: https://app.milanote.com/1WzEsg10HUGc9l/06-17
+- Page Title: 06-17 - Milanote
+- Console: 0 errors, 3 warnings
+### Events
+- New console entries: .playwright-mcp\console-2026-11-15T03-22-50-665Z.log#L8-L214
+- Downloading file 07-02.zip ...
+- Downloaded file 07-02.zip to ".playwright-mcp\07-02.zip"
+- Downloading file 07-08.zip ...
+- Downloaded file 07-08.zip to ".playwright-mcp\07-08.zip"
+- Downloading file 07-23.zip ...
+- Downloaded file 07-23.zip to ".playwright-mcp\07-23.zip"
+- Downloading file 07-28.zip ...
+- Downloaded file 07-28.zip to ".playwright-mcp\07-28.zip"
+- Downloading file 07-31.zip ...
+- Downloaded file 07-31.zip to ".playwright-mcp\07-31.zip"
+- Downloading file 07-30.zip ...
+- Downloaded file 07-30.zip to ".playwright-mcp\07-30.zip"
+- Downloading file 08-03.zip ...
+- Downloaded file 08-03.zip to ".playwright-mcp\08-03.zip"
+- Downloading file 08-11.zip ...
+- Downloaded file 08-11.zip to ".playwright-mcp\08-11.zip"
+- Downloading file 08-12.zip ...
+- Downloaded file 08-12.zip to ".playwright-mcp\08-12.zip"
+- Downloading file 08-13.zip ...
+- Downloaded file 08-13.zip to ".playwright-mcp\08-13.zip"
+- Downloading file 08-21.zip ...
+- Downloaded file 08-21.zip to ".playwright-mcp\08-21.zip"
+- Downloading file 0428Dan.zip ...
+- Downloaded file 0428Dan.zip to ".playwright-mcp\0428Dan.zip"
+- Downloading file 05-15.zip ...
+- Downloaded file 05-15.zip to ".playwright-mcp\05-15.zip"
+- Downloading file 05-18.zip ...
+- Downloaded file 05-18.zip to ".playwright-mcp\05-18.zip"
+- Downloading file 05-26.zip ...
+- Downloaded file 05-26.zip to ".playwright-mcp\05-26.zip"
+- Downloading file 06-03.zip ...
+- Downloaded file 06-03.zip to ".playwright-mcp\06-03.zip"
+</result>
+</task-notification>
