@@ -1356,3 +1356,133 @@ Run 1 完成。接著跑 Run 2（資料沒變），再放一個本機測試 ZIP 
 - 另有 3 個白板不處理：Moodboard、第四組（依政策排除），還有一個約 920 MB 的第三方安裝包白板只建索引。
 - 05-11 白板的匯出和 05-15 的內容完全相同，很可能抓錯了，需要重新匯出。
 - 瀏覽器匯出步驟需要已登入的瀏覽器，我沒有做成無人值守排程，因為會反覆失敗。
+
+### [2026-11-15 12:54:13] 👤 User (turn 24) <!--id:b2606baf-ad4e-49dc-ab8f-bb2f393a1014-->
+
+This session is being continued from a previous conversation that ran out of context. The summary below covers the earlier portion of the conversation.
+
+
+Summary:
+1. Primary Request and Intent:
+   The user (Owner, GitHub DevonForlan, repo `DevonForlan/milanote-cc-session-audit`, Issue #1) wants an end-to-end "Milanote → local SOP screenshot knowledge base" system.
+   - Retrieve everything Milanote allows through the Playwright MCP UI, with no manual export by the user.
+   - Build a mapping of boards, files and locations.
+   - Run OCR, exact and near duplicate analysis, topic discovery, SOP grouping and version labelling.
+   - Label images as FINAL_CANDIDATE, SUPPORTING, OLD_VERSION, FAILED_STATE, DUPLICATE or UNCERTAIN.
+   - Verify rollback or restore, then do small reversible batches of real Milanote organizing: SOP and topic boards, plus an `Archive / Old / Failed / Review` area. Nothing may be permanently deleted or overwritten.
+   - Provide a repeatable, resumable, incremental sync with state, manifest, log and summary files.
+   - Prove idempotence with at least two runs.
+   - Post de-identified progress to Issue #1.
+   - Notify the Owner only for CAPTCHA, MFA or login, Owner-only permissions, irreversible actions, or proven third-party hard limits.
+   - Topics must be discovered from the data (LDAP, certificates, Oracle and Mongo were only examples), with a hierarchical taxonomy: domain → system → work type → SOP → stage → screenshot.
+   - The deliverables are the 9 knowledge-base files plus BOARD_FILE_MAPPING.csv, BOARD_HIERARCHY.json and RESTORE_MAPPING.csv.
+
+2. Key Technical Concepts:
+   - Playwright MCP (`--image-responses omit`, so the model cannot see images; page text snapshots do reach the model). `browser_run_code_unsafe` has no `require`, but `dl.saveAs` works.
+   - Milanote export behavior:
+     - ZIP means "Download all images and files": only that board's own level, flat, no hierarchy.
+     - Container boards with no files show "No files found on this board".
+     - ZIPs of about 12 MB or more are emailed to the account owner ("we'll email you a link when it's ready").
+   - Local offline pipeline: RapidOCR (rapidocr-onnxruntime), PIL/imagehash (pHash and dHash), SHA-256, and a keyword-based topic and merge heuristic.
+   - Sync design: manifest keyed by (size, mtime_ns); incremental OCR keyed by image id `zipstem/filename`.
+   - Merging rule: merge two boards only when both keyword Jaccard ≥ 0.18 and near-image fraction ≥ 0.15; with only one kind of evidence, list as a candidate in `MERGE_LOG.txt`.
+   - Company policy (organization instructions): no customer personal data, no contracts or financial data, no credentials, no hardcoded secrets, no personal data under privacy law, and human review of output. The org policy overrides user preference.
+   - The global Conversation Logger (`cc_global_log.py`) publishes all projects' conversations to the Public repo `DevonForlan/claude-conversation-logs`. It is user-owned and must not be edited.
+   - Do not call Milanote's internal API or parse its WebSocket (terms 7.3(c)(ii) and 7.7(c)(2)).
+
+3. Files and Code Sections:
+   - `research/phase1/sync/sync_milanote_sop.py` (main entry; run with `tools/ocr-venv/Scripts/python.exe -I`)
+     - Phase 1: manifest in `export_manifest.jsonl`. It hashes and `testzip`s only new or changed ZIPs, marks role=duplicate-zip when the ZIP sha equals another's, and drops manifest entries and OCR records for ZIPs that no longer exist.
+     - Phase 2: calls `tools/ocr_pipeline.py EXPORTS ANALYSIS <zip list>` only for new primary ZIPs, tracked in `analysis_state.json`.
+     - Phase 3: calls `tools/discover.py` only if analysis changed or KB files are missing.
+     - Phase 4: always regenerates `data/kb/BOARD_FILE_MAPPING.csv`, `RESTORE_MAPPING.csv` and `BOARD_HIERARCHY.json` from the manifest plus `board_registry.json`.
+     - Phase 5: writes `sync_state.json`, `SUMMARY.md`, `logs/sync.log` and `logs/run-<id>.json`. Pending exports come from the registry boards that have files but no ZIP.
+     - Final key helper (after fix):
+       ```python
+       def stem_key(name, z=True):
+           s = os.path.splitext(os.path.basename(name))[0] if z else name
+           if z:
+               s = re.sub(r'^[a-z]\d+_', '', s); s = re.sub(r'_\d+$', '', s)
+           return re.sub(r'[^0-9a-z\u4e00-\u9fff]+', '', s.lower())
+       ```
+       Registry lookups use `stem_key(b.get('match', b['name']), False)`.
+   - `research/phase1/sync/run_full_sync.ps1`: one-click wrapper that runs the venv python on the script and prints the summary path.
+   - `research/phase1/sync/board_registry.json`: 73 boards (name, board_id, parent, path, url, expected counts, has_files, match key). `sync/export_status.json` holds per-board status:
+     - emailed: TGL_0211, TGL_0310, TGL_0325_Dan, 05-25, 05-27, 05-28, 06-17.
+     - needs-owner-email: TGL_0325, 0506 0507 LDAP設定.
+     - excluded-policy: Moodboard, 第四組秘密基地+心南.
+     - skipped-large-third-party: 壓力測試.
+     - suspect: 05-11.
+   - `research/phase1/tools/ocr_pipeline.py`: extracts only image entries from ZIPs, computes sha256, phash, dhash, w/h and OCR text, and sets `sensitive` via a regex (password, token, api key, private key, 密碼 and so on). Output is `data/analysis/ocr.jsonl`, resumable by id, with an optional explicit ZIP list as argv[3:]. Images are saved under `data/analysis/images/`.
+   - `research/phase1/tools/discover.py`:
+     - Duplicate groups (exact sha and near pHash≤4 & dHash≤6).
+     - Body-only OCR keyword TF-IDF.
+     - Two-evidence merge plus a candidates list.
+     - Step-type and label heuristics (error keywords → FAILED_STATE, and so on).
+     - Heuristic domain naming aid.
+     - Writes DISCOVERED_TOPICS.md, TOPIC_TAXONOMY.md, SOP_GROUPS.csv, SOP_CANDIDATE, OUTDATED, FAILED_OR_WRONG, UNCERTAIN, DUPLICATE_GROUPS.csv, SOP_GAPS.md and MERGE_LOG.txt.
+     - Exact duplicates are added back as DUPLICATE rows.
+   - Local data under `research/phase1/data/`: `exports/` (34 ZIPs), `analysis/ocr.jsonl` (339 records), `kb/` (all outputs), `dan_children.json`, `EXPORT_STRATEGY.md`, `INVENTORY_PARTIAL_2026-11-13.md`.
+   - Memory files under `C:\Users\devon.tseng\.claude\projects\C--Users-devon-tseng-Desktop----milanote\memory\`: `milanote-phase1-decisions.md`, `milanote-tooling-notes.md`, `milanote-sop-kb-goal.md` (new), `milanote-sync-system.md` (new), plus `MEMORY.md` index lines.
+   - Issue #1 comments posted by me (aggregate, de-identified only): 6849701715 (#1), 6850487310 (#2), 6871061049 (#3), 6879896199 (#4), 6888871752 (#5).
+
+4. Errors and fixes:
+   - `browser_click` schema: needs `target`.
+   - `require is not defined` in `run_code`: removed fs and crypto, used `saveAs` and hashed afterward.
+   - `beforeunload` dialog blocked the page: added a dialog accept handler.
+   - Small ZIPs not downloading in a script (20 s race): used manual flow and longer timeouts.
+   - dblclick timeouts on off-canvas tiles: used `scrollIntoViewIfNeeded` plus `force` dblclick.
+   - Retry for 05-11 produced a ZIP identical to 05-15: marked suspect, needs re-export.
+   - Over-merge of 3 boards: replaced with the two-evidence rule (0 merges now, 16 topics).
+   - Registry key bug (trailing `_digits` stripped) made existing ZIPs show as pending: fixed with the `z` flag. Pending dropped from 17 to 12.
+   - Rollback test accident: the dragged Note tool landed inside the "第四組秘密基地+心南" board (its cards went 7→8). I removed only my own empty unsorted card (8→7, Trash). Other board counts were unchanged. This was disclosed in Issue comment #5. The move-then-restore step is NOT verified.
+   - User feedback: the user repeatedly pushed back on my caution (sensitive data, test data, no manual steps). I kept skipping the personal/HR boards, the `.pfx` files and the 40 images with credential-like text, and I did not run any real organizing.
+
+5. Problem Solving:
+   - Solved: automated Export → ZIP → download for small boards; hash and `testzip` verification; local OCR, pHash and dHash pipeline; incremental, idempotent sync (Run 2: 34 unchanged in 0.4 s, no OCR, KB not rebuilt; Run 3: +1 test ZIP analyzes only 1 image); removal handling; over-merge fix; mapping files.
+   - Current statistics:
+     - 34 ZIPs (32 primary, 2 duplicate-zip).
+     - 339 image records, 102 SHA-256 duplicates (about 99 are the TGL_0212 board exported twice).
+     - 16 topics.
+     - Labels: SUPPORTING 132, FINAL_CANDIDATE 6, FAILED_STATE 34, UNCERTAIN 65, DUPLICATE 102.
+     - 40 images flagged sensitive and skipped.
+     - 4 `.pfx` files left unopened in `exports/`.
+     - 12 pending exports: 9 blocked on the emailed link (63 MB to 10.5 GB), 2 excluded by policy, 1 large third-party package (about 920 MB) kept index-only.
+   - Unresolved: the real-card organizing batch, the card→file UI mapping, and verification of move-and-restore.
+
+6. All user messages:
+   - "接續 Milanote Phase 1（Issue #1）。我已重啟，請確認 Playwright MCP 已載入，然後開啟 Milanote 讓我登入。卡片與白板標題：可以 / 不可以 被模型看到（請擇一保留）。"
+   - Pasted (comment 6844586501): authorizes reading all boards, card titles and images for inventory, OCR, image recognition and classification. It says no more questions about title visibility, a backup and restore must be verified first and then small recoverable batches may start, and public progress updates go to Issue #1. It also said: ":::目前 CC 已能使用 Playwright MCP。下一步應先確認 Milanote 登入狀態，再開始真正的白板與圖片盤點。"
+   - "Tool loaded." (twice, tool-search results).
+   - Pasted (comment 6849642407): the repo stays Public, the data is personal hobby and learning material, skip only truly sensitive items, run the full inventory and duplicate analysis, back up before organizing, no permanent deletion, post statistics to Issue #1.
+   - "全部都沒有個資"
+   - "那些只是測試資料 作為範例使用"
+   - Pasted: the names, titles, departments, company emails, IPs and system names are simulated or test data, continue the whole project, skip only truly sensitive items (passwords, tokens, private keys, cookies, credentials), and name any specific item that cannot be processed instead of stopping everything.
+   - Pasted (comment 6850126109), sent three times with a /login interruption in between: do not make the Owner export ZIPs manually; CC must do Export → Generate ZIP, download, unzip, inventory, duplicate analysis, OCR and classification through Playwright; only login, MFA or CAPTCHA may be human steps; first complete one small board automatically, then continue without waiting.
+   - Pasted: supplemental SOP strategy. Do not use a fixed topic whitelist; use hierarchical classification, `DISCOVERED_TOPICS.md`, `SOP_GROUPS.csv`, FINAL_CANDIDATE and the other labels; mark unclassifiable images as `Unclassified / Needs Review`; produce the 9 files listed; `SOP_GAPS.md` lists the gaps per SOP.
+   - Pasted (comment 6870319260): continuous autonomous execution; retry, switch tools and install packages; only CAPTCHA, MFA or login, irreversible operations, permissions, or proven third-party hard limits warrant notifying the Owner.
+   - "繼續執行，完成後回報統計" (twice).
+   - Pasted (comment 6888486148): the final Definition of Done for the end-to-end sync system, covering all data retrieval, the mapping files, a full re-analysis, the over-merge fix, rollback testing, real recoverable organizing, a repeatable sync entry with state, manifest and resume, two or more sync runs proving incremental behavior, fixed log and summary, an Issue #1 update and a final statistics report.
+   - The latest message is the system request for this summary (text only, no tools).
+   - Security-relevant constraints stated by the user: no permanent deletion or overwriting of images, boards or cards; no irreversible bulk moves without a verified restore plan; do not publish raw screenshots, unredacted text, cookies or tokens to the Public GitHub, and put only de-identified aggregate progress in Issue #1; skip truly sensitive items such as real passwords, tokens, private keys and cookies; the Owner handles login, MFA and CAPTCHA themselves, and I must not use undisclosed Milanote APIs, steal session cookies or bypass protection; do not modify the global logger or change repo visibility.
+
+7. Pending Tasks:
+   - Retrieve the 9 emailed large boards: ask the Owner to pick up the emailed links or authorize a mail connector (not yet authorized), then drop the ZIPs into `research/phase1/data/exports/` and re-run the sync.
+   - Re-export board 05-11, which is suspect.
+   - Verify the rollback properly: a create → move → restore test using a reliably placed test item, with before and after logs.
+   - Run the first real reversible organizing batch only after rollback is verified, and only for high-confidence items (the heuristic labels are low confidence, there is no card→file mapping in the UI, and almost all "duplicates" are double-export artifacts).
+   - Refine the classification with pixel-diff or SSIM, review the 6 FINAL_CANDIDATE and 65 UNCERTAIN items, and review the merge candidates in `MERGE_LOG.txt`.
+   - The remaining Home-level and sub-board exports, such as the 壓力測試 children, have not been enumerated.
+   - Still unresolved: whether the global Conversation Logger has published this session's conversation, which includes internal IPs and repo URLs, to the Public repo.
+   - Final Definition of Done is NOT met: rollback is unverified and no real Milanote organizing has been done.
+
+8. Current Work:
+   Immediately before this summary request, I finished the sync-system build and the last verification runs. I also posted Issue #1 comment #5 (https://github.com/DevonForlan/milanote-cc-session-audit/issues/1#issuecomment-6888871752) and saved the memory files `milanote-sync-system.md` and the MEMORY.md index entry. The final assistant turn consisted of those tool calls, with no closing text report to the user yet. Honest state: sync system built and tested incrementally; exports partial (34 ZIPs); knowledge-base files are heuristic and low-confidence; the rollback "move and restore" is NOT verified; no real Milanote content has been organized; Milanote writes are zero apart from the one test card that was created and then deleted.
+
+9. Optional Next Step:
+   Give the user the final status report for the latest Definition-of-Done request, stating plainly that DoD is not fully met. It should cover: the statistics above; that the Run 2 and Run 3 idempotence proof passed; the one unintended write into a personal-data board and its clean-up; that the move-and-restore rollback is unverified so no real organizing was done; and the real remaining blockers. Those are the 9 emailed large boards, which need the Owner to retrieve the links or authorize a mail connector, and the policy-excluded boards. Per the user's wording, "完成後再一次回報統計與剩餘真正 blocker". Do not start real Milanote moves without a verified restore plan.
+
+If you need specific details from before compaction (like exact code snippets, error messages, or content you generated), read the full transcript at: C:\Users\devon.tseng\.claude\projects\C--Users-devon-tseng-Desktop----milanote\23e946d9-edf8-4fb9-9046-a77ea4a35475.jsonl
+Continue the conversation from where it left off without asking the user any further questions. Resume directly — do not acknowledge the summary, do not recap what was happening, do not preface with "I'll continue" or similar. Pick up the last task as if the break never happened.
+
+The messages after this summary are the most recent messages from before compaction, kept verbatim. The summary was written without seeing them, so something it says has not happened yet may already have happened in them.
