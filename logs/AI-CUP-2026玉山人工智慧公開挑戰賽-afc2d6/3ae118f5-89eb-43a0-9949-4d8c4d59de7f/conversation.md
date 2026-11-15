@@ -1244,3 +1244,11 @@ The run started on time at 19:30 and passed at 19:36. Verifying the result.
 **之後**
 - 這套策略會一直沿用，不會退回舊的「最高合規科技比重」。
 - 下一次檢查排在 20:42。之後確認 11/16 早上的排程沒有換掉這份 FINAL、17:10 的評估，以及 11/17 的預測。
+- 🔧 **Bash**: cd "[REDACTED]"; date "+%Y-%m-%d %H:%M"; timeout 100 python agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --force 2>&1 | tail -1 | cut -c1-160 <!--id:5a4e2c66-eed4-4e94-a908-83566f5ad9bf-->
+- 🔧 **ScheduleWakeup**: Issue #68 follow-through (policy risk_adjusted persists; do not revert to highest-compliant; #65 floor 0.85 stays). (1) Each check-in: `timeout 100 python agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --fo… <!--id:bb1521d1-2a5c-4b03-987d-aaf1a8d8bd2e-->
+- ↩︎ result (124 chars): 2026-11-15 20:42 {"status": "PUBLISHED", "new_events": 6, "turn": 227, "session_status": "WAITING_SCHEDULE", "pushed": true} <!--id:84b246d1-74dd-444f-94a5-76991515a576-->
+- ↩︎ result (234 chars): Next wakeup scheduled for 21:41:00 (in 3509s). If you owe the user a status update this tick, write it now as ordinary response text; then end the turn — the harness re-invokes you when the wakeup fires or a task-notification arrives. <!--id:0310647b-b0a6-4202-a640-d84aa1bece2f-->
+
+### [2026-11-15 20:42:33] 🤖 Claude <!--id:4aff0f92-c2ac-4749-bd74-c7d5992df9ac-->
+
+週日 20:42 的例行檢查沒有異常，對話紀錄已同步（第 227 回合）。11/16 的 FINAL 已確認，現在只重新排程，下次是 21:41。下一個要處理的是週一 07:30 之後確認早上的排程沒有換掉這份 FINAL。
