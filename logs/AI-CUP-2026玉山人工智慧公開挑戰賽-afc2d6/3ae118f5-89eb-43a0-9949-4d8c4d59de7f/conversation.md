@@ -1212,3 +1212,35 @@ The run started on time at 19:30 and passed at 19:36. Verifying the result.
 - ↩︎ result (4211 chars): {'status': 'PASS', 'trade_date': '2026-11-16', 'actual_start_time': '2026-11-15T19:30:11+08:00', 'run_delay_minutes': 0, 'auto_upload_status': 'SUBMISSION_CONFIRMED', 'submission_status': 'SUBMISSION_CONFIRMED', 'active_share': 'PASS (45.23%)', 'dplan_validation': 'PASS'} phase "TECH_OVERWEIGHT" dec… <!--id:d3d85236-438d-4ff6-8852-dbf9f75ed8a5-->
 - 🔧 **Bash**: cd "[REDACTED]"; export PYTHONIOENCODING=utf-8; python -m agent.ops.shared_state_sync --date 2026-11-16 2>&1 | tail -1 | cut -c1-260; python -m agent.ops.shared_state_tactical 2>&1 | tail -1 | cut… <!--id:508f3f3d-9111-4446-9817-6ce52710143f-->
 - ↩︎ result (400 chars): {"trade_date": "2026-11-16", "status": "ALREADY_SYNCED", "detail": "", "final_sha256": "1e31deef35b7c36a6508a4bfd6f9612d26c0b6bf9f355e834db2cbf7e7a96f37", "action": "UNCHANGED"} {"record": "supersede_20261110_latest.json", "status": "ALREADY_SYNCED"} {"status": "PUBLISHED", "task": "dryrun_1930", "e… <!--id:25d9de95-3c2a-440f-b289-2a2a22636759-->
+- 🔧 **Bash**: cd "[REDACTED]"; F=handoff/claude_sessions/2026-11-15_3c6e927b-3359-42ca-a4f8-73630a860dd3_issue68_1116.md; cat > $F <<'E' # Issue #68 - first production run of the risk-adjusted tech overlay (202… <!--id:71ca70a2-c808-401f-8126-6d3f3cf411d3-->
+- 🔧 **ScheduleWakeup**: Issue #68 follow-through (policy risk_adjusted persists; do not revert to highest-compliant; #65 floor 0.85 stays). (1) Each check-in: `timeout 100 python agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --fo… <!--id:8fd623dd-bd08-4a61-b27f-5f0e01d12ea3-->
+- ↩︎ result (195 chars): https://github.com/DevonForlan/ai-cup-2026-etf-agent/issues/68#issuecomment-6893790252 {"status": "PUBLISHED", "new_events": 20, "turn": 226, "session_status": "WAITING_SCHEDULE", "pushed": true} <!--id:fc544dc0-16e7-4ba1-b613-e356741d91a2-->
+- ↩︎ result (234 chars): Next wakeup scheduled for 20:42:00 (in 3551s). If you owe the user a status update this tick, write it now as ordinary response text; then end the turn — the harness re-invokes you when the wakeup fires or a task-notification arrives. <!--id:2f2376e7-890e-428f-b56d-db4372b7b259-->
+
+### [2026-11-15 19:42:56] 🤖 Claude <!--id:29c0f721-95ac-4010-abaa-ef4e5b689671-->
+
+新策略第一次正式執行成功：11/16 的 D-Plan 在 19:30 準時啟動，19:36 完成，自動送出，入口網站讀回確認（SUBMISSION_CONFIRMED）。這次沒有延遲，也沒有被對帳擋下。
+
+**11/16 D-Plan（FINAL sha `1e31deef…`）**
+
+| 項目 | 結果 |
+|---|---|
+| 科技股市場狀態 | **防守型**（科技股 20 日波動 ≥2.0%，站上 20 日均線的比例只有 18.4%）。SOX 近 5 日 +16.6%，但寬度弱，所以仍判防守 |
+| 區間 | 85%–88% |
+| **選定科技股比重** | **85.50%**（只比下限高 0.5 個百分點，不是硬推到最高） |
+| 子產業比重（上限 30%） | 記憶體 29.5%、PCB/材料 14.1%、ASIC/IC 設計 11.9%、其他科技 30.0% |
+| 持股 / 委託 | 22 檔 / 10 筆（賣 2、買 8） |
+| 換手 / 交易成本 | 10.2% / 約 6.6 bp NAV |
+| 現金 | 14.50% |
+| Active Share | 45.23% |
+| 驗證 / 合規 | PASS / PASS |
+
+- 「不動」的做法也評估過，科技股會是 89.6%、零委託，但風險調整後的得分略輸（-0.01161 對 -0.01109）。差距剛好超過設定的 5 bp 門檻，所以才換。
+- 資金從 6446、2615 加 1.0% 現金調出。
+- Quant 指紋 `f34fa02e…` 沒變，production 仍是 `6bc442f`。
+- Shared State 已同步，完整欄位已貼到 Issue #68：https://github.com/DevonForlan/ai-cup-2026-etf-agent/issues/68#issuecomment-6893790252。
+- 交接檔是 `handoff/claude_sessions/2026-11-15_3c6e927b-3359-42ca-a4f8-73630a860dd3_issue68_1116.md`。
+
+**之後**
+- 這套策略會一直沿用，不會退回舊的「最高合規科技比重」。
+- 下一次檢查排在 20:42。之後確認 11/16 早上的排程沒有換掉這份 FINAL、17:10 的評估，以及 11/17 的預測。
