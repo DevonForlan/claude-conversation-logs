@@ -1284,3 +1284,5 @@ The run started on time at 19:30 and passed at 19:36. Verifying the result.
 ### [2026-11-16 00:39:21] 🤖 Claude <!--id:658d7bf6-c9ef-4de5-bde9-75f52a2a34cb-->
 
 週一 00:39 的例行檢查沒有異常，對話紀錄已同步（第 235 回合）。11/16 的 FINAL 已確認，現在只重新排程，下次是 01:38。07:30 之後要確認早上的排程沒有換掉這份 FINAL。
+- 🔧 **Bash**: cd "[REDACTED]"; date "+%Y-%m-%d %H:%M"; timeout 100 python agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --force 2>&1 | tail -1 | cut -c1-160 <!--id:428eb849-3a28-47a5-8386-32ab02051cde-->
+- 🔧 **ScheduleWakeup**: Issue #68 follow-through (policy risk_adjusted persists; do not revert to highest-compliant; #65 floor 0.85 stays). (1) Each check-in: `timeout 100 python agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --fo… <!--id:a0b65f64-758e-44de-b284-ddbb75771a68-->
