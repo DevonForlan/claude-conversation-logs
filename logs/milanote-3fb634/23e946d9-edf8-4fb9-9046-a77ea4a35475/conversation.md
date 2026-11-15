@@ -1092,3 +1092,42 @@ https://github.com/DevonForlan/milanote-cc-session-audit/issues/1#issuecomment-6
 
 27 個子白板有檔案。我在背景批次匯出它們，下載和「寄信」兩種情況都會記錄，單一失敗不影響其餘。
 - 🔧 **mcp__playwright__browser_run_code_unsafe**: {"code": "async (page) => {\n const outDir = '[REDACTED]/data/exports/';\n const parent = 'https://app.milanote.com/1Wkvwd1Ywudq5n/dan';\n const names = ['TGL_0325_Dan','07-02','07-08','07-23','… <!--id:55e7498a-e740-4dab-bdbf-ba67aa055029-->
+- ↩︎ result (344 chars): MCP tool "playwright/browser_run_code_unsafe" is still running after 120s. It was moved to the background as task kjsh4zwjw and keeps running; you'll receive a notification with the result when it completes. You can keep working in the meantime. To stop it, use TaskStop with task_id "kjsh4zwjw". Not… <!--id:337b9bdf-a627-4c98-adbb-527705189a5c-->
+
+### [2026-11-15 11:25:32] 🤖 Claude <!--id:0656bdca-1ebc-477c-a57f-b95157d3b3e4-->
+
+While the export runs, I'm building the sync system. First, I'm making the OCR step accept a specific list of ZIPs, so unchanged ZIPs are never reopened.
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\ocr_pipeline.py <!--id:dcd32ddf-d2e2-4f1c-b18b-3255366b027b-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\discover.py <!--id:83b94eb1-203c-4649-a6c5-5168bed307c3-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\discover.py <!--id:416eed81-32f9-4bda-babf-29514d5d4a86-->
+- ↩︎ result (184 chars): The file C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\ocr_pipeline.py has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:6b3cd414-4025-495e-a43b-907af405afbe-->
+- ↩︎ result (180 chars): The file C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\discover.py has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:922cb247-1c1f-429d-8313-c345006a3b18-->
+- ↩︎ result (180 chars): The file C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\discover.py has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:78121d27-6411-4540-9e9f-5ef45c4bf534-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\discover.py <!--id:9b6242f5-a356-43ab-b00f-03258fdbc1cd-->
+- ↩︎ result (180 chars): The file C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\tools\discover.py has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:5b6cfceb-d735-4cd4-a6c8-0d48878808cf-->
+
+### [2026-11-15 11:25:55] 🤖 Claude <!--id:7b8fe412-e61c-48dc-84e4-b09ceddec9d0-->
+
+Now the main sync entry point: incremental manifest, analysis only for new or changed ZIPs, knowledge-base rebuild only when something changed, mapping files, and a summary on every run.
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\sync\sync_milanote_sop.py <!--id:a7191bfb-7299-45c4-a2df-4658b6bff3e4-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\sync\run_full_sync.ps1 <!--id:bc905e37-e1d8-409f-a1b3-4d979c0db2ee-->
+- ↩︎ result (178 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\sync\sync_milanote_sop.py (file state is current in your context — no need to Read it back) <!--id:1e2a4e77-a097-4a75-80b8-fbcc361d8e4b-->
+- ↩︎ result (175 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\sync\run_full_sync.ps1 (file state is current in your context — no need to Read it back) <!--id:bb8962d4-8259-491f-9769-780e1b4f0be9-->
+- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/milanote/research/phase1/sync" && python -I - <<'EOF' import re s=open('sync_milanote_sop.py',encoding='utf-8').read() s=s.replace("reg_by_key = {stem_key(b['name']): b for b in registry}","reg_by_key = {… <!--id:5b37f05c-f04e-4385-b034-9c81c44a8b5d-->
+- ↩︎ result (2 chars): 73 <!--id:db541ff4-e02c-4348-812b-2a8a28947941-->
+- 🔧 **Bash**: cd "[REDACTED]" && ls | grep -c '^d'; ls -l --time-style=+%H:%M | grep '^-.* d[0-9]' | awk '{print $5,$7}' | tail -30; date +%H:%M <!--id:aed15c61-e0ea-4904-8073-638a3cd07973-->
+- ↩︎ result (74 chars): 3 46161506 d02_07-02.zip 1051094 d03_07-08.zip 5646664 d04_07-23.zip 11:26 <!--id:9aaf4ebd-d00e-4120-b56c-33e967fc427d-->
+
+### [2026-11-15 11:26:59] 🤖 Claude <!--id:3402dba3-629a-46d2-824d-6b842ae0146f-->
+
+匯出批次還在跑（27 個子白板已完成約 3 個），瀏覽器被它佔用，所以回滾實測要等它跑完。同步系統本身已寫好：
+
+- **主入口**：`sync/sync_milanote_sop.py`，一鍵版 `sync/run_full_sync.ps1`。
+- **固定檔案**：`sync_state.json`、`export_manifest.jsonl`、`analysis_state.json`、`logs/sync.log`、`SUMMARY.md`。
+- **白板登錄表**：`board_registry.json`（73 個白板，含階層路徑）和 `export_status.json`。
+- **過度合併修正**：現在要「關鍵字重疊 + 近似圖比例」兩種證據都達標才合併，只有一種證據的列為候選，不硬合併。
+
+批次匯出完成後，我會依序做：
+1. 同步 Run 1，再做 Run 2 驗證不重複處理，並放一個本機測試 ZIP 驗證只處理新增項目。
+2. 用我自己新建的測試卡片做回滾實測，不碰你的真實內容。
+3. 更新 Issue #1，回報最終統計。
