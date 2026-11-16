@@ -1,6 +1,16 @@
 {
-  "updated_at": "2026-11-16T13:42:46+08:00",
+  "updated_at": "2026-11-16T13:43:15+08:00",
   "projects": [
+    {
+      "project": "ai-opportunity-to-revenue",
+      "project_safe": "ai-opportunity-to-revenue-e46a09",
+      "last_activity": "2026-11-16T13:43:15+08:00",
+      "latest_session": "c2b32f21-af2a-4e6e-b324-6672cac094d3",
+      "latest_log": "logs/ai-opportunity-to-revenue-e46a09/c2b32f21-af2a-4e6e-b324-6672cac094d3/conversation.md",
+      "status": "working",
+      "latest_turn": 22,
+      "sessions": 1
+    },
     {
       "project": "phase1",
       "project_safe": "milanote-3fb634",
@@ -10,16 +20,6 @@
       "status": "working",
       "latest_turn": 26,
       "sessions": 7
-    },
-    {
-      "project": "ai-opportunity-to-revenue",
-      "project_safe": "ai-opportunity-to-revenue-e46a09",
-      "last_activity": "2026-11-16T13:42:45+08:00",
-      "latest_session": "c2b32f21-af2a-4e6e-b324-6672cac094d3",
-      "latest_log": "logs/ai-opportunity-to-revenue-e46a09/c2b32f21-af2a-4e6e-b324-6672cac094d3/conversation.md",
-      "status": "idle",
-      "latest_turn": 21,
-      "sessions": 1
     },
     {
       "project": "AI CUP 2026玉山人工智慧公開挑戰賽",
