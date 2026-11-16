@@ -1491,3 +1491,32 @@ The independent-consultant agent has finished. Five agents are still running (bo
 </result>
 <usage><subagent_tokens>148648</subagent_tokens><tool_uses>72</tool_uses><duration_ms>669245</duration_ms></usage>
 </task-notification>
+
+### [2026-11-16 12:33:12] 🤖 Claude <!--id:526da8d7-35aa-421e-9423-492900fc1624-->
+
+Deliverables and automation agent 完成。還有 4 條研究線（需求雇用／購買、需求痛點、公司競品、接案市場）還在跑，合併要等它們回報。
+
+- **08 交付物藍圖與 09 自動化矩陣：** 已寫好，包含 21 個步驟的分類、指令與所需存取權限，以及 finding-register 的 JSON schema。
+- **負面的新證據：** 找不到 Percona 公開的 MongoDB 審計範例報告。08 的交付物結構是我們自己根據官方 checklist 推論出來的（INFERENCE），不是抄任何廠商範例。
+- **自動化比例：** 沒有實測，全部 UNKNOWN。實測也沒做成：Docker daemon 沒開、本機沒有 `mongod` 或 `mongosh`，所以沒碰任何資料庫。
+- **官方驗證到的事實：**
+  - `$indexStats` 至少需要 `clusterMonitor` 角色。
+  - `listIndexes` 在 `read` 角色範圍內。
+  - 看所有使用者的 `$currentOp` 需要 `inprog`。
+  - MongoDB 6.0 EOL 是 2025-07-31，7.0 是 2027-08-31，8.0 是 2029-10-31。這是 summary，客戶使用前要重新查證。
+- **治理衝突：** WebComm 政策禁止客戶資料與個資進 Claude，所以涉及客戶證據的 LLM 步驟，使用前要先取得許可，只能用去識別化的 metadata。
+- **未完成項：** 多數指令的最低權限角色是 UNVERIFIED，Ops Manager 健檢與 Confluent 官方 review checklist 沒找到。
+
+### [2026-11-16 12:33:16] 👤 User (turn 16) <!--id:b7641beb-db54-44a9-b37a-2dac0e34d62b-->
+
+<task-notification>
+<task-id>a25bc9019d75224a7</task-id>
+<tool-use-id>toolu_0179adPpdWyaPP5BUqmSMvHW</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b4ae81ecd30cf6ee\c2b32f21-af2a-4e6e-b324-6672cac094d3\tasks\a25bc9019d75224a7.output</output-file>
+<status>completed</status>
+<summary>Agent "Deliverables and automation research" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>This agent's report was delivered to you as a message from "a25bc9019d75224a7" (its SubagentHandback call). Read it there; it is not repeated here.
+</result>
+<usage><subagent_tokens>96030</subagent_tokens><tool_uses>33</tool_uses><duration_ms>700802</duration_ms></usage>
+</task-notification>
