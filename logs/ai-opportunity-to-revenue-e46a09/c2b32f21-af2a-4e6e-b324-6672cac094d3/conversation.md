@@ -1769,3 +1769,35 @@ Phase 1B 的 9 條研究線都已啟動，branch 是 `research/phase1b-ai-applic
 這 9 條線是：需求（雇用／購買）、需求（痛點）、競品（公司）、競品（獨立顧問）、接案樣本（API 平台）、接案樣本（其他平台）、獲客與條款、交付物與自動化、AI＋資料庫差異化。
 
 等它們全部回報後，我會合併資料集、建立評分與 Top 5 排名、寫最終建議，再開 PR、在 Issue #6 回報。為避免對 MongoDB 的偏好，排名會只依買家與購買證據、定價、單人可行性、遠端交付、自動化潛力與競爭程度來決定。
+
+### [2026-11-16 13:42:38] 🤖 Claude <!--id:6646cdba-899a-484d-b8e2-6bcb9b941738-->
+
+Channels, terms and legal agent 完成。還有 8 條研究線在跑，我先不合併。
+
+重點發現：
+- **AWS Marketplace：** 付費賣家的國家清單（官方、讀完整份）不含台灣，台灣個人無法在那裡賣付費產品。
+- **Anthropic 合作夥伴計畫：** 免費，對「任何組織」開放，但 Services Track 的 Select 等級需要 10 位認證人員、2 個共同客戶和 1 個公開案例，單人達不到。個人能否加入 UNKNOWN。OpenAI 合作夥伴計畫的資格 UNKNOWN，官方頁面回 403。
+- **n8n Experts：** 目前是封閉試行，需要至少 3 個現有客戶，列出的地區不含台灣。Make 的 Solution Partner 免費，但需要服務經驗與認證；Zapier 要有自己的網站與自訂網域信箱。Make 和 Zapier 是否接受單人身分，文件沒寫。
+- **平台對 AI 的規定：**
+  - **Contra：** 條款有「Indy AI」條文，使用者要自行負責 AI 內容不侵權。
+  - **Upwork 與 Fiverr：** 官方頁面回 403，AI 政策 UNVERIFIED。
+- **法務與稅務：**
+  - **Anthropic：** 條款把 Outputs 歸給 API 帳號持有人，禁止轉售其服務，並禁止拿客戶內容訓練。
+  - **台灣個資法：** 第 4 條可能把顧問視為受託單位。
+  - **智慧財產：** 台灣法律把歸屬留給契約約定。
+  - **AI 服務的稅務：** 台灣稅務項目全部 UNKNOWN。
+- **限制：** PeoplePerHour、Google Cloud、OpenAI 條款讀不到。條文編號來自摘要，需要人工核對。這條線沒有任何轉換率、勝率或價格是編造的。
+
+### [2026-11-16 13:42:39] 👤 User (turn 21) <!--id:51484416-7bfb-4799-a117-941ec1dc2383-->
+
+<task-notification>
+<task-id>a5ad6823922b0b2b6</task-id>
+<tool-use-id>toolu_01LvBBKiaYqxBQ4FNMvxzqgy</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b4ae81ecd30cf6ee\c2b32f21-af2a-4e6e-b324-6672cac094d3\tasks\a5ad6823922b0b2b6.output</output-file>
+<status>completed</status>
+<summary>Agent "Channels, ToS, payment for AI services" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>This agent's report was delivered to you as a message from "a5ad6823922b0b2b6" (its SubagentHandback call). Read it there; it is not repeated here.
+</result>
+<usage><subagent_tokens>134869</subagent_tokens><tool_uses>57</tool_uses><duration_ms>359659</duration_ms></usage>
+</task-notification>
