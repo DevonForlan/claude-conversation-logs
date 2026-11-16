@@ -1912,3 +1912,7 @@ API Error: Can't reach the API server — check your internet or DNS (ENOTFOUND)
 <note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
 <result>Bulk fetch next set.</result>
 </task-notification>
+
+### [2026-11-16 13:53:15] 🤖 Claude <!--id:fb247df1-e5af-4c96-ba08-7f56ebc427fc-->
+
+API Error: Can't reach the API server — check your internet or DNS (ENOTFOUND)
