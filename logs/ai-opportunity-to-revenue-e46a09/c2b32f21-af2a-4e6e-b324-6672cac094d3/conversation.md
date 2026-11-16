@@ -1578,3 +1578,32 @@ The demand (hiring and purchase) agent has finished, and two agents are still ru
 </result>
 <usage><subagent_tokens>181991</subagent_tokens><tool_uses>83</tool_uses><duration_ms>992124</duration_ms></usage>
 </task-notification>
+
+### [2026-11-16 12:45:39] 🤖 Claude <!--id:2354d99e-b587-49ca-949c-4b3c0bb52d48-->
+
+The freelance deep-dive agent has finished. Only the demand pain-signal agent is still running, so I'm waiting for it before merging.
+
+- **Rows:** 86 against a target of 60, but the verified core is smaller. 36 are VERIFIED, 16 PARTIALLY VERIFIED and 34 UNVERIFIED. Every row is a hiring post, and none is purchase evidence.
+- **By platform:** 33 from the Freelancer.com public API, 23 from Upwork (search snippets only, since Upwork returned 403), 10 from PeoplePerHour, 8 from Dice, Insight Global and Zipdev (snippets), 4 from PRO360 in Taiwan, and a handful from Arc, Hacker News, Confluent and Lemon.io.
+- **MongoDB demand on freelance platforms is thin.** Freelancer had 4 active MongoDB-tagged projects and 1 Kafka-tagged one. None was health-check, upgrade, replication or backup work. The median is 105 bids per project, so competition is heavy. Taiwan's PRO360 shows only small-business or consumer cases.
+- **Product mapping** (the agent's inference, not anything buyers said): about 35% of rows map to no product. Of the rest, pipeline reliability and AI automation are the largest groups, and health-check is only 9% (2% when UNVERIFIED rows are excluded). Replication/oplog is 0.
+- **Review-shaped buyers exist, but not for MongoDB.** An Oracle RAC 7-day fixed-price diagnosis and a "Database Architecture & Code Review" post show buyers paying for diagnose-and-prove scopes. MongoDB-specific postings are USD 70–100 fixed and unverified or old.
+- **Limits:**
+  - **No 60–90 day window:** the Freelancer API only returns active projects, about a 7-day window (11-09 to 11-16).
+  - **Budgets are bands:** Freelancer budgets are preset tiers, not exact client budgets, and currencies aren't converted.
+  - **Stale snippets:** 3 of 4 Dice, Insight Global and Zipdev links tested were dead, so the snippet rows overstate open demand.
+  - **Blocked sources:** Reddit, Malt, CakeResume, Contra and the Taiwan boards 104外包網 and Tasker were unreachable, so their demand is UNKNOWN, not zero.
+
+### [2026-11-16 12:45:40] 👤 User (turn 19) <!--id:eb571ae4-3685-4200-9e4d-6f18f8ffb4e2-->
+
+<task-notification>
+<task-id>a0df7f2dccdd26ee7</task-id>
+<tool-use-id>toolu_01CGcmXs5neoBmeENKKm2rTG</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b4ae81ecd30cf6ee\c2b32f21-af2a-4e6e-b324-6672cac094d3\tasks\a0df7f2dccdd26ee7.output</output-file>
+<status>completed</status>
+<summary>Agent "Freelance market deep dive" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>This agent's report was delivered to you as a message from "a0df7f2dccdd26ee7" (its SubagentHandback call). Read it there; it is not repeated here.
+</result>
+<usage><subagent_tokens>230307</subagent_tokens><tool_uses>93</tool_uses><duration_ms>1453145</duration_ms></usage>
+</task-notification>
