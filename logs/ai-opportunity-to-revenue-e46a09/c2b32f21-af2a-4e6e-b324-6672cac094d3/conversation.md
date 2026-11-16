@@ -2095,3 +2095,55 @@ AI 獨立顧問供給端的 agent 完成。還有 2 條續跑中的線（需求�
 </result>
 <usage><subagent_tokens>176066</subagent_tokens><tool_uses>21</tool_uses><duration_ms>540077</duration_ms></usage>
 </task-notification>
+
+### [2026-11-16 14:05:13] 🤖 Claude <!--id:c5f7225f-d7a1-4cc2-a751-125a5daf3dda-->
+
+AI＋資料庫差異化的 agent 完成。只剩「需求（雇用／購買）」這一條還在跑，我先不合併。
+
+**判定：AI 搭配資料與資料庫能力，目前沒有證據顯示是可以賣的差異化，不應提高任何候選產品的排名。**
+
+- **規模：** 81 列。購買 51、雇用 19、廠商行銷 10、痛點 1。證據等級 A 53 列、B 6 列、C 22 列。77 列 VERIFIED。
+- **MongoDB 加 AI 的買家證據是 0（新證據）：**
+  - **政府標案：** 以 MongoDB 搜尋政府標案只有 1 筆，是 2022 年的訓練課程，與 AI 無關。
+  - **Freelancer 貼文：** 5 件進行中的 MongoDB 貼文，沒有一件是向量搜尋或 RAG 工作。
+  - **Hacker News：** 看過的 MongoDB 提及都是求職者自介。
+  - **其他技術：** pgvector、Elasticsearch、Kafka 和 Text-to-SQL 在標案標題裡都是 0 筆，Kafka 到 AI 的買家證據也是 0。
+- **台灣公部門買 AI 知識庫、RAG、AI 客服買得很兇（新證據）：** 2025 年起有 51 筆得標，金額 NT$0.34M 到 45.3M，中位數 NT$5.2M。這些只有標題，沒有一筆載明用什麼資料庫。個人遠端顧問能不能承接 UNKNOWN。部分「資料治理」案是資料治理，不是 AI。
+- **供給端的資料與 AI 準備度評估標價：** Workwise US$12.5k，Made In Tandem US$40–60k，賣家都是有品牌的精品公司。MongoDB 的 AI Applications Program 和它自己的 GenAI 顧問服務沒有公開價格，也沒有寫明個人顧問怎麼參與。Swisscom 和 Cisco 的案例是廠商行銷。
+- **接案比較：** 3 件 RAG 或資料庫類貼文的預算比一般 n8n 與聊天機器人貼文高，但也有 84–235 個投標。樣本太小，沒有統計意義。
+- **推論：** 最多只能讓「AI 就緒資料」和「評估」類候選在同分時勝出。AI 加資料庫整合只能當備援。買家買的是結果，不是資料庫引擎。
+- **限制：** 標案文件沒讀；Upwork、Fiverr、Acropolium 回 403 沒採用；Gartner 與 Percona 的項目只來自搜尋摘要；Hacker News 只取了 245 則留言。沒有系統性地搜尋台灣個人賣家，所以他們是否存在 UNKNOWN。
+
+### [2026-11-16 14:05:16] 👤 User (turn 36) <!--id:48526558-4ad5-4f0f-ae4d-19738997e8cb-->
+
+<task-notification>
+<task-id>a2f93589c2b68d1a7</task-id>
+<tool-use-id>toolu_01KwPS6V2P9da8xa9GxhPPef</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b4ae81ecd30cf6ee\c2b32f21-af2a-4e6e-b324-6672cac094d3\tasks\a2f93589c2b68d1a7.output</output-file>
+<status>completed</status>
+<summary>Agent "AI plus data/DB differentiation" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>This agent's report was delivered to you as a message from "a2f93589c2b68d1a7" (its SubagentHandback call). Read it there; it is not repeated here.
+</result>
+<usage><subagent_tokens>159205</subagent_tokens><tool_uses>34</tool_uses><duration_ms>553457</duration_ms></usage>
+</task-notification>
+
+### [2026-11-16 14:05:16] 👤 User (turn 37) <!--id:cddefd70-5b03-4bf8-9bd2-e4417bf9ece4-->
+
+<task-notification>
+<task-id>a100b72e8b46aede2</task-id>
+<tool-use-id>toolu_0122BY3P3vNYntYvToSiqzVH</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b4ae81ecd30cf6ee\c2b32f21-af2a-4e6e-b324-6672cac094d3\tasks\a100b72e8b46aede2.output</output-file>
+<status>completed</status>
+<summary>Agent "AI demand: hiring and purchase" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>This agent's report was delivered to you as a message from "a100b72e8b46aede2" (its SubagentHandback call). Read it there; it is not repeated here.
+</result>
+<usage><subagent_tokens>152829</subagent_tokens><tool_uses>18</tool_uses><duration_ms>595826</duration_ms></usage>
+</task-notification>
+
+### [2026-11-16 14:05:25] 🤖 Claude <!--id:b81a531d-ea2a-471e-89eb-c2fcf378d8dc-->
+
+九條線全部完成。我先驗證並合併資料集，再自己重新計算關鍵統計，而不是直接引用 agent 的數字。
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue/research/phase1b_ai_application"; ls; PYTHONIOENCODING=utf-8 python - <<'PY' import csv,glob,collections,re def load(f): return list(csv.reader(open(f,encoding='utf-8-sig',newlin… <!--id:a075963d-1896-4f4f-924d-f9c29382c2b8-->
+- ↩︎ result (1923 chars): _sources 01_AI_DEMAND_EVIDENCE_hiring.md 01_AI_DEMAND_EVIDENCE_pain.md 02_AI_DEMAND_DATASET_hiring.csv 02_AI_DEMAND_DATASET_pain.csv 03_AI_COMPETITOR_MATRIX_companies.md 03_AI_COMPETITOR_MATRIX_solo.md 04_AI_COMPETITOR_DATASET_companies.csv 04_AI_COMPETITOR_DATASET_solo.csv 05_AI_FREELANCE_MARKET_pa… <!--id:9a6ec538-8908-423e-bfca-cb40b18f54d4-->
