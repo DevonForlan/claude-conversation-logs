@@ -1439,3 +1439,30 @@ Issue #4 我讀完了。這一輪規模很大，我拆成 7 條平行研究線�
 ### [2026-11-16 12:21:39] 🤖 Claude <!--id:3d03ff3e-328d-472a-ab5b-4c130659afb5-->
 
 七條研究線都已啟動：需求（雇用／購買）、需求（痛點）、競品（公司）、競品（獨立顧問）、接案市場、獲客與收款稅務、交付物與自動化。等它們回報後，我會合併資料集、做定價與產品排名、寫最終 GO/NO-GO，最後在 Issue #4 回報。
+
+### [2026-11-16 12:31:09] 🤖 Claude <!--id:5ac1dd65-30ec-4135-9e1b-e93e8642f099-->
+
+The channels, payment and tax agent has finished. Six agents are still running, so I'm waiting for them before merging anything.
+
+The findings that matter so far:
+- **Contra:** it has the strongest official evidence of any freelance platform: 0% commission and 180+ countries, though Taiwan isn't named. Its terms ban scraping and automated outreach, and they restrict "gratis introductory or trial services". A free mini-audit lead magnet could break that last rule.
+- **Automation bans:** the terms I could read for Contra, Freelancer, LinkedIn, Hacker News and GitHub all restrict automation or scraping. Upwork, Fiverr and Reddit terms returned 403, so their clauses stay UNVERIFIED.
+- **Taiwan payment and tax:**
+  - **Verified:** the central-bank FX reporting threshold is NT$500,000. Stripe Global Payouts and Polar list Taiwan.
+  - **Open:** whether the business-tax zero rate (營業稅零稅率) applies to a remote MongoDB assessment is UNKNOWN.
+- **Partner programs:** the MongoDB and Percona partner pages list no eligibility criteria, so whether an individual can join is UNKNOWN.
+- **Caveat:** the agent read pages through WebFetch summaries, not verbatim text, so quoted clauses need a human check against the originals.
+
+### [2026-11-16 12:31:10] 👤 User (turn 14) <!--id:61d45bc4-60a4-48fa-9853-96e4da04959b-->
+
+<task-notification>
+<task-id>ab7d408b21edd7d80</task-id>
+<tool-use-id>toolu_01J9WgeE3XtRm9oPaeHrZWPz</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b4ae81ecd30cf6ee\c2b32f21-af2a-4e6e-b324-6672cac094d3\tasks\ab7d408b21edd7d80.output</output-file>
+<status>completed</status>
+<summary>Agent "Channels, fees, Taiwan payment tax" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>This agent's report was delivered to you as a message from "ab7d408b21edd7d80" (its SubagentHandback call). Read it there; it is not repeated here.
+</result>
+<usage><subagent_tokens>144002</subagent_tokens><tool_uses>75</tool_uses><duration_ms>583696</duration_ms></usage>
+</task-notification>
