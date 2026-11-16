@@ -1336,3 +1336,5 @@ API Error: Can't reach the API server — check your internet or DNS (ENOTFOUND)
 ### [2026-11-16 13:21:23] 🤖 Claude <!--id:d443a51a-890c-4186-82cf-024cff128fd2-->
 
 週一 13:21 的例行檢查沒有異常，對話紀錄已同步（第 242 回合）。現在只重新排程，下次是 14:20，之後會在 17:10 左右確認 11/16 的正式評估。
+- 🔧 **Bash**: cd "[REDACTED]"; date "+%Y-%m-%d %H:%M"; timeout 100 python agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --force 2>&1 | tail -1 | cut -c1-160 <!--id:5da208ba-698a-45a5-8d78-bac7ce405c20-->
+- 🔧 **ScheduleWakeup**: Issue #68 follow-through (policy risk_adjusted persists; do not revert to highest-compliant; #65 floor 0.85 stays). (1) Each check-in: `timeout 100 python agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --fo… <!--id:24080847-98a1-4ab3-973e-8a65eb1296cf-->
