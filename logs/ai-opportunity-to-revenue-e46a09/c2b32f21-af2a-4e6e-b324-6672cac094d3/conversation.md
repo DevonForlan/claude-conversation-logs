@@ -1686,3 +1686,60 @@ Phase 1A 的研究已完成並推上 GitHub，結論是 **CONDITIONAL GO，進�
 2. 授權後，我寫一支唯讀的證據收集腳本，只在拋棄式本機實例上測試，並量測人工覆核要花多少時間，這樣才能算自動化比例與有效時薪。
 3. （選擇性）讓我讀 3–5 件台灣政府標案文件，確認個人或遠端是否有資格參與。
 4. 任何聯絡潛在客戶的動作都由你本人決定和送出，我只幫你準備素材。
+
+### [2026-11-16 13:34:45] 👤 User (turn 20) <!--id:6e9bf0d8-bad1-4776-830e-24d8cb5b9569-->
+
+<pasted_content id="09cb">
+請開始執行 `DevonForlan/ai-opportunity-to-revenue` 的 GitHub Issue #6：
+
+`Phase 1B: Large-scale AI Application / AI Automation Productized Service Research`
+
+研究方向已正式調整：
+
+- 第一主線：AI Application / AI Automation Productized Technical Service
+- 第二層差異化能力：Data Engineering / API Integration / Kafka / MongoDB / Database
+
+請不要再預設 MongoDB Production Risk Assessment 是第一產品。
+
+Phase 1A 與 PR #5 的 MongoDB / Data Platform 研究結果仍然保留為 baseline，不要刪除、不要重做，也不要自行 merge PR #5。請讀取 Issue #4、PR #5 及既有 Phase 0 / Phase 1A 資料後，直接開始 Issue #6。
+
+這一輪仍採大量研究模式。Issue #6 中的：
+
+- 150+ demand samples
+- 60+ competitors
+- 100+ freelance samples
+- 25+ solo / boutique examples
+
+都只是最低門檻，不是上限。
+
+請盡可能一次完成大量調查，不要每取得少量資料就停止詢問。遇到 403、login wall、某平台無法取得等問題時，記錄限制、改用替代來源並繼續，不要因此停止整體研究。
+
+尤其請避免 capability bias：不要因為我熟悉 MongoDB，就提高 MongoDB 的商業排名。所有 AI service ranking 必須根據 buyer evidence、purchase evidence、pricing、solo feasibility、remote delivery、productization、automation potential 與 competition 等資料決定。
+
+完成後請：
+
+1. 將研究結果建立於 `research/phase1b_ai_application/`
+2. 保留完整 datasets 與 source log
+3. 建立獨立 branch
+4. commit / push
+5. 開 PR
+6. 在 Issue #6 回報：
+   - sample counts
+   - Top 5 AI service ranking
+   - VERIFIED / UNKNOWN 核心結論
+   - pricing evidence
+   - blockers
+   - recommended next step
+
+除非涉及對外聯絡、proposal、合約、付款、第三方付費帳號、接受條款或 production 修改，否則請自主持續完成 Issue #6，不需要每一小步等待我確認。
+</pasted_content id="09cb">
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; gh issue view 6 --json title,body,author --jq '.author.login+"\n"+.body'; gh pr view 5 --json state --jq .state <!--id:34e5d31f-cf82-456c-8e51-5dba63eac5c1-->
+- ↩︎ result (10977 chars): DevonForlan # Phase 1B — Large-scale AI Application / AI Automation Productized Service Research ## Direction change Phase 1A 的 MongoDB / Data Platform productization research 保留為有效 baseline 與次要垂直能力，不刪除、不重做，也不視為失敗。 從 Phase 1B 開始，研究主線改為： > AI Application / AI Automation Productized Technical Service … <!--id:9c3ade1c-dae0-4ce5-9f1e-2d5630b5c666-->
+
+### [2026-11-16 13:35:06] 🤖 Claude <!--id:4c0fb3d4-320b-44be-9f2b-0c591fbb401d-->
+
+Issue #6 讀完了。PR #5 還沒 merge，所以我用「疊在 Phase 1A branch 上」的方式開新 branch，PR 以 Phase 1A branch 為 base，diff 才乾淨，也不碰 PR #5。
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; git fetch -q origin; git checkout -q research/phase1a-productization && git checkout -q -b research/phase1b-ai-application && mkdir -p research/phase1b_ai_application/_sources … <!--id:17c696d5-476d-47a4-a78b-f87affaa55ef-->
+- 🔧 **Write**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b4ae81ecd30cf6ee\c2b32f21-af2a-4e6e-b324-6672cac094d3\scratchpad\BRIEF1B.md <!--id:e1ede020-83d6-420f-9240-e3001f768883-->
+- ↩︎ result (88 chars): research/phase1b-ai-application _sources 01_EXECUTIVE_SUMMARY.md 02_EXISTING_PROJECTS.md <!--id:a5f451b8-8070-4647-a658-0e0cd6506b62-->
+- ↩︎ result (218 chars): File created successfully at: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b4ae81ecd30cf6ee\c2b32f21-af2a-4e6e-b324-6672cac094d3\scratchpad\BRIEF1B.md (file state is current in your context — no need to Read it back) <!--id:17a83808-e2f6-42ed-ac96-0c3b1a065381-->
