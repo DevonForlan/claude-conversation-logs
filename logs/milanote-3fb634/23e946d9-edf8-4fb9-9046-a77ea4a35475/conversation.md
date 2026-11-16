@@ -1486,3 +1486,97 @@ If you need specific details from before compaction (like exact code snippets, e
 Continue the conversation from where it left off without asking the user any further questions. Resume directly — do not acknowledge the summary, do not recap what was happening, do not preface with "I'll continue" or similar. Pick up the last task as if the break never happened.
 
 The messages after this summary are the most recent messages from before compaction, kept verbatim. The summary was written without seeing them, so something it says has not happened yet may already have happened in them.
+
+### [2026-11-16 10:31:08] 👤 User (turn 25) <!--id:06090ce0-8c38-49d3-900e-7a5f97bc0bea-->
+
+請提供給我現在的詳細進度
+
+### [2026-11-16 10:31:34] 🤖 Claude <!--id:c06d5094-2ecf-4235-bb34-9f918240c8cb-->
+
+# Milanote Phase 1 詳細進度
+
+以下數字取自上一輪最後一次同步的結果，之後我沒有再動過資料。
+
+## 一、整體判斷
+最終驗收（Definition of Done）**沒有達成**。本機的匯出、分析、同步系統已完成並驗證。Milanote 端的實際整理一項都還沒做，因為「移動後還原」沒有驗證通過。
+
+## 二、資料取得
+
+| 項目 | 數量 |
+|---|---|
+| 白板登記（board_registry） | 73 個 |
+| 已下載 ZIP | 34 個（主要 32、內容重複 2） |
+| 圖片紀錄（OCR 完成） | 339 筆 |
+| SHA-256 完全重複 | 102 筆（約 99 筆是 TGL_0212 匯出兩次造成） |
+| 判定含敏感字樣而跳過 | 40 張 |
+| 未開啟的 `.pfx` 檔 | 4 個 |
+
+**尚未取得的 12 個白板**
+
+- 9 個大白板：Milanote 只寄連結到你的信箱，不提供下載。
+  - 白板：TGL_0211、TGL_0310、TGL_0325、0506 0507 LDAP設定、TGL_0325_Dan、05-25、05-27、05-28、06-17。
+  - 大小約 63 MB 到 10.5 GB。
+- 2 個依政策排除：Moodboard、第四組秘密基地+心南。
+- 1 個第三方安裝包白板（約 920 MB）：只建索引，不下載。
+- 另有 05-11 的 ZIP 與 05-15 完全相同，判定為抓錯，需要重新匯出。
+
+## 三、分析與分類
+
+- 主題：從資料中發現 **16 個**，沒有用固定白名單。
+- 合併規則：改成「關鍵字重疊（Jaccard ≥ 0.18）」和「近似圖比例（≥ 0.15）」兩項都達標才合併。這次 0 個合併，只有單一證據的列在 `MERGE_LOG.txt` 當候選。
+- 標記結果：
+
+| 標記 | 數量 |
+|---|---|
+| SUPPORTING | 132 |
+| DUPLICATE | 102 |
+| UNCERTAIN | 65 |
+| FAILED_STATE | 34 |
+| FINAL_CANDIDATE | 6 |
+
+- **可信度低**：這些標記是關鍵字啟發式，不是人工確認。FINAL_CANDIDATE 和 UNCERTAIN 需要人工複核。
+- 產出檔案都在 `research/phase1/data/kb/`，共 12 份，包含：
+  - 主題與分類：DISCOVERED_TOPICS.md、TOPIC_TAXONOMY.md
+  - SOP 分組與標記清單：SOP_GROUPS.csv、SOP_CANDIDATE、OUTDATED、FAILED_OR_WRONG、UNCERTAIN
+  - 重複與缺口：DUPLICATE_GROUPS.csv、SOP_GAPS.md、MERGE_LOG.txt
+  - 對照與還原：BOARD_FILE_MAPPING.csv、BOARD_HIERARCHY.json、RESTORE_MAPPING.csv
+
+## 四、同步系統（已驗證）
+
+- 入口：`research/phase1/sync/run_full_sync.ps1`，會產生固定的 state、manifest、log 和 `SUMMARY.md`。
+- Run 1：34 個 ZIP 建立 manifest，分析 32 個。
+- Run 2（資料沒變）：34 個全部 unchanged，0.4 秒，沒跑 OCR，知識庫沒有重建。
+- Run 3（加入 1 個本機測試 ZIP）：只分析 1 張新圖。
+- 移除該測試 ZIP 後，manifest 和分析結果會自動剔除它。
+- **限制**：瀏覽器匯出這一步需要已登入的 Playwright 瀏覽器，沒有放進無人值守的排程。
+
+## 五、Milanote 寫入（目前狀態）
+
+- 實際整理：**0 筆**。
+- 唯一的寫入是回滾測試的失誤。我拖的測試卡片掉進「第四組秘密基地+心南」白板，卡片數 7 變 8。
+  - 我只刪除自己那張空白卡（進垃圾桶，可還原），卡片數回到 7。
+  - 我沒有查看或移動該白板的其他內容，其他白板的數字沒變。
+  - 這件事已揭露在 Issue #1 第 5 則留言。
+- 「建立 → 移動 → 還原」沒有驗證通過。
+- 用 UI 拖放寫入不夠可靠。ZIP 也沒有卡片位置，無法對應回畫面上的哪張卡。
+
+## 六、Issue #1 回報
+
+我已發 5 則去識別化的彙總留言（#1 到 #5），最新一則是 https://github.com/DevonForlan/milanote-cc-session-audit/issues/1#issuecomment-6888871752。
+
+## 七、仍未解決的風險
+
+全域對話記錄器（`cc_global_log.py`）可能已把本次對話發布到公開 repo `DevonForlan/claude-conversation-logs`，內容含內網 IP 和 repo 網址。我還沒確認，也不會去改它。建議你自己檢查那個 repo，必要時清除相關記錄。
+
+## 八、下一步與誰要處理
+
+**我可以繼續做（不需要你）**
+1. 在專門建立的空白測試白板裡，驗證「建立、移動、還原」三步，並留下前後記錄。
+2. 驗證通過後，只對高信心項目做小批次整理。
+3. 用像素差異或 SSIM 精修分類，複核 6 筆 FINAL_CANDIDATE 和 65 筆 UNCERTAIN。
+4. 重新匯出 05-11。
+
+**需要你處理（第三方限制）**
+- 到信箱取回 9 個大白板的連結，把 ZIP 放進 `research/phase1/data/exports/`，再跑一次同步。或者授權我使用信箱連接器（目前未授權）。
+
+你要我先做第 1 項（空白測試白板的回滾驗證）嗎？
