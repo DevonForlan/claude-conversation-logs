@@ -1953,3 +1953,63 @@ API Error: Can't reach the API server — check your internet or DNS (ENOTFOUND)
 - **中斷時沒存到檔的：** 需求兩條、競品兩條、接案其他平台、AI＋資料庫差異化這 6 條，是從頭或接著各自的進度重做。
 
 等它們全部回報後，我再合併資料集、建評分與 Top 5、寫最終建議，然後開 PR 並在 Issue #6 回報。
+
+### [2026-11-16 13:58:50] 🤖 Claude <!--id:ae0d1114-026c-48ed-9b7e-067b4a8d11ed-->
+
+接案樣本（API 平台）的 agent 完成了。還有 6 條續跑中的研究線，我先不合併。
+
+- **規模：** 71 列（Freelancer.com 45、PeoplePerHour 26），達到 ≥70 的目標。45 列是 VERIFIED（API 原始資料），26 列是部分驗證（PeoplePerHour 用網頁摘要讀的）。全部是雇用貼文，沒有購買證據。
+- **新證據：** 工作流自動化、銷售與後台、客服自動化（n8n、Make、WhatsApp、Gmail、CRM 加上一個 LLM 步驟）合計 31/71，約 44%。其次是 RAG、agent 與內部助理，共 14 列。
+- **預算偏小：** 16 列美元固定價的 Freelancer 貼文裡，有 14 列落在上限不超過 USD 800 的預設級距，中位級距是 USD 250–750。PeoplePerHour 固定價中位數顯示為 USD 198（n=23）。時薪級距是 USD 15–25（n=4）和 USD 50+（n=1）。大預算都是 SaaS 或創辦工程師類的建置案。
+- **競爭激烈且同質：** Freelancer 投標數中位數 125（n=45，範圍 9–315），PeoplePerHour 中位數 38（n=26）。
+- **RAG 客服助理預算最高：** USD 50+/小時、GBP 5–10k、USD 1.5–3k，但只有 6 列。評估類只有 1 列，eval 與 guardrail 只有 2 列。agent 判斷這是平台偏差，不是需求不存在。
+- **與 MongoDB 對照：** AI 關鍵字貼文遠多於 Phase 1A 的 MongoDB 標籤（一週內 4 件），但可見度不等於付費意願。
+- **限制：**
+  - **平台涵蓋面窄：** 只涵蓋兩個平台；Guru、Reddit、WeWorkRemotely 搜尋回 403，Twine 沒有 AI 工作。
+  - **資料本身的限制：** Freelancer 的客戶國家與歷史被隱藏；預算是預設級距；資料只是一週的快照；PeoplePerHour 的幣別標「$」但基準不明。
+  - **暫存檔衝突：** 這個 agent 與其他 agent 共用暫存區，部分暫存檔名可能互相覆蓋。最終成果檔在 repo 內，這不影響已存檔的資料集。
+
+### [2026-11-16 13:58:53] 👤 User (turn 31) <!--id:2070cef1-93db-4507-a773-578c14d95049-->
+
+<task-notification>
+<task-id>a4504a188bb1b67c6</task-id>
+<tool-use-id>toolu_01298Fp9BchNPxGHxMu3Cmjd</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b4ae81ecd30cf6ee\c2b32f21-af2a-4e6e-b324-6672cac094d3\tasks\a4504a188bb1b67c6.output</output-file>
+<status>completed</status>
+<summary>Agent "AI freelance samples: API platforms" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>This agent's report was delivered to you as a message from "a4504a188bb1b67c6" (its SubagentHandback call). Read it there; it is not repeated here.
+</result>
+<usage><subagent_tokens>135708</subagent_tokens><tool_uses>9</tool_uses><duration_ms>179869</duration_ms></usage>
+</task-notification>
+
+### [2026-11-16 13:59:41] 🤖 Claude <!--id:2bc39d90-9554-42c3-97f2-6bc2dbed1e31-->
+
+AI 公司供給端的 agent 完成。還有 5 條續跑中的線，我先不合併。
+
+- **規模：** 43 列，達到 ≥40 的目標。38 列 VERIFIED、5 列部分驗證。41 列來自廠商自己的頁面，2 列是新聞稿。全部是廠商行銷，沒有任何公開的購買紀錄。
+- **服務類型：** 評估、準備度、工作坊 19 列，PoC 與衝刺 9 列，工作流自動化 5 列，RAG 5 列，評估與治理 3 列，agent 整合 1 列，內部助理 1 列。
+- **價格透明度：** 43 列中有 20 列（47%）公開價格或區間，27 列（63%）標示固定價或固定範圍。有 3 家的評估費可以折抵後續建置費。
+- **公開標價（不是買家實付）：**
+  - **評估：** US$3.5k–12.5k。
+  - **兩週衝刺：** US$9.5k–60k。
+  - **n8n、Make 建置：** US$3k–10k。
+  - **月度 retainer：** US$1.5k–45k。
+- **Microsoft Copilot 準備度**是獨立且擁擠的利基：IT Partner 的固定價為 $3,950–$7,500，EPC Group 只接受報價。
+- **台灣：** 只有 4 列（cacaFly、iKala、Sincere Group、Vigor），都沒有公開價格，無法推論台灣買家的價格。
+- **信任訊號：** 44% 展示廠商合作夥伴徽章，28% 有第三方評分，19% 列出客戶 logo。小型供應商很少有客戶見證或具名案例。
+- **限制：** 內容是用摘要工具讀的，不是逐字文本。Acropolium、MojoTech、vantagepoint.io 讀不到。樣本偏向會公開價格的英語供應商，所以 47% 的價格透明度不能代表整個市場。
+
+### [2026-11-16 13:59:42] 👤 User (turn 32) <!--id:7a56e755-dcfb-48a5-baf0-9a65c69176a4-->
+
+<task-notification>
+<task-id>a26d3d5503f547fb6</task-id>
+<tool-use-id>toolu_01KR3ttYCEEK4953xnfjXisv</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b4ae81ecd30cf6ee\c2b32f21-af2a-4e6e-b324-6672cac094d3\tasks\a26d3d5503f547fb6.output</output-file>
+<status>completed</status>
+<summary>Agent "AI suppliers: companies and agencies" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>This agent's report was delivered to you as a message from "a26d3d5503f547fb6" (its SubagentHandback call). Read it there; it is not repeated here.
+</result>
+<usage><subagent_tokens>157394</subagent_tokens><tool_uses>7</tool_uses><duration_ms>234841</duration_ms></usage>
+</task-notification>
