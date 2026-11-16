@@ -1466,3 +1466,28 @@ The findings that matter so far:
 </result>
 <usage><subagent_tokens>144002</subagent_tokens><tool_uses>75</tool_uses><duration_ms>583696</duration_ms></usage>
 </task-notification>
+
+### [2026-11-16 12:32:33] 🤖 Claude <!--id:4af70a11-353c-48be-b3c8-6e7ee2140ec4-->
+
+The independent-consultant agent has finished. Five agents are still running (both demand lines, company competitors, freelance, deliverables and automation), so I'm holding the merge until they report.
+
+- **Rows:** 39 total, covering about 30 distinct independent sellers, so the ">=20 solo" target is met. Only about 9 solo sellers had a page the agent actually read. 17 rows are VERIFIED; 22 come from search snippets only, because Fiverr, Upwork and MentorCruise returned 403.
+- **Evidence type:** all 39 rows are provider marketing. There is no purchase evidence.
+- **Fixed-price, read-only audits:** 5 rows, at $1,200, $1,800, $5,000, $7,500 (Kafka) and $10,000. One solo seller sells a $1,200 paid triage that is fully credited toward the audit. It is the only solo example of "paid diagnostic first".
+- **Trust signals are thin among solo sellers:** of the 8 pages read, 0 list a certification, 0 show on-page testimonials, 0 name a client case study, and 1 has a sample report.
+- **Gap, inferred from titles and snippets so it may be incomplete:** I found no independent seller productizing backup/restore, oplog, replication or upgrade-readiness reviews. Marketplace MongoDB gigs are mostly query or aggregation tuning.
+- **Limits:** no Taiwan or Asia solo MongoDB consultant turned up in Chinese searches, which isn't proof none exists. Prices range from $90 to $7,500 for very different scopes, so they aren't comparable.
+
+### [2026-11-16 12:32:34] 👤 User (turn 15) <!--id:3c1a73c5-e3a2-47e7-ab73-dcd5ea0eaad8-->
+
+<task-notification>
+<task-id>a2500ee64556bc34e</task-id>
+<tool-use-id>toolu_014gKTmqdPuJepGiorwDVmbk</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b4ae81ecd30cf6ee\c2b32f21-af2a-4e6e-b324-6672cac094d3\tasks\a2500ee64556bc34e.output</output-file>
+<status>completed</status>
+<summary>Agent "Independent consultants and sellers" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>This agent's report was delivered to you as a message from "a2500ee64556bc34e" (its SubagentHandback call). Read it there; it is not repeated here.
+</result>
+<usage><subagent_tokens>148648</subagent_tokens><tool_uses>72</tool_uses><duration_ms>669245</duration_ms></usage>
+</task-notification>
