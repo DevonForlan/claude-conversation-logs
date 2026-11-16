@@ -1320,3 +1320,11 @@ API Error: Can't reach the API server — check your internet or DNS (ENOTFOUND)
 今天早上的 MorningFinal 因為筆電休眠，拖到 10:23 才跑，這時提交窗口已關，所以它自己跳過，沒有產生新版本。對話紀錄已同步（第 238 回合），production 仍是 `6bc442f`。
 
 下次檢查排在 12:22，之後會在 17:10 左右確認 11/16 的正式評估並告訴你累積報酬率。
+- 🔧 **Bash**: cd "[REDACTED]"; date "+%Y-%m-%d %H:%M"; timeout 100 python agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --force 2>&1 | tail -1 | cut -c1-160 <!--id:8bbeda97-1849-4b51-825e-f6a323ff6a4a-->
+- 🔧 **ScheduleWakeup**: Issue #68 follow-through (policy risk_adjusted persists; do not revert to highest-compliant; #65 floor 0.85 stays). (1) Each check-in: `timeout 100 python agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --fo… <!--id:3b2d5f2e-5bbb-4f97-922e-55040dabad98-->
+- ↩︎ result (124 chars): 2026-11-16 12:22 {"status": "PUBLISHED", "new_events": 5, "turn": 240, "session_status": "WAITING_SCHEDULE", "pushed": true} <!--id:70d14929-5dac-44a6-9a85-144af184f9e2-->
+- ↩︎ result (234 chars): Next wakeup scheduled for 13:21:00 (in 3497s). If you owe the user a status update this tick, write it now as ordinary response text; then end the turn — the harness re-invokes you when the wakeup fires or a task-notification arrives. <!--id:1e187bb7-16fe-41e1-85ff-3fb8ac2f117e-->
+
+### [2026-11-16 12:22:48] 🤖 Claude <!--id:5c55349e-63c6-4c4c-a174-de36129b7c29-->
+
+週一 12:22 的例行檢查沒有異常，對話紀錄已同步（第 240 回合）。11/16 的 FINAL 仍是已確認狀態，現在只重新排程，下次是 13:21，之後會在 17:10 左右確認 11/16 的正式評估。
