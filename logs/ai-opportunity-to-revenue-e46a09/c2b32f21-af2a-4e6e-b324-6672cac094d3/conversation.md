@@ -1520,3 +1520,31 @@ Deliverables and automation agent 完成。還有 4 條研究線（需求雇用�
 </result>
 <usage><subagent_tokens>96030</subagent_tokens><tool_uses>33</tool_uses><duration_ms>700802</duration_ms></usage>
 </task-notification>
+
+### [2026-11-16 12:33:40] 🤖 Claude <!--id:b2ecdb8f-ab48-49ca-9b9b-b30f6616c34e-->
+
+The company-competitor agent has finished, and three agents are still running (both demand lines and the freelance deep dive), so I'm still holding the merge.
+
+- **Rows:** 34 companies against a target of at least 30. 27 are VERIFIED, 5 PARTIALLY VERIFIED, and 2 UNVERIFIED because the fetch failed. All 34 are provider marketing, so none is purchase evidence.
+- **Prices are mostly hidden:** only 7 of 34 rows list a numeric price, and only 1 of the 15 MongoDB rows does (Percona, $11,400 and up). Large MSPs such as Datavail, Pythian and Instaclustr are quote-only. Ksolves and JusDB offer free single-instance audits as lead generation.
+- **Small pipeline audits:** four providers list $1,990–$4,000 for 1–3 weeks, and two offer a conditional no-fee guarantee. These are list prices, not transaction prices.
+- **Recurring MongoDB scope and deliverables:**
+  - **Scope:** replica set and oplog, indexes and queries, WiredTiger cache, shard key, security and backup.
+  - **Deliverables:** a PDF report with severity ranking, a 30/60/90-day roadmap and a live walkthrough. Mydbops and JusDB spell out read-only, NDA-based access.
+- **Absences:** I found no public Kafka–MongoDB integration review and no standalone priced upgrade-readiness product. That is absence within this sample, not evidence of low demand.
+- **Taiwan:** only 新立資訊 and CloudMile appear, from news items, with no health-check product. The status of 叡揚, 精誠 and 凌網 is UNKNOWN.
+- **Limits:** the MongoDB Partner Finder is JavaScript-only, the Mydbops sample reports are behind a contact form, and Mydbops' own figures conflict.
+
+### [2026-11-16 12:33:41] 👤 User (turn 17) <!--id:e3e9d7c1-1f40-483f-b960-f10772730e7e-->
+
+<task-notification>
+<task-id>a46c10b06dc0b6648</task-id>
+<tool-use-id>toolu_017hBJekGSNr18Qigf1pj92i</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b4ae81ecd30cf6ee\c2b32f21-af2a-4e6e-b324-6672cac094d3\tasks\a46c10b06dc0b6648.output</output-file>
+<status>completed</status>
+<summary>Agent "Competitors: companies and MSPs" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>This agent's report was delivered to you as a message from "a46c10b06dc0b6648" (its SubagentHandback call). Read it there; it is not repeated here.
+</result>
+<usage><subagent_tokens>170132</subagent_tokens><tool_uses>78</tool_uses><duration_ms>729537</duration_ms></usage>
+</task-notification>
