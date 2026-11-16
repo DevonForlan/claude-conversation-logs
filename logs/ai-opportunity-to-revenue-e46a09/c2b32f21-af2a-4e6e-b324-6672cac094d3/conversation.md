@@ -1743,3 +1743,29 @@ Issue #6 讀完了。PR #5 還沒 merge，所以我用「疊在 Phase 1A branch 
 - 🔧 **Write**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b4ae81ecd30cf6ee\c2b32f21-af2a-4e6e-b324-6672cac094d3\scratchpad\BRIEF1B.md <!--id:e1ede020-83d6-420f-9240-e3001f768883-->
 - ↩︎ result (88 chars): research/phase1b-ai-application _sources 01_EXECUTIVE_SUMMARY.md 02_EXISTING_PROJECTS.md <!--id:a5f451b8-8070-4647-a658-0e0cd6506b62-->
 - ↩︎ result (218 chars): File created successfully at: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b4ae81ecd30cf6ee\c2b32f21-af2a-4e6e-b324-6672cac094d3\scratchpad\BRIEF1B.md (file state is current in your context — no need to Read it back) <!--id:17a83808-e2f6-42ed-ac96-0c3b1a065381-->
+- 🔧 **Agent**: AI demand: hiring and purchase <!--id:afd08d71-0cb3-4d6a-a5f7-6e7c2e5d7a03-->
+- 🔧 **Agent**: AI demand: pain and community signals <!--id:527ea444-96ad-4f70-beb6-be3c4e4d883e-->
+- 🔧 **Agent**: AI suppliers: companies and agencies <!--id:0a6cddee-f464-48a8-8d25-a6034bf8855c-->
+- 🔧 **Agent**: AI suppliers: solo and boutique <!--id:3966f91e-dc52-4b76-acbe-13a61d700607-->
+- 🔧 **Agent**: AI freelance samples: API platforms <!--id:71ec09a4-f78d-4f37-9e43-c486d4d4a3c6-->
+- 🔧 **Agent**: AI freelance samples: other platforms <!--id:82f69c1d-0c31-4122-b69c-23d3d3b47af6-->
+- 🔧 **Agent**: Channels, ToS, payment for AI services <!--id:06d4173a-496c-463c-a0f2-68399dfe7e65-->
+- 🔧 **Agent**: Deliverables and AI delivery automation <!--id:5383203e-6710-475c-93a0-f8c45c131e3c-->
+- 🔧 **Agent**: AI plus data/DB differentiation <!--id:f351fa47-f304-4752-aa1d-545272ce7798-->
+- ↩︎ result (1072 chars): Async agent launched successfully. (This tool result is internal metadata — never quote or paste any part of it, including the agentId below, into a user-facing reply.) agentId: a100b72e8b46aede2 (internal ID - do not mention to user. Use SendMessage with to: 'a100b72e8b46aede2', summary: '<5-10 wor… <!--id:805f0511-c1f4-4259-9b4c-c7b15488f3e9-->
+- ↩︎ result (1072 chars): Async agent launched successfully. (This tool result is internal metadata — never quote or paste any part of it, including the agentId below, into a user-facing reply.) agentId: aa92a2687e457addf (internal ID - do not mention to user. Use SendMessage with to: 'aa92a2687e457addf', summary: '<5-10 wor… <!--id:e50d092e-20c6-48cf-b591-a49e4126c5db-->
+- ↩︎ result (1072 chars): Async agent launched successfully. (This tool result is internal metadata — never quote or paste any part of it, including the agentId below, into a user-facing reply.) agentId: a26d3d5503f547fb6 (internal ID - do not mention to user. Use SendMessage with to: 'a26d3d5503f547fb6', summary: '<5-10 wor… <!--id:fbb205bb-4fd3-44ba-a367-e203247ed3ee-->
+- ↩︎ result (1072 chars): Async agent launched successfully. (This tool result is internal metadata — never quote or paste any part of it, including the agentId below, into a user-facing reply.) agentId: acfe02dd1e1c116cd (internal ID - do not mention to user. Use SendMessage with to: 'acfe02dd1e1c116cd', summary: '<5-10 wor… <!--id:b12dcc6c-3eeb-4a3c-9b72-5498d72bb0fd-->
+- ↩︎ result (1072 chars): Async agent launched successfully. (This tool result is internal metadata — never quote or paste any part of it, including the agentId below, into a user-facing reply.) agentId: a4504a188bb1b67c6 (internal ID - do not mention to user. Use SendMessage with to: 'a4504a188bb1b67c6', summary: '<5-10 wor… <!--id:8c31773e-65f8-453b-b135-7dd1445228bf-->
+- ↩︎ result (1072 chars): Async agent launched successfully. (This tool result is internal metadata — never quote or paste any part of it, including the agentId below, into a user-facing reply.) agentId: a6e41f5019ab8b504 (internal ID - do not mention to user. Use SendMessage with to: 'a6e41f5019ab8b504', summary: '<5-10 wor… <!--id:c86d58b6-69e3-4881-8169-1154d71d6909-->
+- ↩︎ result (1072 chars): Async agent launched successfully. (This tool result is internal metadata — never quote or paste any part of it, including the agentId below, into a user-facing reply.) agentId: a5ad6823922b0b2b6 (internal ID - do not mention to user. Use SendMessage with to: 'a5ad6823922b0b2b6', summary: '<5-10 wor… <!--id:ad114dda-22b8-4683-bbad-207b05c72739-->
+- ↩︎ result (1072 chars): Async agent launched successfully. (This tool result is internal metadata — never quote or paste any part of it, including the agentId below, into a user-facing reply.) agentId: ae58c355b33233a43 (internal ID - do not mention to user. Use SendMessage with to: 'ae58c355b33233a43', summary: '<5-10 wor… <!--id:3a9b6f7c-6bc5-4495-b34b-6d5b4f91a24c-->
+- ↩︎ result (1072 chars): Async agent launched successfully. (This tool result is internal metadata — never quote or paste any part of it, including the agentId below, into a user-facing reply.) agentId: a2f93589c2b68d1a7 (internal ID - do not mention to user. Use SendMessage with to: 'a2f93589c2b68d1a7', summary: '<5-10 wor… <!--id:545957c0-c217-4b2c-8dc2-af2c90d5a7a4-->
+
+### [2026-11-16 13:36:38] 🤖 Claude <!--id:388d4b7f-27d6-483c-9b27-40f7e5f1f1da-->
+
+Phase 1B 的 9 條研究線都已啟動，branch 是 `research/phase1b-ai-application`，疊在 PR #5 的 branch 上。
+
+這 9 條線是：需求（雇用／購買）、需求（痛點）、競品（公司）、競品（獨立顧問）、接案樣本（API 平台）、接案樣本（其他平台）、獲客與條款、交付物與自動化、AI＋資料庫差異化。
+
+等它們全部回報後，我會合併資料集、建立評分與 Top 5 排名、寫最終建議，再開 PR、在 Issue #6 回報。為避免對 MongoDB 的偏好，排名會只依買家與購買證據、定價、單人可行性、遠端交付、自動化潛力與競爭程度來決定。
