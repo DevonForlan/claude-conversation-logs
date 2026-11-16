@@ -4242,3 +4242,57 @@ The messages after this summary are the most recent messages from before compact
 請提供給我現在的詳細進度
 - 🔧 **Bash**: cd "[REDACTED]" && git status -sb | head -12 && git log --oneline -3 && git ls-files local_data | wc -l <!--id:8d49f2ea-1fce-4c63-ba65-1a168eca9663-->
 - ↩︎ result (742 chars): ## master...origin/master M CLAUDE.md ?? claude-context-audit.md ?? optimization-ab-test1.md ?? optimization-phase1.md ?? optimization-phase2a-glob-test.md ?? optimization-phase2b.md ?? optimization-phase2c-bash-output-test.md ?? optimization-phase2d.md ?? repeated-trigger-audit.md ?? token-usage-ba… <!--id:cf62757e-97da-4def-a7ee-3d1d0b122ee2-->
+
+### [2026-11-16 10:31:49] 🤖 Claude <!--id:313326fd-4c43-4444-9a27-ca98c81338c1-->
+
+目前沒有進行中的工作，這一輪的工作都做完了，也已經推送。我剛確認過：`master` 和 `origin/master` 同步，最新 commit 是 `1d6dc16`，`local_data` 沒有任何檔案被追蹤。
+
+## 已完成的項目
+
+**1. University Review 答案證據（commit `8bc44d7`、`1d6dc16`）**
+- 140 題 University 題目的答案來源分布：
+
+| 來源 | 題數 |
+|---|---|
+| 平台公布 | 10 |
+| 官方文件查證 | 46 |
+| 我推論（不是已查證） | 79 |
+| 題目有爭議 | 5 |
+| 沒有答案 | 0 |
+| 實際跑 MongoDB 驗證 | 0 |
+
+- 信心分布：高 56 題（平台公布加官方文件）、中 78 題、低 6 題。
+- 之前中、低信心的 22 題都重新對照官方文件，沒有任何一題的答案被改，其中 5 題標成有爭議。
+- 另外隨機抽 39 題高信心答案獨立重查：38 題確認、1 題有爭議、0 題要改。沒有系統性錯誤，所以沒有擴大查證範圍。
+
+**2. 程式與介面**
+- API 和 UI 可以依答案證據篩選題目（Trusted、平台、官方、推論、有爭議、沒有答案）。
+- 題目列表有證據標籤，作答後會顯示答案依據、信心和爭議說明。
+- 頁面上有證據覆蓋摘要。
+- 新增 `start.bat`，更新 README 和 `Quick Start.txt`；舊的 Quick Start 指向過期的 OneDrive 路徑。
+- 新增 3 個測試，並更新 `docs/university-review-implementation.md`。
+
+**3. 驗證**
+- 完整測試 345 通過、2 略過、0 失敗；`university.js` 語法檢查通過。
+- 用 headless Edge 在資料副本上驗證 University 頁面：篩選數量正確，有爭議的標籤、作答橫幅和答案依據區塊都正常，11 個其他頁面可載入，沒有 JS 錯誤。
+- 資料完整性：140 題指紋都不重複，沒有相似度超過 0.85 的近似題，選項格式沒有問題。
+- Certification 題庫維持 200 題、31/31 個 objective 都有涵蓋，我沒有動它。
+
+## 限制
+- 79 題是推論答案，其中有些只讀到官方文件摘要，沒有逐字比對。
+- 5 題有爭議（兩個選項都說得通）：`fc2c19dd`、`22938c0d`、`9321000d`、`8885ca93`、`47fc2905`。
+- 本機沒有 mongod，Docker Desktop 也沒開，所以沒有任何答案經過實際執行驗證。
+- 4 個 Docker Lab 和 4 個 Incident 情境要先開 Docker Desktop，我沒有實際跑過。Command Trainer 和 Practical Readiness 不需要 Docker。
+- 測試 `test_dev_server_safety.py::test_start_writes_pid_file_and_server_is_reachable` 受 Docker 狀態影響，不穩定。它在我還沒改動的基準版本上也失敗過，最後一次完整測試是通過的。
+- 沒有用瀏覽器實際操作過 Certification 的練習流程；那部分只有測試和頁面載入檢查。
+
+## 工作目錄裡不是我的檔案
+`CLAUDE.md`（已修改）和 `claude-context-audit.md`、`optimization-*.md`、`repeated-trigger-audit.md`、`token-usage-baseline.md`（未追蹤）我都沒有動，也沒有放進 commit。
+
+## 下一步
+沒有必須再做的事。雙擊 `start.bat` 就會開 `http://127.0.0.1:8000/dashboard.html`。學習順序建議如下：
+1. 先做 Certification Practice（`index.html`）。
+2. 每天做 `review.html` 的每日複習。
+3. 每週做一次 `mock-exam.html`。
+4. University Review 當補充題庫，先把 "Answer evidence" 篩選設成 Trusted。
+5. 練習 Command Trainer；開了 Docker Desktop 之後再做 Labs 和 Incident。
