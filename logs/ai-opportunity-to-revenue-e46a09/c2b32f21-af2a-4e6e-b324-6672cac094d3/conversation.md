@@ -1621,3 +1621,68 @@ All seven agents are done. Next I'll validate and merge the datasets, then build
 - ↩︎ result (707 chars): 47 239000 1400000 44100000 <=1M 22 1-5M 16 >5M 9 Counter({'MongoDB': 34, 'Oracle': 10, 'SQL Server': 5}) [('UNKNOWN (DBMS not stated ', 34), ('Oracle', 8), ('SQL Server', 3), ('Oracle/SQL Server', 2)] 2 6 20 281 [('backup_restore', 45), ('ha_oplog', 40), ('kafka_cdc', 39), ('upgrade_eol', 37), ('per… <!--id:0b630c0d-c402-46e7-987f-4e485a540a52-->
 - 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue/research/phase1_productization"; PYTHONIOENCODING=utf-8 python - <<'PY' import csv,glob,collections rows=[];hdr=['source','url','source_type','access_date','published_or_updated'… <!--id:a081dabf-44d5-4b1d-9a30-c03398fa03c2-->
 - ↩︎ result (376 chars): 213 207 Counter({'A': 132, 'C': 37, 'B': 33, 'U': 3, 'n': 2}) Counter({'_sources\\channels_payment_tax.csv': 51, '_sources\\competitors_companies.csv': 40, '_sources\\deliverables_automation.csv': 40, '_sources\\freelance_deep.csv': 30, '_sources\\competitors_independent.csv': 19, '_sources\\demand_… <!--id:efa27254-8139-4734-9123-57d2cf12768a-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase1_productization\07_PRODUCT_CANDIDATES.md <!--id:a1d5d8aa-bdef-4888-a177-ed077d99e088-->
+- ↩︎ result (209 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase1_productization\07_PRODUCT_CANDIDATES.md (file state is current in your context — no need to Read it back) <!--id:cfea14d0-1955-4819-ac93-337e57658c79-->
+
+### [2026-11-16 12:57:36] 🤖 Claude <!--id:e9e7ff58-c67f-4133-a2fa-5b578f6422b6-->
+
+Datasets are merged and validated (371 demand, 73 competitor, 86 freelance rows). I'm writing the pricing, gaps, summary and final recommendation now.
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase1_productization\11_PRICING_EVIDENCE.md <!--id:1ef74a77-84cf-47cf-ae17-d3f599292fc8-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase1_productization\15_GAPS_AND_UNKNOWNS.md <!--id:60455852-826c-43da-b5ba-ae8edb8062c0-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase1_productization\16_GO_NO_GO_RECOMMENDATION.md <!--id:e2255c5a-2e18-49d5-8f9f-1c5515b68480-->
+- ↩︎ result (207 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase1_productization\11_PRICING_EVIDENCE.md (file state is current in your context — no need to Read it back) <!--id:54cbcf91-5d08-48f1-b92a-66672c6cc6a3-->
+- ↩︎ result (208 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase1_productization\15_GAPS_AND_UNKNOWNS.md (file state is current in your context — no need to Read it back) <!--id:4a673c28-bcc0-4a47-82e7-fd6b64145e6d-->
+- ↩︎ result (214 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase1_productization\16_GO_NO_GO_RECOMMENDATION.md (file state is current in your context — no need to Read it back) <!--id:7503bd89-c00c-4d7f-a8be-5aeaf34e8eac-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue/research/phase1_productization"; cat > 01_DEMAND_EVIDENCE.md <<'EOF' # 01 Demand Evidence（索引與合併摘要） 合併資料集：`02_DEMAND_DATASET.csv`（371 列 = hiring/purchase 90 + pain 281）。細節見： - `01… <!--id:af9ab75f-cfeb-4e56-b26f-afbb26212979-->
+- ↩︎ result (4502 chars): warning: in the working copy of 'research/phase1_productization/00_PHASE1_EXECUTIVE_SUMMARY.md', LF will be replaced by CRLF the next time Git touches it warning: in the working copy of 'research/phase1_productization/01_DEMAND_EVIDENCE.md', LF will be replaced by CRLF the next time Git touches it w… <!--id:9aacb767-7181-4e53-b622-2d75f1569504-->
+
+### [2026-11-16 12:58:54] 🤖 Claude <!--id:fe53bf31-19b8-4f29-9141-290dd48d93f4-->
+
+這個 repo 現在是 public，推送前先掃描敏感內容（email、電話、token）。
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; git diff --cached -U0 | grep -E '^\+' | grep -v '^+++' > /tmp/added.txt; wc -l < /tmp/added.txt; echo "emails:"; grep -oE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' /tmp/… <!--id:1f444c63-5378-4f26-8af9-19dc39ed2ead-->
+- ↩︎ result (33 chars): 2725 emails: secrets: 0 phones: 0 <!--id:a87e60b3-4d42-4b12-b538-bb63e30b71a3-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; git commit -q -m "research: Phase 1A MongoDB/data-platform productization evidence base and CONDITIONAL GO recommendation" -m "Datasets: 371 demand rows, 73 supplier rows, 86 f… <!--id:4d2a6da1-88c6-4f8d-b2b9-aedcda39e291-->
+- ↩︎ result (72 chars): remote: https://github.com/DevonForlan/ai-opportunity-to-revenue/pull/5 <!--id:e6f42c21-bc43-43a6-9cf9-8c7758543d5d-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; cat > /tmp/c4.md <<'EOF' ## Phase 1A 完成報告 **PR**：https://github.com/DevonForlan/ai-opportunity-to-revenue/pull/5（branch `research/phase1a-productization`，未 merge，待人工審閱） **位置**：… <!--id:17503742-598c-46f9-a33d-d60b9bb893f3-->
+- ↩︎ result (89 chars): https://github.com/DevonForlan/ai-opportunity-to-revenue/issues/4#issuecomment-6907767492 <!--id:ef3f88e2-2160-4a3a-afc1-601998bcbf9f-->
+
+### [2026-11-16 12:59:49] 🤖 Claude <!--id:e4809bdc-bee2-49e2-b4e6-dca88149123a-->
+
+Phase 1A 的研究已完成並推上 GitHub，結論是 **CONDITIONAL GO，進入 Pilot 驗證，先不做 product build**。
+
+- **PR #5：** https://github.com/DevonForlan/ai-opportunity-to-revenue/pull/5，我沒有 merge，請你審閱後自己 merge。
+- **Issue #4 回報：** 完整報告已留在 Issue #4 的留言裡。
+- **檔案位置：** `research/phase1_productization/`，編號 00–16，另有 `_sources/`。
+- **Push 前檢查：** repo 目前是 public，推送前我掃過新增內容，沒有 email、電話或 token。
+
+## 樣本數
+| 資料集 | 列數 | 目標 |
+|---|---:|---:|
+| Demand（pain 281／hiring 38／purchase 52） | 371 | ≥100 |
+| 供給端（公司 34、獨立／boutique 39，約 30 個獨立賣家） | 73 | ≥40 |
+| 接案樣本 | 86（36 VERIFIED、16 部分驗證、34 未驗證） | ≥60 |
+
+獨立賣家的目標是 ≥20，達標；但其中只有約 9 個 solo 賣家的頁面是實際讀過的，其餘靠搜尋摘要判斷。
+
+## 主要結論
+- **新負面證據：** 沒有任何 MongoDB 專屬的購買證據。281 則痛點貼文裡，沒有一則表明預算或想找人付費。
+- **台灣公部門有買資料庫健檢，但不是 MongoDB：** 47 筆得標案金額 NT$239k–44.1M，中位數 NT$1.4M；中華郵政的「資料庫健檢及優化」是 NT$1.48M（2024）和 NT$1.40M（2025）。資料庫類型多為 Oracle 或 SQL Server，個人或遠端能不能承接 UNKNOWN。
+- **供給端有固定價唯讀審計：** 獨立或小型業者約 US$1,200–5,000，Percona 是 US$11,400 起。這些都是公開標價，不等於成交價。
+- **第一個產品（推論）：** MongoDB Production Risk Assessment，唯讀，涵蓋備份還原、複寫與 oplog、升級與 EOL。
+- **客戶買的是降低風險：** 不是「Health Check」這個名稱。
+- **痛點排行：** 備份還原 45、HA/oplog 40、Kafka/CDC 39、升級/EOL 37、效能 35。
+- **獲客：** 建議從你認識的人直接聯絡，加上 Contra。多數平台禁止自動化外聯，Contra 還禁止免費試用服務。
+- **未知項：** 個人實際成交價、自動化比例（沒有實測）、稅務所得類別，都是 UNKNOWN。
+
+## 限制
+- **登入牆與樣本時間窗：** Upwork、Fiverr、Reddit、Contra 有登入牆。Freelancer API 只回傳約 7 天的進行中專案，沒有 60–90 天的窗口。
+- **資料來源品質：** 多數頁面是用摘要工具讀的，引用條款與日期需要你對照原頁。
+- **本機實測：** 沒做成，Docker 沒開、本機也沒有 mongod。沒有碰任何真實資料庫。
+
+完整缺口清單在 `15_GAPS_AND_UNKNOWNS.md`。
+
+## 建議的下一步
+1. 先確認雇主兼職規定、稅務和收款路線。這是第一步，沒確認前不要對外。
+2. 授權後，我寫一支唯讀的證據收集腳本，只在拋棄式本機實例上測試，並量測人工覆核要花多少時間，這樣才能算自動化比例與有效時薪。
+3. （選擇性）讓我讀 3–5 件台灣政府標案文件，確認個人或遠端是否有資格參與。
+4. 任何聯絡潛在客戶的動作都由你本人決定和送出，我只幫你準備素材。
