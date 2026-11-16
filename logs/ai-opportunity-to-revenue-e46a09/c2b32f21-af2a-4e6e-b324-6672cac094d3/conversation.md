@@ -2235,3 +2235,59 @@ git add -A; git status --short | wc -l" completed (exit code 0)</summary>
 掃描結果乾淨：沒有 email、沒有憑證字串，也沒有你的帳號資訊。現在 commit、push、開 PR（base 設為 Phase 1A 的 branch）。
 - 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; git commit -q -m "research: Phase 1B AI application/automation productized service evidence base (CONDITIONAL GO)" -m "Datasets: 295 demand, 96 supply, 137 freelance, 81 AI+DB … <!--id:493d990d-0381-4c44-918a-5b671e3880dd-->
 - ↩︎ result (72 chars): remote: https://github.com/DevonForlan/ai-opportunity-to-revenue/pull/7 <!--id:5a283b35-7603-45c3-9fb7-cd7cb597d11c-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; cat > /tmp/c6.md <<'EOF' ## Phase 1B 完成報告 **PR**：https://github.com/DevonForlan/ai-opportunity-to-revenue/pull/7（branch `research/phase1b-ai-application`，**疊在 PR #5 之上**：base =… <!--id:7ee20323-0bf1-40e5-ad06-4d1676b42e19-->
+- ↩︎ result (94 chars): https://github.com/DevonForlan/ai-opportunity-to-revenue/issues/6#issuecomment-6909156878 main <!--id:c40b35ed-904d-46a7-863b-21a96fd6131c-->
+
+### [2026-11-16 14:28:03] 🤖 Claude <!--id:b03f8891-b5f5-4447-9253-2dcb39fb42e2-->
+
+Phase 1B 的研究已完成並推上 GitHub，結論是 **CONDITIONAL GO，下一步是測試獲客加小型 pilot**，不做 product build，也不放棄。PR #7 是 https://github.com/DevonForlan/ai-opportunity-to-revenue/pull/7，我沒有 merge 任何 PR。完整報告已留在 Issue #6 的留言裡。
+
+這個 PR 疊在 PR #5 上，base 是 `research/phase1a-productization`，所以 diff 只含 Phase 1B。PR #5 merge 後，GitHub 會自動把它改指向 `main`。推送前我掃過新增內容，沒有 email、憑證或你的帳號資訊。
+
+## 樣本數
+| 資料集 | 列數 | 目標 |
+|---|---:|---:|
+| 需求 | 295（購買 126、痛點 143、雇用 25、廠商行銷 1） | ≥150 |
+| 供給端 | 96（公司 41、獨立與小型精品 55，其中 39 個個人賣家頁面實讀） | ≥60 / ≥25 |
+| 接案樣本 | 137（API 平台 71、其他平台 66） | ≥100 |
+| AI＋資料庫差異化資料集 | 81 | — |
+| 去重來源 | 226 | — |
+
+## Top 5（推論，依買家與購買證據、定價、單人可行性、遠端、自動化、競爭排序）
+1. **AI Automation Assessment**：評估先行，費用折抵後續 PoC。
+2. **客服自動化**：chatbot 加人工轉接。
+3. **工作流自動化**：含文件自動化。
+4. **RAG／知識助理。**
+5. **AI 評估、護欄與可靠性 review。**
+
+第一名勝出的是「結構」，不是「已證明有人付費給個人」：固定範圍、遠端、單人可交付，而且購買證據落在個人可及的規模（台灣政府標案 105 筆得標中，31 筆在 TWD 1.5M 以下）。
+
+## 核心結論
+- **私人買家的購買證據是 0**，126 筆購買全部來自公部門（台灣 105、美國 21）。個人能否承接 UNKNOWN：47/96 有投標家數的案子只有 1 家投標，標案文件我也沒讀。
+- **客戶買的是流程結果，不是「AI」。** 需求端是「建置某個流程」，供給端用評估當入口，所以建議用評估當銷售結構、固定範圍 PoC 或建置當營收。
+- **AI 搭配資料庫沒有買家證據。** AI＋資料庫的買家證據是 0，政府標案裡 MongoDB 只有 1 筆 2022 年的訓練課，所以 MongoDB 不加分、降為次要能力。Phase 1A 的結論保留為 baseline。
+- **自動化比例 UNKNOWN。** 只做過 1 個 n8n workflow 的小實驗。客戶資料受公司政策限制，需要先去識別化。
+
+## 定價證據
+這些都是公開標價、詢價或得標金額，不是成交價，你個人的實際成交價 UNKNOWN。
+
+| 類別 | 價格 |
+|---|---|
+| 個人賣家入口審計 | US$45–5,000，約 18 個賣家，中位約 US$500–750 |
+| 小型精品公司評估 | US$3.5k–12.5k，多數可折抵後續費用 |
+| n8n／Make 建置 | 代理商 US$3k–10k，個人賣家 US$500–3,000，市集 US$130–1,450 |
+| 接案市集 | Freelancer 固定價中位級距 US$250–750（投標中位 125），PeoplePerHour 固定價中位 US$198 |
+| 個人月 retainer | US$1.8k–9k |
+| 台灣政府 AI 標案得標 | 中位 TWD 3.68M，評估與 PoC 類 TWD 0.85–1.48M |
+
+## 阻礙與限制
+- **Upwork：** 全是搜尋摘要（403）。
+- **痛點資料：** 多為論壇貼文（C 級），偏向 n8n、Make 使用者，Reddit、StackExchange、GitHub issues 和 Zapier 沒涵蓋。
+- **分類：** `product_mapping` 是關鍵字啟發式，沒有人工審過。
+- **網路中斷：** 曾讓 7 條研究線中斷，我已續跑補齊。
+
+## 建議下一步
+1. 你先確認雇主兼職規定、稅務和收款路線。
+2. 授權後，我用公開或合成資料建一套 pilot 交付範本，並記錄人工時數，才能算出自動化槓桿與有效時薪。
+3. （選擇性）讓我讀 3–5 件台灣標案文件，確認個人或遠端能否參與，這只是純讀取。
+4. 聯絡客戶、送 proposal、簽約、付款、開帳號、接受條款，都由你本人決定和送出。
