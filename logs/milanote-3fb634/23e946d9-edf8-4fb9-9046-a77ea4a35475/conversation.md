@@ -1671,3 +1671,7 @@ Line 已移到垃圾桶。Board 工具現在在 y≈328，我用同樣的滑鼠�
 - ↩︎ result (366 chars): ### Result [["Line.focusable.element-instance","B_Target"]] ### Ran Playwright code ```js await (async (page) => { await page.keyboard.press('Escape'); await page.waitForTimeout(500); return await page.evaluate(()=>[...document.querySelectorAll('.element-instance')].map(e=>[e.className.split(' ').sl… <!--id:0e32e0fd-4c6e-4509-adf6-e1fe778799f6-->
 - 🔧 **mcp__playwright__browser_run_code_unsafe**: {"code": "async (page) => {\nconst el = page.locator('.Line.element-instance').first(); await el.click({button:'right', force:true}); await page.waitForTimeout(600);\nawait page.getByText('Move to Trash').first().click(); await page.waitFor… <!--id:6652750c-8071-493e-a433-bcbad8eb5531-->
 - ↩︎ result ⚠️error (134 chars): ### Error TimeoutError: locator.click: Timeout 60000ms exceeded. Call log: [2m - waiting for getByText('Move to Trash').first()[22m <!--id:b46495d9-2bcb-4ba0-92cf-efffd7e66013-->
+
+### [2026-11-16 13:47:56] 🤖 Claude <!--id:a3389dd2-b502-4d9b-9b30-f7d758d6b709-->
+
+API Error: Can't reach the API server — check your internet or DNS (ENOTFOUND)
