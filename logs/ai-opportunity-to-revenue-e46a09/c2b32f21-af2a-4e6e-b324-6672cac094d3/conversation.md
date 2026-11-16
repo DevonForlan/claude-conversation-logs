@@ -2066,3 +2066,32 @@ AI 痛點需求的 agent 完成。還有 4 條續跑中的線，我先不合併�
 </result>
 <usage><subagent_tokens>159455</subagent_tokens><tool_uses>18</tool_uses><duration_ms>450860</duration_ms></usage>
 </task-notification>
+
+### [2026-11-16 14:04:43] 🤖 Claude <!--id:7f5684e5-bcdd-461d-a753-e8005766a859-->
+
+AI 獨立顧問供給端的 agent 完成。還有 2 條續跑中的線（需求雇用／購買、AI＋資料庫差異化），我先不合併。
+
+- **規模：** 53 列，達到 ≥45 的目標。43 列是獨立顧問、10 列是小型精品公司。其中真正是個人且頁面有實際讀過的有 39 個，達到 ≥30 的目標。49 列 VERIFIED、4 列部分驗證，全部是廠商行銷，沒有購買、雇用或痛點證據。
+- **付費審計是最常見的入口產品：** 有 18 個賣家這樣賣，擁擠又便宜，價格從 USD 45 到 5,000，中位數約 USD 500–750，這些都是開價。
+- **Retainer 出現在約 15 個賣家：** 通常是每月 USD 3,400–9,000，最少簽 3 個月。有 2 個賣家明確拒絕 retainer。
+- **信任訊號很薄：** 只有 2–3 個賣家展示完整客戶見證，約 5 個點名客戶，約 4 個有合作夥伴徽章、4 個有保證、4 個把審計費折抵建置費。最常見的是免費介紹通話，約 10 個。
+- **台灣賣家：** 4 個台灣賣家沒有公開價格，也沒有可驗證的案例。
+- **MongoDB：** 沒有任何一個個人賣家以 MongoDB 為賣點。
+- **限制：**
+  - **樣本與資料偏差：** 樣本來自搜尋排名，偏向審計賣家；數字是 agent 手算的（n=39）。沒有購買證據，無法推論成交率或收入。
+  - **平台與頁面限制：** Upwork 和 Fiverr 多半回 403。幾個頁面在 `.pages.dev` 或 `vercel.app` 上，可能是範本站。
+  - **台灣價格與日期：** 台灣價格區間來自低可信的二手來源，其中一份指南自己寫明是 AI agent 寫的。擷取日期用了系統日期 2026-11-16。
+
+### [2026-11-16 14:04:44] 👤 User (turn 35) <!--id:6e08b862-45ac-4c44-992c-4d3b69da435c-->
+
+<task-notification>
+<task-id>acfe02dd1e1c116cd</task-id>
+<tool-use-id>toolu_01VDHLre6CCTSBsvPnEXYzTT</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b4ae81ecd30cf6ee\c2b32f21-af2a-4e6e-b324-6672cac094d3\tasks\acfe02dd1e1c116cd.output</output-file>
+<status>completed</status>
+<summary>Agent "AI suppliers: solo and boutique" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>This agent's report was delivered to you as a message from "acfe02dd1e1c116cd" (its SubagentHandback call). Read it there; it is not repeated here.
+</result>
+<usage><subagent_tokens>176066</subagent_tokens><tool_uses>21</tool_uses><duration_ms>540077</duration_ms></usage>
+</task-notification>
