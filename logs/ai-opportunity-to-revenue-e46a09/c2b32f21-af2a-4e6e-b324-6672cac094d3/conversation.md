@@ -1548,3 +1548,33 @@ The company-competitor agent has finished, and three agents are still running (b
 </result>
 <usage><subagent_tokens>170132</subagent_tokens><tool_uses>78</tool_uses><duration_ms>729537</duration_ms></usage>
 </task-notification>
+
+### [2026-11-16 12:37:59] 🤖 Claude <!--id:fa3a2028-fa17-403f-bd05-52728c57784c-->
+
+The demand (hiring and purchase) agent has finished, and two agents are still running (demand pain signals and the freelance deep dive).
+
+- **Rows:** 90 against a target of 60. 52 are purchase evidence (mostly public awards) and 38 are hiring. 67 are VERIFIED and 23 PARTIALLY VERIFIED.
+- **Taiwan public bodies buy database health-check and tuning services (new evidence):** 47 purchase rows come from the government procurement system (PCC), with award amounts from its API.
+  - **Chunghwa Post:** 資料庫健檢及優化 awarded NT$1.48M (2024) and NT$1.40M (2025).
+  - **DGBAS:** 資料庫效能調校 awarded NT$3.17M.
+  - **Taiwan Railways:** database performance improvement awarded NT$8.03M.
+  - **Small upgrades:** database upgrade awards run about NT$0.27–0.59M.
+- **Important limit:** none of those 47 rows is shown to be MongoDB. The only MongoDB hit in PCC was a 2022 training course, which I excluded. So there is purchase evidence for database health checks generally, but none for MongoDB-specific paid health checks anywhere.
+- **Overseas MongoDB jobs:** postings on Dice and LinkedIn are mostly US staffing contracts, onsite or hybrid, with a US work-authorization requirement. Their scope overlaps the target services closely, but pay is mostly unlisted. The one Taiwan MongoDB role found is full-time.
+- **Marketplace jobs are micro-budget:** Freelancer.com and Upwork MongoDB tuning and backup jobs run about USD 2–8/hour, or fixed USD 100. This is weak evidence.
+- **Closest overseas analogue:** a UK "Database Review" award of GBP 14,425, with the technology unknown.
+- **Blockers and unknowns:** the Taiwan job boards (104, 1111, Yes123, CakeResume) and Wellfound, Indeed, Toptal, Lemon.io and Arc gave no verifiable rows. Upwork and the UK tender pages returned 403. Tender documents weren't read, so whether a remote individual could bid is UNKNOWN.
+
+### [2026-11-16 12:38:00] 👤 User (turn 18) <!--id:f2a17440-8759-4250-a315-006a53ac8370-->
+
+<task-notification>
+<task-id>a2c4e494515dd96df</task-id>
+<tool-use-id>toolu_01UiZ9ibAo7gYdwbUEFo32Re</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b4ae81ecd30cf6ee\c2b32f21-af2a-4e6e-b324-6672cac094d3\tasks\a2c4e494515dd96df.output</output-file>
+<status>completed</status>
+<summary>Agent "Demand: hiring and purchase" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>This agent's report was delivered to you as a message from "a2c4e494515dd96df" (its SubagentHandback call). Read it there; it is not repeated here.
+</result>
+<usage><subagent_tokens>181991</subagent_tokens><tool_uses>83</tool_uses><duration_ms>992124</duration_ms></usage>
+</task-notification>
