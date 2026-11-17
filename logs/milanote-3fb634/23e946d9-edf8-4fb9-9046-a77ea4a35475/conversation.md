@@ -2363,3 +2363,19 @@ D1 通過（驗證前被改動的項目被預檢跳過且保留原位，另一�
 - 🔧 **Bash**: cd "[REDACTED]" && cat > evidence/INCIDENT_AUDIT_2026-11-17.json <<'EOF' { "title": "Test-induced Trash incidents and reconciliation (de-identified)", "incident_1": { "what": "Stray-copy cl… <!--id:e158ec63-b7f9-49a6-ae42-91d41c6cc49f-->
 - ↩︎ result (7 chars): written <!--id:79e6e186-70d1-4ee3-807a-85f9637ef584-->
 - 🔧 **Bash**: cd "[REDACTED]"; until [ -f logs/test-D-done.txt ]; do sleep 30; done; for t in D3 D4; do echo "$t: $(tail -1 logs/test-$t.txt | cut -c1-600)"; done <!--id:958948ed-6a0b-476b-85c4-ef8ddb61a3b0-->
+- ↩︎ result (803 chars): Command did not complete within its 590s timeout and was moved to the background (ID: bdmrpnf8y). Output is being written to: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\789a05257270d83c\23e946d9-edf8-4fb9-9046-a77ea4a35475\tasks\bdmrpnf8y.output. You will be notified when it completes. It is run… <!--id:6be962e9-4d0c-4a50-b2e7-2db65f3828da-->
+- 🔧 **Bash**: cd "[REDACTED]"; until [ -f logs/test-D-done.txt ]; do sleep 30; done; for t in D3 D4; do echo "$t: $(tail -1 logs/test-$t.txt | cut -c1-600)"; done <!--id:c41f6a84-17fb-4516-93d1-886dec7a5b67-->
+- ↩︎ result (803 chars): Command did not complete within its 590s timeout and was moved to the background (ID: bvhfnmjv3). Output is being written to: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\789a05257270d83c\23e946d9-edf8-4fb9-9046-a77ea4a35475\tasks\bvhfnmjv3.output. You will be notified when it completes. It is run… <!--id:435fc630-3e76-4b20-97cf-978ea38725af-->
+
+### [2026-11-17 21:28:34] 🤖 Claude <!--id:95f1eb5c-5575-43cf-bbf0-ee2edc810d68-->
+
+D3 與 D4 重跑中，結果出來我就接著跑 Test E 與真實資料的設定。
+- 🔧 **Bash**: cd "[REDACTED]"; until [ -f logs/test-D-done.txt ]; do sleep 30; done; for t in D3 D4; do echo "$t: $(tail -1 logs/test-$t.txt | cut -c1-600)"; done <!--id:3ea51962-07c9-484d-897e-aa76cb4b3cd1-->
+- ↩︎ result (599 chars): D3: D3 PASS {"injection was exercised (2 AUTO_MOVE rows planned)": true, "no item left its source (or restored there)": true, "content unchanged": true, "recovery run exit 0": true, "no item lost (each in exactly one board)": true, "all items organized after recovery": true} D4: D4 PASS {"injection … <!--id:1eddf016-503d-41e3-92cf-7767532892ca-->
+
+### [2026-11-17 21:34:10] 🤖 Claude <!--id:62c96422-a561-4448-ac43-ae7b52b7c13a-->
+
+D1–D4 全部通過。現在跑 Test E：連續 3 次重跑，驗證沒有重複搬移、沒有重複 OCR、狀態無異動。
+- 🔧 **Bash**: cd "[REDACTED]"; ../tools/ocr-venv/Scripts/python.exe -I -u mn_tests.py baseline 2>&1 | tail -1 | cut -c1-100; (nohup ../tools/ocr-venv/Scripts/python.exe -I -u mn_tests.py E > logs/test-E.… <!--id:7b682146-c8ea-4c85-bc52-4ac1acb6035c-->
+- ↩︎ result (49 chars): baseline PASS null Tue, Nov 17, 2026 9:36:27 PM <!--id:b9bdf5ac-bb54-4c0b-8d3a-bf229efdd2ad-->
+- 🔧 **Bash**: cd "[REDACTED]"; until grep -qE "^E (PASS|FAIL)" logs/test-E.txt; do sleep 20; done; tail -2 logs/test-E.txt | cut -c1-1500 <!--id:d8244233-7379-442b-b600-c6181c329e87-->
