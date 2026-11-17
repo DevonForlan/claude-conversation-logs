@@ -1832,3 +1832,15 @@ No response requested.
 - 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/个人/milanote/research/phase1/sync" 2>/dev/null || cd "[REDACTED]/research/phase1/sync"; nohup ../tools/ocr-venv/Scripts/python.exe -I -u milanote_auto.py --scan-only > logs/auto-… <!--id:50b65a8f-02b3-4960-8357-2b11c17f19d6-->
 - ↩︎ result (7 chars): started <!--id:1ac2d923-e0a3-496c-9878-373a866546b5-->
 - 🔧 **Bash**: cd "[REDACTED]/research/phase1/sync"; until grep -q "summary\|LOGIN" logs/auto-stdout-2.txt; do sleep 10; done; tail -c 1800 logs/auto-stdout-2.txt <!--id:9f00c747-6207-4528-be41-48e50e1be8f4-->
+- ↩︎ result (388 chars): 2026-11-17T08:57:34 scan done {"NEW": 803, "CHANGED": 0, "MOVED": 0, "REMOVED": 0, "UNCHANGED": 2020} boards 199 301.9s 2026-11-17T08:59:27 summary {"run_id": "20261117-085224", "auto_organize": false, "resume": {"resumed": false}, "counts": {"NEW": 803, "CHANGED": 0, "MOVED": 0, "REMOVED": 0, "UNCH… <!--id:7ed7b9ba-bcd3-417e-9cdf-72c9d9696410-->
+- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/milanote/research/phase1/sync"; ../tools/ocr-venv/Scripts/python.exe -I -u milanote_auto.py --scan-only > logs/auto-stdout-3.txt 2>&1; tail -c 700 logs/auto-stdout-3.txt <!--id:cb7fd1d8-34fd-493c-b2ad-f389e552a406-->
+- ↩︎ result (382 chars): 2026-11-17T09:00:34 scan done {"NEW": 0, "CHANGED": 0, "MOVED": 0, "REMOVED": 0, "UNCHANGED": 2823} boards 199 35.7s 2026-11-17T09:02:00 summary {"run_id": "20261117-085938", "auto_organize": false, "resume": {"resumed": false}, "counts": {"NEW": 0, "CHANGED": 0, "MOVED": 0, "REMOVED": 0, "UNCHANGED… <!--id:9c76223f-d8bf-4aee-bfb8-82cf9b6d194a-->
+
+### [2026-11-17 09:02:04] 🤖 Claude <!--id:558d5bb5-3156-44ec-b0c5-5517685717c3-->
+
+Test A 通過：無變更時 2823 項全部 UNCHANGED，掃描 36 秒。現在跑回滾驗證，在專用測試白板上反覆「移動、還原」5 輪。
+- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/milanote/research/phase1/sync"; ../tools/ocr-venv/Scripts/python.exe -I -u mn_selftest.py 5 2>&1 | tail -c 3000 <!--id:dd72050f-1973-4373-9123-aff285900f06-->
+- ↩︎ result (1443 chars): {"ts": "2026-11-17T09:02:21", "mode": "5", "probe": "1Xt7AM1CHhfRcs", "rounds": [{"item": "1Xt7AM1CHhfRcs", "steps": [{"src": "1XsPta12LD9XeH", "dst": "1XsPGO1UQ9Y38b", "ok": true, "stage": "verified-in-dst"}, {"src": "1XsPGO1UQ9Y38b", "dst": "1XsPta12LD9XeH", "ok": false, "stage": "verified-in-dst"… <!--id:d237da08-fdfe-4bc0-b2f3-6de06393b59a-->
+- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/milanote/research/phase1/sync" && python - <<'EOF' p='mn_driver.py'; s=open(p,encoding='utf-8').read() a=s.index(" def move_items(self"); b=s.index(" def create_note") new=''' def _wait(self, cond, timeou… <!--id:c0b1b06e-c060-4ad4-992f-228de1db5665-->
+- ↩︎ result (2 chars): ok <!--id:275ef923-3f14-4ba0-8456-3919625c3bae-->
+- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/milanote/research/phase1/sync"; ../tools/ocr-venv/Scripts/python.exe -I -u mn_selftest.py 8 2>&1 | python -c " import sys,json t=sys.stdin.read(); try: j=json.loads(t[t.index('{'):]); print('all_ok',j.get… <!--id:6ff7bdc7-90c9-442c-9d2e-662c40d8fe41-->
