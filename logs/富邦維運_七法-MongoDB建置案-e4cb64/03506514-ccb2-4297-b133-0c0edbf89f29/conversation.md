@@ -128,3 +128,27 @@ Q4 健檢報告已產出：
 5. **DB Status 範圍**：只列 `REGDB01P` 與 `REGDB02T` 的前 3 大 Collection，沿用 Q3。若要連 LAWS 資料庫也列，我可以補。
 
 暫存檔都放在 scratchpad，專案資料夾內沒有留下暫存內容。
+
+### [2026-11-17 09:09:58] 👤 User (turn 2) <!--id:7a8586f3-fc6c-4a64-b039-2717883e945d-->
+
+你在幫我修正一下 目前測試區ops manager 已經升級到8.0.27, data  note 升級到了8.0.32
+- 🔧 **Bash**: cd "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/c31190863ed8168e/03506514-ccb2-4297-b133-0c0edbf89f29/scratchpad"; export PYTHONUTF8=1; cat > fix.py <<'PYEOF' import sys,docx sys.path.insert(0,'.') f=r"C:/Users/devon.tseng/Desktop/專案/富邦維… <!--id:f1308620-16d5-40ee-8ba3-b54e17f738e0-->
+- ↩︎ result (314 chars): ['�����C��T�w�����I�ô��ɨt�κ��@�ʡA�������Ҹ�Ʈw�w�ɯŦ� 8.0.32�A������', '8.0.32', '8.0.32'] ['�����C��T�w�����I�ô��ɨt�κ��@�ʡA�������� MongoDB ��Ƹ`�I�w�ɯŦ� 8.0.32�BOps Manager �w�ɯŦ� 8.0.27�F�������ҥثe�����B�� 6.0.9�C��ĳ'] ['8.0.32', '8.0.32'] Shell cwd was reset to C:\Users\devon.tseng\Desktop\專案\富邦維運_七… <!--id:10e77673-6210-4e31-b0c2-d951b6be0a7b-->
+
+### [2026-11-17 09:10:17] 🤖 Claude <!--id:b181aa48-e3c3-47ca-b68d-0f2522b04639-->
+
+已依你提供的版本修正報告。
+
+測試區 MongoDB 版本由 8.0.23 改為 8.0.32，有三處：
+- 1-3-1 基礎設置資訊的 Version
+- 1-3-2 Server Status 的 MongoDB Version
+- 3-2 升級作業說明，同時加上 Ops Manager 已升級至 8.0.27
+
+3-2 現在的內容是：測試環境 MongoDB 資料節點已升級至 8.0.32、Ops Manager 已升級至 8.0.27，正式環境仍維運於 6.0.9。
+
+報告原本沒有列 Ops Manager 版本，所以它只出現在 3-2。如果你想在 1-3 的表格裡也列出來，我可以加。
+
+**要注意的地方：**
+- 11/12 收集到的原始資料顯示測試區是 8.0.23，`ps` 輸出的 mongod 路徑也是 8.0.23。所以這次的版本是依你的說明手動更新的，升級應該是在資料收集之後。報告裡其他測試區數值（uptime、記憶體、Slow Ops 等）仍是 11/12 當天的。
+- 升級後 FCV 是否也升到 8.0 我沒有資料，表格仍維持 11/12 的 8.0。
+- 如果要在報告中註明「資料收集後完成升級」，我可以補一句。
