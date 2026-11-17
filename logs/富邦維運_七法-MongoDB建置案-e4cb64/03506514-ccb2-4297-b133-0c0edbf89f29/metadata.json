@@ -1,0 +1,29 @@
+{
+  "schema": 2,
+  "session_id": "03506514-ccb2-4297-b133-0c0edbf89f29",
+  "project": "富邦維運_七法-MongoDB建置案",
+  "project_safe": "富邦維運_七法-MongoDB建置案-e4cb64",
+  "cwd": "C:\\Users\\devon.tseng\\Desktop\\專案\\富邦維運_七法-MongoDB建置案",
+  "log_path": "logs/富邦維運_七法-MongoDB建置案-e4cb64/03506514-ccb2-4297-b133-0c0edbf89f29/conversation.md",
+  "turns": 0,
+  "status": "working",
+  "latest_turn": 0,
+  "turn_state": {
+    "user_prompt_seen": false,
+    "assistant_response_seen": false,
+    "stop_seen": false,
+    "session_end_seen": false
+  },
+  "assistant_complete": false,
+  "last_user_id": null,
+  "last_assistant_id": null,
+  "conversation_sha256": "43e102991297164bd201879b6719f0c138723efb709f1b74fd8cd1bf5c9ba063",
+  "conversation_bytes": 246,
+  "last_user_message": "",
+  "last_assistant_message": "",
+  "started_at": "2026-11-17T08:52:58+08:00",
+  "updated_at": "2026-11-17T08:52:58+08:00",
+  "last_event": "SessionStart",
+  "redaction_applied": false,
+  "redaction_count": 0
+}
