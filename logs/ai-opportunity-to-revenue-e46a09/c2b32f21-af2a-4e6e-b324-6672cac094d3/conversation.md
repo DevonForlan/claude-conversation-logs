@@ -2366,3 +2366,89 @@ Phase 1B 的研究已完成並推上 GitHub，結論是 **CONDITIONAL GO，下�
 
 這一輪成功標準是：盡可能結束研究階段，把未知數降到足以開始第一版開發與獲客測試。
 </pasted_content id="09cb">
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; gh issue view 8 --json title,body,author --jq '.author.login+"\n"+.body'; gh pr list --json number,state,baseRefName,headRefName --jq '.[]|"\(.number) \(.state) \(.headRefName)… <!--id:7dc07eb5-9397-4113-a7a0-b5adcdfe182c-->
+- ↩︎ result (13199 chars): DevonForlan # Phase 2 — Decision Closure + Pilot Validation + Build-Ready Specification ## Goal Phase 2 的目標不是再做一輪泛市場研究，而是把 Phase 0 / Phase 1A / Phase 1B 已累積的研究收斂成「可開始開發」的決策。 > 這一輪請盡量一次完成：關鍵證據補強 → Top candidates 人工複核 → 真實形狀 Pilot 實測 → 工時與自動化量測 → 商業服務規格 → MVP / PRD / architecture → 最終 GO / NO-GO。 希望 P… <!--id:298bee59-2e17-42f7-b545-62aee919cec4-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; git fetch -q origin; git checkout -q research/phase1b-ai-application && git checkout -q -b research/phase2-validation && mkdir -p research/phase2_validation/_sources pilot/phas… <!--id:df1f90a8-d791-4b91-878c-e4ea2c81ed4e-->
+- 🔧 **Write**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b4ae81ecd30cf6ee\c2b32f21-af2a-4e6e-b324-6672cac094d3\scratchpad\BRIEF2.md <!--id:d656f3fd-ab29-440a-aa70-b7f924797246-->
+- ↩︎ result (41 chars): research/phase2-validation Python 3.13.16 <!--id:29677875-7e83-4dd3-92d7-b76dc9bfb4a5-->
+- ↩︎ result (217 chars): File created successfully at: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b4ae81ecd30cf6ee\c2b32f21-af2a-4e6e-b324-6672cac094d3\scratchpad\BRIEF2.md (file state is current in your context — no need to Read it back) <!--id:58788415-7dc9-436d-9ad3-c780e9617c0e-->
+- 🔧 **Agent**: Audit: purchase remap and demand sample <!--id:c7c73ba3-a6b8-45f3-a089-01f4fa87486d-->
+- 🔧 **Agent**: Audit: freelance and supplier sample <!--id:b6cc9977-b0b9-47e0-8512-28f0532a474b-->
+- 🔧 **Agent**: Private buyer evidence: vendor case studies <!--id:f8581fb4-fde2-414e-816b-6677c8f17dda-->
+- 🔧 **Agent**: Private buyer evidence: contracts and marketplace <!--id:3b9637da-dc8a-4a78-9ca5-166d4833c750-->
+- 🔧 **Agent**: Solo and boutique delivered cases <!--id:47d370e9-e405-4c5a-a3f3-30333910d384-->
+- 🔧 **Agent**: Taiwan commercial evidence <!--id:99ea2160-f337-4f6c-906f-34fda6156659-->
+- 🔧 **Agent**: PCC tender document-level review <!--id:08ca7079-9f1f-48bf-841b-67dea8ca4d65-->
+- ↩︎ result (1072 chars): Async agent launched successfully. (This tool result is internal metadata — never quote or paste any part of it, including the agentId below, into a user-facing reply.) agentId: a3b7cb2c704af8a01 (internal ID - do not mention to user. Use SendMessage with to: 'a3b7cb2c704af8a01', summary: '<5-10 wor… <!--id:91b4e127-652e-4dbe-9fc7-86f15db262ce-->
+- ↩︎ result (1072 chars): Async agent launched successfully. (This tool result is internal metadata — never quote or paste any part of it, including the agentId below, into a user-facing reply.) agentId: ae088a4e085bf1dd3 (internal ID - do not mention to user. Use SendMessage with to: 'ae088a4e085bf1dd3', summary: '<5-10 wor… <!--id:e4825714-cc27-4dac-a1b7-7565c7c7a3e9-->
+- ↩︎ result (1072 chars): Async agent launched successfully. (This tool result is internal metadata — never quote or paste any part of it, including the agentId below, into a user-facing reply.) agentId: adeac8b11e703016a (internal ID - do not mention to user. Use SendMessage with to: 'adeac8b11e703016a', summary: '<5-10 wor… <!--id:0cd2089c-1ef8-4ed5-affa-00c4d1c857dc-->
+- ↩︎ result (1072 chars): Async agent launched successfully. (This tool result is internal metadata — never quote or paste any part of it, including the agentId below, into a user-facing reply.) agentId: ac8215c0a2a763b7e (internal ID - do not mention to user. Use SendMessage with to: 'ac8215c0a2a763b7e', summary: '<5-10 wor… <!--id:b255d449-a95c-4a96-9ef8-f4948331f522-->
+- ↩︎ result (1072 chars): Async agent launched successfully. (This tool result is internal metadata — never quote or paste any part of it, including the agentId below, into a user-facing reply.) agentId: a2020c0eb5732e876 (internal ID - do not mention to user. Use SendMessage with to: 'a2020c0eb5732e876', summary: '<5-10 wor… <!--id:26bee1fc-cf68-44ed-b376-7829a3f50cb0-->
+- ↩︎ result (1072 chars): Async agent launched successfully. (This tool result is internal metadata — never quote or paste any part of it, including the agentId below, into a user-facing reply.) agentId: afad3f76f2313b375 (internal ID - do not mention to user. Use SendMessage with to: 'afad3f76f2313b375', summary: '<5-10 wor… <!--id:e52cfce6-6af7-4442-8244-9c4a917980af-->
+- ↩︎ result (1072 chars): Async agent launched successfully. (This tool result is internal metadata — never quote or paste any part of it, including the agentId below, into a user-facing reply.) agentId: ae40e46d71b3b0cbc (internal ID - do not mention to user. Use SendMessage with to: 'ae40e46d71b3b0cbc', summary: '<5-10 wor… <!--id:c110e7a8-96a8-47cc-aafa-be1d77147464-->
+
+### [2026-11-17 11:56:23] 🤖 Claude <!--id:6195e158-575f-4400-9b29-6dace1bd4db6-->
+
+研究 agent 都在跑。我同時開始做 Pilot B（可執行的 PoC），先記下起始時間，這是工時量測的一部分。
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; mkdir -p research/phase2_validation pilot/phase2/supportdesk/{supportdesk,kb,config,data,eval,tests,var}; printf 'var/\n__pycache__/\n*.pyc\n' > pilot/phase2/supportdesk/.gitig… <!--id:b38334b3-c461-4966-aebf-fc97a67cf131-->
+- ↩︎ result (45 chars): PILOT_B_BUILD_START 2026-11-17T11:56:27+08:00 <!--id:c5f4e326-e935-478a-bb89-074ef7feda21-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\supportdesk\schemas.py <!--id:faae4c10-fd75-4a62-a154-9fd4faf53f3a-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\supportdesk\guardrails.py <!--id:8974a12b-3d44-4c6e-9248-03d0bc6451a0-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\supportdesk\classifier.py <!--id:ac280dbf-b79f-4f9a-b857-a76928a74a5d-->
+- ↩︎ result (201 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\supportdesk\schemas.py (file state is current in your context — no need to Read it back) <!--id:56400508-ed5a-48c3-894b-405bf14c56d8-->
+- ↩︎ result (204 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\supportdesk\guardrails.py (file state is current in your context — no need to Read it back) <!--id:ed48b735-b2d0-4073-b3ce-613cc57b356d-->
+- ↩︎ result (204 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\supportdesk\classifier.py (file state is current in your context — no need to Read it back) <!--id:aad8c8ee-69b9-4900-99c2-6012a3321128-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\kb\articles.json <!--id:5e9a8721-2f12-4c44-b77c-57e64f9bdd04-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\config\config.json <!--id:8c9f22b8-13f9-4f16-9940-45bee9fdb146-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\supportdesk\retrieval.py <!--id:14a0a9ed-1763-439a-bf96-cfa32c070f2e-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\supportdesk\drafter.py <!--id:e45473c7-7954-4a48-a44a-051381d39fbd-->
+- ↩︎ result (195 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\kb\articles.json (file state is current in your context — no need to Read it back) <!--id:bea65196-4e87-48b2-a311-9d5fc674c4ab-->
+- ↩︎ result (197 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\config\config.json (file state is current in your context — no need to Read it back) <!--id:18746ace-ca6c-4d75-b17f-4a925b950cdd-->
+- ↩︎ result (203 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\supportdesk\retrieval.py (file state is current in your context — no need to Read it back) <!--id:2332c93c-1719-4ce9-99e7-99d8fe888ec9-->
+- ↩︎ result (201 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\supportdesk\drafter.py (file state is current in your context — no need to Read it back) <!--id:3dde18e5-80de-4f8f-87f4-9e4981201c1f-->
+
+### [2026-11-17 11:57:56] 🤖 Claude <!--id:56e51115-4f85-4a32-aa1d-7f678667504b-->
+
+Now the store (idempotency, audit chain, mock CRM, dead letters), pipeline, and CLI.
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\supportdesk\store.py <!--id:17604196-97bf-4022-a09d-ffd361a19bd6-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\supportdesk\pipeline.py <!--id:a0932f4e-ecec-44a8-b47f-4c45c444e09e-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\supportdesk\cli.py <!--id:c0c51935-c7d3-47b5-bacf-41a077efab51-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\supportdesk\__init__.py <!--id:9aeab19a-83a1-42be-a2e8-dcf6fe23164b-->
+- ↩︎ result (199 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\supportdesk\store.py (file state is current in your context — no need to Read it back) <!--id:0871830d-d6d0-426a-ba4e-9341e994168b-->
+- ↩︎ result (202 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\supportdesk\pipeline.py (file state is current in your context — no need to Read it back) <!--id:72d3dfdd-df6e-405d-8915-28f23908a754-->
+- ↩︎ result (197 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\supportdesk\cli.py (file state is current in your context — no need to Read it back) <!--id:3def859b-3485-4b22-9a8a-ea461bd98fac-->
+- ↩︎ result (202 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\supportdesk\__init__.py (file state is current in your context — no need to Read it back) <!--id:fae82afd-cf94-4cb4-bc9a-ef3e60c1f014-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\eval\cases.py <!--id:8ec43e27-b9e0-42a8-b7a5-9ef4801cddee-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\eval\run_eval.py <!--id:4da907df-b79a-48a6-b5a1-dbab17a14e9a-->
+- ↩︎ result (192 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\eval\cases.py (file state is current in your context — no need to Read it back) <!--id:bf9bc1b5-17d0-420f-9f8e-ada18d26b555-->
+- ↩︎ result (195 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\eval\run_eval.py (file state is current in your context — no need to Read it back) <!--id:7fdb3238-6fda-4c76-b9e4-4ec43fd507f6-->
+
+### [2026-11-17 11:59:52] 🤖 Claude <!--id:5f617486-d346-440e-a08a-fe105da96235-->
+
+Code and eval are written. First run — and I'll look at the failures on DEV before touching anything.
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue/pilot/phase2/supportdesk"; touch eval/__init__.py; echo "FIRST_RUN $(date -Iseconds)"; PYTHONIOENCODING=utf-8 python -I -c " import sys; sys.path.insert(0,'.') from eval.run_eval… <!--id:83eb6cff-8bb1-4706-ae73-dc8c9eb46070-->
+- ↩︎ result (2292 chars): FIRST_RUN 2026-11-17T11:59:57+08:00 == dev {"n": 42, "outcome_accuracy": 0.857, "false_auto_draft": "0/12", "false_auto_draft_ids": [], "over_escalation": "6/24", "over_escalation_ids": ["D04", "D12", "D24", "D25", "D26", "D37"], "dead_letter_correct": "6/6", "category_accuracy": "26/26", "order_ext… <!--id:6ccd6cde-a821-41ca-842f-f404d9577846-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue/pilot/phase2/supportdesk"; PYTHONIOENCODING=utf-8 python -I -c " import sys,json; sys.path.insert(0,'.') from eval.run_eval import run, metrics from eval.cases import DEV, HELDOU… <!--id:a7718e26-ffe2-4f6d-b05e-80cb996d2c19-->
+- ↩︎ result (106 chars): saved 42: "lawyer": 4, "legal action": 4, "sue": 3.5, "consumer protection": 4, "unacceptable": 2, <!--id:5b0abc37-9515-44d4-9956-5eb9d9b377d4-->
+
+### [2026-11-17 12:00:28] 🤖 Claude <!--id:73adda77-5e13-460a-8221-90f204c832c9-->
+
+根因確認：`"sue"` 以子字串匹配，被 `reissue` 誤觸發成「客訴」。這是真的 bug，不是資料問題。我修三處，並且誠實標記哪些修正是 held-out 啟發的。
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue/pilot/phase2/supportdesk"; python - <<'PY' import re,io p='supportdesk/classifier.py'; s=open(p,encoding='utf-8').read() old='''def score_categories(text: str) -> dict[str, float… <!--id:493446cc-dd8c-46d8-a1cc-cac299195598-->
+- ↩︎ result (1224 chars): patched == dev {"n": 42, "outcome_accuracy": 1.0, "false_auto_draft": "0/12", "false_auto_draft_ids": [], "over_escalation": "0/24", "over_escalation_ids": [], "dead_letter_correct": "6/6", "category_accuracy": "26/26", "order_extraction": "16/16", "pii_leaks": 0, "commitment_violations": 0, "ungrou… <!--id:faffdb7a-43e2-43be-86f9-92edc07fd378-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\config\config.json <!--id:f92e253f-636b-4c9c-b15f-b23a6d813ce7-->
+- ↩︎ result (207 chars): The file C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\config\config.json has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:2452ac11-bb00-479d-9c52-426181933574-->
+
+### [2026-11-17 12:01:07] 🤖 Claude <!--id:331b5c6d-2ec7-4253-84ca-d8073c042556-->
+
+Next, the functional tests (idempotency, approval gating, audit chain, redaction, retry, malformed input).
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\tests\test_pipeline.py <!--id:893ae385-9075-4a00-92f6-1d2d38718196-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\eval\baseline.json <!--id:514fe6e4-7624-40a3-8f70-b85185fe8a89-->
+- ↩︎ result (201 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\tests\test_pipeline.py (file state is current in your context — no need to Read it back) <!--id:debd4622-a229-471f-8bfc-9377e3b521d3-->
+- ↩︎ result (197 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\pilot\phase2\supportdesk\eval\baseline.json (file state is current in your context — no need to Read it back) <!--id:3763cefe-49c3-4105-b75d-96824db5d842-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue/pilot/phase2/supportdesk"; touch tests/__init__.py; PYTHONIOENCODING=utf-8 python -I -m unittest discover -s tests -t . -v 2>&1 | tail -40 <!--id:d8391e32-dcc8-4582-a029-e4c135f1d032-->
+- ↩︎ result (3898 chars): test_drafts_are_grounded_in_kb (tests.test_pipeline.GuardrailTests.test_drafts_are_grounded_in_kb) ... ok test_drafts_never_contain_forbidden_commitments (tests.test_pipeline.GuardrailTests.test_drafts_never_contain_forbidden_commitments) ... ok test_injection_detection_known_patterns (tests.test_pi… <!--id:e342774c-da38-4f4d-891b-494a03b9ca9d-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue/pilot/phase2/supportdesk"; PYTHONIOENCODING=utf-8 python -I - <<'PY' import sys; sys.path.insert(0,'.') from supportdesk.pipeline import Pipeline from supportdesk.store import St… <!--id:2d0ffa75-18de-411b-bc51-ea3a6b1ab5e5-->
+- ↩︎ result (117 chars): first attempt failed: result write fails resend outcome: duplicate | result: None tickets: 0 results: 0 requests: 1 <!--id:fe606cc8-df05-45a8-acbd-e46649adfbcb-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue/pilot/phase2/supportdesk"; python - <<'PY' p='supportdesk/store.py'; s=open(p,encoding='utf-8').read() s=s.replace(''' def has_request(self, key: str) -> bool: return self.db.exe… <!--id:8083f84b-4d7e-4c6d-a9a9-9d965984cd38-->
+- ↩︎ result (1243 chars): ..................... ---------------------------------------------------------------------- Ran 21 tests in 0.093s OK { "dev": { "n": 42, "outcome_accuracy": 1.0, "false_auto_draft": "0/12", "false_auto_draft_ids": [], "over_escalation": "0/24", "over_escalation_ids": [], "dead_letter_correct": "6/… <!--id:850bf8b7-d0d5-45a0-aa8e-368e75765df8-->
