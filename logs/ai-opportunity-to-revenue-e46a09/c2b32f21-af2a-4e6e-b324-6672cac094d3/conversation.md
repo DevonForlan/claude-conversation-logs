@@ -2603,3 +2603,79 @@ PR 是 https://github.com/DevonForlan/ai-opportunity-to-revenue/pull/9，完整�
 - **抽查範圍：** 大部分數字來自 agent，我只自己抽查了關鍵部分，沒有逐一重開網頁。
 
 建議從 `research/phase2_validation/00_PHASE2_EXECUTIVE_SUMMARY.md` 開始看。
+
+### [2026-11-17 13:09:32] 👤 User (turn 41) <!--id:d42d4d4e-efad-4041-93d3-356b26efe757-->
+
+This session is being continued from a previous conversation that ran out of context. The summary below covers the earlier portion of the conversation.
+
+
+Summary:
+1. Primary Request and Intent:
+   The user (Taiwan-based technical consultant, Traditional Chinese speaker) is running a staged, evidence-first research/validation program in repo `DevonForlan/ai-opportunity-to-revenue` (local: `C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue`) to find which AI-assisted side-business can earn a first verifiable revenue, with GitHub as source of truth and a cloud (GitHub Actions) ChatOps control surface. Stages so far: Phase 0 (broad opportunity research) → cloud migration (gh-aw then claude-code-action with OAuth token) → repo visibility change → Phase 1A (MongoDB/Data Platform productization, Issue #4) → Phase 1B (AI Application/Automation, Issue #6; direction change, MongoDB secondary) → Phase 2 (Issue #8: decision closure, audit, pilots, readiness gate). The most recent request (Issue #8) asked to read all prior phases, audit Phase 1B ranking, find private-buyer/solo/Taiwan/PCC evidence, define final offers, build and measure Pilot A (assessment) and Pilot B (runnable PoC + eval), measure human time/automation, build-vs-buy, pricing and acquisition plans (not sent), commercial asset drafts, Development Readiness Gate; if GO TO BUILD create `product/*`; commit/push, open PR, report in Issue #8. All of this has been done; verdict was HOLD.
+
+2. Key Technical Concepts:
+   - Evidence labels VERIFIED / PARTIALLY VERIFIED / UNVERIFIED / UNKNOWN; evidence levels A/B/C; BASELINE / NEW EVIDENCE / INFERENCE tags.
+   - Subagent fan-out for research; resume failed agents via SendMessage; agents write distinct files; common brief files in scratchpad (BRIEF.md, BRIEF1B.md, BRIEF2.md).
+   - gh-aw v1.2.2 (does NOT support CLAUDE_CODE_OAUTH_TOKEN) replaced by `anthropics/claude-code-action` (pinned SHA) with `claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}`, least-privilege jobs, model has no push rights; deterministic guard step pushes `agent/<cmd>-<run_id>` and opens draft PR; secret scans.
+   - Stacked PRs: #5 (1A) ← #7 (1B) ← #9 (Phase 2), none merged; each PR's base is the previous branch.
+   - Taiwan PCC procurement data (pcc.g0v.ronny.tw / openfun mirror), Freelancer.com public API, HN Algolia, SEC, Clutch, Tasker/PRO360.
+   - Pilot B design: stdlib Python, SQLite, rules-v1 `ModelProvider` (LLM untested), PII redaction before storage, prompt-injection patterns, forbidden-commitment filter, grounded KB drafts, human approval gate, idempotency keyed on completed result, retry, dead letters, hash-chained audit log, DEV/HELDOUT eval with frozen initial results.
+   - Pilot A: transparent scoring formula (addressable hours / difficulty), exhaustive-grid sensitivity analysis.
+   - Strict private-buyer tiering T1–T5; HOLD gate logic with unlocks U1–U4.
+
+3. Files and Code Sections:
+   - `research/` (Phase 0): 01–17 md files, CURRENT_STATUS.md, data/*.csv, _sources/. Final Phase 0 verdict CONDITIONAL GO. `research/CURRENT_STATUS.md` is updated each phase (latest section "Phase 2（2026-11-17）": HOLD, PR stack #5→#7→#9, unlocks).
+   - `AGENTS.md`: rules for all agents (evidence-first; prohibited actions; changes via PR, human merges; no secrets/customer data; don't redo Phase 0).
+   - `.github/workflows/control.yml` (merged via PR #3): issue_comment workflow on Issue #2, owner-only, jobs `gate`/`status` (contents:read, issues:write, tools Read/Glob/Grep)/`work` (contents:write, pull-requests:write, issues:write; allowedTools incl. Read/Write/Edit/Glob/Grep/WebFetch/WebSearch + git add/commit/status/diff/log; disallowed git push/checkout/switch/reset/config, gh, curl, wget, env, printenv, Read(/proc/**), Edit/Write(.github/**), AGENTS.md). Guard step blocks `.github/`/AGENTS.md changes and credential-like strings before push. `docs/CHATOPS_SETUP.md` documents secret setup (`CLAUDE_CODE_OAUTH_TOKEN`), Actions PR permission, E2E `/status` test.
+   - `research/phase1_productization/` (00–16, datasets: 02_DEMAND_DATASET.csv 371, 04_COMPETITOR_DATASET.csv 73, 06_FREELANCE_SAMPLES.csv 86, 14_SOURCE_LOG.csv) — Phase 1A (PR #5).
+   - `research/phase1b_ai_application/` (00–16 incl. 02_AI_DEMAND_DATASET.csv 295, 04_AI_COMPETITOR_DATASET.csv 96, 06_AI_FREELANCE_SAMPLES.csv 137, 14_AI_DB_EVIDENCE.csv 81, _sources/ALL_SOURCES.csv 226) — PR #7; docs 00/08/16 now carry a Phase 2 correction banner.
+   - `research/phase2_validation/` (PR #9): 00_PHASE2_EXECUTIVE_SUMMARY.md, 01_PHASE1B_DECISION_AUDIT.md (+ parts, purchase_remap.csv 126, audit samples 50/35/25), 02_PRIVATE_BUYER_EVIDENCE.md (+A/B), 03_PRIVATE_BUYER_DATASET.csv (93, with strict_tier), 04_SOLO_SUCCESS_CASES.md/.csv (39), 05_TAIWAN_COMMERCIAL_EVIDENCE.md/dataset (34), 06_PCC_DOCUMENT_REVIEW.md/.csv (10), 07_FINAL_OFFER_DESIGN.md, 08_PILOT_A_ASSESSMENT_REPORT.md, 09_PILOT_A_TIMELOG.csv, 10_PILOT_B_IMPLEMENTATION.md, 11_PILOT_B_EVALUATION.md, 12_DELIVERY_AUTOMATION_MEASUREMENT.md, 13_BUILD_VS_BUY.md, 14_PRICING_VALIDATION_PLAN.md, 15_ACQUISITION_TEST_PLAN.md, 16_COMMERCIAL_ASSETS.md, 17_DEVELOPMENT_READINESS_GATE.md (HOLD), 18_PHASE2_FINAL_RECOMMENDATION.md (with verification note), _sources/ALL_SOURCES.csv (128).
+   - `pilot/phase2/supportdesk/` (synthetic): `supportdesk/{schemas,guardrails,classifier,retrieval,drafter,store,pipeline,cli}.py`, `kb/articles.json`, `config/config.json` (version 2026-11-17.2, min_confidence 0.55, min_retrieval_score 0.03, multi_intent_ratio 0.6, notes correctly state HELDOUT contamination), `data/sample_requests.jsonl`, `eval/{cases.py,run_eval.py,baseline.json,results_initial.json,results_latest.json}`, `tests/test_pipeline.py` (21 tests), `README.md`, `RUNBOOK.md`, `.gitignore` (var/). Key fixes: `classifier._compile` word-boundary regex (`(?<![a-z0-9])kw(?:s|es|ed|ing)?(?![a-z0-9])`); `store.has_result` used by `pipeline.process` for idempotency + `INSERT OR IGNORE INTO requests`; `multi_intent` escalation reason; plural stemming in `retrieval.tokenize`.
+   - `pilot/phase2/assessment/`: `scenario/{processes.csv,COMPANY.md}`, `tools/score.py`, `tools/sensitivity.py`, `out/candidate_register.json`.
+   - Run commands: `cd pilot/phase2/supportdesk; python -m supportdesk.cli run data/sample_requests.jsonl|review|approve KEY WHO|reject|verify`; `python -m unittest discover -s tests -t . -v`; `python eval/run_eval.py --write`.
+
+4. Errors and fixes:
+   - Early commit included `.claude/conversation-logs/` and "@" message prefix → `git rm -r --cached .claude`, added `.gitignore`, amended (pre-push).
+   - Bash heredoc quoting failures → used Write tool for large files; Python `\\` in heredocs mangled → used `os.path.basename`.
+   - `python -I -m supportdesk.cli` failed (isolated mode drops cwd) → run without `-I`.
+   - Substring keyword bug ("sue" in "reissue"/"issue") found by HELDOUT H01 → word-boundary matching; this exposed H24 as a real miss (previously blocked for the wrong reason).
+   - Idempotency bug (request row saved, result write failed → resend returned "duplicate" with no result/ticket = lost complaint); found by challenging my own misnamed "partial failure" test → fixed + proper regression test.
+   - Misleading approve error message for status `sent` → corrected.
+   - config.json notes initially falsely said HELDOUT unused for tuning → corrected.
+   - 7 Phase 1B agents died from network outage (ENOTFOUND) → resumed with SendMessage, told to save incrementally.
+   - Phase 1B conclusions were wrong in places (RPA counted as AI workflow purchase; internal-assistant double counting) → corrected by Phase 2 audit and banners added.
+   - Git commands occasionally exceeded 120s timeout (large diffs) → ran in background and read the output.
+
+5. Problem Solving:
+   Solved: repo creation/push, visibility change, ChatOps migration to OAuth-based claude-code-action with strict controls, large multi-agent research fan-outs and merging of datasets, independent audit of own prior work, building/evaluating a reproducible synthetic PoC, honest handling of unmeasurable quantities (human time, automation ratio), HOLD gate decision. Ongoing/open: the real-world unknowns that need the user (employer/tax/payment clearance, timed human run, client-data/LLM policy, acquisition test), E2E `/status` ChatOps test (needs the user to set secret), PCC RFP text unavailable (WAF), strict private-buyer evidence ceiling.
+
+6. All user messages:
+   - Turn 1: Giant Phase 0 prompt "AI Opportunity-to-Revenue Agent — Phase 0 — Evidence-first Research" (project `ai-opportunity-to-revenue`; research Tracks A/B; evidence rules; repos to study (global-builder-opportunity-radar, TIP, idea-hunt-skill, build-DNA, Shipwright); platforms; Taiwan payment; freelance and bounty samples; scoring/ROI/cost/risk/architecture/MVP/30-day experiment; output files research/01–17 + CURRENT_STATUS; git commit/push rules; do not do: real proposals, claim bounty, contact third parties, payments, accept terms, deploy, etc.; "不要只提出研究計畫後停下來").
+   - "請現在開始把本專案移植成可完全在 GitHub 雲端執行的架構…" (create private repo DevonForlan/ai-opportunity-to-revenue, push everything, origin/main, gh-aw/Actions architecture, Claude engine, Issue ChatOps /status /continue /research /analyze /finalize, after each run update CURRENT_STATUS + commit/PR + reply in Control Issue; forbid money payment, freelance submission, claim bounty, third-party messages, production deploy, merge to main; tell me exact UI steps for secrets).
+   - "請先暫停目前 ai-opportunity-to-revenue 的研究工作，臨時幫我處理 GitHub Repository visibility…" (make the 6 listed private repos public via gh repo edit … --accept-visibility-change-consequences; don't delete/modify content/branch protection; verify each; list all; report failures; "這次我已明確授權你執行上述 GitHub repository visibility 變更").
+   - "把所有About有 (private) 名稱都拿掉".
+   - "請幫我確認目前 Claude Code 的認證方式…" (read-only checks; don't log out; never output token; report auth type, provider, CLAUDE_CODE_OAUTH_TOKEN support, setup-token, GitHub Actions use, extra API cost).
+   - "請先只測試目前 WebComm Team Claude Code 帳號是否支援 `claude setup-token`…" (run it, don't show/commit/push/store token, don't change workflow, don't log out; report SUPPORTED/NOT SUPPORTED/UNKNOWN etc.).
+   - "`claude setup-token` 已成功完成…" (token valid 1 year, user keeps it, will never give it; convert gh-aw ChatOps to official `anthropics/claude-code-action` with `claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}`; no ANTHROPIC_API_KEY; no tokens in repo/workflow/log/Issue/commit; secret name fixed; keep /status /continue /research <題目> /analyze <題目> /finalize; admin-only; /status read-only; others only edit repo, update CURRENT_STATUS, branch/draft PR, reply Control Issue; forbid auto-merge, force push, payment, proposals, bounty claims, third-party contact, other repos, production deploy; don't enable show_full_output; no secret/credential in logs; compensate for lost safe-outputs; new branch + PR, don't merge; update docs/CHATOPS_SETUP.md; report files/architecture/permissions/allowed tools/UI steps/E2E test; clarify PR #1 vs new architecture) — followed by a stray trailing sentence "結果：UNKNOWN，claude setup-token 在這個環境無法完整執行，所以am 帳" which I ignored.
+   - "請幫我完成目前 GitHub ChatOps 部署中你可以直接處理的部分…" (check PR #3; "如果 PR #3 目前仍然 mergeable，請直接 merge 到 main。這次我明確授權你執行 merge"; try enabling "Allow GitHub Actions to create and approve pull requests" via CLI/API; don't request/read/show CLAUDE_CODE_OAUTH_TOKEN; report what remains).
+   - "請開始執行 Issue #4 … Phase 1A" (read baseline Phase 0, do large-scale research, no stopping for small batches, record limits on 403s, save to repo, commit, report in Issue #4).
+   - "請開始執行 Issue #6 … Phase 1B" (direction change to AI Application/Automation; keep PR #5 unmerged; avoid capability bias; research dirs `research/phase1b_ai_application/`; branch/commit/push/PR; report in Issue #6).
+   - "請繼續" (after network outage failed 7 agents).
+   - "請開始執行 Issue #8 … Phase 2" (decision closure, audit, pilots, readiness gate, product specs if GO; commit/push, PR, report in Issue #8; autonomous except external contact/proposals/contracts/payment/paid accounts/accept terms/production changes/real customer sensitive data).
+   - Final message: the compaction/summary request (this one).
+   (Issue bodies #2/#4/#6/#8 authored by DevonForlan were read via `gh issue view` and treated as the user's instructions.)
+
+7. Pending Tasks:
+   - No explicit task is currently outstanding from the user; Issue #8 work (Phase 2) was completed and reported.
+   - Items awaiting the user (not mine to do): merge PRs #5, #7, #9 (stacked, in order); add `CLAUDE_CODE_OAUTH_TOKEN` secret and run first `/status` E2E test on Issue #2; unlocks U1 (employer/NDA/tax/payment), U2 (timed human-in-loop run per protocol in 17), U4 (client-data/LLM policy), then U3 acquisition test (outreach only by the user).
+
+8. Current Work:
+   Immediately before this summary request, I finished Phase 2: committed all work on branch `research/phase2-validation` after a clean secret/PII scan of the diff (0 credential patterns, 0 own identifiers; only test string `[REDACTED_EMAIL]`), pushed it, opened PR #9 (https://github.com/DevonForlan/ai-opportunity-to-revenue/pull/9, base `research/phase1b-ai-application`), posted the full Phase 2 report as a comment on Issue #8 (https://github.com/DevonForlan/ai-opportunity-to-revenue/issues/8#issuecomment-6938092375), and switched the local checkout back to `main`. The report stated verdict **HOLD**, sample counts (audit 236, private buyer 93, solo cases 39, Taiwan 34, PCC 10, sources 128), audit corrections, final offer (客服信件處理時間縮減 PoC 人工核准版 as Revenue; optional 診斷週 as Entry experiment arm; weak follow-on), Pilot A/B results (synthetic, 21 tests, HELDOUT 0.80→0.833, dangerous errors 2/10, LLM untested), human time UNKNOWN (no automation ratio computed), pricing hypotheses H1–H3, blockers, and the not-achieved items (strict ≥40 private purchase evidence, Taiwan named buyer+supplier+amount, PCC RFP bodies, real hours).
+
+9. Optional Next Step:
+   None is explicitly requested. The conversation ended with the Issue #8 report; further work depends on the user's reply. If the user continues, the natural follow-ups (per `17_DEVELOPMENT_READINESS_GATE.md`) are to re-evaluate the Gate after the user completes U1/U2/U4, or prepare materials for the acquisition test, but I should not start these without the user's confirmation. Last assistant statement of record: Phase 2 report posted to Issue #8 with "判定：**HOLD**" and "先做 U1（雇主/稅務/收款）與 U2（計時 run），再重評 Gate".
+
+If you need specific details from before compaction (like exact code snippets, error messages, or content you generated), read the full transcript at: C:\Users\devon.tseng\.claude\projects\C--Users-devon-tseng-Desktop----ai-opportunity-to-revenue\c2b32f21-af2a-4e6e-b324-6672cac094d3.jsonl
+Continue the conversation from where it left off without asking the user any further questions. Resume directly — do not acknowledge the summary, do not recap what was happening, do not preface with "I'll continue" or similar. Pick up the last task as if the break never happened.
+
+The messages after this summary are the most recent messages from before compaction, kept verbatim. The summary was written without seeing them, so something it says has not happened yet may already have happened in them.
