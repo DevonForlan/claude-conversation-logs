@@ -2197,3 +2197,5 @@ Stale lock present (process died) — exactly what the next run must handle. Now
 
 圖片 20/20 全通過，其他白板 0 變動。用證據閘門開啟圖片類型，然後接著跑 Test BI（圖片自動搬移）與其餘測試。
 - 🔧 **Bash**: cd "[REDACTED]"; python mn_evidence_gate.py evidence/cycles-1794910051.json Image; ../tools/ocr-venv/Scripts/python.exe -I -u milanote_auto.py --auto-organize 2>&1 | tail -1 | cut -c1-900; … <!--id:ae25d030-3caa-43d2-89b1-828e6a9e3e8a-->
+- ↩︎ result (931 chars): {"n>=20": true, "all_cycles_ok": true, "no_unknown_or_lost": true, "other_boards_unchanged": true, "no_exception": true, "positions_restored": true} GATE OPEN for Image 2026-11-17T18:09:22 summary {"run_id": "20261117-180756", "mode": "auto-organize", "resume": {"resumed": false}, "counts": {"NEW": … <!--id:397a073c-a146-4523-8851-536773be0510-->
+- 🔧 **Bash**: cd "[REDACTED]" && cat > _patch18.py <<'PYEOF' import os p = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'mn_organize.py'); s = open(p, encoding='utf-8').read() old = " work = … <!--id:ffe1636b-803c-404b-a5ab-3b60c8728e89-->
