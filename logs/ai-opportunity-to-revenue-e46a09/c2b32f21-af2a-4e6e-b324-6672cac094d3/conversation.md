@@ -2496,3 +2496,17 @@ Pilot A 的客戶報告完成。現在寫工時紀錄，**如實只記錄我真�
 ### [2026-11-17 12:07:07] 🤖 Claude <!--id:94dd79c0-10f8-459a-b217-1f48bdbfb943-->
 
 三個研究 agent 還在跑（audit Part 2、私人買家 Part B、台灣民間）。Pilot A/B、工時紀錄、自動化量測、build-vs-buy、商業素材都已完成。等它們回報後，我會合併審計結果、確定最終 offer、做 Development Readiness Gate，並依結果決定是否寫 `product/` 規格。
+
+### [2026-11-17 12:07:35] 🤖 Claude <!--id:1acd25a1-3282-4a0a-8ed1-d7e5dbdec030-->
+
+私人買家 Part B 回報了。合併兩份資料集並用嚴格分級重新計數，**不把 testimonial、logo、價格區間算成購買**。
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue/research/phase2_validation"; PYTHONIOENCODING=utf-8 python - <<'PY' import csv,collections L=lambda f:list(csv.DictReader(open(f,encoding='utf-8-sig',newline=''))) a=L('03_PRIVAT… <!--id:ee3f4bcb-c81b-46b8-91b1-8167361ed42c-->
+- ↩︎ result (1452 chars): merged 93 A 56 B 37 Counter({'marketplace_completed': 52, 'named_client_case_study': 15, 'provider_claim_only': 12, 'contract_value_public': 11, 'partner_story': 3}) Counter({('marketplace_completed', 'PARTIALLY VERIFIED'): 52, ('named_client_case_study', 'PARTIALLY VERIFIED'): 15, ('provider_claim_… <!--id:1823770c-a23b-4c6f-938e-301f8d024021-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue/research/phase2_validation"; PYTHONIOENCODING=utf-8 python - <<'PY' import csv,re,statistics as st,collections rows=list(csv.DictReader(open('03_PRIVATE_BUYER_DATASET.csv',encodi… <!--id:e0d3ab81-ab67-45dd-8da3-01d8ab523181-->
+- ↩︎ result (436 chars): Counter({'T3b_client_review_cost_bracket_only': 26, 'T3_paid_completion_visible_employer_type_unknown': 26, 'T4_named_case_study_no_price': 15, 'T5_provider_claim_or_partner_story': 15, 'T2_verified_award_privately_incorporated_but_publicly_funded': 9, 'T1_verified_private_contract': 2}) freelancer … <!--id:48f8ac6d-08cd-48c0-b9ea-943ae19a126c-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\02_PRIVATE_BUYER_EVIDENCE.md <!--id:93051e6f-356d-4fcf-ba27-0b1b0db3175d-->
+- ↩︎ result (209 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\02_PRIVATE_BUYER_EVIDENCE.md (file state is current in your context — no need to Read it back) <!--id:7df6461b-d9f3-4911-a98e-45c94d6c9227-->
+
+### [2026-11-17 12:08:47] 🤖 Claude <!--id:9acc2d3e-abec-4703-a070-6e5550497c26-->
+
+只剩「audit Part 2（接案與供給端抽查）」還在跑。它的結論會決定 Top 5 要不要修正排名，所以我等它回來再寫最終 offer 與 Readiness Gate。
