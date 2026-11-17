@@ -2060,3 +2060,48 @@ API Error: Can't reach the API server — check your internet or DNS (ENOTFOUND)
 ### [2026-11-17 15:16:48] 🤖 Claude <!--id:ce47ffcb-de3a-45f0-9bc7-8a0acd16b1b2-->
 
 API Error: Can't reach the API server — check your internet or DNS (ENOTFOUND)
+
+### [2026-11-17 15:16:49] 👤 User (turn 31) <!--id:0500cea9-dfc9-4289-978e-a39f26ac91a9-->
+
+<task-notification>
+<task-id>bizpflipq</task-id>
+<tool-use-id>toolu_01MW9FaLkbVGQiRiiteonALp</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\789a05257270d83c\23e946d9-edf8-4fb9-9046-a77ea4a35475\tasks\bizpflipq.output</output-file>
+<status>completed</status>
+<summary>Background command "Wait for 20-cycle verdict" completed (exit code 0)</summary>
+</task-notification>
+- 🔧 **Bash**: cd "[REDACTED]"; python -c " import json,glob f=sorted(glob.glob('evidence/cycles-1*.json'))[-1]; j=json.load(open(f,encoding='utf-8')); print(f, len(j['cycles']), j.get('passed'), [c['ok']… <!--id:e48a80cc-e243-475f-851d-519770636851-->
+- ↩︎ result (656 chars): evidence\cycles-1794898888.json 18 None [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True] n_async(lambda: awaitable) ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File "C:\Users\devon.tseng\Desktop\�ӤH\milanote\research\phase1\tools\ocr-venv\Lib\s… <!--id:9a9aaf3e-ca42-499d-874c-f4739b6771d4-->
+
+### [2026-11-17 15:45:00] 🤖 Claude <!--id:da7be6c1-8bc0-44f1-8ada-94410fb2adec-->
+
+18 輪全部通過，之後是一次超過 30 秒的網路中斷把重試用完。我把重試拉長到約 3 分鐘，再跑完整的 20 輪。
+- 🔧 **Bash**: cd "[REDACTED]"; sed -i 's/for attempt, wait in enumerate((0, 3, 8, 20)):/for attempt, wait in enumerate((0, 3, 8, 20, 45, 90)):/' mn_driver.py; grep -n "enumerate((0" mn_driver.py; python … <!--id:82387811-a0b5-4252-a9fa-a3362b76d9b8-->
+- ↩︎ result (250 chars): 77: for attempt, wait in enumerate((0, 3, 8, 20, 45, 90)): # transient DNS/network errors: retry with backoff Tue, Nov 17, 2026 3:45:03 PM [This command modified 1 file you've previously read: mn_driver.py. Call Read before editing.] <!--id:7b39a873-b1af-41ab-acc2-b87a1c7261bb-->
+- 🔧 **Bash**: cd "[REDACTED]"; until grep -qE "FAIL|^(PASS) " logs/rel-cycles-5.txt; do sleep 20; done; cut -c1-1200 logs/rel-cycles-5.txt | tail -5; date <!--id:aa8b23f7-df64-4d3e-93b0-d41d4d086a31-->
+- ↩︎ result (803 chars): Command did not complete within its 590s timeout and was moved to the background (ID: bent2djsb). Output is being written to: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\789a05257270d83c\23e946d9-edf8-4fb9-9046-a77ea4a35475\tasks\bent2djsb.output. You will be notified when it completes. It is run… <!--id:725793c6-c38b-45f6-93e2-5d6e4ba7f0af-->
+- 🔧 **Bash**: cd "[REDACTED]"; until grep -qE "FAIL|^(PASS) " logs/rel-cycles-5.txt; do sleep 20; done; cut -c1-1200 logs/rel-cycles-5.txt | tail -5; date <!--id:1743de98-cbb3-4591-9124-eced0f064fbd-->
+- ↩︎ result (803 chars): Command did not complete within its 590s timeout and was moved to the background (ID: bifpc0psm). Output is being written to: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\789a05257270d83c\23e946d9-edf8-4fb9-9046-a77ea4a35475\tasks\bifpc0psm.output. You will be notified when it completes. It is run… <!--id:1cf8d93e-7194-4065-a05c-e9d59c044234-->
+- 🔧 **Bash**: cd "[REDACTED]"; until grep -qE "FAIL|^(PASS) " logs/rel-cycles-5.txt; do sleep 20; done; cut -c1-1200 logs/rel-cycles-5.txt | tail -5; date <!--id:1a0ac3b1-30ab-46bb-b257-fe4d6dc52627-->
+- ↩︎ result (803 chars): Command did not complete within its 590s timeout and was moved to the background (ID: bzdbrnx9b). Output is being written to: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\789a05257270d83c\23e946d9-edf8-4fb9-9046-a77ea4a35475\tasks\bzdbrnx9b.output. You will be notified when it completes. It is run… <!--id:e0e481d3-90dc-41b8-a0c4-a11fb02c2e55-->
+- 🔧 **Bash**: cd "[REDACTED]"; until grep -qE "FAIL|^(PASS) " logs/rel-cycles-5.txt; do sleep 20; done; cut -c1-1200 logs/rel-cycles-5.txt | tail -5; date <!--id:90d13f84-8479-4f7b-8117-9b23eb3242d2-->
+- ↩︎ result (803 chars): Command did not complete within its 590s timeout and was moved to the background (ID: bag987qmn). Output is being written to: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\789a05257270d83c\23e946d9-edf8-4fb9-9046-a77ea4a35475\tasks\bag987qmn.output. You will be notified when it completes. It is run… <!--id:78a544df-e90e-4e63-ade0-d447acb8cfe6-->
+- 🔧 **Bash**: cd "[REDACTED]"; tail -c 250 logs/rel-cycles-5.txt; date <!--id:053086ba-7b27-4498-ae64-7875302393c6-->
+- ↩︎ result (227 chars): cycle 0 ok cycle 1 ok cycle 2 ok cycle 3 ok cycle 4 ok cycle 5 ok cycle 6 ok cycle 7 ok cycle 8 ok cycle 9 ok cycle 10 ok cycle 11 ok cycle 12 ok cycle 13 ok cycle 14 ok cycle 15 ok Tue, Nov 17, 2026 4:24:43 PM <!--id:b297251f-ab10-4931-89e0-45b7b4fcb5c3-->
+
+### [2026-11-17 16:24:44] 🤖 Claude <!--id:54d008cc-1a58-4ef7-8066-fd4cdb493b6e-->
+
+16 輪已連續通過，剩最後 4 輪，我繼續等結果。
+- 🔧 **Bash**: cd "[REDACTED]"; until grep -qE "FAIL|^(PASS) " logs/rel-cycles-5.txt; do sleep 20; done; cut -c1-1500 logs/rel-cycles-5.txt | tail -5; date <!--id:ce528754-578b-4a7d-97a0-576c99e54849-->
+- ↩︎ result (195 chars): cycle 17 ok cycle 18 ok cycle 19 ok C:\Users\devon.tseng\Desktop\�ӤH\milanote\research\phase1\sync\evidence\cycles-1794904366.json PASS 20 / 20 other_changed [] Tue, Nov 17, 2026 4:33:16 PM <!--id:86529a3f-6724-4f43-ad00-2782d4c77e88-->
+
+### [2026-11-17 16:33:22] 🤖 Claude <!--id:e3474393-f0ee-4361-8787-ecf871ed845e-->
+
+20 輪連續通過（20/20，其他白板 0 變動）。我用證據閘門檢查是否達標，達標才為 Card 類型開啟自動搬移。
+- 🔧 **Bash**: cd "[REDACTED]"; python mn_evidence_gate.py evidence/cycles-1794904366.json Card; cat evidence/rollback_verified.json <!--id:a8a8d75d-9396-4601-ac24-19e0db17f7dd-->
+- ↩︎ result (489 chars): {"n>=20": true, "all_cycles_ok": true, "no_unknown_or_lost": true, "other_boards_unchanged": true, "no_exception": true, "positions_restored": true} GATE OPEN for Card { "Card": { "evidence": "evidence/cycles-1794904366.json", "cycles": 20, "verified_at": "2026-11-17T16:32:46", "checks": { "n>=20": … <!--id:020bcead-c872-48c2-a361-6675bb531e83-->
+
+### [2026-11-17 16:33:28] 🤖 Claude <!--id:615e75dd-de30-4548-abaa-feb1288067d9-->
+
+Card 類型的搬移閘門已開。接下來做故障注入：貼上失敗、程序中途被強制中止。
+- 🔧 **Bash**: cd "[REDACTED]"; ../tools/ocr-venv/Scripts/python.exe -I -u mn_reliability.py fault-paste 2>&1 | tail -3 | cut -c1-700; echo ---; ../tools/ocr-venv/Scripts/python.exe -I -u mn_reliability.p… <!--id:4ec2c51f-cbd9-473a-8a76-f976558d1388-->
