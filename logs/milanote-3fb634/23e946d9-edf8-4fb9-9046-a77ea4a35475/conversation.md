@@ -2379,3 +2379,101 @@ D1–D4 全部通過。現在跑 Test E：連續 3 次重跑，驗證沒有重�
 - 🔧 **Bash**: cd "[REDACTED]"; ../tools/ocr-venv/Scripts/python.exe -I -u mn_tests.py baseline 2>&1 | tail -1 | cut -c1-100; (nohup ../tools/ocr-venv/Scripts/python.exe -I -u mn_tests.py E > logs/test-E.… <!--id:7b682146-c8ea-4c85-bc52-4ac1acb6035c-->
 - ↩︎ result (49 chars): baseline PASS null Tue, Nov 17, 2026 9:36:27 PM <!--id:b9bdf5ac-bb54-4c0b-8d3a-bf229efdd2ad-->
 - 🔧 **Bash**: cd "[REDACTED]"; until grep -qE "^E (PASS|FAIL)" logs/test-E.txt; do sleep 20; done; tail -2 logs/test-E.txt | cut -c1-1500 <!--id:d8244233-7379-442b-b600-c6181c329e87-->
+- ↩︎ result (1003 chars): C:\Users\devon.tseng\Desktop\�ӤH\milanote\research\phase1\sync\evidence\test-E-1794922983.json E FAIL [{"run": 1, "exit": 0, "seconds": 134.6, "counts": {"NEW": 0, "CHANGED": 0, "MOVED": 0, "REMOVED": 0, "UNCHANGED": 2856}, "planned": 1, "counters": {"ocr_calls": 0, "moves": 0, "rollbacks": 0}, "fil… <!--id:009d23c2-d816-4d3f-b582-48ab7eb2fcb2-->
+- 🔧 **Bash**: cd "[REDACTED]"; tail -3 AUTO_ORGANIZE_PLAN.csv | cut -c1-420; grep -a "1Xtfcv1UewRX3X" milanote_item_registry.jsonl | python -c "import sys,json;r=json.loads(sys.stdin.read());print({k:r.g… <!--id:9c72d913-0713-4811-8988-ab96e8f40b42-->
+- ↩︎ result (1089 chars): 20261117-213628,1XteJo1AIJRB0V,1XthaA12J6BY6i,Step 7 - verify LDAP bind: run ldapsearch -x -H ldaps://dc02,Card,LDAP,SOP:[REDACTED]@19,rb-20261117-213628-1XthaA12J6BY6i,KEEP,already-i… <!--id:f2e7b9c8-b0c9-4bfd-bfb3-0f5f76acf2d8-->
+- 🔧 **Bash**: cd "[REDACTED]"; grep -a "1XthaA12J6BY6i" milanote_item_registry.jsonl | python -c "import sys,json;r=json.loads(sys.stdin.read());print({k:r.get(k) for k in ['hash','analyzed_hash','propos… <!--id:6108bd76-b834-4eb7-9ea1-de946570eaef-->
+- ↩︎ result (186 chars): {'hash': '8829d0e82f181b53', 'analyzed_hash': '8829d0e82f181b53', 'proposed': True, 'analyzed_gates': None, 'board': '1XteJo1AIJRB0V', 'move_skips': 3, 'system_moved': '20261117-194958'} <!--id:b2dd80c4-fd87-4bf1-a0da-b7fedfa06351-->
+- 🔧 **Bash**: cd "[REDACTED]" && sed -n '/^def mark_analyzed/,/^def resume_journal/p' mn_organize.py <!--id:7da42071-c82c-4244-8212-d8b5bd0bc963-->
+- ↩︎ result (742 chars): def mark_analyzed(rows, scan_res): """Record analyzed_hash for every planned item (including NO_ACTION) so unchanged items are never re-analyzed.""" reg = sc.load_registry() for r in rows: if r['source_item'] in reg and reg[r['source_item']].get('analyzed_hash') != r['_hash'] and r['action'] in ('NO… <!--id:2cf86e46-89bb-4765-bb81-d84d669fe2f2-->
+- 🔧 **Bash**: cd "[REDACTED]" && cat > _patch34.py <<'PYEOF' import os p = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'mn_organize.py'); s = open(p, encoding='utf-8').read() old = " if r['s… <!--id:6e24181a-2b7d-4719-9aa1-0b622c9e4707-->
+- ↩︎ result (1057 chars): ok ok 2026-11-17T21:45:59 summary {"run_id": "20261117-214347", "mode": "auto-organize", "resume": {"resumed": false}, "counts": {"NEW": 0, "CHANGED": 0, "MOVED": 0, "REMOVED": 0, "UNCHANGED": 2856}, "boards": 205, "coverage": {"boards_total": 205, "ok": 203, "reused_quick": 190, "excluded": 2, "err… <!--id:a42548b6-9339-4c96-a5a1-29f4737a5bab-->
+
+### [2026-11-17 21:48:12] 🤖 Claude <!--id:4215ff88-e810-45c5-bc6d-a394ac2bc1cf-->
+
+第一次修正後的執行把殘留旗標清掉，第二次已經完全靜止（planned 0、無寫入）。現在正式重跑 Test E（連續 3 次）。
+- 🔧 **Bash**: cd "[REDACTED]"; mkdir -p evidence/superseded; mv evidence/test-E-*.json evidence/superseded/ 2>/dev/null; (nohup ../tools/ocr-venv/Scripts/python.exe -I -u mn_tests.py E > logs/test-E.txt … <!--id:1a9a0c79-3f4a-4cb1-bf3b-6d89570b8930-->
+- ↩︎ result (793 chars): E PASS [{"run": 1, "exit": 0, "seconds": 132.7, "counts": {"NEW": 0, "CHANGED": 0, "MOVED": 0, "REMOVED": 0, "UNCHANGED": 2856}, "planned": 0, "counters": {"ocr_calls": 0, "moves": 0, "rollbacks": 0}, "files_changed": [], "registry_changed_excluding_last_seen": false}, {"run": 2, "exit": 0, "seconds… <!--id:91cad489-3360-4017-8682-c1677b18d14f-->
+- 🔧 **Bash**: cd "[REDACTED]"; ../tools/ocr-venv/Scripts/python.exe -I -u mn_real_setup.py --create-kb-root 2>&1 | tail -22 <!--id:2596fde5-6d28-483c-93a7-6b5090f02cf3-->
+- ↩︎ result (527 chars): "kb_root": "1XtjEW14QkZt8M", "scope_boards": [ "1W86X21MUMVKdy", "1Wg5b81K2Q5701" ], "write_allow": [ "1XtjEW14QkZt8M", "1W86X21MUMVKdy", "1Wg5b81K2Q5701" ], "batch_size": 5, "max_auto_moves_per_run": 5, "min_conf_auto": 0.85, "min_conf_review": 0.65, "real_enabled": true, "use_discovered_topics": t… <!--id:140fa643-b4d8-468b-99d8-3080799dc6fe-->
+- 🔧 **Bash**: cd "[REDACTED]"; ../tools/ocr-venv/Scripts/python.exe -I -u milanote_auto.py --config organize_config.real.json --dry-run 2>&1 | tail -3 | cut -c1-1100 <!--id:040f9e6a-8bd8-4212-8217-f0bc95ac8600-->
+- ↩︎ result (644 chars): 2026-11-17T21:58:06 scan done {"NEW": 27, "CHANGED": 2, "MOVED": 0, "REMOVED": 0, "UNCHANGED": 2854} boards 206 131.6s 2026-11-17T22:03:10 summary {"run_id": "20261117-215551", "mode": "dry-run", "resume": {"resumed": false}, "counts": {"NEW": 27, "CHANGED": 2, "MOVED": 0, "REMOVED": 0, "UNCHANGED":… <!--id:80901963-90a7-4083-b757-e47baede98ec-->
+- 🔧 **Bash**: cd "[REDACTED]"; python - <<'PYEOF' import csv, collections rows=[r for r in csv.DictReader(open('AUTO_ORGANIZE_PLAN.csv',encoding='utf-8-sig')) if r['run_id']=='20261117-215551'] print(len… <!--id:1e3d221c-e01e-4319-95ea-d0656da2c305-->
+- ↩︎ result (726 chars): 60 Counter({('Image', 'HOLD'): 18, ('Card', 'HOLD'): 14, ('FileIconView', 'HOLD'): 12, ('Image', 'PROPOSE'): 7, ('Card', 'PROPOSE'): 6, ('Image', 'AUTO_MOVE'): 1, ('FileIconView', 'PROPOSE'): 1, ('Link', 'HOLD'): 1}) Counter({'sop_conf_ok': 52, 'topic_conf_ok': 51, 'two_evidence_incl_content': 50, '… <!--id:1ce94866-f667-446a-baa2-68995f137141-->
+- 🔧 **Bash**: cd "[REDACTED]"; ../tools/ocr-venv/Scripts/python.exe -I -u milanote_auto.py --config organize_config.real.json --auto-organize 2>&1 | tail -2 | cut -c1-1300; grep -a -E '"(target-created|t… <!--id:e0fe711d-4bda-487e-a446-5f8d6445c294-->
+- ↩︎ result (1486 chars): 2026-11-17T22:05:30 scan done {"NEW": 0, "CHANGED": 23, "MOVED": 0, "REMOVED": 0, "UNCHANGED": 2860} boards 206 114.7s 2026-11-17T22:06:43 summary {"run_id": "20261117-220330", "mode": "auto-organize", "resume": {"resumed": false}, "counts": {"NEW": 0, "CHANGED": 23, "MOVED": 0, "REMOVED": 0, "UNCHA… <!--id:3dca0e9d-078a-49a2-823b-4c2b7bf31bf6-->
+- 🔧 **Bash**: cd "[REDACTED]"; python - <<'PYEOF' import json, collections ev=[json.loads(l) for l in open('milanote_change_log.jsonl',encoding='utf-8')] runs=[e['run'] for e in ev if e.get('event') in (… <!--id:aeb48a1c-af36-4efd-97b2-08951c65ff16-->
+- ↩︎ result (505 chars): 20261117-220330 {('CHANGED', 'Board', '1Vgavo1UDyg65v'): 1, ('CHANGED', 'Card', '1W86X21MUMVKdy'): 13, ('CHANGED', 'FileIconView', '1W86X21MUMVKdy'): 8, ('CHANGED', 'Link', '1W86X21MUMVKdy'): 1} 20261117-215551 {('NEW', 'Board', '1Vgavo1UDyg65v'): 1, ('CHANGED', 'Card', '1W86X21MUMVKdy'): 1, ('CHANG… <!--id:fa78ce93-c19f-4eb4-b724-298c31226a7a-->
+- 🔧 **Bash**: cd "[REDACTED]"; for i in 1 2; do ../tools/ocr-venv/Scripts/python.exe -I -u milanote_auto.py --config organize_config.real.json --auto-organize 2>&1 | tail -1 | python -c "import sys,json;… <!--id:ceec6c68-ed11-4fdf-bb10-c5efe7a52d26-->
+- ↩︎ result (369 chars): {'NEW': 1, 'CHANGED': 14, 'MOVED': 0, 'REMOVED': 0, 'UNCHANGED': 2869} 14 {'batches': 0, 'moved': 0, 'rolled_back_batches': 0, 'failed_items': 0} {'ocr_calls': 0, 'moves': 0, 'rollbacks': 0} {'kb': True, 'plan': True} {'NEW': 0, 'CHANGED': 0, 'MOVED': 0, 'REMOVED': 0, 'UNCHANGED': 2884} 0 None {'ocr… <!--id:93ecc0de-b303-4da2-9b23-f1ab1aa5fb29-->
+- 🔧 **Bash**: cat > "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/789a05257270d83c/23e946d9-edf8-4fb9-9046-a77ea4a35475/scratchpad/t29.py" <<'PYEOF' import sys, json sys.path.insert(0, r'C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\sync') i… <!--id:1d69920e-5d42-4131-be6c-be558901ebe2-->
+- ↩︎ result (158 chars): source n_items: 41 contains item: False target n_items: 1 contains item: ['Image'] kb root children: [('Board', 'T_Topic_T06_sql-ora-06512-sys-dbmsmetada')] <!--id:9562bfac-208b-4cc5-8050-c21f04893fe5-->
+- 🔧 **Bash**: cd "[REDACTED]" && cat >> mn_report.py <<'PYEOF' # ---- restore map from the audit log (every committed move can be reversed by moving the item id back to source_board) ---- import csv ph1 … <!--id:fc8d280e-e6ee-438a-b014-79a75dace9be-->
+- ↩︎ result (1677 chars): "injection was exercised (2 AUTO_MOVE rows planned)": true, "no item left its source (or restored there)": true, "content unchanged": true, "recovery run exit 0": true, "no item lost (each in exactly one board)": true, "all items organized after recovery": true }, "finished": "2026-11-17T20:42:33" }… <!--id:85f93d75-cad8-402d-a727-c7f44b4b1cd1-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\sync\SCHEDULING_ASSESSMENT.md <!--id:5b17507d-e2c1-4fe4-80ad-7004a36eb6b4-->
+- ↩︎ result (182 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\milanote\research\phase1\sync\SCHEDULING_ASSESSMENT.md (file state is current in your context — no need to Read it back) <!--id:274997c0-65b0-4798-9f07-3092618597e8-->
+
+### [2026-11-17 22:12:34] 🤖 Claude <!--id:443eaa05-346d-4b22-b111-06cb7271a446-->
+
+測試與真實批次都完成了，我現在整理去識別化的結果，更新 Issue #1 和記憶檔。
+- 🔧 **Bash**: cd "[REDACTED]"; python - <<'PYEOF' import json r=json.load(open('evidence/E2E_REPORT.json',encoding='utf-8')) print({k:(v.get('PASS') if isinstance(v,dict) and 'PASS' in v else None) for k… <!--id:2b7a5de1-bdfc-4919-8a1f-310ec78ae061-->
+- ↩︎ result (2017 chars): {'fault_paste_fail': True, 'fault_crash_after_cut': True, 'test_B3': True, 'test_BI': True, 'test_C': True, 'test_D1': True, 'test_D2': True, 'test_D3': True, 'test_D4': True, 'test_E': True} {'Card': {'cycles': 20, 'verified_at': '2026-11-17T16:32:46'}, 'Image': {'cycles': 20, 'verified_at': '2026-… <!--id:60d2176d-f103-459a-87c6-997be5f18d66-->
+- 🔧 **Bash**: cd "[REDACTED]"; mkdir -p _dev_patches && mv _patch*.py _offline_eval.py _dev_patches/ 2>/dev/null; cat > "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/789a05257270d83c/23e946d9-edf8-4fb9… <!--id:9768de0f-da10-43e5-8541-aacb06115472-->
+- ↩︎ result (89 chars): https://github.com/DevonForlan/milanote-cc-session-audit/issues/1#issuecomment-6950530502 <!--id:42907245-d93a-4e11-aeaf-187ffe70b70c-->
+- 🔧 **Bash**: cat >> "C:/Users/devon.tseng/.claude/projects/C--Users-devon-tseng-Desktop----milanote/memory/milanote-sync-system.md" <<'EOF' ## Status 2026-11-17 night (Issue #1 comment 6950530502) - Verified on test board: Card+Image 20/20 move-restore … <!--id:6882341f-34ce-4db6-992a-ed7f21ccad44-->
+- ↩︎ result (2 chars): ok <!--id:eb09f6ba-ab10-4f7e-9a0d-1c7e0b26970e-->
+
+### [2026-11-17 22:13:39] 🤖 Claude <!--id:28b8af94-b67c-4924-96a5-8bd6bd28a5a7-->
+
+## Milanote Auto Organize 回報：核心流程已實測通過，整體驗收仍是「部分達成」
+
+測試白板上的搬移與還原、故障注入、Test B 到 E 都通過，真實資料也完成了第一批整理（1 筆）。排程沒有建立，大白板的 Email 匯出也還沒整合進一鍵流程。
+
+### 事故與恢復
+- **事故**：我的「清除重複貼上副本」邏輯在頁面還沒載完時，把首頁 2 個項目（個資白板和 `scan_report.zip`）加上 2 個測試白板移進了垃圾桶。
+- **恢復**：4 個都已用「還原到原位置」還原。
+- **核對**：2823 個項目的 ID 和內容指紋與事故前比對，0 差異。個資白板內部依政策不讀取，只能比對它的 ID 和卡片數。
+- **第二次異常**：測試圖片「消失又出現」，原因是右側「Unsorted」面板收起時，裡面的項目不在頁面上，不是資料遺失。已修正，並加了完整性檢查。
+- **還沒解決的小事**：
+  - 測試目標白板裡有 4 個我早期建立失敗留下的空白板，我刻意不讓程式自動刪除白板。
+  - 我早期用「啟動時間」關閉測試用的 Chrome，可能誤關了你其他近期啟動的 Chrome 程序，之後只處理專用設定檔的程序。
+
+### 測試結果
+| 項目 | 結果 |
+|---|---|
+| 搬移→重載→還原（文字卡片） | 連續 20/20 通過，0 失敗、0 遺失、其他白板 0 變動 |
+| 搬移→重載→還原（圖片） | 20/20 通過，同上 |
+| 貼上失敗、剪下後程序被強制結束 | 通過，項目都留在原位 |
+| Test B（新增 1 筆文字卡片） | 通過：偵測到 NEW=1，自動搬進主題白板並驗證 |
+| Test B（圖片） | 通過：上傳→UI 截圖→OCR 1 次→搬移→驗證 |
+| Test C（修改既有卡片） | 通過：CHANGED=1，KB 保留舊版本紀錄 |
+| Test D1–D4（四種故障注入） | 全數通過 |
+| Test E（連續重跑 3 次） | 通過：0 變動、0 OCR、0 搬移、檔案與狀態無異動 |
+
+- **Test B／D 的重跑**：Test B 的前兩次、Test D 的前兩輪是失敗的，原因是程式 bug 或我的測試設計有問題（重複使用相同文字被判為重複內容）。修好後重跑才通過，舊結果收在 `evidence/superseded/`。
+- **Test A 的證據**：沿用先前的 Test A，並由 Test E 在新引擎上再驗一次。
+
+### 真實資料首批
+- **範圍**：2 個真實白板，只處理圖片，每次最多 5 筆。
+- **dry-run**：60 筆分析裡，只有 1 筆通過全部門檻（AUTO_MOVE），14 筆只提案，45 筆維持原位。
+- **實際整理**：1 筆已整理到新建的 `SOP_KB_AUTO` 白板（建在首頁，可還原）。我另外用唯讀掃描確認「來源已不含、目標已含」。
+- **還原方式**：還原清單在 `data/kb/AUTO_RESTORE_MAP.csv`。
+- **門檻性質**：0.85 是初始工程門檻，沒有標註驗證集，precision 還沒校準。只有 1 筆樣本，不足以估計準確率。
+
+### 一鍵操作
+`research/phase1/sync/run_full_sync.ps1` 從 Milanote 掃描開始，不需要手動放 ZIP。
+- **預設**：掃描＋分析＋計畫，不寫入 Milanote。
+- **加 `-AutoOrganize`**：套用高信心項目。
+- **其他旗標**：`-ScanOnly`、`-DryRun`、`-Resume`、`-Full`。
+- **緊急停止**：建立 `sync\KILL_WRITES` 檔案，所有寫入立刻停止。
+- **跑之前**：先關掉 Playwright MCP 的瀏覽器，兩者共用同一個 Chrome 設定檔。
+
+### 還沒做完
+- **排程**：沒有建立 Windows 工作排程。評估在 `sync/SCHEDULING_ASSESSMENT.md`：登入狀態目前穩定（約 14 小時、60 多次執行沒掉），但還缺登入失效通知，也要避免和 MCP 瀏覽器同時用設定檔。
+- **大白板匯出**：9 個大白板仍要你到信箱取 Email 連結。非圖片檔案的內容，以及「Export→ZIP」，還沒整合進一鍵流程。
+- **基準掃描漏項**：基準掃描漏了 Unsorted 面板的項目，其中一個白板補掃後多出 27 項，其他白板可能也有。下次執行會自動做全量重掃，可能要 1 到 2 小時。
+- **首次掃描的誤報**：第一次掃到文字卡片很多的白板，可能連續 1 到 2 次出現 CHANGED 假訊號才穩定。
+- **Logger 疑慮**：全域 Conversation Logger 是否已把含內網資訊的對話發佈到公開 repo，我仍然沒確認，也不在我可改的範圍。
+- **commit**：專案資料夾不是 git repo，所以沒有 commit，證據都是本機檔案（`research/phase1/sync/evidence/`）。
+
+結果已發到 Issue #1：https://github.com/DevonForlan/milanote-cc-session-audit/issues/1#issuecomment-6950530502。內容是去識別化的，沒有放截圖、OCR 文字或白板名稱。
