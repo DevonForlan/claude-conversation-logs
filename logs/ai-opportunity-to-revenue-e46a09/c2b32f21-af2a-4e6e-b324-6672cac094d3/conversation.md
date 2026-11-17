@@ -2291,3 +2291,78 @@ Phase 1B 的研究已完成並推上 GitHub，結論是 **CONDITIONAL GO，下�
 2. 授權後，我用公開或合成資料建一套 pilot 交付範本，並記錄人工時數，才能算出自動化槓桿與有效時薪。
 3. （選擇性）讓我讀 3–5 件台灣標案文件，確認個人或遠端能否參與，這只是純讀取。
 4. 聯絡客戶、送 proposal、簽約、付款、開帳號、接受條款，都由你本人決定和送出。
+
+### [2026-11-17 11:53:24] 👤 User (turn 40) <!--id:b8a69bbf-1bbd-4413-a49b-05b181e26601-->
+
+<pasted_content id="09cb">
+請開始執行 `DevonForlan/ai-opportunity-to-revenue` 的 GitHub Issue #8：
+
+`Phase 2: Decision Closure + Pilot Validation + Build-Ready Specification`
+
+請先完整讀取 Phase 0、Phase 1A、Phase 1B、Issue #4、Issue #6、PR #5、PR #7，再依 Issue #8 執行。
+
+這一輪的核心目標不是繼續做大量泛研究，而是盡可能把研究階段收斂完成，讓下一階段可以直接開始開發。
+
+請一次盡可能多做，不要每完成一小段就停下等待我確認。你可以自主進行：
+
+- targeted evidence research
+- dataset audit
+- local / sandbox coding
+- synthetic pilot
+- testing / evaluation
+- report generation
+- pricing analysis
+- architecture design
+- PRD / MVP specification
+- implementation backlog
+
+尤其請務必完成：
+
+1. Phase 1B Top-5 ranking 人工複核
+2. 私人買家 commercial evidence 補強
+3. solo / boutique 真實案例
+4. 台灣民間 evidence
+5. 5–10 件 PCC 文件級分析
+6. 最終 Entry / Revenue / Follow-on Offer
+7. 完整 Pilot A — Assessment
+8. 完整 Pilot B — 可實際執行的 fixed-scope PoC
+9. Evaluation / Reliability tests
+10. 真實人工工時與 automation leverage 量測
+11. Build-vs-buy
+12. Pricing validation plan
+13. Acquisition test plan
+14. Commercial assets drafts
+15. Development Readiness Gate
+
+如果最後判定 `GO TO BUILD`，請不要停止在建議階段，直接依 Issue #8 建立：
+
+- `product/PRD.md`
+- `product/MVP_SCOPE.md`
+- `product/ARCHITECTURE.md`
+- `product/ACCEPTANCE_CRITERIA.md`
+- `product/IMPLEMENTATION_BACKLOG.md`
+
+並把下一階段可以直接執行的 development backlog 準備好。
+
+不要預設產品一定要做 SaaS 或公開 Web Platform。請根據 Pilot evidence 判斷第一版究竟應該是 service + internal tools、CLI、report generator、internal web app、client portal 或 SaaS。
+
+遇到 403、login wall 或單一資料來源無法取得時，記錄限制、換來源並繼續，不要停止整個 Phase 2。
+
+除非涉及對外聯絡、proposal、合約、付款、付費帳號、接受第三方條款、production 修改或使用真實客戶敏感資料，否則請自主持續完成 Issue #8。
+
+完成後請 commit / push、開 PR，並在 Issue #8 回報：
+
+- evidence sample counts
+- ranking audit 結果
+- final offer
+- Pilot A/B 結果
+- test / eval 結果
+- human time
+- automation findings
+- pricing hypotheses
+- build decision
+- PR / commit
+- blockers
+
+這一輪成功標準是：盡可能結束研究階段，把未知數降到足以開始第一版開發與獲客測試。
+</pasted_content id="09cb">
