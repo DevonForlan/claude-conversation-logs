@@ -2522,3 +2522,84 @@ Audit Part 2 回來了，三個審計都完成。總結審計對 Phase 1B 的衝
 - ↩︎ result (205 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\07_FINAL_OFFER_DESIGN.md (file state is current in your context — no need to Read it back) <!--id:25aa3bd1-64e7-461a-b79b-221dce21d60f-->
 - 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue/research/phase2_validation"; python - <<'PY' prices=[1500,3000,5000,8000]; hours=[20,40,80,120] print("| 總價 US$ \\ 人工小時 | "+" | ".join(f"{h}h" for h in hours)+" |"); print("|---|… <!--id:563c53f5-3749-4390-874b-9715a84788ef-->
 - ↩︎ result (261 chars): <stdin>:2: SyntaxWarning: invalid escape sequence '\ ' | �`�� US$ \ �H�u�p�� | 20h | 40h | 80h | 120h | |---|---:|---:|---:|---:| | 1,500 | 75 | 38 | 19 | 12 | | 3,000 | 150 | 75 | 38 | 25 | | 5,000 | 250 | 125 | 62 | 42 | | 8,000 | 400 | 200 | 100 | 67 | <!--id:54f21e3c-9667-4557-a279-27c622032905-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\14_PRICING_VALIDATION_PLAN.md <!--id:0283e78c-6d9b-43c5-a8e4-64f27455821d-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\15_ACQUISITION_TEST_PLAN.md <!--id:9063bee4-4550-44e6-98a2-d70efc1e261f-->
+- ↩︎ result (210 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\14_PRICING_VALIDATION_PLAN.md (file state is current in your context — no need to Read it back) <!--id:4383d6e3-cb1f-480c-8feb-a396a97af056-->
+- ↩︎ result (208 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\15_ACQUISITION_TEST_PLAN.md (file state is current in your context — no need to Read it back) <!--id:c1b421f6-9bdd-4126-ab7a-17fc415e1e1e-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\17_DEVELOPMENT_READINESS_GATE.md <!--id:d99314be-0a75-4f9a-bc38-cf522bfa78b5-->
+- ↩︎ result (213 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\17_DEVELOPMENT_READINESS_GATE.md (file state is current in your context — no need to Read it back) <!--id:da17e54b-ea19-4230-966d-de86ed2e8416-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue/research/phase2_validation"; PYTHONIOENCODING=utf-8 python - <<'PY' import csv,glob,os,collections hdr=['source','url','source_type','access_date','published_or_updated','evidenc… <!--id:50af0d0e-ec58-41a6-95c9-7f2c09241aac-->
+- ↩︎ result (1308 chars): 146 128 Counter({'C': 57, 'B': 30, 'A': 30, '': 10, 'U': 1}) _sources 01_audit_demand_sample.csv 01_audit_freelance_sample.csv 01_AUDIT_part1_purchase_and_demand.md 01_AUDIT_part2_freelance_and_supply.md 01_audit_supplier_sample.csv 01_PHASE1B_DECISION_AUDIT.md 01_purchase_remap.csv 02_PRIVATE_BUYER… <!--id:5918cab0-8b8c-4dcc-b2f7-09cc19411cbd-->
+
+### [2026-11-17 12:12:26] 🤖 Claude <!--id:62ba2ab9-9d35-4a57-ada2-6b2be18a34b9-->
+
+所有研究與 pilot 都已完成，我正在寫最終建議與 Issue 回報用的摘要，然後 commit、push 並開 PR。
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\18_PHASE2_FINAL_RECOMMENDATION.md <!--id:b853eb04-350c-40ee-9f91-c4a166d0b693-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\00_PHASE2_EXECUTIVE_SUMMARY.md <!--id:82276eee-2b38-44f8-a588-a9cf55504f9a-->
+- ↩︎ result (214 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\18_PHASE2_FINAL_RECOMMENDATION.md (file state is current in your context — no need to Read it back) <!--id:3e5181f0-9b4f-4c4f-80ec-95db94a9d0fd-->
+- ↩︎ result (211 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\00_PHASE2_EXECUTIVE_SUMMARY.md (file state is current in your context — no need to Read it back) <!--id:56d95f72-46f5-456f-971f-608bb988599a-->
+
+### [2026-11-17 12:13:02] 🤖 Claude <!--id:b92ea83c-ef1d-497d-a89b-c426ef09bda2-->
+
+寫完前，我自己抽查幾個由 agent 回報、而我引用到結論裡的關鍵數字，避免把未驗證的說法寫成事實。
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue/research/phase2_validation"; PYTHONIOENCODING=utf-8 python - <<'PY' import csv,collections,re p=list(csv.DictReader(open('06_PCC_DOCUMENT_REVIEW.csv',encoding='utf-8-sig'))) prin… <!--id:24f650b2-7b14-44a4-92c9-54781d4e7e44-->
+- ↩︎ result (1714 chars): PCC rows 10 bidder_count Counter({'1': 9, '3': 1}) solo_realistic Counter({'conditional: needs 商業登記 or 公司 + tax cert': 1, 'conditional yes (best fit): natural pers': 1, 'no for first-time provider; yes only wit': 1, 'no for first-time provider; renewal went': 1, 'no for solo: bond + sensitive tax da… <!--id:8b2c328b-f958-4634-986d-9b7e211d3262-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; cat >> research/phase2_validation/18_PHASE2_FINAL_RECOMMENDATION.md <<'EOF' ## 驗證註記（我對 agent 回報的抽查） 04／05／06 與審計的數字大多來自獨立 agent。我自行重算或抽查了：purchase remap（126 列、63 列變更、20 列非 AI、各… <!--id:ed2313b9-bdfc-49b7-a025-d04fc411538b-->
+- ↩︎ result (5729 chars): warning: in the working copy of 'pilot/phase2/assessment/scenario/COMPANY.md', LF will be replaced by CRLF the next time Git touches it warning: in the working copy of 'pilot/phase2/assessment/scenario/processes.csv', LF will be replaced by CRLF the next time Git touches it warning: in the working c… <!--id:7167f0d8-c9e8-4f01-873f-9ee274dd8089-->
+
+### [2026-11-17 12:13:26] 🤖 Claude <!--id:1ca2bc64-2604-4923-acaf-6f85d37c4c3d-->
+
+Pre-push scan for credentials and personal identifiers (the repo is public), run in the background because the diff is large.
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; git diff --cached --name-only | grep -E '\.(sqlite3|db|env|pem|key)$|var/' ; echo "--- sensitive files above (none expected)"; git diff --cached -U0 | grep -E '^\+' | grep -v '… <!--id:9677e563-bad5-4fd8-942e-8f58ae653c4e-->
+- ↩︎ result (135 chars): --- sensitive files above (none expected) 6007 secrets: 0 own identifiers: 0 emails (excluding synthetic .test/example): 2 [REDACTED_EMAIL] <!--id:077c8fdd-41ce-42c8-bddb-1af8f6cc87b6-->
+
+### [2026-11-17 12:13:41] 🤖 Claude <!--id:8ccf4e32-f6b9-41c5-94b6-b6fe5e07af0e-->
+
+掃描乾淨（`[REDACTED_EMAIL]` 是測試用的假字串）。commit、push、開 PR，base 設為 Phase 1B 的 branch。
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; git commit -q -m "research+pilot: Phase 2 decision closure, audits, synthetic Pilot A/B, readiness gate (HOLD)" -m "Audit corrects Phase 1B; supportdesk PoC (21 tests, DEV/HELD… <!--id:382f76ac-a573-4b27-9053-b681f6b4bdf8-->
+- ↩︎ result (72 chars): remote: https://github.com/DevonForlan/ai-opportunity-to-revenue/pull/9 <!--id:31ecb410-0688-4668-9576-9b4a7b09ef8a-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; cat > /tmp/c8.md <<'EOF' ## Phase 2 完成報告 — 判定：**HOLD** **PR**：https://github.com/DevonForlan/ai-opportunity-to-revenue/pull/9（branch `research/phase2-validation`；**堆疊**：base＝#7… <!--id:de4db971-cc16-45d0-a40d-2eb4523fed3a-->
+- ↩︎ result (94 chars): https://github.com/DevonForlan/ai-opportunity-to-revenue/issues/8#issuecomment-6938092375 main <!--id:2e11a374-2be3-4137-b205-0692efcc6ce4-->
+
+### [2026-11-17 12:14:33] 🤖 Claude <!--id:9783313b-f77f-4c53-a970-eedca36ac0a4-->
+
+Phase 2 研究與 pilot 已完成並推上 GitHub，判定是 **HOLD**。這代表研究階段可以結束，但下一步是由你驅動的驗證，不是開發產品。
+
+PR 是 https://github.com/DevonForlan/ai-opportunity-to-revenue/pull/9，完整報告已留在 Issue #8。這三個 PR 是堆疊的：#9 疊在 #7 上，#7 疊在 #5 上，**全部沒有 merge**。推送前我掃過新增內容，沒有憑證或你的帳號資訊。
+
+## 最重要的發現
+- **我之前的 Phase 1B 排名被審計部分推翻。** 126 筆購買紀錄有一半被誤分類：
+  - **RPA 誤算：** 20 筆「workflow 購買」其實是 RPA，不是 AI。
+  - **虛增與高估：** 內部助理從 33 筆降到 4 筆，評估類從 7 筆降到 4 筆。
+  - **修正後排名：** ① 客服自動化 PoC ② 工作流與文件自動化 ③ RAG 知識助理 ④ 評估（併入 PoC 的診斷） ⑤ eval/護欄。信心中低。
+- **評估降級原因：** 實作類需求遠多於評估類，已交付的 39 個 solo 案例裡 32 個是直接實作。「審計轉成建置」的已驗證案例是 0。
+- **私人買家證據到了天花板。** 93 列裡，真正私人且有金額的只有 2 筆，都是百萬美元級。Freelancer 已付款完成案的中位數約 US$100，單人 US$3k 以上的成交是 0 筆。
+- **台灣：** 獨立顧問被排除在補助輔導的資金之外，標案需要商業登記，10 件標案裡 9 件只有 1 家投標。
+
+## Pilot 結果（全為合成資料）
+- **Pilot B：** 可執行的客服信件分流與草稿回覆 PoC，21 個測試通過，CLI 端到端可跑。**LLM 路徑沒有實作也沒有測。**
+- **HELDOUT：** 30 筆保留測試，初始正確率 0.80，最終 0.833；該升級給人工、卻自動出草稿的危險錯誤是 2/10。
+- **兩個真缺陷：** 修了關鍵字子字串誤判，以及「請求已存、結果寫失敗，重送後客訴遺失」的 bug。後者是我質疑自己的測試才發現的，測試套件沒抓到。
+- **H24：** 一開始被擋下是因為錯誤的原因，修好後暴露成真正的漏判，所以最初的 1/10 低估了風險。
+- **Pilot A：** 完整評估報告，客服流程在 59,049 種輸入組合中 94.4% 仍是 AI 類第一名。但輸入是我設定的，而且 Pilot B 先做，報告裡已揭露這個選擇偏誤。
+
+## 為什麼是 HOLD
+- **未滿足：** 人工工時沒有量測（只量到 agent 牆鐘約 8 分鐘），雇主／稅務／法律限制未知。兩項都需要你。
+- **部分滿足：** 自動化槓桿與客戶資料政策。
+- **不是 NO-GO：** 沒有證據顯示交付不可重複，也沒有證據顯示價格與工時不匹配。工時是「未知」，不是「不匹配」。
+- **沒建 `product/` 規格：** 依 Issue 規定，只有 GO 才需要。
+- **不計算 automation ratio：** 沒有人工時間與人工基準，任何百分比都是虛構。
+
+## 需要你做的（依序）
+1. **雇主兼職／NDA、稅務、行號、收款：** 確認雇主兼職規定、稅務所得類別、是否需行號登記與收款路線。
+2. **一次計時的人機協作 run：** 約 1–2 小時（我的估計，不是量測），協定在 `17_DEVELOPMENT_READINESS_GATE.md`。你扮演客服核准者並用碼表記錄，才能第一次量到人工時間。
+3. **客戶資料與 LLM 的處理方式：** WebComm 政策禁止客戶資料進 Claude，使用外部模型前要先決定。
+4. **以上完成後才輪到獲客測試：** 外聯由你決定與送出，我只備素材。20 場合格對話後仍沒有任何書面付費意願，就依停止條件停掉這個 offer。
+
+## 沒達成的項目
+- **私人買家購買證據：** 嚴格計算未達 ≥40 筆，天花板原因在 `02_PRIVATE_BUYER_EVIDENCE.md`。
+- **台灣證據：** 具名買家加供應商加金額的案例是 0，具名私人案例只有 4 個且沒有價格。
+- **標案文件：** 標案文件本文取不到（網站擋下，我沒有繞過），只讀了公告欄位，這 10 件全是部分驗證。
+- **抽查範圍：** 大部分數字來自 agent，我只自己抽查了關鍵部分，沒有逐一重開網頁。
+
+建議從 `research/phase2_validation/00_PHASE2_EXECUTIVE_SUMMARY.md` 開始看。
