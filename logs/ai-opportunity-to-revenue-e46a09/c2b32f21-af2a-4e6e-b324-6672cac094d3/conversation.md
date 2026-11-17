@@ -2470,3 +2470,29 @@ Next, the functional tests (idempotency, approval gating, audit chain, redaction
 - ↩︎ result (555 chars): rank id fit h/mo addr_h diff val/diff name 1 P1 AI 130.0 58.5 8 7.31 Customer support email triage and first reply 2 P3 DETERMINISTIC 25.0 20.0 5 4.0 Web-form lead routing to CRM 3 P4 DETERMINISTIC 12.0 10.2 5 2.04 Weekly sales and stock report 4 P5 AI 43.3 15.2 8 1.9 Staff questions about policies … <!--id:aaa9b724-ea55-4f1f-a1f7-d4a0d3a2e176-->
 - 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue/pilot/phase2/assessment"; cat > tools/sensitivity.py <<'EOF' """Sensitivity of the AI-candidate ranking to the assessor's own inputs (SYNTHETIC scenario). Perturbs volume and aut… <!--id:b5ea200d-21c9-4675-ba1c-2ccc86c90224-->
 - ↩︎ result (242 chars): combinations: 59049 P1 55728/59049 = 94.4% Customer support email triage and first reply P2 1215/59049 = 2.1% Supplier invoice data entry P5 2106/59049 = 3.6% Staff questions about policies and product specs SENS 2026-11-17T12:04:14+08:00 <!--id:86227165-de14-4a8e-94f3-6f8661179f95-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\08_PILOT_A_ASSESSMENT_REPORT.md <!--id:54a05bfa-735c-4318-aecc-1888d67665d9-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue"; echo "PILOT_A_REPORT_DONE $(date -Iseconds)"; cat pilot/phase2/assessment/out/candidate_register.json | head -3 >/dev/null; ls pilot/phase2/assessment pilot/phase2/supportdesk … <!--id:47ed501c-8af7-4044-b52e-ec2e0a3c93d8-->
+- ↩︎ result (212 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\08_PILOT_A_ASSESSMENT_REPORT.md (file state is current in your context — no need to Read it back) <!--id:be795b3d-875b-497b-bb39-0bf25028af5d-->
+- ↩︎ result (179 chars): PILOT_A_REPORT_DONE 2026-11-17T12:04:54+08:00 pilot/phase2/assessment: out scenario tools pilot/phase2/supportdesk: config data eval kb README.md RUNBOOK.md supportdesk tests var <!--id:8d553852-ab2e-4010-b0ce-34480273343a-->
+
+### [2026-11-17 12:05:10] 🤖 Claude <!--id:0536937c-f6e9-48da-8d14-e194655eaba5-->
+
+Pilot A 的客戶報告完成。現在寫工時紀錄，**如實只記錄我真正量到的牆鐘時間，人工時間標為未量測**，然後寫 Pilot B 的實作與評估文件。
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue/research/phase2_validation"; PYTHONIOENCODING=utf-8 python - <<'PY' import csv from datetime import datetime f=lambda s: datetime.fromisoformat(s) rows=[ ("B1 build supportdesk c… <!--id:6f9bc1f5-33d9-4470-b94e-1af36e99d028-->
+- ↩︎ result (34 chars): total measured agent minutes: 8.01 <!--id:f4579280-3c8b-4b37-ad66-8cab194a24aa-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/ai-opportunity-to-revenue/pilot/phase2/supportdesk"; PYTHONIOENCODING=utf-8 python - <<'PY' import json i=json.load(open('eval/results_initial.json',encoding='utf-8')); l=json.load(open('eval/results_late… <!--id:e359cd97-8c36-4cd3-ada9-81156232ffd9-->
+- ↩︎ result (1409 chars): dev initial {'n': 42, 'outcome_accuracy': 0.857, 'false_auto_draft': '0/12', 'false_auto_draft_ids': [], 'over_escalation': '6/24', 'over_escalation_ids': ['D04', 'D12', 'D24', 'D25', 'D26', 'D37'], 'category_accuracy': '26/26', 'order_extraction': '16/16', 'pii_leaks': 0, 'commitment_violations': 0… <!--id:fe17925c-6bbc-4920-924d-c6bf4ad35701-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\10_PILOT_B_IMPLEMENTATION.md <!--id:aa4ffa58-80cc-4db2-ae2c-abeec51a5655-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\11_PILOT_B_EVALUATION.md <!--id:b0014115-44bf-4a8a-8a23-f2bdd00e27fc-->
+- ↩︎ result (209 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\10_PILOT_B_IMPLEMENTATION.md (file state is current in your context — no need to Read it back) <!--id:dd47f9f5-e4b7-43ec-b4fb-9374fdfc7e19-->
+- ↩︎ result (205 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\11_PILOT_B_EVALUATION.md (file state is current in your context — no need to Read it back) <!--id:73f59389-2470-4e60-8a5c-8f09bd675cae-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\12_DELIVERY_AUTOMATION_MEASUREMENT.md <!--id:58dfce4b-47e3-400a-9b5d-617cc5f05d0f-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\13_BUILD_VS_BUY.md <!--id:4522a80b-3e24-4961-8fa0-45acd0e7fc90-->
+- ↩︎ result (218 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\12_DELIVERY_AUTOMATION_MEASUREMENT.md (file state is current in your context — no need to Read it back) <!--id:eb289cff-2fa6-4904-842a-2820cca9991f-->
+- ↩︎ result (199 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\13_BUILD_VS_BUY.md (file state is current in your context — no need to Read it back) <!--id:ac014467-2d35-4f49-b32b-230c8d5fa979-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\16_COMMERCIAL_ASSETS.md <!--id:e4a9ea47-e6c6-45b8-94cd-102eb4a2e8bd-->
+- ↩︎ result (204 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\ai-opportunity-to-revenue\research\phase2_validation\16_COMMERCIAL_ASSETS.md (file state is current in your context — no need to Read it back) <!--id:de660c0b-5af6-49b0-804b-1d04a5648ad4-->
+
+### [2026-11-17 12:07:07] 🤖 Claude <!--id:94dd79c0-10f8-459a-b217-1f48bdbfb943-->
+
+三個研究 agent 還在跑（audit Part 2、私人買家 Part B、台灣民間）。Pilot A/B、工時紀錄、自動化量測、build-vs-buy、商業素材都已完成。等它們回報後，我會合併審計結果、確定最終 offer、做 Development Readiness Gate，並依結果決定是否寫 `product/` 規格。
