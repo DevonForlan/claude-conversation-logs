@@ -2651,3 +2651,11 @@ Lock 和 KILL_WRITES 都不存在，可以做到期的 24 小時全量重掃。�
 <summary>Background command "cd "[REDACTED]"; nohup ../tools/ocr-venv/Scripts/python.exe -I milanote_auto.py --scan-only --full &gt; logs/full-rescan-1118.txt 2&gt;&amp;1 &amp;
 echo started" completed (exit code 0)</summary>
 </task-notification>
+- 🔧 **Bash**: cd "[REDACTED]"; tail -c 600 logs/full-rescan-1118.txt; echo; ls -la .milanote_run.lock 2>&1; tasklist | grep -ci python <!--id:9ff0944f-29b1-4801-83cd-21c34dd77c20-->
+- ↩︎ result (68 chars): -rw-r--r-- 1 devon.tseng 1049089 5 Nov 18 14:25 .milanote_run.lock 4 <!--id:51d1c1ad-e89c-406c-86db-1442e46d566d-->
+
+### [2026-11-18 14:26:05] 🤖 Claude <!--id:548b6e65-c0ac-4c6a-ad96-25adbcfb8d4e-->
+
+這個完成通知只代表啟動指令結束了，不代表重掃做完。掃描在背景程序裡執行，鎖檔存在，Python 程序也還在跑，日誌目前是空的。
+
+重掃跑完後我會讀結果。現在不用你做任何事。
