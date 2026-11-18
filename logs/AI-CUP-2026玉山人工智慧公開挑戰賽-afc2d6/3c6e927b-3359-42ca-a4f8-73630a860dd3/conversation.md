@@ -42055,3 +42055,57 @@ Hotfix CI is green, and the full local suite for #71 passed. Merging and deployi
 
 All checks pass: the portal confirms the old 11/19 FINAL is the current submission, so the tool can replace it. Running the real supersession now (old FINAL gets archived first).
 - 🔧 **Bash**: cd "[REDACTED]" && timeout 590 .venv/Scripts/python.exe -m agent.ops.tactical_supersede --date 2026-11-19 --authorization "Owner decision 2026-11-18 in session (approve option B + C, submit under … <!--id:f635b81f-2991-45d5-9d46-8d927ad3f1be-->
+- ↩︎ result (868 chars): {'status': 'SUPERSEDED_CONFIRMED', 'blocked_reason': None, 'prior_final_sha256': 'sha256:6180655d18cfe2ace1a3064962413cd20d1400ab0ee451bd8c94c6fdd908c83f', 'active_final_sha256': 'sha256:4a7b1bd850ebe9eb7a94ae6c50f1d34fc45430831665c9bf790e3ad9efe9bc6f', 'state_after': 'SUBMISSION_CONFIRMED', 'prior_… <!--id:25d7d4c6-f7a2-44db-b511-eb2ec0e6c62a-->
+- 🔧 **Bash**: cd "[REDACTED]" && python - <<'PYEOF' import json r=json.load(open("logs/tactical/2026-11-19_TECH_OVERWEIGHT_V1.json",encoding="utf-8")) for k in("policy","status","regime","band","selected","tech… <!--id:2ad4f7bc-78a3-45df-bdbc-ea973f5f6436-->
+- ↩︎ result (894 chars): policy aggressive status TECH_OVERWEIGHT_APPLIED regime DEFENSIVE band [0.93, 0.97] selected score_ranked@0.97 tech_weight_after_overlay 0.9592626981923159 cash_weight_after 0.040737301807684104 holdings_after 21 orders 4 turnover_pct 10.240470845451243 active_share_min 0.42443888990665385 max_weigh… <!--id:f8bbb6ed-2dae-4e2c-a40d-2178003dba85-->
+- 🔧 **Bash**: cd "[REDACTED]" && cat > handoff/claude_sessions/2026-11-18_3c6e927b-3359-42ca-a4f8-73630a860dd3_aggressive.md <<'PYEOF' # Owner decision 2026-11-18 — AGGRESSIVE_RETURN policy (PRs #71, #72) and 1… <!--id:f82e646d-b9e2-4451-a3b3-53c2715fb3be-->
+- 🔧 **ScheduleWakeup**: Ops follow-through (AGGRESSIVE_RETURN policy, Owner decision 2026-11-18). (1) Each check-in: `python agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --force` (slow; run in background). (2) State: production … <!--id:5188d6ca-b457-4182-b68c-275965d253dc-->
+- ↩︎ result (86 chars): https://github.com/DevonForlan/ai-cup-2026-etf-agent/issues/68#issuecomment-6978675780 <!--id:8638009c-3e36-4563-9764-9a481fa0a7cc-->
+- ↩︎ result (234 chars): Next wakeup scheduled for 21:32:00 (in 3519s). If you owe the user a status update this tick, write it now as ordinary response text; then end the turn — the harness re-invokes you when the wakeup fires or a task-notification arrives. <!--id:afe5f9e0-0662-460f-9e69-bd83764a9ddb-->
+
+### [2026-11-18 20:33:37] 🤖 Claude <!--id:8b09f0f2-6cf1-4f61-b815-63f228173729-->
+
+新策略已上線，11/19 的預測已改用新策略重新提交，Portal 確認成功（SUBMISSION_CONFIRMED，20:32，回看內容與新 FINAL 一致）。
+
+**比賽辦法的評分方式**
+- 初賽排名只看 11/27 收盤後的最終 NAV，最大回撤只在 NAV 相同時用來分勝負。
+- 24 個交易日中至少要繳交 22 天才列入排名。目前 18 天全部成功（10/26 沒有紀錄），之後最多只能再漏 1 天。
+
+**新策略（方案 B 加一點 C，Agent 自動依規則決策）**
+- 科技股比例 93–97%，不論市場狀態都一樣；仍會判斷並記錄市場狀態，但不再拿來降低曝險。
+- 現金下限從 8% 降到 3%。
+- 單一子產業上限從 30% 放寬到 45%。
+- 選股評分：營收排名 35%、20 日相對強弱 25%、法人買賣超 15%、5 日超跌反彈 25%。不再扣波動率和急漲急跌的分數。
+- 分數最高的股票優先加碼到單檔 9% 上限；選擇方式改成「扣除交易成本後的預期報酬最高」，不再偏好維持原持股。
+- 比賽規則和原有防線都沒放寬：
+  - 持股 20–30 檔，單檔不超過 10%（台積電不超過 25%）。
+  - 現金低於 25%，壓力測試下也不能變負。
+  - Active Share 達標，每天最多 30 筆委託，validator 通過。
+
+**新的 11/19 投資組合**
+
+| | 原本 | 新策略 |
+|---|---|---|
+| 科技比例 | 85.7% | 95.9% |
+| 現金 | 14.3% | 4.1% |
+| 持股 | 21 檔 | 21 檔 |
+| 下單 | 0 筆 | 4 筆（換手約 10%） |
+| 前三大 | — | 台光電 8.9%、聯亞 8.9%、創意 8.1% |
+| Active Share | — | 42.4% |
+
+原本那份 FINAL（sha 開頭 `6180655d`）已封存在 `submissions/20261119/superseded/`，新 FINAL 的 sha 開頭是 `4a7b1bd8`。
+
+**程式與紀錄**
+- PR #71（新策略）與 #72（替換提交工具的修正）已合併並部署，正式環境版本 832f6b6。
+- Frozen Quant v1 指紋沒變；CI 全部通過，完整測試也通過。
+- 舊的策略測試寫的是「85%、無結束日」，我已依你的新決策更新，並在 PR 說明原因。
+- Issue #68 已留言，交接檔已寫。
+
+**風險**：這個策略會放大波動，市場再跌時虧損會比之前更大。它沒辦法在剩下的 7 天內先驗證效果。
+
+**接下來**
+- 11/20 起，每晚 19:30 的排程會自動用新策略。
+- 最大的風險是筆電休眠造成漏交。若漏交就只剩 0 天可漏，比賽期間請盡量讓筆電插電、開蓋。
+- 「修正 LLM 敘事退回範本」我還沒做，因為評分不看報告內容，優先度低。
+- 明早我會確認 MorningFinal 沒有蓋掉這份 FINAL，17:10 回報 11/19 的報酬。
+- 如果要退回舊策略，把 `config/tactical_tech_overweight_v1.yaml` 裡 2026-11-19 那段改回 `{min: 0.85, policy: risk_adjusted}`。
