@@ -42162,3 +42162,39 @@ All checks pass: the portal confirms the old 11/19 FINAL is the current submissi
 | 11/19 19:35 | 11/20 預測有用新策略產生並提交成功 |
 
 夜間的檢查本身不會改任何東西。真正有風險的時間點是明天 19:30，因為漏交只剩 1 天的空間。
+
+### [2026-11-18 20:35:03] 👤 User (turn 553) <!--id:9bbddb0f-5936-4259-8b2a-cdd6aa6c58b5-->
+
+這些檢查時間點是怎麼訂的? 可以直接接續檢查嗎? 不用這樣排時間檢查
+
+### [2026-11-18 20:35:16] 🤖 Claude <!--id:42ff6756-0fbd-42bc-a7ca-8653e7fae2e3-->
+
+這些時間點是對著系統每天三個自動排程訂的，不是隨便選的：
+
+| 自動排程 | 做什麼 | 我檢查的時間 |
+|---|---|---|
+| 07:30 MorningFinal | 早上可能重做當日決策 | 07:30 之後，確認沒蓋掉 FINAL |
+| 17:00 評估 | 計算當日 NAV 和累積報酬 | 17:10，看結果、必要時補跑 |
+| 19:30 預測 | 產生並提交下一個交易日的 D-Plan | 19:35 左右，確認提交成功 |
+
+所以真正要看的只有這三個時間點，各自要等前一個排程跑完才有東西可查，沒辦法提前一次做完。
+
+至於「直接接續檢查」：我沒辦法在背景一直持續盯著。我只有在你傳訊息或排好的喚醒時間到了，才會開始動作。喚醒最長只能排 60 分鐘後，所以要等到明天 07:30，中間只能每小時接力一次。夜間那些整點檢查其實沒做什麼事，是為了撐到下一個重點時間。
+
+我可以這樣調整：
+- 夜間接力的那幾次不再回報，只在三個重點時間點出事或有結果時才告訴你。
+- 如果你人在電腦前，直接傳訊息給我，我會立刻檢查，不必等排程。
+
+需要的話，我也可以改成完全不排喚醒，只在你叫我的時候才檢查。缺點是 19:30 那次若被擋住，沒人叫我就不會補救，等於可能漏交。依目前只剩 1 天可漏的狀況，我建議保留喚醒。
+
+### [2026-11-18 20:35:48] 👤 User (turn 554) <!--id:5d486b11-8372-4ef9-88a3-c99e82471e12-->
+
+好，保留喚醒，夜間不用回報
+- 🔧 **Write**: C:\Users\devon.tseng\.claude\projects\C--Users-devon-tseng-Desktop----AI-CUP-2026-----------\memory\feedback_quiet_checkins.md <!--id:43f48a1c-8279-491d-87c8-3ec7285795a0-->
+- ↩︎ result (156 chars): File created successfully at: C:\Users\devon.tseng\.claude\projects\C--Users-devon-tseng-Desktop----AI-CUP-2026-----------\memory\feedback_quiet_checkins.md <!--id:664070d9-56e6-4abb-b6f6-b4d7e56dbbcd-->
+- 🔧 **Edit**: C:\Users\devon.tseng\.claude\projects\C--Users-devon-tseng-Desktop----AI-CUP-2026-----------\memory\MEMORY.md <!--id:4da777a2-0b6b-4046-8dba-14b81986082f-->
+- ↩︎ result (149 chars): The file C:\Users\devon.tseng\.claude\projects\C--Users-devon-tseng-Desktop----AI-CUP-2026-----------\memory\MEMORY.md has been updated successfully. <!--id:959d4a7f-8128-43c1-b611-f393e2e156ca-->
+
+### [2026-11-18 20:35:59] 🤖 Claude <!--id:f5d77a64-6a30-4faa-ac63-6fecae46758b-->
+
+好，喚醒保留，夜間的整點檢查不再回報。我只會在三個時間點回報：07:30 之後確認 FINAL 沒被蓋掉、17:10 的評估結果和累積報酬、19:35 的提交結果；中途出狀況時也會立刻告訴你。這個偏好我也記下來了，之後的對話也會照做。
