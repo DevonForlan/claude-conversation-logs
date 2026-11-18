@@ -41689,3 +41689,6 @@ API Error: Can't reach the API server — check your internet or DNS (ENOTFOUND)
 <status>completed</status>
 <summary>Background command "Wait for full pytest result" completed (exit code 0)</summary>
 </task-notification>
+- 🔧 **Bash**: tail -8 "$TEMP/full_pytest.log"; date <!--id:989ca635-7df4-471a-aa20-98d475a1862b-->
+- ↩︎ result (632 chars): ........................................................................ [ 38%] ........................................................................ [ 46%] ........................................................................ [ 53%] ............................................................… <!--id:259b52c6-c2d3-435d-8c65-810302c63dbd-->
+- 🔧 **Bash**: for i in $(seq 1 50); do if grep -qE " passed| failed|error" "$TEMP/full_pytest.log"; then break; fi; sleep 5; done; tail -4 "$TEMP/full_pytest.log" <!--id:9168b651-a80b-4e0f-8f80-f686328d5323-->
