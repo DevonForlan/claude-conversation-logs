@@ -1,6 +1,16 @@
 {
-  "updated_at": "2026-11-17T23:08:22+08:00",
+  "updated_at": "2026-11-18T08:24:23+08:00",
   "projects": [
+    {
+      "project": "AI CUP 2026玉山人工智慧公開挑戰賽",
+      "project_safe": "AI-CUP-2026玉山人工智慧公開挑戰賽-afc2d6",
+      "last_activity": "2026-11-18T08:24:23+08:00",
+      "latest_session": "3c6e927b-3359-42ca-a4f8-73630a860dd3",
+      "latest_log": "logs/AI-CUP-2026玉山人工智慧公開挑戰賽-afc2d6/3c6e927b-3359-42ca-a4f8-73630a860dd3/conversation.md",
+      "status": "working",
+      "latest_turn": 542,
+      "sessions": 2
+    },
     {
       "project": "sync",
       "project_safe": "milanote-3fb634",
@@ -30,16 +40,6 @@
       "status": "ended",
       "latest_turn": 5,
       "sessions": 1
-    },
-    {
-      "project": "AI CUP 2026玉山人工智慧公開挑戰賽",
-      "project_safe": "AI-CUP-2026玉山人工智慧公開挑戰賽-afc2d6",
-      "last_activity": "2026-11-16T18:14:36+08:00",
-      "latest_session": "3c6e927b-3359-42ca-a4f8-73630a860dd3",
-      "latest_log": "logs/AI-CUP-2026玉山人工智慧公開挑戰賽-afc2d6/3c6e927b-3359-42ca-a4f8-73630a860dd3/conversation.md",
-      "status": "idle",
-      "latest_turn": 541,
-      "sessions": 2
     },
     {
       "project": "phase1",
