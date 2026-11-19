@@ -42750,3 +42750,52 @@ All tests and the Quant freeze check pass. Now opening the PR and merging it bef
 - **根本修正**：已上線（PR #73），測試與 CI 全部通過。以後只要內部帳和官方起始數字有任何差異就自動對齊，這種卡住不會再發生。
 
 策略本身照你 11/18 的決定維持不變。
+- 🔧 **PowerShell**: Get-Date -Format HH:mm:ss; Get-ScheduledTaskInfo -TaskName AI_CUP_Precompetition_DryRun_1930 | Select-Object LastRunTime,LastTaskResult; if (Test-Path submissions\20261120\submission_state.json) { Get-Content submissions\20261120\submission… <!--id:8c6de9d1-8ec4-4dc8-b057-6e101b12f0cc-->
+- ↩︎ result (4443 chars): 19:39:12 LastRunTime LastTaskResult ----------- -------------- 2026/11/19 下午 07:30:01 0 { "trade_date": "2026-11-20", "state": "SUBMISSION_CONFIRMED", "history": [ { "at": "2026-11-19T19:35:08.041123+08:00", "from": "NOT_READY", "to": "READY_TO_SUBMIT", "reason": "FINAL verified by ManualSubmissionP… <!--id:c2d1cff1-908f-47f1-9ed4-05c6f1a4323b-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽" && grep -a "ledger\|reconcil" logs/ops/20261120/competition_day.log | head -5; .venv/Scripts/python.exe - <<'EOF' import json r=json.load(open("logs/tactical/2026-11-20_TECH_OVERWE… <!--id:f667fed5-05d5-4276-b3f9-583dcb85afea-->
+- ↩︎ result (2447 chars): status TECH_OVERWEIGHT_APPLIED policy aggressive regime DEFENSIVE band [0.93, 0.97] selected stay selection_reason highest expected return net of transaction cost inside the band tech_weight_before_overlay 0.7702958721964146 tech_weight_after_overlay 0.947697807127544 cash_weight_after 0.05230219287… <!--id:ce298f6c-6e32-495a-ae69-b5d9d3a907b8-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽" && grep -a -i "aligned\|alignment" logs/ops/20261120/*.log | head -3; ls data/settlement | grep 20261119; (.venv/Scripts/python.exe -m agent.ops.shared_state_sync --date 2026-11-20… <!--id:e4c3f9fd-6162-46b5-b31a-b0b1d64f666c-->
+- ↩︎ result (804 chars): logs/ops/20261120/reconciliation.log:2026-11-19 19:34:29,267 INFO ledger 2026-11-19 aligned to the OFFICIAL figures (auto_accepted={'policy': 'AUTO_ACCEPT_OFFICIAL_CASH_ONLY', 'rel_cash': 1.6286800705325732e-05, 'rel_nav': 1.6286800705325732e-05, 'cap': 0.001}) 20261118_internal_superseded_20261119_… <!--id:9482c68e-cc47-4142-be3d-8b7b105dd83f-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\handoff\claude_sessions\2026-11-19_3c6e927b-3359-42ca-a4f8-73630a860dd3_1120_run.md <!--id:e70a6f64-2de8-4617-9da7-71f52f68e9e1-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽" && cat > "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/8f718917fde93c02/3c6e927b-3359-42ca-a4f8-73630a860dd3/scratchpad/c68.md" <<'EOF' ### 2026-11-19 status — 11/20 D-Plan (AGGR… <!--id:e91c2e27-6260-4923-8b88-c8371965bf49-->
+- ↩︎ result (234 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\handoff\claude_sessions\2026-11-19_3c6e927b-3359-42ca-a4f8-73630a860dd3_1120_run.md (file state is current in your context — no need to Read it back) <!--id:8aeb5068-5671-4687-b646-a04c2ce7b137-->
+- ↩︎ result (86 chars): https://github.com/DevonForlan/ai-cup-2026-etf-agent/issues/68#issuecomment-7008034976 <!--id:99d9aa53-4a52-4a69-85de-a00bc1869b52-->
+- 🔧 **ScheduleWakeup**: Ops follow-through (AGGRESSIVE_RETURN policy, Owner decision 2026-11-18). Owner preference: keep wakeups but NO routine reports; report only at event checks or problems. (1) Each check-in: `python agent/ops/cc_session_sync.py sync --session… <!--id:e07f6860-fe42-4ec0-be36-21d4cc5ac76e-->
+- ↩︎ result (234 chars): Next wakeup scheduled for 20:39:00 (in 3532s). If you owe the user a status update this tick, write it now as ordinary response text; then end the turn — the harness re-invokes you when the wakeup fires or a task-notification arrives. <!--id:9e83a4fc-4cd8-4bfc-b58f-bfff2c1bb7ef-->
+
+### [2026-11-19 19:40:15] 🤖 Claude <!--id:ed8ac5ea-44e4-48b8-98a8-a590980455a3-->
+
+## 今晚決策（11/20）：不交易，維持現有持股
+19:35 已提交，入口網站已確認收到（SUBMISSION_CONFIRMED）。
+
+| 項目 | 數值 |
+|---|---|
+| 委託筆數 | 0（周轉率 0%，交易成本 0） |
+| 持股 | 21 檔 |
+| 科技 / 現金 | 約 94.8% / 約 5.2% |
+| 合規 | 全數 PASS（Active Share 49.35%） |
+
+前幾大持股：
+
+| 股票 | 權重 |
+|---|---|
+| 2383 | 8.64% |
+| 3081 | 8.61% |
+| 3443 | 7.87% |
+| 3260 | 5.85% |
+| 3661 | 5.77% |
+| 3036 | 5.68% |
+| 8299 | 5.51% |
+
+**為什麼不換股**
+- 系統比較了 11 個方案：不動，以及兩種換股方式各 5 種科技比例。
+- 扣掉交易成本後，「不動」的預期報酬最高，約 0.449%。
+- 最好的換股方案要下 6 筆單、換掉約 21% 的部位，扣成本後只剩 0.370%，比不動差。
+- 今天跌最深的 3443、3661、2383、3081，在「超跌反彈」評分中反而排在最前面。也就是說，策略本來就想持有這幾檔，不需要換。
+- 科技比例落在 93–97% 區間內，沒有單檔超過上限，所以沒有強制調整。
+
+**營運**
+- 今晚對帳時，內部帳和官方差約 1.1 萬元（淨值的 0.0016%），系統自動以官方數字為準並對齊內部帳。這是今天修好的機制第一次實際運作，明天的評估不會再因此卡住。
+- 已提交 20 天（含 11/20），規定至少 22 天，最多只能再漏 1 天。
+
+下次回報：明天 17:10 給你 11/20 的報酬，19:40 左右給你明晚的決策。夜間照常不打擾，有問題才會通知你。
