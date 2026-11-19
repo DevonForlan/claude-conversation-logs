@@ -42649,3 +42649,104 @@ Session sync finished; no problems.
 - 🔧 **PowerShell**: Get-Content "logs\evaluation\evaluation_20261119_170014.log" -Tail 40 <!--id:a88f9015-16c3-47e5-affe-4e5b3958ebc5-->
 - ↩︎ result (622 chars): LABEL PRECOMPETITION_PAPER_RUN EVALUATION_DATE 2026-11-19 PREDICTION_DATE 2026-11-18 STARTED_AT 2026-11-19T17:00:14+08:00 FINISHED_AT 2026-11-19T17:01:44+08:00 MARKET_DATA OK EXECUTION - SETTLEMENT - NAV - DAILY_RETURN - CUMULATIVE_RETURN - MDD - TURNOVER - FEES - TAX - COMPLIANCE - ACTIVE_SHARE - R… <!--id:9b0fa98a-4733-4c3b-be7d-d6f9db16d553-->
 - 🔧 **PowerShell**: Get-ChildItem -Recurse -Filter "*2026-11-18*" ledger,state,data\ledger -ErrorAction SilentlyContinue | Select-Object FullName,LastWriteTime | Format-Table -AutoSize; Get-ChildItem -Recurse -Filter "*20261118*" -Include *reconcil* -ErrorActi… <!--id:7f70701c-f9da-4359-bae3-55245af70327-->
+- ↩︎ result (361 chars): FullName LastWriteTime -------- ------------- C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\data\settlement\20261118_reconciliation.json 2026/11/18 下午 08... <!--id:971edac9-e24a-409f-afba-44d324b785a4-->
+- 🔧 **PowerShell**: Get-ChildItem data\settlement | Where-Object { $_.Name -like "20261118*" -or $_.Name -like "20261119*" } | Select-Object Name,LastWriteTime | Format-Table -AutoSize; Get-Content data\settlement\20261118_reconciliation.json | Select-Object -… <!--id:642c8290-ea58-4fe9-945c-aa88a059e9bc-->
+- ↩︎ result (609 chars): Name LastWriteTime ---- ------------- 20261118_confirmation.json 2026/11/18 下午 08:31:30 20261118_internal.json 2026/11/18 下午 07:31:01 20261118_official.json 2026/11/18 下午 08:31:30 20261118_official_superseded_20261118_203130.json 2026/11/18 下午 07:32:20 20261118_reconciliation.json 2026/11/18 下午 08:3… <!--id:174bbd7b-791e-4513-954a-abcc5fce810a-->
+- 🔧 **Grep**: agent/ops/daily_evaluation.py <!--id:24d88a94-9602-4ea7-82c3-39f0b5328201-->
+- ↩︎ result (1818 chars): 158- cov = day_coverage(store, ev_date, ops_cfg=ops_cfg) 159- if cov["status"] != "COMPLETE": 160- rec.update(status="BLOCKED", blocked_reason="MARKET_DATA_INCOMPLETE", market_data=summary_line(cov)) 161- return rec 162- mkt = day_market(store, ev_date) 163- need = {o["ticker"] for o in doc.get("ord… <!--id:582c7663-f611-453f-affd-6a9ea43c6132-->
+
+### [2026-11-19 18:39:23] 🤖 Claude <!--id:41846c4f-e8cf-4f48-bab7-09a4ebfe2256-->
+
+Today's evaluation stopped on a settlement-chain mismatch, so I'm finding the cause before rerunning it.
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽" && grep -n "def load_internal\|def save_internal\|def apply_official\|def settlement_hash" -r agent | head; ls submissions/20261119/ ; ls submissions/20261119/superseded/*/ 2>/dev/… <!--id:60dc3ab1-9f80-4a44-abc8-26589026a637-->
+- ↩︎ result (591 chars): agent/competition_day.py:60:def settlement_hash(s: Settlement) -> str: agent/ops/settlement.py:47:def save_internal(s: Settlement, cfg: dict | None = None) -> Path: agent/ops/settlement.py:54:def load_internal(date: str, cfg: dict | None = None) -> Settlement | None: agent/ops/settlement.py:139:def … <!--id:2134420a-9080-4473-b445-b2d70a03da64-->
+- 🔧 **Read**: C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\agent\ops\settlement.py <!--id:3ead37bf-5707-4e69-a5e0-49e408fb1d75-->
+- ↩︎ result (5253 chars): 40 return ops_path(cfg or load_ops_config(), "settlement_dir") 41 42 43 def path_for(date: str, kind: str, cfg: dict | None = None) -> Path: 44 return settlement_dir(cfg) / f"{ymd(date)}_{kind}.json" 45 46 47 def save_internal(s: Settlement, cfg: dict | None = None) -> Path: 48 p = path_for(s.date, … <!--id:854ddeb9-e735-4ea0-8bb6-2d033e412f62-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽" && ls submissions/20261119/FINAL submissions/20261119/superseded/ && cat > "$TMP/../claude/8f718917fde93c02/3c6e927b-3359-42ca-a4f8-73630a860dd3/scratchpad/chk_hash.py" 2>/dev/null… <!--id:19e396df-80b6-4f43-9127-29b80ad8afa2-->
+- ↩︎ result (286 chars): submissions/20261119/FINAL: D-Plan_TEAM_11442_2026-11-19.json submissions/20261119/superseded/: 6180655d18cf /usr/bin/bash: line 1: C:\Users\DEVON~1.TSE\AppData\Local\Temp/../claude/8f718917fde93c02/3c6e927b-3359-42ca-a4f8-73630a860dd3/scratchpad/chk_hash.py: No such file or directory <!--id:3cd5c59f-784f-417a-bd09-3a871a57efea-->
+- 🔧 **Write**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\8f718917fde93c02\3c6e927b-3359-42ca-a4f8-73630a860dd3\scratchpad\chk_hash.py <!--id:731aabe5-dfe1-4c16-9fe3-54d2507689d0-->
+- ↩︎ result (219 chars): File created successfully at: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\8f718917fde93c02\3c6e927b-3359-42ca-a4f8-73630a860dd3\scratchpad\chk_hash.py (file state is current in your context — no need to Read it back) <!--id:68b00d53-0f57-4bfb-8453-d39daf43b75b-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽" && .venv/Scripts/python.exe "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/8f718917fde93c02/3c6e927b-3359-42ca-a4f8-73630a860dd3/scratchpad/chk_hash.py" 2026-11-18 2026-11-19 2>&1… <!--id:eedb0f92-8c87-4c81-88a3-63577a0152eb-->
+- ↩︎ result (354 chars): Traceback (most recent call last): File "C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\8f718917fde93c02\3c6e927b-3359-42ca-a4f8-73630a860dd3\scratchpad\chk_hash.py", line 5, in <module> from agent.ops.config import load_ops_config # noqa ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ModuleNotFoundEr… <!--id:9763a152-afaa-4262-be7f-d2822b4c0394-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽" && sed -i '/agent.ops.config/d' "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/8f718917fde93c02/3c6e927b-3359-42ca-a4f8-73630a860dd3/scratchpad/chk_hash.py" && .venv/Scripts/pytho… <!--id:7bb370ac-cb70-40bf-a45d-c4e73c354eef-->
+- ↩︎ result (654 chars): internal sha256:ba41409c3124abc7a6663e99ab4568587a33ffe612299cb525cb0afc1bf9b573 cash 105763552.7770208918101629896 nav 738149652.7770208918101629896 applied sha256:0c361fdb758ea7808fb73b3f96df2d1fe4a9bf6cf302fe5611a9543360c352ac cash 105763552.89 nav 738149652.89 same holdings: True submissions/202… <!--id:fd99400a-5b2e-499f-ab77-96807f017faf-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽" && .venv/Scripts/python.exe -m agent.ops.reconcile --date 2026-11-18 --accept-official --confirmed-by "Claude Code (Owner-delegated, COMPETITION_HIGH_AUTONOMY)" --note "identical s… <!--id:a20d4511-61da-4d6d-8989-2704b1be3ae0-->
+- ↩︎ result (186 chars): RECONCILIATION 2026-11-18: MATCH -> continue EVALUATION 2026-11-19 PASS report=C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\reports\daily_evaluations\2026-11-19_evaluation.md <!--id:30aef6b2-57bd-46dc-9a24-d46be3642d7a-->
+- 🔧 **PowerShell**: Get-Content "reports\daily_evaluations\2026-11-19_evaluation.md" -TotalCount 45 <!--id:429b3c85-c4eb-4273-a08c-31f817aeed71-->
+- ↩︎ result (1481 chars): # Daily Evaluation ??2026-11-19嚗OMPETITION_DAY_ESTIMATE嚗? > **COMPETITION_DAY_ESTIMATE** ??甇??瘥魚?仿?隡堆?韏琿??箏???DataPack 蝯?嚗ettlement ledger嚗?隞交?文??銝憟芋?砍?函?嚗?*銝摰蝯?**嚗??寧?蝞誑銝?隞?DataPack ?箸?嚗?撖怠 paper ledger嚗撽?撌脫?鈭斤?瘙箇?嚗?靽格蝑?I ?Ｙ??批捆嚗?鈭箏極撖拚?? ## Previous prediction | ?… <!--id:8b4edabf-3cfa-4bf2-936e-a0484ff91439-->
+- 🔧 **PowerShell**: Get-Date -Format HH:mm:ss; Get-ChildItem data\settlement | Where-Object { $_.Name -like "20261119*" } | Select-Object Name,LastWriteTime; Get-Content "C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\8f718917fde93c02\3c6e927b-3359-42ca-a4f8-7… <!--id:9e5cd43a-43c5-47ee-ae8b-b843998bf4d4-->
+- ↩︎ result (2583 chars): 18:40:41 """Read-only rehearsal of the aggressive policy for TRADE from the official PREV settlement. Temp dirs only.""" import json, sys, tempfile from pathlib import Path sys.path.insert(0, str(Path.cwd())) from agent.config import load_strategy from agent.engine.rules import load_rulebook from ag… <!--id:0de436f3-818a-4b2a-8ff0-fa7929e9a0e8-->
+- 🔧 **PowerShell**: Get-ChildItem -Recurse -Filter "*2026-11-19*.json" -Path reports,data\paper*,runs,state -ErrorAction SilentlyContinue | Where-Object { $_.LastWriteTime -gt (Get-Date).AddMinutes(-20) } | Select-Object FullName,LastWriteTime | Format-Table -… <!--id:20d2979c-a6d2-422a-85a1-42e173f0ea6e-->
+- ↩︎ result (37 chars): (PowerShell completed with no output) <!--id:d4114293-f4f6-4e6b-8fe2-80540317fec2-->
+- 🔧 **PowerShell**: Get-ChildItem -Recurse -File -ErrorAction SilentlyContinue | Where-Object { $_.LastWriteTime -gt (Get-Date).AddMinutes(-15) -and $_.FullName -notlike "*\.git\*" -and $_.FullName -notlike "*\.venv\*" } | Select-Object FullName,LastWriteTime … <!--id:809ae2d5-1f99-4f73-871b-d9a3328475ae-->
+- ↩︎ result (1315 chars): FullName -------- C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\.worktrees\shared-state\shared_state\daily_evaluations\latest... C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\.worktrees\shared-state\shared_state\daily_evaluations\2026-1... C:\Users\devon.tseng\Desktop\個人\AI CUP 202… <!--id:19dfd503-1504-4271-9849-8922f9cd9818-->
+- 🔧 **Grep**: agent <!--id:0ce4b881-f383-41c6-a3cb-3fe5059a394c-->
+- ↩︎ result (3221 chars): agent\competition_day.py-234- rl.info(f" diff {json.dumps(d, ensure_ascii=False)}") agent\competition_day.py-235- sstat["reconciliation"] = rec["status"] agent\competition_day.py-236- if rec["status"] != "BLOCK": agent\competition_day.py-237- start = apply_official(internal, official) agent\competit… <!--id:83a10a9f-ffcd-4f12-a261-df1e5df82291-->
+
+### [2026-11-19 18:42:39] 🤖 Claude <!--id:529196b9-3429-4ccb-9677-29193b56410c-->
+
+11/19 evaluation is done: today −7.07%, cumulative −31.40%. Next I'll make the ledger alignment always run, then report the full result to you.
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽" && git fetch -q origin && git worktree add -q -b fix/ledger-align-on-match ../wt-ledger origin/master && cd ../wt-ledger && grep -n "persist_official\|auto_accept" tests/ops/test_o… <!--id:cc889934-9d8d-4308-9c77-ce2b05e11541-->
+- ↩︎ result (487 chars): 323:def test_reconcile_auto_accepts_cash_only_fee_sized_difference(ops_cfg): 325: cfg = {**ops_cfg, "reconciliation": {**ops_cfg["reconciliation"], "auto_accept": {"enabled": True, "max_rel_nav": 0.001}}} 328: assert r["status"] == "MINOR_DIFFERENCE" and r["auto_accepted"]["rel_cash"] < 0.001 335: o… <!--id:8d9c4fb6-3e67-4f5c-935d-a83126811083-->
+- 🔧 **Read**: C:\Users\devon.tseng\Desktop\個人\wt-ledger\agent\competition_day.py <!--id:3207b1d0-cf30-4516-a3a1-3aca8618edf4-->
+- ↩︎ result (541 chars): 56 p = p[p["date"] == d] 57 return {r.ticker: D(round(float(r.close), 4)) for r in p.itertuples() if r.close == r.close} 58 59 60 def settlement_hash(s: Settlement) -> str: 61 return sha256_json({"holdings": s.holdings, "cash": str(s.cash), "nav": str(s.nav)}) 62 63 64 def http_reference_time(url: s… <!--id:0a0ea837-98af-470c-bf71-5a4b4b41ebe0-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\個人\wt-ledger\agent\competition_day.py <!--id:eeb00351-a6bb-4f8a-8988-f18bec07f1b8-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\個人\wt-ledger\agent\competition_day.py <!--id:546958fb-9438-4e23-9093-f9d71d642b98-->
+- ↩︎ result (106 chars): The file C:\Users\devon.tseng\Desktop\個人\wt-ledger\agent\competition_day.py has been updated successfully. <!--id:fbfe4b48-968f-4740-abe0-3e6d978fbe81-->
+- ↩︎ result (106 chars): The file C:\Users\devon.tseng\Desktop\個人\wt-ledger\agent\competition_day.py has been updated successfully. <!--id:a766b083-bc7a-45ab-a4d3-360ce1daa21f-->
+- 🔧 **Read**: C:\Users\devon.tseng\Desktop\個人\wt-ledger\tests\ops\test_ops_units.py <!--id:22d8908c-0543-40cf-b43b-20b9d9c8dbf6-->
+- ↩︎ result (1908 chars): 318 assert r["level"] == PASS 319 r2 = refresh(T1, store=fixture_store, fetchers=_fake(latest="2026-10-22"), ops_cfg=ops_cfg, clock=Clock("2026-10-25T20:00:00+08:00")) 320 assert r2["level"] == BLOCK # not a known closure -> T-1 prices stale 321 322 323 def test_reconcile_auto_accepts_cash_only_fee_… <!--id:77e50759-5648-409a-b23a-efcafd36d7d3-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\個人\wt-ledger\tests\ops\test_ops_units.py <!--id:648499e9-d1c8-43e4-986e-b6f0389856e4-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/wt-ledger" && "/c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽/.venv/Scripts/python.exe" -m pytest -q tests/ops/test_ops_units.py -k "ledger_alignment or reconcile" 2>&1 | tail -5 <!--id:6c87bb90-3694-4bda-9a21-85091bc3ed16-->
+- ↩︎ result (109 chars): The file C:\Users\devon.tseng\Desktop\個人\wt-ledger\tests\ops\test_ops_units.py has been updated successfully. <!--id:7507e1f5-85d5-4648-8e35-9b279e416803-->
+- ↩︎ result (157 chars): ... [100%] Shell cwd was reset to C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽 <!--id:4a5c8cc3-4dd3-432c-b7b5-2ee283dbfcf9-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/wt-ledger" && "/c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽/.venv/Scripts/python.exe" -m pytest -q -x 2>&1 | tail -4; "/c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽/.venv/Scripts/python… <!--id:cfaa775b-ea71-4a93-bcf8-621d34176b42-->
+- ↩︎ result (591 chars): ........................................................................ [ 83%] ........................................................................ [ 91%] ............................s........................................... [ 99%] ....... [100%] strategy_quant_v1.yaml sha256 f34fa02e924011b… <!--id:dd05764d-0a91-4fc6-bd0c-44a740a8dfd1-->
+
+### [2026-11-19 18:49:07] 🤖 Claude <!--id:3ba90095-41aa-4515-bd15-e55793e22895-->
+
+All tests and the Quant freeze check pass. Now opening the PR and merging it before the 19:30 run.
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/wt-ledger" && git add -A && git commit -q -m "OPS - align the ledger to the official start whenever it differs (also on a within-tolerance MATCH) Root cause of SETTLEMENT_CHAIN_MISMATCH on 2026-11-16/17/1… <!--id:fcb88fd8-16e8-4f34-9955-cffbb4f3efdc-->
+- ↩︎ result (256 chars): remote: https://github.com/DevonForlan/ai-cup-2026-etf-agent/pull/new/fix/ledger-align-on-match remote: https://github.com/DevonForlan/ai-cup-2026-etf-agent/pull/73 Shell cwd was reset to C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽 <!--id:4ba458f2-2412-4cbe-ad0d-a882011598c6-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽" && timeout 540 gh pr checks 73 --watch --interval 20 2>&1 | tail -6; date +%H:%M <!--id:6f978d34-6edd-42b4-8da7-ea6afac12b1e-->
+- ↩︎ result (700 chars): tests pass 3m12s https://github.com/DevonForlan/ai-cup-2026-etf-agent/actions/runs/44509211415/job/135508725396 validate pass 57s https://github.com/DevonForlan/ai-cup-2026-etf-agent/actions/runs/44509211415/job/135508725635 quant-freeze-check pass 11s https://github.com/DevonForlan/ai-cup-2026-etf-… <!--id:d2f79641-4846-4779-bda3-68efb80015ac-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽" && gh pr comment 73 --body "SELF_REVIEW=PASS — all LOW_RISK_OPS_AUTOMERGE gates pass; CI green (tests, validate, quant-freeze-check, secret-scan). SELF_MERGE=AUTHORIZED_BY_POLICY."… <!--id:bc038326-ccab-4bca-a20b-d06f0e6d63e6-->
+- ↩︎ result (212 chars): failed to delete local branch fix/ledger-align-on-match: failed to run git: error: cannot delete branch 'fix/ledger-align-on-match' used by worktree at 'C:/Users/devon.tseng/Desktop/個人/wt-ledger' 5d65998 5d65998 <!--id:da2c469a-3439-46d6-bd27-e13c282d6722-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽" && git branch -D fix/ledger-align-on-match 2>&1 | tail -1; gh pr view 73 --json state -q .state; git log -1 --oneline; date +%H:%M <!--id:f72fe055-f4cf-4681-b6ff-55989ab15e5c-->
+- ↩︎ result (182 chars): Deleted branch fix/ledger-align-on-match (was 8fa8e1f). MERGED 5d65998 OPS - align the ledger to the official start whenever it differs (also on a within-tolerance MATCH) (#73) 18:53 <!--id:fad9aafb-c058-4c48-8a26-fcc1019142a9-->
+- 🔧 **ScheduleWakeup**: Ops follow-through (AGGRESSIVE_RETURN policy, Owner decision 2026-11-18). Owner preference: keep wakeups but NO routine reports; report only at event checks or problems. (1) Each check-in: `python agent/ops/cc_session_sync.py sync --session… <!--id:23fa6cfc-5437-4594-95c8-6d34f5abff5f-->
+- ↩︎ result (234 chars): Next wakeup scheduled for 19:39:00 (in 2713s). If you owe the user a status update this tick, write it now as ordinary response text; then end the turn — the harness re-invokes you when the wakeup fires or a task-notification arrives. <!--id:9e3b9987-d807-40f0-9586-f7b7b8cf6ef0-->
+
+### [2026-11-19 18:53:56] 🤖 Claude <!--id:3a32af77-6931-43c1-8795-2a13ec93447a-->
+
+## 今天（11/19）結果：−7.07%，累積 −31.40%
+
+| 項目 | 數值 |
+|---|---|
+| 淨值（NAV） | 685,974,667 |
+| 當日報酬 | **−7.07%** |
+| 累積報酬 | **−31.40%** |
+| 最大回撤（MDD） | 33.68% |
+| 持股 / 現金 | 21 檔 / 5.23% |
+| 合規 | PASS（Active Share 54.21%） |
+
+今天手上 21 檔全部下跌，最大的幾檔幾乎都跌停：
+
+| 股票 | 權重 | 當日漲跌 |
+|---|---|---|
+| 2383 | 8.64% | −9.96% |
+| 3443 | 7.87% | −9.98% |
+| 3081 | 8.61% | −9.82% |
+| 3661 | 5.77% | −8.86% |
+
+這是進攻型策略第一天，碰上科技股重挫。高集中、高曝險本來就會放大單日虧損，這是這個策略的代價。
+
+## 決策預覽今天做不出來
+我原本答應 17:10 給你今晚決策的預覽，但做不到：預覽要從今天的官方結算部位起算，這份資料要等 19:30 那次執行才會送達。正式決策大約 19:40 在這裡給你，包括買賣哪些股票、原因、科技和現金比例、前幾大持股。
+
+## 處理掉一個反覆出現的問題
+- **狀況**：17:00 的評估一度卡住（結算接不上）。原因是 11/18 的內部帳和官方數字差 0.11 元。差額在容許範圍內，系統判定「一致」，所以沒有把內部帳對齊官方；但今天的投資組合是用官方數字算的，隔天評估就對不上。11/16、11/17 也是同一個原因。
+- **處理**：已手動對齊並重跑評估，結果通過。
+- **根本修正**：已上線（PR #73），測試與 CI 全部通過。以後只要內部帳和官方起始數字有任何差異就自動對齊，這種卡住不會再發生。
+
+策略本身照你 11/18 的決定維持不變。
