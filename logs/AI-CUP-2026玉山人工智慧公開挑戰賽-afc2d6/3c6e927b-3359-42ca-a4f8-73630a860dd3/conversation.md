@@ -42240,3 +42240,16 @@ All checks pass: the portal confirms the old 11/19 FINAL is the current submissi
 **風險**：曝險和集中度都拉高了，大盤或科技股再跌，虧損會比舊策略大。這套規則沒辦法在剩下的天數內先驗證，本質上是在落後時押上檔。
 
 如果要退回舊策略，把 `config/tactical_tech_overweight_v1.yaml` 裡 2026-11-19 那段改回 `{min: 0.85, policy: risk_adjusted}` 即可。
+- 🔧 **Bash**: cd "[REDACTED]" && date; python -c "import json;print(json.load(open('submissions/20261119/submission_state.json'))['state'])"; sha256sum submissions/20261119/FINAL/*.json | cut -c1-12; tail -1 lo… <!--id:7ca88f40-9efb-4886-955e-fc79a4e7e4cb-->
+- ↩︎ result (183 chars): Thu, Nov 19, 2026 9:28:53 AM SUBMISSION_CONFIRMED 4a7b1bd850eb 2026-11-19T09:27:52.8663551+08:00 MORNING_FINAL SKIPPED SUBMISSION_WINDOW_CLOSED prediction=SKIPPED submission=NOT_RUN <!--id:a5e5dbdf-6a2e-4a9b-843c-51db8d981052-->
+- 🔧 **ScheduleWakeup**: Ops follow-through (AGGRESSIVE_RETURN policy, Owner decision 2026-11-18). Owner preference: keep wakeups but NO routine reports; report only at event checks or problems. (1) Each check-in: `python agent/ops/cc_session_sync.py sync --session… <!--id:6a265782-dfde-4f5f-99f4-608de15a09ee-->
+- ↩︎ result (234 chars): Next wakeup scheduled for 10:28:00 (in 3536s). If you owe the user a status update this tick, write it now as ordinary response text; then end the turn — the harness re-invokes you when the wakeup fires or a task-notification arrives. <!--id:622eb929-a505-4d07-9ea7-32617651f152-->
+
+### [2026-11-19 09:29:06] 🤖 Claude <!--id:5a2d49e0-65fc-4d4c-93ed-9c1d73a0ef40-->
+
+11/19 早上確認完成：FINAL 沒有被蓋掉。
+
+- 提交狀態仍是 SUBMISSION_CONFIRMED，FINAL 仍是新策略那份（sha 開頭 `4a7b1bd8`）。
+- MorningFinal 因筆電休眠拖到 09:27 才跑，已過 08:55 截止，所以直接跳過，沒有動到 FINAL。
+
+下一次回報是 17:10 的 11/19 評估結果，那是新策略的第一天。
