@@ -43492,3 +43492,11 @@ If you need specific details from before compaction (like exact code snippets, e
 Continue the conversation from where it left off without asking the user any further questions. Resume directly — do not acknowledge the summary, do not recap what was happening, do not preface with "I'll continue" or similar. Pick up the last task as if the break never happened.
 
 The messages after this summary are the most recent messages from before compaction, kept verbatim. The summary was written without seeing them, so something it says has not happened yet may already have happened in them.
+- 🔧 **PowerShell**: Get-Date -Format "yyyy-MM-dd HH:mm"; Start-Process -WindowStyle Hidden -FilePath python -ArgumentList "agent/ops/cc_session_sync.py","sync","--session","3c6e927b-3359-42ca-a4f8-73630a860dd3","--force"; Get-ChildItem logs/ops -Directory | So… <!--id:0d518a70-9ab5-450b-8a91-0b2a54f82a61-->
+- ↩︎ result (55 chars): 2026-11-20 12:36 20261120 competition_preflight day1 <!--id:154644a1-b2dd-4df6-b6e3-8e24c7c378c3-->
+- 🔧 **ScheduleWakeup**: Ops follow-through. POLICY: DEFENSIVE_DIFFERENTIATION from the 2026-11-23 D-Plan (Owner decision 2026-11-20 option B; PR #74, production HEAD 9294f87; recorded on #68). 11/19-11/20 were aggressive. Owner preference: no routine reports; repo… <!--id:8dd6df0f-68c5-43f0-8694-ee2a06cbc6bf-->
+- ↩︎ result (234 chars): Next wakeup scheduled for 13:36:00 (in 3548s). If you owe the user a status update this tick, write it now as ordinary response text; then end the turn — the harness re-invokes you when the wakeup fires or a task-notification arrives. <!--id:ee44cde5-349c-4c1c-bdfc-049e3b1a88e1-->
+
+### [2026-11-20 12:36:54] 🤖 Claude <!--id:de58a0de-d3e6-4b9c-b279-66ddae8fb71e-->
+
+Checked in at 12:36 and nothing needs action. The next reports are the 11/20 return and cumulative return after 17:10, then Monday's (11/23) first defensive run around 19:40, covering what was sold and bought plus the cash and tech percentages.
