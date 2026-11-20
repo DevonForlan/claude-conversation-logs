@@ -43309,3 +43309,186 @@ B 方案的防守型策略已經上線，從 11/23（週一）的投資組合開
 - **之後每個交易日**：17:10 回報當天報酬，19:40 左右回報隔天的決策。
 
 中途有問題我會主動通知你；你想調整的話，在當天 19:30 前告訴我即可。
+
+### [2026-11-20 12:36:31] 👤 User (turn 579) <!--id:0cc9c8cb-718c-469b-9748-e0a96dedac92-->
+
+This session is being continued from a previous conversation that ran out of context. The summary below covers the earlier portion of the conversation.
+
+
+Summary:
+1. Primary Request and Intent:
+   - Project: AI CUP 2026 玉山 Agent 基金經理人, team TEAM_11442.
+     - Repo `DevonForlan/ai-cup-2026-etf-agent` (master).
+     - Production checkout: `C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽`.
+   - Governance (CLAUDE.md §11 COMPETITION_HIGH_AUTONOMY):
+     - Carry work end to end: implement → test → CI → self-merge → deploy → verify → evidence on GitHub.
+     - Never ask the Owner to merge.
+   - Hard boundaries:
+     - No credential, cookie or token extraction.
+     - No login, MFA or CAPTCHA bypass.
+     - No fabricated evidence or submission success.
+     - No weakening of tests or guards.
+     - No force-push.
+     - No rewriting of audit history.
+   - Frozen Quant v1 must never change: `config/strategy_quant_v1.yaml` sha256 f34fa02e924011b20c52a4bd42e961169f97e1950e76e04b7e78dc43ac23d2e0. Frozen paths: agent/features, agent/portfolio, agent/pipeline.py, agent/run_sim.py, agent/sim.
+   - Org policy (WebComm), verbatim intent:
+     - No sensitive data or credentials.
+     - Conversation content is company property; do not share it externally without review and authorization.
+     - AI output is reviewed by a human.
+   - Owner preferences:
+     - Keep the wakeup chain but make NO routine reports. Report only at event checks (07:30+ MorningFinal, 17:10 evaluation, ~19:40 decision) or on problems.
+     - NO email. Present results in this session only; the Owner declined to email even to a company address.
+   - CURRENT POLICY: DEFENSIVE_DIFFERENTIATION from the 2026-11-23 D-Plan.
+     - Owner decision 2026-11-20 "選 B", after the ranking analysis.
+     - Owner then: "那就依照你的建議就好". Keep defensive through 11/27; no switching on one- or two-day results; change only on an explicit Owner instruction before a 19:30 run.
+     - Never change policy without Owner approval.
+   - Competition rules:
+     - Ranking = final NAV after the 11/27 close.
+     - At least 22 of 24 days must be submitted: 20 done including 11/20, so at most 1 more miss.
+     - Holdings 20–30; 2330 ≤ 25%; others ≤ 10%; cash < 25% (3 warnings = DQ).
+     - Active Share ≥ 20%.
+     - Fills at the daily VWAP.
+     - Window: T-1 19:30 → T 08:55, with the decision cutoff at 08:30.
+     - ≤ 30 orders.
+
+2. Key Technical Concepts:
+   - Daily schedulers:
+     - `AI_CUP_Precompetition_DryRun_1930` (prediction + submission).
+     - `AI_CUP_Precompetition_Evaluation_1700`.
+     - `AI_CUP_Competition_MorningFinal_0730`.
+     - Laptop sleep delays wakeups and runs.
+   - Evaluation chain: the D-Plan's `run_metadata.settlement_hash` must match the internal ledger or the official settlement of the previous date (`daily_evaluation`). Manual rerun: `.venv\Scripts\python.exe -m agent.ops.daily_evaluation --date YYYY-MM-DD`.
+   - Tactical overlay:
+     - `agent.tactical.override.activate` wraps `pipeline.construct`.
+     - `tech_overweight.run_overlay` dispatches by `tcfg["policy"]` (floor_schedule segment).
+     - Every candidate passes through `K._finalize`:
+       - plan_decisions;
+       - `enforce_decision_limit` (30);
+       - orders ≤ 30;
+       - check_portfolio;
+       - Active Share;
+       - stress test: cash ≥ 0 and < 25% under ±5% fills.
+   - The record status `TECH_OVERWEIGHT_APPLIED` is still used for defensive (needed by supersede and shared-state gates).
+
+3. Files and Code Sections:
+   - `agent/competition_day.py` (PR #73, merged 5d65998):
+     ```python
+     def ledger_needs_alignment(internal: Settlement, start: Settlement) -> bool:
+         return settlement_hash(internal) != settlement_hash(start)
+     ...
+     if mode == "competition" and ledger_needs_alignment(internal, start):  # was: rec["status"] != "MATCH" and rec["diffs"]
+         persist_official_to_ledger(prev_date, internal, official, start, ops_cfg)
+     ```
+     - Test: `test_ledger_alignment_also_runs_on_a_within_tolerance_match` in `tests/ops/test_ops_units.py`.
+     - Verified live at 19:34 on 11/19: "ledger 2026-11-19 aligned to the OFFICIAL figures".
+   - `agent/tactical/defensive_diff.py` (NEW, PR #74, merged 9294f87):
+     - VERSION = "TACTICAL_DEFENSIVE_DIFFERENTIATION_V1".
+     - `volatility_pool(prices, universe, tech, lookback=60, min_avg_amount)`: non-tech universe names sorted by 60-day realised volatility, filtered on 20-day average `amount`.
+     - `plan_transition(held_w, tech, pool, sell_n, *, cash_target, cap, min_holdings, max_holdings, max_orders)`:
+       - sells the `sell_n` largest tech holdings and keeps the rest untouched (no_trade);
+       - buys `b = max(need, 1 if invest > 0.02 else 0)` pool names at equal weight `(1 - cash_target - sum(keep)) / b`, capped;
+       - returns None if `b > room` (max_orders − sells) or there are too few pool names.
+     - `equal_resize(held_w, cash_target, cap)`.
+     - `run_overlay_defensive(..., fallback=None)`:
+       - if tech is held: try s from max down to 1 and take the first candidate `_finalize` passes ("transition_sell{s}");
+       - if no tech is held: "stay" when cash is in `cash_band` [0.10, 0.20], else "equal_resize";
+       - if nothing passes, call `fallback()` (aggressive v2) and record `fallback` and `policy_requested`;
+       - the record includes `policy: "defensive"`, `tactical_overlay: "DEFENSIVE_DIFFERENTIATION"`, `sold_tech`, `kept_tech`, `added_defensive`, `added_vol60`, `candidates`, `pool_top` and `tech_weight_after_overlay`.
+   - `agent/tactical/tech_overweight.py` `run_overlay`: added at the top
+     ```python
+     if tcfg.get("policy") == "defensive":
+         from agent.tactical import defensive_diff as DD
+         from agent.tactical import tech_risk_adjusted as RA
+         agg = dict(tcfg, policy="aggressive", target_tech_weight_min=float(tcfg.get("fallback_tech_min", 0.93)))
+         return DD.run_overlay_defensive(plan, res0, prev_cash, rb, cfg, market, etf_holdings, etf_meta, scores, regime_override, tcfg, tech,
+             fallback=lambda: RA.run_overlay_v2(plan, res0, prev_cash, rb, cfg, market, etf_holdings, etf_meta, scores, regime_override, agg, tech, legacy=run_overlay_legacy))
+     ```
+   - `config/tactical_tech_overweight_v1.yaml`:
+     - floor_schedule now has `{from: '2026-11-19', to: '2026-11-20', min: 0.93, policy: aggressive}` and `{from: '2026-11-23', min: 0.0, policy: defensive}`.
+     - Added `fallback_tech_min: 0.93`.
+     - Added a `defensive:` block:
+       - `cash_target: 0.16`;
+       - `cash_band: [0.10, 0.20]`;
+       - `max_weight: 0.09`;
+       - `min_holdings: 21`, `max_holdings: 28`;
+       - `max_orders: 30`;
+       - `vol_lookback: 60`;
+       - `min_avg_amount: 300000000`.
+     - Rollback: set the 11/23 segment to `policy: aggressive, min: 0.93`.
+   - Tests:
+     - `tests/tactical/test_defensive_diff.py` (new; 5 tests).
+     - `test_tech_floor_persistent.py`: 11/19–11/20 at 0.93; 11/23+ defensive at 0.0; the end-date test uses 11/24 and 11/25.
+     - `test_tech_risk_adjusted.py`: aggressive 11/19–11/20; defensive 11/23 and 11/27.
+   - `docs/TACTICAL_OVERRIDE.md`: new section for the Owner decision of 2026-11-20 (option B).
+   - Handoff files:
+     - `handoff/claude_sessions/2026-11-19_…_1120_run.md`.
+     - `handoff/claude_sessions/2026-11-20_…_rank_analysis.md`.
+   - Scratchpad: `rank_analysis.py`, `harness_def.py` (the defensive rehearsal, using a temp config `tcfg_def.yaml`), `chk_hash.py`, `harness_ag.py`.
+
+4. Errors and fixes:
+   - 11/19 evaluation SETTLEMENT_CHAIN_MISMATCH (0.11 TWD rounding; reconcile said MATCH):
+     - fixed by `reconcile --date 2026-11-18 --accept-official` and a rerun (PASS);
+     - root fix PR #73.
+   - The scratchpad script imported a nonexistent `agent.ops.config`: removed the line.
+   - `gh pr merge --delete-branch` failed because the worktree still used the branch: removed the worktree and deleted the branch manually.
+   - I started editing on master in the production checkout, then moved the work to the branch `feat/defensive-differentiation` before committing.
+   - The full test run modified `reports/round06_readiness.json`: reverted it with `git checkout`.
+   - Correction made to the Owner: I had earlier claimed our portfolio was very different from the crowd. The analysis showed beta 0.97, so I corrected this explicitly.
+   - Wakeups were missed overnight on 11/19–11/20 because the laptop slept: woke at 09:46 and verified the FINAL was intact.
+
+5. Problem Solving:
+   - Solved:
+     - Recurring settlement-chain mismatch (PR #73).
+     - Defensive policy implemented and deployed (PR #74, label owner-approved-investment-change, CI green, production HEAD 9294f87 == origin/master).
+     - `resolve('2026-11-23')` gives defensive.
+     - Real-data rehearsal `transition_sell15`:
+       - tech 94.8% → 14.2%, cash 15.7%, 21 holdings, 30 orders;
+       - Active Share 37.3%, validation PASS;
+       - adds 2002, 2912, 5880, 1216, 2834, 5876, 5871, 2886, 2618, 2892, 2610, 2801, 2890, 2880, 1101;
+       - keeps 6 small tech names, which should be sold on 11/24.
+   - Results:
+     - 11/19: −7.07%, cumulative −31.40%.
+     - 11/20 FINAL (aggressive stay): 9f000140, SUBMISSION_CONFIRMED.
+
+6. All user messages:
+   - "如果是安排在 17:10 我會告訴你今天的報酬之後提供給我今晚的決策 可以嗎? 然後將結果寄信到q0000h6209@gmail.com 這樣可以嗎"
+   - "好吧 那不用寄到我公司信箱好了，你直接在這裡呈現決策吧"
+   - "目前累積報酬是多少"
+   - "最新的預測策略是什麼? 另外如果正在跌的話 我是不是可以先持有更多現金? 這樣會有違規的可能嗎"
+   - "維持進攻型策略，照原計畫繼續"
+   - "但是我有一個想法，我目前的目的是提高名次，也就是說假如大家都在跌 那我如果跌的少 我的名次就可以往前，另外我在想大家持有的科技股應該都是大宗，所以即便我持有絕大部分的科技股，即便漲我可能優勢也是偏少 你認為如何?"
+   - "好，請做這份分析"
+   - "選 B"
+   - "那我想要問下周一開盤之後 會根據結果做一些相應的變動嗎"
+   - "那就依照你的建議就好"
+   - (plus recurring loop prompts "Ops follow-through …" and system task notifications)
+
+7. Pending Tasks:
+   - Silent wakeup chain (max 3600s). Each check-in: `python agent/ops/cc_session_sync.py sync --session 3c6e927b-3359-42ca-a4f8-73630a860dd3 --force` (background).
+   - 11/20 17:10: evaluation of 11/20.
+     - If late or BLOCKED, rerun `.venv\Scripts\python.exe -m agent.ops.daily_evaluation --date 2026-11-20`.
+     - On mismatch, inspect the 11/19 ledger against the official figures.
+     - Tell the Owner the daily and cumulative return, in Chinese.
+   - 11/20 ~19:40: verify the first DEFENSIVE run (trade date 2026-11-23):
+     - `logs/ops/20261123/operator_summary.txt`;
+     - `logs/tactical/2026-11-23_TECH_OVERWEIGHT_V1.json`: policy defensive, TECH_OVERWEIGHT_APPLIED, no fallback, transition_sellN, cash about 16%, holdings 20–30, orders ≤ 30;
+     - `submissions/20261123/submission_state.json`: SUBMISSION_CONFIRMED;
+     - if BLOCKED or not run, fix it and run `Start-ScheduledTask AI_CUP_Precompetition_DryRun_1930`.
+     - Then shared-state sync: `python -m agent.ops.shared_state_sync --date 2026-11-23`, `python -m agent.ops.shared_state_tactical`, `python -m agent.ops.shared_state_scheduler --task dryrun_1930 --event END`.
+     - Post on #68, write a handoff file, and tell the Owner in Chinese: which tech was sold, which defensive names were bought, cash %, tech %, holdings.
+   - Weekend 11/21–22: no runs.
+   - Then daily through 11/27: MorningFinal check ~07:30, 17:10 evaluation, ~19:40 decision report. Never miss a day.
+
+8. Current Work:
+   - I just recorded the Owner's last instruction ("那就依照你的建議就好") on Issue #68 (comment 7029644751): defensive stays in force through 11/27, with no switching on short-term results.
+   - A wakeup is scheduled (12:36 on 11/20). Its prompt covers the defensive policy, the 17:10 evaluation and the ~19:40 verification of the 11/23 run.
+
+9. Optional Next Step:
+   - Briefly confirm to the Owner (in Chinese) that the defensive policy will be kept through 11/27 and will change only on their instruction.
+   - Then continue the silent wakeup chain to the 17:10 evaluation of 11/20, and verify the first defensive 19:30 run for 11/23 at ~19:40.
+   - This follows my earlier commitment: "每天 17:10 我會回報當天報酬，19:40 左右回報隔天的決策內容，你可以依結果決定要不要調整。"
+
+If you need specific details from before compaction (like exact code snippets, error messages, or content you generated), read the full transcript at: C:\Users\devon.tseng\.claude\projects\C--Users-devon-tseng-Desktop----AI-CUP-2026-----------\3c6e927b-3359-42ca-a4f8-73630a860dd3.jsonl
+Continue the conversation from where it left off without asking the user any further questions. Resume directly — do not acknowledge the summary, do not recap what was happening, do not preface with "I'll continue" or similar. Pick up the last task as if the break never happened.
+
+The messages after this summary are the most recent messages from before compaction, kept verbatim. The summary was written without seeing them, so something it says has not happened yet may already have happened in them.
