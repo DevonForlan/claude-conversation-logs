@@ -1,6 +1,16 @@
 {
-  "updated_at": "2026-11-20T11:25:55+08:00",
+  "updated_at": "2026-11-20T11:30:16+08:00",
   "projects": [
+    {
+      "project": "第一銀行",
+      "project_safe": "第一銀行-b08501",
+      "last_activity": "2026-11-20T11:30:16+08:00",
+      "latest_session": "b0b3828c-0bee-4131-964a-8f1e0493f366",
+      "latest_log": "logs/第一銀行-b08501/b0b3828c-0bee-4131-964a-8f1e0493f366/conversation.md",
+      "status": "working",
+      "latest_turn": 1,
+      "sessions": 1
+    },
     {
       "project": "AI CUP 2026玉山人工智慧公開挑戰賽",
       "project_safe": "AI-CUP-2026玉山人工智慧公開挑戰賽-afc2d6",
@@ -10,16 +20,6 @@
       "status": "working",
       "latest_turn": 576,
       "sessions": 2
-    },
-    {
-      "project": "第一銀行",
-      "project_safe": "第一銀行-b08501",
-      "last_activity": "2026-11-20T11:25:53+08:00",
-      "latest_session": "b0b3828c-0bee-4131-964a-8f1e0493f366",
-      "latest_log": "logs/第一銀行-b08501/b0b3828c-0bee-4131-964a-8f1e0493f366/conversation.md",
-      "status": "working",
-      "latest_turn": 0,
-      "sessions": 1
     },
     {
       "project": "搬遷",
