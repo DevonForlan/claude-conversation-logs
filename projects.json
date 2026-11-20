@@ -1,6 +1,16 @@
 {
-  "updated_at": "2026-11-20T09:57:53+08:00",
+  "updated_at": "2026-11-20T10:01:57+08:00",
   "projects": [
+    {
+      "project": "搬遷",
+      "project_safe": "claude-conversation-logs-8978cc",
+      "last_activity": "2026-11-20T10:01:57+08:00",
+      "latest_session": "30e5b156-8771-498c-a5a7-ff50b6e35047",
+      "latest_log": "logs/claude-conversation-logs-8978cc/30e5b156-8771-498c-a5a7-ff50b6e35047/conversation.md",
+      "status": "working",
+      "latest_turn": 63,
+      "sessions": 1
+    },
     {
       "project": "sync",
       "project_safe": "milanote-3fb634",
@@ -70,16 +80,6 @@
       "status": "ended",
       "latest_turn": 1,
       "sessions": 2
-    },
-    {
-      "project": "claude-conversation-logs",
-      "project_safe": "claude-conversation-logs-8978cc",
-      "last_activity": "2026-11-13T12:36:44+08:00",
-      "latest_session": "30e5b156-8771-498c-a5a7-ff50b6e35047",
-      "latest_log": "logs/claude-conversation-logs-8978cc/30e5b156-8771-498c-a5a7-ff50b6e35047/conversation.md",
-      "status": "working",
-      "latest_turn": 63,
-      "sessions": 1
     },
     {
       "project": "搬遷",
