@@ -2409,3 +2409,28 @@ Manifest 開始雜湊 361,390 個檔案（上次 350,256），預計約 1 小時
 ### [2026-11-21 10:24:27] 🤖 Claude <!--id:172276f1-eeff-4637-bf5e-c41ef7a07299-->
 
 Manifest 重建還在跑，我重新設了監看，完成後會繼續最終 verify。
+
+### [2026-11-21 10:24:48] 👤 User (turn 71) <!--id:548c3868-3c42-418e-9384-7a6cd623f817-->
+
+目前進度如何 完成度可以用百分比表示嗎
+- 🔧 **Bash**: grep -E "manifest|hash" "$TEMP/final_delta_run.txt" | tail -3 | cut -c1-200; date <!--id:edd92aba-b220-4d04-b8f8-4b011ff13ff4-->
+- ↩︎ result (243 chars): 2026-11-21T10:19:37 [INFO] manifest: hashing 361390 files (SHA-256, parallel, long-path safe) 2026-11-21T10:22:05 [INFO] manifest: 2814/361390 files (1%) 2026-11-21T10:24:06 [INFO] manifest: 3888/361390 files (1%) Sat, Nov 21, 2026 10:24:54 AM <!--id:9d04df9c-d1c4-4b51-9b23-e3431a4cc5d0-->
+
+### [2026-11-21 10:25:02] 🤖 Claude <!--id:e9d3eee2-4815-418e-80ba-75aecf0c4a5c-->
+
+目前整體約 **60%**，剩下最久的步驟是 manifest 雜湊。
+
+| 步驟 | 狀態 |
+|---|---|
+| 1. 確認 Transcend 外接硬碟 | 完成 |
+| 2. Delta Inventory | 完成 |
+| 3. 更新 Final Migration Scope | 完成 |
+| 4. Final Delta 增量備份 | 完成。Desktop 與 Downloads 有新增或更新的檔案，Documents 有 1 筆更新，其他設定檔也已補進 package |
+| 5. 重建 Final Manifest | **進行中，約 1%**（10:24 時已雜湊 3,888 / 361,390 個檔案） |
+| 6. Final checksum 與 verify | 等 manifest 完成後才能開始 |
+| 7. Transcend 最終檢查 | 等 verify 完成後 |
+| 8. 最終報告與 SAFE／NOT SAFE 結論 | 最後 |
+
+**時間：** 目前雜湊速度偏慢，因為開頭先處理大檔案。上次整份 manifest 約 1 小時。我現在不確定這次是否會更久，所以先不給確切的完成時間，下次回報會用實際速度重算。manifest 之後的 verify 上次約 2 小時 20 分，所以整個流程預計還要 3 到 4 小時以上。
+
+目前沒有任何錯誤。所以現在還不能給 SAFE TO RESTORE 的結論，D: 也還不能退出。
