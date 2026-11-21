@@ -2490,3 +2490,30 @@ Manifest 重建還在跑，我重新設了監看，完成後會繼續最終 veri
 ### [2026-11-21 10:55:57] 🤖 Claude <!--id:396791c2-9bc1-405a-adba-650449506645-->
 
 Manifest 目前約 35%，進度正常。我已重新設好 50% 的通知，到時會告訴你並估算剩餘時間。
+
+### [2026-11-21 11:04:34] 👤 User (turn 76) <!--id:e84d4145-7259-4ad4-ad54-f7fdd6e75ee8-->
+
+<task-notification>
+<task-id>by0kwqpm1</task-id>
+<tool-use-id>toolu_01VYh8bRY35wY6MiJi4NwiNg</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\tasks\by0kwqpm1.output</output-file>
+<status>completed</status>
+<summary>Monitor "Re-arm 50% notification" stream ended</summary>
+<event>50% REACHED: 2026-11-21T11:04:13 [INFO] manifest: 183036/361390 files (51%) at 11:04:34</event>
+</task-notification>
+
+### [2026-11-21 11:04:41] 🤖 Claude <!--id:adc33bab-3b45-43bd-8f1b-6979683b382e-->
+
+**50% 到了。** manifest 雜湊目前 **51%**（183,036 / 361,390，時間 11:04）。
+
+**剩下的 50% 預計還要約 2.5 到 3 小時：**
+
+| 階段 | 預估 |
+|---|---|
+| 剩餘 manifest 雜湊 | 約 35 到 40 分鐘。實測速度是每 10 分鐘約 5.6 萬個檔案，預計 11:40 前後完成 |
+| 最終 verify（重新雜湊整個 package 並比對 manifest，另外比對來源與 package 的檔案差異） | 約 1.5 到 2 小時。上次是 2 小時 20 分，這次雜湊用 12 執行緒平行，應該會略快 |
+| Transcend 最終檢查與報告 | 約 10 分鐘 |
+
+預計 14:00 到 14:30 之間可以給出最終結論。這是估算，verify 的實際時間要等它跑起來才準。目前沒有任何錯誤。
+
+manifest 完成後我會自動開始 verify，並在每個階段通知你。
