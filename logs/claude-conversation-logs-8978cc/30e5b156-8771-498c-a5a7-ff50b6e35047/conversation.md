@@ -2027,3 +2027,234 @@ Pushed. Now post the Issue comment and update status/latest.json.
 **GitHub：** 文件與盤點檔 commit `c465c10966730ce50e072d5aae9ece768a3b8913`，`latest.json` 更新 commit `758350143e9beca8d772af1c83f48b2ab5c26c74`，Issue #1 留言：https://github.com/DevonForlan/claude-conversation-logs/issues/1#issuecomment-6758469067 。
 
 原始盤點輸出在 `Desktop\個人\搬遷\inventory_out`（只在本機，沒有上傳）。
+
+### [2026-11-21 09:48:27] 👤 User (turn 64) <!--id:da2f136b-d9ef-481e-84df-f290b78dbaee-->
+
+<pasted_content id="a8ab">
+現在舊電腦已經停止主要使用，我準備正式進行最後搬遷。
+
+目前用來存放 Windows Migration 備份的外接硬碟是：
+
+- 品牌：Transcend（創見）
+- 容量：約 2 TB
+- Windows 目前磁碟代號：D:
+- 檔案系統：exFAT
+- Windows 顯示容量：約 1.81 TB
+- 這就是前一次 Migration Package 與備份資料所在的外接硬碟
+
+請注意：
+
+不要再把這顆外接硬碟稱為 Samsung T7。
+後續所有 migration / backup / verify / restore 流程，都以這顆 Transcend 外接硬碟為準。
+
+正式執行任何寫入或同步之前，請先確認 D: 確實是 Transcend 外接硬碟，避免誤操作其他磁碟。
+
+---
+
+因為前一次完整 Inventory 與完整備份完成後，我仍然繼續使用這台舊電腦一段時間，所以現在不能直接假設之前的 Inventory 與 Migration Package 就是最終狀態。
+
+但不要重新從零做整套完整 Inventory，也不要重新完整複製之前已經備份的全部資料。
+
+請直接沿用目前既有的 Windows Migration 專案、Inventory、Migration Package、scripts、checksums、logs 與 checklist，開始正式 Final Cutover。
+
+執行順序如下。
+
+### 1. 確認 Transcend 外接硬碟
+
+先確認：
+
+- D: 是否確實為 Transcend 外接硬碟
+- 磁碟容量是否約 1.81 TB
+- filesystem 是否為 exFAT
+- 磁碟是否可以正常讀寫
+- filesystem 是否 Healthy / Not Dirty
+- 之前的 Migration Package 是否仍完整存在
+- 既有 scripts、manifest、checksum、logs 是否存在
+
+如果 Windows 因重新連接而改變磁碟代號，請先辨識 Transcend 實際磁碟代號，再沿用正確路徑，不要因為 D: 不存在就誤操作其他磁碟。
+
+### 2. Final Delta Inventory
+
+因為上一次 Inventory 完成後舊電腦仍持續使用，請執行一次：
+
+Final Delta Inventory / Pre-Cutover Inventory
+
+目的不是重新盤點全部，而是找出「上次完整 Inventory 到現在」之間發生的變化。
+
+至少檢查：
+
+- 新增／移除的應用程式
+- 新增或變動的 Git repositories
+- Git 設定
+- GitHub CLI 設定
+- SSH config / keys
+- VS Code settings / extensions
+- Claude Code 本機設定
+- Codex 本機設定
+- Python 環境
+- Node.js / npm 環境
+- Java 環境
+- PATH
+- Environment Variables
+- PowerShell profile / scripts
+- Scheduled Tasks
+- MobaXterm 設定
+- Obsidian Vault / workspace
+- 瀏覽器中需要搬遷的設定
+- Desktop
+- Documents
+- Downloads
+- 使用者目錄中新增或修改的重要資料
+- PFX / PEM / KEY / SSH Key 等憑證與金鑰
+- 其他上一版 Inventory 已納入 migration scope 的項目
+
+請將本次結果與既有 Inventory 比較，產出 Delta Inventory Report。
+
+已確認沒有變化的項目不需要重新研究。
+
+### 3. 更新 Final Migration Scope
+
+依照 Delta Inventory 結果更新最終搬遷範圍。
+
+如果發現上一次 Inventory 後新增的重要資料、設定、repository、工具或其他需要搬遷的項目，直接納入 Final Migration Scope。
+
+### 4. Final Delta Incremental Backup
+
+接著執行最後一次增量備份。
+
+來源：
+
+目前這台舊 Windows 電腦。
+
+目的地：
+
+Transcend 外接硬碟上的既有 Migration Package。
+
+要求：
+
+- 只同步上次完整備份後新增或修改的內容
+- 不要重新複製所有既有 Migration Package
+- 不要重新從零建立備份
+- 保留既有正確資料
+- 沿用之前已經處理好的 Windows long path 相容方式
+- 完整記錄新增、更新、跳過與失敗項目
+- 不要因單一非關鍵錯誤就整體停止
+- 所有執行紀錄寫入 logs
+
+### 5. Final Manifest
+
+Final Delta Backup 完成後：
+
+重新依照最終 Migration Package 建立 Final Manifest。
+
+不要直接把舊 manifest 視為最終結果。
+
+### 6. Final Checksum / Verification
+
+針對最終 Migration Package 執行完整驗證。
+
+至少確認：
+
+- missing = 0
+- mismatch = 0
+- checksum failed = 0
+
+如果有 failed：
+
+必須逐筆確認實際原因。
+
+不要因為單純 Windows long path 顯示問題就直接判斷資料遺失；應沿用之前的驗證方式確認實際 SHA-256。
+
+另外確認：
+
+- Migration Package 可以正常讀取
+- 沒有重要檔案因權限問題漏掉
+- 沒有未解釋的檔案差異
+- 沒有重要資料只存在舊電腦而未進入 Migration Package
+
+### 7. Final Transcend Drive Check
+
+全部完成後，再次檢查 Transcend 外接硬碟：
+
+- filesystem Healthy
+- Not Dirty
+- Migration Package 可讀
+- logs 完整
+- Final Manifest 存在
+- Final Verification 結果存在
+- 沒有 process 正在持續寫入外接硬碟
+
+此時舊電腦端才算完成 Final Cutover。
+
+### 8. 產出 Final Cutover Report
+
+請整理並明確回報：
+
+- Final Delta Inventory 發現哪些變化
+- 新增哪些 migration scope
+- Final Delta 新增檔案數
+- Final Delta 更新檔案數
+- Final Delta 備份容量
+- Final Migration Package 總檔案數
+- Final Migration Package 總容量
+- checksum 結果
+- missing 數量
+- mismatch 數量
+- failed 數量
+- Transcend filesystem 狀態
+- WARNING
+- MANUAL ACTION
+- 尚未處理事項
+
+最後必須明確給出其中一個結論：
+
+SAFE TO RESTORE
+
+或
+
+NOT SAFE TO RESTORE
+
+如果是 NOT SAFE TO RESTORE，請直接列出阻擋 Restore 的原因與需要處理的事項。
+
+---
+
+如果最終結果為 SAFE TO RESTORE：
+
+舊電腦從此視為 Frozen Source。
+
+不要再修改需要搬遷的資料。
+
+接下來才進入：
+
+Transcend 外接硬碟
+→ 新電腦
+→ Pre-Restore Verify
+→ Restore Dry Run
+→ Formal Restore
+→ Post-Restore Validation
+
+目前這一階段先把「舊電腦 → Transcend 最終 Migration Package」完整完成並驗證。
+
+能自行檢查、比較與處理的事項請直接完成，不需要因一般資訊確認問題停下來詢問我。
+
+只有涉及以下情況才需要停下來：
+
+- 可能刪除原始資料
+- 可能覆蓋重要既有資料
+- 不可逆操作
+- 需要本人密碼
+- MFA
+- 公司 IT 權限
+- VPN / device enrollment
+- 需要重新核發公司憑證
+- 無法明確辨識正確的 Transcend 外接硬碟
+</pasted_content id="a8ab">
+- 🔧 **PowerShell**: Get-Volume | ? DriveLetter | Select DriveLetter,FileSystemLabel,FileSystem,@{n='GB';e={[math]::Round($_.Size/1GB,1)}},@{n='Free';e={[math]::Round($_.SizeRemaining/1GB,1)}},HealthStatus,DriveType | ft -auto | Out-String; Get-Disk | Select Nu… <!--id:ffca8efc-ff7f-4b57-b905-c98e86870277-->
+- ↩︎ result (587 chars): DriveLetter FileSystemLabel FileSystem GB Free HealthStatus DriveType ----------- --------------- ---------- -- ---- ------------ --------- D Transcend exFAT 1863 1476.6 Healthy Fixed C Windows NTFS 474.7 67.3 Healthy Fixed Number FriendlyName BusType GB HealthStatus OperationalStatus ------ -------… <!--id:a649c37d-b015-42f4-97c1-a16e31588d42-->
+- 🔧 **PowerShell**: fsutil dirty query D:; Get-Disk 1 | Get-Partition | Select PartitionNumber,DriveLetter,@{n='GB';e={[math]::Round($_.Size/1GB)}} | ft -auto | Out-String; Get-ChildItem D:\ -Force | Select Name,LastWriteTime | ft -auto | Out-String; Get-Child… <!--id:5b1e3004-ec89-4bb5-bf8f-4ea8cda763a0-->
+- ↩︎ result (1571 chars): Volume - D: is NOT Dirty PartitionNumber DriveLetter GB --------------- ----------- -- 1 D 1863 Name LastWriteTime ---- ------------- System Volume Information 2026/7/23 下午 05:30:32 .fseventsd 2026/11/15 上午 04:48:22 .Spotlight-V100 2026/7/23 下午 08:56:51 noise 2026/7/20 上午 08:54:18 .Trashes 2026/8/5 … <!--id:825439b7-7126-47af-8d45-cea8b38a955d-->
+- 🔧 **PowerShell**: $s='C:\Users\devon.tseng\Desktop\個人\搬遷\claude-conversation-logs\windows-pc-migration\scripts\inventory_elevated.ps1'; $od='C:\Users\devon.tseng\Desktop\個人\搬遷\inventory_out_final' Start-Process powershell.exe -Verb RunAs -WindowStyle Hidden … <!--id:c001c758-79b6-4f5f-91f4-8bb7d64d31bb-->
+- ↩︎ result (3208 chars): launched ConvertFrom-Json : Invalid object passed in, ':' or '}' expected. (253): { "generated": "2026-11-08T10:33:17.0933876+08:00", "errors": [ "bitlocker_status_only : ??摮? ", "features_services : The requested operation requires elevation.\r\n" ], "is_admin": false, "system": { "os": "Microsof… <!--id:39bf60ad-789a-497e-93c0-c74d16f155d7-->
+- 🔧 **Write**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\delta_scan.py <!--id:a8802679-ee63-4628-8bd9-1445890afc46-->
+- ↩︎ result (221 chars): File created successfully at: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\delta_scan.py (file state is current in your context — no need to Read it back) <!--id:765d4e09-2b60-4c11-9021-a93a7a03b97c-->
+- 🔧 **Bash**: python -I "C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\delta_scan.py" 2>&1 | tail -3; tail -2 "/c/Users/devon.tseng/Desktop/個人/搬遷/inventory_out_final/run.log" <!--id:db8394a5-a2aa-405f-845b-93ff0ac6160b-->
