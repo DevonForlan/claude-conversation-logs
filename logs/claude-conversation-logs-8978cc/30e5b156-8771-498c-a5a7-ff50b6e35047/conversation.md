@@ -2291,3 +2291,35 @@ Final Delta 備份已在背景執行（robocopy 增量 + 重建 manifest），�
 ### [2026-11-21 09:54:31] 🤖 Claude <!--id:f85634be-7152-41b4-ba1b-a67848004e53-->
 
 Final Delta 備份仍在執行中（目前在測量增量大小，之後依序是 robocopy、其他設定檔、重建 manifest）。完成後我會接著跑最終 verify 與 D: 檢查，再給 SAFE／NOT SAFE TO RESTORE 結論。
+
+### [2026-11-21 10:00:33] 👤 User (turn 65) <!--id:f0890d1f-1e2d-4318-8d2e-bf7424f18c93-->
+
+<task-notification>
+<task-id>bw2658cg0</task-id>
+<summary>Monitor event: "Watch final delta backup and manifest"</summary>
+<event>2026-11-21T09:55:44 [INFO] browser profile dirs excluded under C:\Users\devon.tseng\Desktop: 3</event>
+</task-notification>
+
+### [2026-11-21 10:00:34] 🤖 Claude <!--id:ae015cbf-546b-4076-8199-722f7d1b4a4e-->
+
+Backup 仍在進行，等待下一個進度事件。
+- 🔧 **Monitor**: until grep -qE "robocopy\[Music\]|checksums written|manifest NOT written" "$TEMP/final_delta_run.txt" 2>/dev/null; do sleep 30; done; grep -E "robocopy\[|estimated|WARN|ERROR" "$TEMP/final_delta_run.txt" | cut -c1-200 | tail <!--id:11c987d6-24dc-468f-ac1a-d5cd2f1ebbaf-->
+- ↩︎ result (302 chars): Monitor started (task bmplqgr55, expires in 30m unless the source ends first; you get one notice at expiry — re-arm if you still need the watch). You will be notified on each event. Keep working — do not poll or sleep. Events may arrive while you are waiting for the user — an event is not their repl… <!--id:3637932e-5a08-44df-9aa1-8bc510566300-->
+
+### [2026-11-21 10:00:41] 🤖 Claude <!--id:01262da6-03c5-4fc4-b6cd-7491341868aa-->
+
+Final Delta 備份還在執行，尚未完成，所以我還不能給 SAFE／NOT SAFE TO RESTORE 的結論。目前進度：
+
+- **Transcend 確認：** D: 是 Transcend StoreJet，USB，exFAT，1863 GB，Healthy、非 Dirty，Migration Package 與 checksum、log 都在。
+- **BitLocker：** D: 是 Off，沒有加密。
+- **Delta Inventory：** 和上次相比只有版本更新與廠商排程小變動（Claude Code 2.1.321 升到 2.1.330、VS Code 擴充版本、新增 pip 套件 PyYAML、Chrome 與 Edge 更新）。沒有新增或移除的重要應用程式、Git 設定或 SSH。
+- **Final Migration Scope 新增：** 我在 `migration.ps1` 加了一個步驟，補備份原本不在 package 的設定。範圍是：
+  - MobaXterm.ini（內容只有 SSH 設定，沒有密碼區段）
+  - Obsidian 設定
+  - Chrome 與 Edge 的書籤（不含 cookie）
+  - Claude Code 的 hooks、skills、settings
+  - Codex 的 config、rules、skills
+  - 不複製任何 credential 或 token
+- **目前進行中：** 增量 robocopy，接著重建完整 SHA-256 manifest（約 1 小時），再跑最終 verify。
+
+每個階段完成我會收到通知，之後再整理最終報告。
