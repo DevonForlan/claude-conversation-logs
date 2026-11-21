@@ -2395,3 +2395,17 @@ Manifest 仍在重建中，這是舊階段的收尾通知，沒有新狀況。�
 ### [2026-11-21 10:20:46] 🤖 Claude <!--id:02408c1e-7c8d-439e-8b55-0c4ebf2c8df5-->
 
 Manifest 開始雜湊 361,390 個檔案（上次 350,256），預計約 1 小時。完成後我會執行最終 verify。
+
+### [2026-11-21 10:24:22] 👤 User (turn 70) <!--id:984c325a-932d-4746-89e4-a1dea004b726-->
+
+<task-notification>
+<task-id>bw2658cg0</task-id>
+<summary>Monitor event: "Watch final delta backup and manifest"</summary>
+<event>[Monitor expired after 30m with 3 events delivered. Re-arm it if you still need the watch.]</event>
+</task-notification>
+- 🔧 **Monitor**: until grep -qE "checksums written|manifest NOT written" "$TEMP/final_delta_run.txt" 2>/dev/null; do sleep 90; done; tail -n 3 "$TEMP/final_delta_run.txt" | cut -c1-200 <!--id:a160bbbd-bd71-4db3-bb53-68bef29b99ba-->
+- ↩︎ result (302 chars): Monitor started (task b98iyd5qs, expires in 30m unless the source ends first; you get one notice at expiry — re-arm if you still need the watch). You will be notified on each event. Keep working — do not poll or sleep. Events may arrive while you are waiting for the user — an event is not their repl… <!--id:9db75754-f3aa-4971-86af-7bd99eb2bd70-->
+
+### [2026-11-21 10:24:27] 🤖 Claude <!--id:172276f1-eeff-4637-bf5e-c41ef7a07299-->
+
+Manifest 重建還在跑，我重新設了監看，完成後會繼續最終 verify。
