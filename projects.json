@@ -1,14 +1,14 @@
 {
-  "updated_at": "2026-11-21T10:25:07+08:00",
+  "updated_at": "2026-11-21T10:25:54+08:00",
   "projects": [
     {
       "project": "搬遷",
       "project_safe": "claude-conversation-logs-8978cc",
-      "last_activity": "2026-11-21T10:25:07+08:00",
+      "last_activity": "2026-11-21T10:25:54+08:00",
       "latest_session": "30e5b156-8771-498c-a5a7-ff50b6e35047",
       "latest_log": "logs/claude-conversation-logs-8978cc/30e5b156-8771-498c-a5a7-ff50b6e35047/conversation.md",
-      "status": "working",
-      "latest_turn": 71,
+      "status": "idle",
+      "latest_turn": 72,
       "sessions": 1
     },
     {

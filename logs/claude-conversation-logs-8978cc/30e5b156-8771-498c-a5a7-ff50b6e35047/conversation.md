@@ -2434,3 +2434,15 @@ Manifest 重建還在跑，我重新設了監看，完成後會繼續最終 veri
 **時間：** 目前雜湊速度偏慢，因為開頭先處理大檔案。上次整份 manifest 約 1 小時。我現在不確定這次是否會更久，所以先不給確切的完成時間，下次回報會用實際速度重算。manifest 之後的 verify 上次約 2 小時 20 分，所以整個流程預計還要 3 到 4 小時以上。
 
 目前沒有任何錯誤。所以現在還不能給 SAFE TO RESTORE 的結論，D: 也還不能退出。
+
+### [2026-11-21 10:25:44] 👤 User (turn 72) <!--id:d7a7d013-59a7-480d-a803-b04aefd965e1-->
+
+到 50% 的時候告知我一聲 並告知我剩下的百分之50還需要多久時間
+- 🔧 **Monitor**: last=0; while true; do l=$(grep -E "manifest: [0-9]+/[0-9]+ files" "$TEMP/final_delta_run.txt" | tail -1); n=$(echo "$l" | sed -E 's/.*manifest: ([0-9]+)\/([0-9]+).*/\1/'); t=$(echo "$l" | sed -E 's/.*manifest: ([0-9]+)\/([0-9]+).*/\2/'); i… <!--id:6cd91054-f1bd-4eab-82fc-915d493efc31-->
+- ↩︎ result (302 chars): Monitor started (task bmilf4xbs, expires in 30m unless the source ends first; you get one notice at expiry — re-arm if you still need the watch). You will be notified on each event. Keep working — do not poll or sleep. Events may arrive while you are waiting for the user — an event is not their repl… <!--id:5f7c8d9a-5625-4e10-965e-9912cecac361-->
+
+### [2026-11-21 10:25:51] 🤖 Claude <!--id:ce2d271b-8875-427f-8082-86062b31719a-->
+
+已設定好：manifest 雜湊進度到 50% 時我會通知你，並同時用實際速度估算剩下一半的時間（含之後的 verify）。
+
+這裡的 50% 指 manifest 雜湊進度（目前約 1%）。這個監看最長 30 分鐘，過期我會重新設定，不會漏掉。
