@@ -2609,3 +2609,20 @@ verify 跑完後我會做 Transcend 最終檢查，再給你 SAFE／NOT SAFE TO 
 ### [2026-11-21 21:04:09] 🤖 Claude <!--id:e3fa9055-4073-4cfd-b7cb-1ed78a179289-->
 
 最終 verify 目前約 **86%**（310,217 / 361,390，21:04）。最近一段速度變慢，可能是在處理大檔案。預計再 15 到 25 分鐘雜湊完，之後還有來源比對，大約 **21:30 前後**完成。完成後我會做最後的 Transcend 檢查並給結論。
+
+### [2026-11-21 21:34:07] 👤 User (turn 82) <!--id:fa52470e-af28-4171-97d8-9a3c9abc8faa-->
+
+<task-notification>
+<task-id>b6dsx930s</task-id>
+<summary>Monitor event: "Re-arm verify completion watch"</summary>
+<event>[Monitor expired after 30m with no events delivered. Re-arm it if you still need the watch — and widen the filter if silence was unexpected.]</event>
+</task-notification>
+- 🔧 **Bash**: tail -n 6 "$TEMP/final_verify_run.txt" | cut -c1-220; date +%T <!--id:fb550e13-0a07-4ead-ae0c-1e5d431210e4-->
+- ↩︎ result (938 chars): 2026-11-21T21:28:35 [WARN] source file not in package: �ӤH\�h�E\.claude\conversation-logs\2026-11-21_30e5b156-8771-498c-a5a7-ff50b6e35047_turn053.md 2026-11-21T21:28:35 [WARN] source file not in package: �ӤH\�h�E\.claude\conversation-logs\2026-11-21_30e5b156-8771-498c-a5a7-ff50b6e35047_turn054.md 20… <!--id:eeec0530-52c1-4b1d-bcb8-7be41a921d9d-->
+- 🔧 **Bash**: grep -vE "source file not in package|size/time differs" "$TEMP/final_verify_run.txt" | tail -12 | cut -c1-220; echo; grep -c "source file not in package" "$TEMP/final_verify_run.txt"; grep -c "size/time differs" "$TEMP/final_verify_run.txt" <!--id:2ae442a6-4334-46de-827c-865ed04381c3-->
+- ↩︎ result (757 chars): 2026-11-21T20:52:45 [INFO] verify: 291514/361390 files (81%) 2026-11-21T20:54:47 [INFO] verify: 303468/361390 files (84%) 2026-11-21T21:03:58 [INFO] verify: 310217/361390 files (86%) 2026-11-21T21:06:02 [INFO] verify: 314228/361390 files (87%) 2026-11-21T21:08:03 [INFO] verify: 326144/361390 files (… <!--id:fad190b2-ec0a-46c2-99b2-b805a9d9ffde-->
+- 🔧 **Bash**: tail -n 2 "$TEMP/final_verify_run.txt" | cut -c1-120; grep -E "DONE|checked|source" "$TEMP/final_verify_run.txt" | grep -v "not in package\|differs" | tail -3 | cut -c1-200; python - <<'E' import os,re p=os.path.expandvars(r'%TEMP%\final_ve… <!--id:1d0382fd-7de4-4a1f-9c46-36df53377c44-->
+- ↩︎ result ⚠️error (515 chars): Exit code 1 2026-11-21T21:28:35 [WARN] source file not in package: �ӤH\�h�E\.claude\conversation-logs\2026-11-21_30e5b156-8771-49 2026-11-21T21:28:35 [WARN] size/time differs (source changed after backup, or bad copy): �ӤH\�h�E\.claude\conversatio Binary file C:\Users\DEVON~1.TSE\AppData\Local\Temp/… <!--id:28de497c-4f01-4ea3-adf5-bf6a2d2f79a6-->
+- 🔧 **PowerShell**: $l=Get-ChildItem D:\Windows_Migration_Package\05_logs\verify_20261121_*.log | Select -Last 1; $l.Name; $c=Get-Content $l.FullName -Encoding UTF8; $c.Count; $c | ? { $_ -notmatch 'verify: \d+/' } | % { $_ -replace 'turn\d+','turnN' } | Group… <!--id:987ff7b7-ba2d-4eed-9eda-d0004e1277c8-->
+- ↩︎ result (1724 chars): verify_20261121_192640.log 67 Count Name ----- ---- 1 [INFO] START action=verify DryRun=False admin=False log=D:\Windows_Migration_Package\05_logs\ 1 [INFO] verify: manifest entries=361390 1 [INFO] package verify: ok=361390 mismatch=0 missing=0 1 [INFO] files in package but not in manifest: 0 17 [WA… <!--id:cdb313ef-8f35-4ea0-ba1a-572788fcd618-->
+- 🔧 **Bash**: for i in $(seq 1 40); do grep -aq "DONE action=verify" "$TEMP/final_verify_run.txt" && break; sleep 10; done; tail -c 400 "$TEMP/final_verify_run.txt" | strings | tail -3; ls -la /d/Windows_Migration_Package/05_logs | tail -2 <!--id:745a3fff-f3a1-40c4-8001-7f1de3644af9-->
