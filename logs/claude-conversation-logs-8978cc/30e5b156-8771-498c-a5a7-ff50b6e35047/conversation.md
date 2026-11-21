@@ -2383,3 +2383,15 @@ Manifest 仍在重建中，這是舊階段的收尾通知，沒有新狀況。�
 ### [2026-11-21 10:10:53] 🤖 Claude <!--id:b0169a00-030d-4c19-9e8c-1af45c0cbe35-->
 
 仍在等 manifest 完成（只是另一個監看器結束的重複通知，沒有新狀況）。
+
+### [2026-11-21 10:20:44] 👤 User (turn 69) <!--id:d5bc18b7-e651-4731-b36e-e4346e6b5cc4-->
+
+<task-notification>
+<task-id>bw2658cg0</task-id>
+<summary>Monitor event: "Watch final delta backup and manifest"</summary>
+<event>2026-11-21T10:19:37 [INFO] manifest: hashing 361390 files (SHA-256, parallel, long-path safe)</event>
+</task-notification>
+
+### [2026-11-21 10:20:46] 🤖 Claude <!--id:02408c1e-7c8d-439e-8b55-0c4ebf2c8df5-->
+
+Manifest 開始雜湊 361,390 個檔案（上次 350,256），預計約 1 小時。完成後我會執行最終 verify。
