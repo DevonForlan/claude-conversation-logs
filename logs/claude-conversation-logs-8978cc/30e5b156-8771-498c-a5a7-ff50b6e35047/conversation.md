@@ -2577,3 +2577,19 @@ verify 跑完後我會做 Transcend 最終檢查，再給你 SAFE／NOT SAFE TO 
 ### [2026-11-21 19:56:52] 🤖 Claude <!--id:e91e25bb-0910-4665-b0b8-76d977ed4cfa-->
 
 最終 verify 目前進度約 **7%**（26,483 / 361,390，19:56）。開頭是大檔案所以較慢，manifest 那次也是先慢後快，因此我維持原本預估：**約 21:00 到 21:15 完成**。我已重新設好完成通知，有任何錯誤也會立刻告訴你。
+
+### [2026-11-21 20:26:51] 👤 User (turn 80) <!--id:538ab046-ba68-45c7-a193-a8c2afe04ba5-->
+
+<task-notification>
+<task-id>boqbt9q2s</task-id>
+<summary>Monitor event: "Re-arm verify completion watch"</summary>
+<event>[Monitor expired after 30m with no events delivered. Re-arm it if you still need the watch — and widen the filter if silence was unexpected.]</event>
+</task-notification>
+- 🔧 **Bash**: tail -n 1 "$TEMP/final_verify_run.txt" | cut -c1-160; date +%T <!--id:a0a47d4d-173a-44be-b595-d7434971cd28-->
+- ↩︎ result (69 chars): 2026-11-21T20:26:25 [INFO] verify: 167160/361390 files (46%) 20:26:56 <!--id:de23a371-42fd-4fd0-95c9-9f97c04840a5-->
+- 🔧 **Monitor**: while ! grep -qE "DONE action=verify" "$TEMP/final_verify_run.txt" 2>/dev/null; do sleep 120; done; grep -E "package verify|not in manifest|source|DONE|mismatch|missing" "$TEMP/final_verify_run.txt" | tail -8 | cut -c1-200 <!--id:6ac73e86-4674-456e-b09f-9926d33a4a92-->
+- ↩︎ result (302 chars): Monitor started (task bp2h663zw, expires in 30m unless the source ends first; you get one notice at expiry — re-arm if you still need the watch). You will be notified on each event. Keep working — do not poll or sleep. Events may arrive while you are waiting for the user — an event is not their repl… <!--id:d9d4acf9-6b57-4c69-8272-9ab838ec4b76-->
+
+### [2026-11-21 20:27:01] 🤖 Claude <!--id:9a53748f-6794-4931-b611-7cccfb00016c-->
+
+最終 verify 目前約 **46%**（167,160 / 361,390，20:26）。照目前速度，剩下的雜湊約 30 到 35 分鐘，再加來源比對，預計 **21:10 前後**完成。到時我會做 Transcend 最終檢查並給結論。
