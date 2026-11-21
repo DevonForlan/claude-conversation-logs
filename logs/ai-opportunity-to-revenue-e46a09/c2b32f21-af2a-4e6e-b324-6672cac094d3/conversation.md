@@ -2679,3 +2679,13 @@ If you need specific details from before compaction (like exact code snippets, e
 Continue the conversation from where it left off without asking the user any further questions. Resume directly — do not acknowledge the summary, do not recap what was happening, do not preface with "I'll continue" or similar. Pick up the last task as if the break never happened.
 
 The messages after this summary are the most recent messages from before compaction, kept verbatim. The summary was written without seeing them, so something it says has not happened yet may already have happened in them.
+
+### [2026-11-21 08:50:18] 👤 User (turn 42) <!--id:a474c42e-1f62-44bd-8577-c49f5b8124a1-->
+
+<command-name>/model</command-name>
+            <command-message>model</command-message>
+            <command-args></command-args>
+
+### [2026-11-21 08:50:18] 👤 User (turn 43) <!--id:1e45110d-b464-485e-95ef-50d0e7175326-->
+
+<local-command-stdout>Set model to `Opus 5.5` and saved as your default for new sessions</local-command-stdout>
