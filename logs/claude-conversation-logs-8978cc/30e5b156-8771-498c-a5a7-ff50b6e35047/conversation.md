@@ -2323,3 +2323,63 @@ Final Delta 備份還在執行，尚未完成，所以我還不能給 SAFE／NOT
 - **目前進行中：** 增量 robocopy，接著重建完整 SHA-256 manifest（約 1 小時），再跑最終 verify。
 
 每個階段完成我會收到通知，之後再整理最終報告。
+
+### [2026-11-21 10:10:38] 👤 User (turn 66) <!--id:b5753951-fd8a-4b0b-8636-35192cedfcba-->
+
+<task-notification>
+<task-id>bw2658cg0</task-id>
+<summary>Monitor event: "Watch final delta backup and manifest"</summary>
+<event>2026-11-21T10:10:35 [INFO] extra dir ok: ClaudeCode\hooks rc=1</event>
+</task-notification>
+- 🔧 **Bash**: grep -E "robocopy\[|estimated|WARN|ERROR|extra|step" "$TEMP/final_delta_run.txt" | cut -c1-180 | tail -40 <!--id:06b5e4a2-9e6d-46eb-b2c2-a30186e423f4-->
+- ↩︎ result (1932 chars): 2026-11-21T09:54:21 [WARN] not elevated: BitLocker/feature capture limited (backup of user data still works) 2026-11-21T09:55:32 [INFO] estimated copy size: 77.09 GB (rebuildable dirs excluded: True; sensitive excluded: True) 2026-11-21T10:10:13 [INFO] robocopy[Desktop] rc=3 ok 2026-11-21T10:10:13 [… <!--id:88b5eebf-ffdf-4389-a37c-8e4bbb1dafd3-->
+- 🔧 **Monitor**: until grep -qE "checksums written|manifest NOT written" "$TEMP/final_delta_run.txt" 2>/dev/null; do sleep 60; done; tail -n 3 "$TEMP/final_delta_run.txt" | cut -c1-200 <!--id:4a0228a2-f689-467f-8e97-a2f31eda92ab-->
+- ↩︎ result (302 chars): Monitor started (task b6e3igo2d, expires in 30m unless the source ends first; you get one notice at expiry — re-arm if you still need the watch). You will be notified on each event. Keep working — do not poll or sleep. Events may arrive while you are waiting for the user — an event is not their repl… <!--id:d856b9a6-a2a0-463d-b40e-3dad62f8518b-->
+
+### [2026-11-21 10:10:48] 🤖 Claude <!--id:660b1747-da18-434c-9f04-38f2c58dc843-->
+
+增量複製階段已完成（Desktop、Documents、Downloads 的 robocopy 都成功，新增的設定檔也已備份）。現在在重建完整 SHA-256 manifest，約需 1 小時，完成後會自動接著跑最終 verify。
+
+### [2026-11-21 10:10:49] 👤 User (turn 67) <!--id:e67181d5-d6d9-44eb-80b8-bc4b7e21a2b3-->
+
+<task-notification>
+<task-id>be0ha3elm</task-id>
+<tool-use-id>toolu_01Vkw8geeD6fQ2QTX5TgGxYL</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\tasks\be0ha3elm.output</output-file>
+<status>completed</status>
+<summary>Monitor "Wait for robocopy stage" stream ended</summary>
+<event>2026-11-21T09:54:21 [WARN] not elevated: BitLocker/feature capture limited (backup of user data still works)
+2026-11-21T09:55:32 [INFO] estimated copy size: 77.09 GB (rebuildable dirs excluded: True; sensitive excluded: True)
+2026-11-21T10:10:13 [INFO] robocopy[Desktop] rc=3 ok
+2026-11-21T10:10:13 [INFO] robocopy[Documents] rc=1 ok
+2026-11-21T10:10:17 [INFO] robocopy[Downloads] rc=3 ok
+2026-11-21T10:10:17 [INFO] robocopy[Pictures] rc=0 ok
+2026-11-21T10:10:17 [INFO] robocopy[Videos] rc=0 ok
+2026-11-21T10:10:17 [INFO] robocopy[Music] rc=0 ok</event>
+</task-notification>
+
+### [2026-11-21 10:10:51] 🤖 Claude <!--id:e3c9dac8-5ce9-4acc-90e4-ae63f0782443-->
+
+Manifest 仍在重建中，這是舊階段的收尾通知，沒有新狀況。等 manifest 完成後我再跑最終 verify。
+
+### [2026-11-21 10:10:51] 👤 User (turn 68) <!--id:fbeed0a2-f0aa-4eda-837d-cfb60f481cfa-->
+
+<task-notification>
+<task-id>bmplqgr55</task-id>
+<tool-use-id>toolu_01NCJ83J5nSGTgXM1R5yp88p</tool-use-id>
+<output-file>C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\tasks\bmplqgr55.output</output-file>
+<status>completed</status>
+<summary>Monitor "Wait for robocopy stage to finish" stream ended</summary>
+<event>2026-11-21T09:54:21 [WARN] not elevated: BitLocker/feature capture limited (backup of user data still works)
+2026-11-21T09:55:32 [INFO] estimated copy size: 77.09 GB (rebuildable dirs excluded: True; sensitive excluded: True)
+2026-11-21T10:10:13 [INFO] robocopy[Desktop] rc=3 ok
+2026-11-21T10:10:13 [INFO] robocopy[Documents] rc=1 ok
+2026-11-21T10:10:17 [INFO] robocopy[Downloads] rc=3 ok
+2026-11-21T10:10:17 [INFO] robocopy[Pictures] rc=0 ok
+2026-11-21T10:10:17 [INFO] robocopy[Videos] rc=0 ok
+2026-11-21T10:10:17 [INFO] robocopy[Music] rc=0 ok</event>
+</task-notification>
+
+### [2026-11-21 10:10:53] 🤖 Claude <!--id:b0169a00-030d-4c19-9e8c-1af45c0cbe35-->
+
+仍在等 manifest 完成（只是另一個監看器結束的重複通知，沒有新狀況）。
