@@ -2446,3 +2446,17 @@ Manifest 重建還在跑，我重新設了監看，完成後會繼續最終 veri
 已設定好：manifest 雜湊進度到 50% 時我會通知你，並同時用實際速度估算剩下一半的時間（含之後的 verify）。
 
 這裡的 50% 指 manifest 雜湊進度（目前約 1%）。這個監看最長 30 分鐘，過期我會重新設定，不會漏掉。
+
+### [2026-11-21 10:40:47] 👤 User (turn 73) <!--id:bb9be924-830e-4a13-a222-5478fddb28f1-->
+
+<task-notification>
+<task-id>b6e3igo2d</task-id>
+<summary>Monitor event: "Wait for manifest completion"</summary>
+<event>[Monitor expired after 30m with no events delivered. Re-arm it if you still need the watch — and widen the filter if silence was unexpected.]</event>
+</task-notification>
+- 🔧 **Bash**: grep -E "manifest: [0-9]+/" "$TEMP/final_delta_run.txt" | tail -2 | cut -c1-120; date +%T <!--id:2d205df8-8ed2-4354-8362-37e7c95f4731-->
+- ↩︎ result (132 chars): 2026-11-21T10:38:08 [INFO] manifest: 34740/361390 files (10%) 2026-11-21T10:40:09 [INFO] manifest: 45895/361390 files (13%) 10:40:51 <!--id:5a53cd0d-2ede-470a-9ac9-ab6e6dd34b1d-->
+
+### [2026-11-21 10:40:53] 🤖 Claude <!--id:2524c9ac-7251-4b1a-ae3e-7c1c68997f58-->
+
+目前 manifest 雜湊到 **13%**（45,895 / 361,390）。速度最近約每分鐘 2,600 個檔案，而且會越來越快，因為前面是大檔案。我會在到 50% 時通知你，並重新估算剩餘時間。

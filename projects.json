@@ -1,6 +1,16 @@
 {
-  "updated_at": "2026-11-21T10:29:24+08:00",
+  "updated_at": "2026-11-21T10:40:55+08:00",
   "projects": [
+    {
+      "project": "搬遷",
+      "project_safe": "claude-conversation-logs-8978cc",
+      "last_activity": "2026-11-21T10:40:55+08:00",
+      "latest_session": "30e5b156-8771-498c-a5a7-ff50b6e35047",
+      "latest_log": "logs/claude-conversation-logs-8978cc/30e5b156-8771-498c-a5a7-ff50b6e35047/conversation.md",
+      "status": "idle",
+      "latest_turn": 73,
+      "sessions": 1
+    },
     {
       "project": "AI CUP 2026玉山人工智慧公開挑戰賽",
       "project_safe": "AI-CUP-2026玉山人工智慧公開挑戰賽-afc2d6",
@@ -10,16 +20,6 @@
       "status": "idle",
       "latest_turn": 579,
       "sessions": 2
-    },
-    {
-      "project": "搬遷",
-      "project_safe": "claude-conversation-logs-8978cc",
-      "last_activity": "2026-11-21T10:25:54+08:00",
-      "latest_session": "30e5b156-8771-498c-a5a7-ff50b6e35047",
-      "latest_log": "logs/claude-conversation-logs-8978cc/30e5b156-8771-498c-a5a7-ff50b6e35047/conversation.md",
-      "status": "idle",
-      "latest_turn": 72,
-      "sessions": 1
     },
     {
       "project": "ai-opportunity-to-revenue",
