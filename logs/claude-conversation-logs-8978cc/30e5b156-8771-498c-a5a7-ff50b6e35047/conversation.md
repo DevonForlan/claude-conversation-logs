@@ -2474,3 +2474,19 @@ Manifest 重建還在跑，我重新設了監看，完成後會繼續最終 veri
 ### [2026-11-21 10:54:30] 🤖 Claude <!--id:33bf86cc-9185-4e88-9ed7-e508adb35ecb-->
 
 目前 manifest 雜湊到 **35%**（126,773 / 361,390），過去 14 分鐘處理了約 8 萬個檔案，速度比預期快。到 50% 時我會通知你。
+
+### [2026-11-21 10:55:49] 👤 User (turn 75) <!--id:b1888aef-9968-46e1-8e3c-aceb9ef399b4-->
+
+<task-notification>
+<task-id>bmilf4xbs</task-id>
+<summary>Monitor event: "Notify when manifest hashing reaches 50%"</summary>
+<event>[Monitor expired after 30m with no events delivered. Re-arm it if you still need the watch — and widen the filter if silence was unexpected.]</event>
+</task-notification>
+- 🔧 **Bash**: grep -E "manifest: [0-9]+/|checksums" "$TEMP/final_delta_run.txt" | tail -2 | cut -c1-120; date +%T <!--id:f6d618bc-aa4f-4a33-8d53-fc695e4006de-->
+- ↩︎ result (134 chars): 2026-11-21T10:52:11 [INFO] manifest: 115269/361390 files (32%) 2026-11-21T10:54:11 [INFO] manifest: 126773/361390 files (35%) 10:55:52 <!--id:e2e0da9a-1713-4529-bff1-43705c9ab117-->
+- 🔧 **Monitor**: while true; do l=$(grep -E "manifest: [0-9]+/[0-9]+ files" "$TEMP/final_delta_run.txt" | tail -1); n=$(echo "$l" | sed -E 's/.*manifest: ([0-9]+)\/([0-9]+).*/\1/'); t=$(echo "$l" | sed -E 's/.*manifest: ([0-9]+)\/([0-9]+).*/\2/'); if [ -n "… <!--id:404fa90b-fb22-4d3a-a79e-ff00da6c5894-->
+- ↩︎ result (302 chars): Monitor started (task by0kwqpm1, expires in 30m unless the source ends first; you get one notice at expiry — re-arm if you still need the watch). You will be notified on each event. Keep working — do not poll or sleep. Events may arrive while you are waiting for the user — an event is not their repl… <!--id:ff4fbf29-e212-43b1-9583-5bb8bf05345c-->
+
+### [2026-11-21 10:55:57] 🤖 Claude <!--id:396791c2-9bc1-405a-adba-650449506645-->
+
+Manifest 目前約 35%，進度正常。我已重新設好 50% 的通知，到時會告訴你並估算剩餘時間。
