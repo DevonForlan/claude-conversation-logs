@@ -2460,3 +2460,17 @@ Manifest 重建還在跑，我重新設了監看，完成後會繼續最終 veri
 ### [2026-11-21 10:40:53] 🤖 Claude <!--id:2524c9ac-7251-4b1a-ae3e-7c1c68997f58-->
 
 目前 manifest 雜湊到 **13%**（45,895 / 361,390）。速度最近約每分鐘 2,600 個檔案，而且會越來越快，因為前面是大檔案。我會在到 50% 時通知你，並重新估算剩餘時間。
+
+### [2026-11-21 10:54:25] 👤 User (turn 74) <!--id:4425b76b-25f4-4b49-ba1a-c1ad69fc735a-->
+
+<task-notification>
+<task-id>b98iyd5qs</task-id>
+<summary>Monitor event: "Re-arm manifest completion watch"</summary>
+<event>[Monitor expired after 30m with no events delivered. Re-arm it if you still need the watch — and widen the filter if silence was unexpected.]</event>
+</task-notification>
+- 🔧 **Bash**: grep -E "manifest: [0-9]+/" "$TEMP/final_delta_run.txt" | tail -1 | cut -c1-120; date +%T <!--id:48ed7469-d70c-4b90-86b1-b3e8c8179ca8-->
+- ↩︎ result (71 chars): 2026-11-21T10:54:11 [INFO] manifest: 126773/361390 files (35%) 10:54:29 <!--id:e7f03ef2-3993-4621-a42b-4e5c45763709-->
+
+### [2026-11-21 10:54:30] 🤖 Claude <!--id:33bf86cc-9185-4e88-9ed7-e508adb35ecb-->
+
+目前 manifest 雜湊到 **35%**（126,773 / 361,390），過去 14 分鐘處理了約 8 萬個檔案，速度比預期快。到 50% 時我會通知你。
