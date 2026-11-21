@@ -2545,3 +2545,19 @@ manifest 完成後我會自動開始 verify，並在每個階段通知你。
 - **我的錯誤：** manifest 在 11:38 就完成了，我卻沒有照原本說的立刻接著跑 verify，白白延後了約 8 小時。
 
 verify 跑完後我會做 Transcend 最終檢查，再給你 SAFE／NOT SAFE TO RESTORE 的結論。
+
+### [2026-11-21 19:26:58] 👤 User (turn 78) <!--id:57f26a8b-1174-47a2-80f3-378454aed55b-->
+
+大約還要多久?
+- 🔧 **Bash**: tail -n 3 "$TEMP/final_verify_run.txt" | cut -c1-160; date +%T <!--id:e422ea9b-faea-4ca8-9f86-3cc6871844f3-->
+- ↩︎ result (207 chars): 2026-11-21T19:26:40 [INFO] START action=verify DryRun=False admin=False log=D:\Windows_Migration_Package\05_logs\verify_20261121_192640.log 2026-11-21T19:26:47 [INFO] verify: manifest entries=361390 19:27:02 <!--id:7a8068df-197e-4850-8d00-5ebf4fc80648-->
+
+### [2026-11-21 19:27:06] 🤖 Claude <!--id:d67e37fc-e34c-453f-9707-c26770a359ef-->
+
+最終 verify 才剛開始，還沒有進度數字可以用來推算。我用 manifest 的實際速度估算：
+
+- **雜湊比對：** manifest 361,390 個檔案花了約 78 分鐘，verify 要重新雜湊同一批檔案，預計約 80 分鐘。
+- **來源與 package 比對：** 再加約 10 到 15 分鐘。
+- **Transcend 最終檢查與報告：** 約 10 分鐘。
+
+**整體還要約 1.5 小時，預計 21:00 前後完成**，這是估算。等 verify 開始印出進度百分比，我再給你更準的時間。
