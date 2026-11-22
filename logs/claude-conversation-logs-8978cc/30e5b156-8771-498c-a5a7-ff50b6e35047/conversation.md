@@ -2640,3 +2640,109 @@ verify 的最後一段（來源比對）還在跑，我確認它是否結束。
 - 🔧 **Bash**: for i in $(seq 1 50); do [ -s "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b0a0ef40a2e13c3f/30e5b156-8771-498c-a5a7-ff50b6e35047/tasks/b0v5v0slh.output" ] && break; sleep 10; done; cat "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b0a0… <!--id:f8d0d4f5-458b-4aed-b006-12318b7bff35-->
 - ↩︎ result (1283 chars): 195 Count Name ----- ---- 136 個人\AI CUP 2026玉山人工智慧公開挑戰賽\.git 18 個人\搬遷\.claude 15 個人\AI CUP 2026玉山人工智慧公開挑戰賽\logs 13 個人\AI CUP 2026玉山人工智慧公開挑戰賽\.claude 10 個人\AI CUP 2026玉山人工智慧公開挑戰賽\.worktrees 1 1 個人\AI CUP 2026玉山人工智慧公開挑戰賽\data 1 個人\mongodb-dba-trainer\local_data *EXTRA File 16468 D:\Windows_Migration_P… <!--id:d8c25af4-8f5e-43ef-a9f1-d40b62d123bd-->
 - 🔧 **PowerShell**: $bp = (Get-Content 'C:\Users\devon.tseng\Desktop\個人\搬遷\inventory_out\sensitive_paths_LOCAL_ONLY.txt' -Encoding UTF8 | ? { $_ -like '`[BP`]*' }) -replace '^\[BP\] ','' $log='D:\Windows_Migration_Package\05_logs\final_delta2_robocopy_20261122… <!--id:2d689dd6-29dc-40ab-9670-66fe217b83d7-->
+- ↩︎ result ⚠️error (375 chars): Exit code 3 rc=3 elapsed=2min Files : 356123 201 355922 0 0 1076 Bytes : 76.549 g 53.86 m 76.497 g 0 0 2.041 g Times : 0:02:41 0:00:24 0:00:00 0:01:46 Speed : 2,271,893 Bytes/sec. Speed : 129.999 MegaBytes/min. Ended : 2026年11月22日 上午 09:08:11 <!--id:598854b6-126a-43ff-a628-8c07d1e40a1d-->
+- 🔧 **Write**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\inc_manifest.py <!--id:da835241-698e-4a92-9e50-310b3c86f672-->
+- ↩︎ result (223 chars): File created successfully at: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\inc_manifest.py (file state is current in your context — no need to Read it back) <!--id:ab790af5-0f9c-4629-8bb1-3883f69f1009-->
+- 🔧 **Bash**: python -I "C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\inc_manifest.py" 2>&1 | tail -8 <!--id:56bf1968-5a1f-45cb-be0d-7884e4fc8674-->
+- ↩︎ result (120 chars): changed/new: 201 missing from disk: 0 stat errors: 0 new entries: 171 updated entries: 30 manifest entries now: 361561 <!--id:99edb3ae-a1fc-47c5-9534-cad74fb829df-->
+- 🔧 **Write**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\check_delta2.py <!--id:495f6375-c93a-4f2d-8aff-ca8143d17135-->
+- ↩︎ result (223 chars): File created successfully at: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\check_delta2.py (file state is current in your context — no need to Read it back) <!--id:d42a1f66-385e-4e69-8909-4f385ee92b1d-->
+- 🔧 **Bash**: python -I "C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\check_delta2.py" 2>&1 | tail -5 | cut -c1-400 <!--id:029d6e1d-d2a7-44eb-a46c-364a7e85867d-->
+- ↩︎ result (120 chars): delta files 201 manifest-mismatch 0 src-differs(live change) 0 source gone/na 0 random sample 3000 mismatches: 0 [] [] <!--id:0d72cc81-268d-445d-b705-3977b2accc7e-->
+- 🔧 **PowerShell**: fsutil dirty query D:; Get-Volume D | Select FileSystemLabel,FileSystem,HealthStatus,@{n='GB';e={[math]::Round($_.Size/1GB)}},@{n='Free';e={[math]::Round($_.SizeRemaining/1GB,1)}} | ft | Out-String; Get-Disk 1 | Select FriendlyName,BusType,… <!--id:28ebf109-f61e-4902-9088-0f92d95b9844-->
+- ↩︎ result (775 chars): Volume - D: is NOT Dirty FileSystemLabel FileSystem HealthStatus GB Free --------------- ---------- ------------ -- ---- Transcend exFAT Healthy 1863 1467.3 FriendlyName BusType HealthStatus OperationalStatus ------------ ------- ------------ ----------------- StoreJet USB Healthy Online robocopy pr… <!--id:172a1d82-c3de-4c96-91cd-6a8584fc6abc-->
+- 🔧 **Bash**: python -I - <<'E' import re b=open(r'D:\Windows_Migration_Package\05_logs\backup_20261121_095421.log','rb').read() t=b.decode('utf-16','ignore') if b[:2]==b'\xff\xfe' else b.decode('utf-8','ignore') if 'Files :' not in t: t=b.decode('utf-8'… <!--id:adb12fe6-0833-4d7f-9136-4027d685e60b-->
+- ↩︎ result (31 chars): (Bash completed with no output) <!--id:5ab5a1b9-0817-45bf-84d3-689fadcc864e-->
+- 🔧 **PowerShell**: $p='D:\Windows_Migration_Package\05_logs\backup_20261121_095421.log'; $b=[IO.File]::ReadAllBytes($p); $t=[Text.Encoding]::UTF8.GetString($b) -replace "`0",''; ($t -split "`n") | ? { $_ -match '(Files|檔案|Bytes|位元組)\s*:' -or $_ -match 'Copied… <!--id:f95b2dd8-5213-4902-bdab-727f56595a16-->
+- ↩︎ result (688 chars): 檔案 : *.* Exc 檔案 : .env 總計 已複製 略過 不符 失敗 額外 檔案 : 355952 10899 345053 0 0 1048 位元組 : 76.515 g 2.862 g 73.652 g 0 0 2.041 g 檔案 : *.* Exc 檔案 : .env 總計 已複製 略過 不符 失敗 額外 檔案 : 8 1 7 0 0 0 位元組 : 272.0 k 265.0 k 7.0 k 0 0 0 檔案 : *.* Exc 檔案 : .env 587 總計 已複製 略過 不符 失敗 額外 總計 已複製 略過 不符 失敗 額外 總計 已複製 略過 不符 失敗 額外 總計 … <!--id:a41e97ec-8442-4c73-8bb6-65229d652451-->
+- 🔧 **PowerShell**: $p='D:\Windows_Migration_Package\05_logs\backup_20261121_095421.log'; $t=[Text.Encoding]::UTF8.GetString([IO.File]::ReadAllBytes($p)) -replace "`0",''; ($t -split "`n") | ? { $_ -match '^\s*(檔案|位元組)\s*: \d' } | % { ($_ -replace '\s+',' ').T… <!--id:60b8f231-eff2-46c0-a128-5c03c9ce6ebc-->
+- ↩︎ result (1 chars): 0 <!--id:73ee95f4-62d6-4754-a240-b1ae458cffad-->
+- 🔧 **PowerShell**: $bp = (Get-Content 'C:\Users\devon.tseng\Desktop\個人\搬遷\inventory_out\sensitive_paths_LOCAL_ONLY.txt' -Encoding UTF8 | ? { $_ -like '`[BP`]*' }) -replace '^\[BP\] ','' $out="$env:TEMP\drift2.txt"; robocopy 'C:\Users\devon.tseng\Desktop' 'D:\… <!--id:e1400746-0b9b-4bc1-9eba-2fab94c32f10-->
+- ↩︎ result ⚠️error (442 chars): Exit code 2 Source : C:\Users\devon.tseng\Desktop\ C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\.worktrees\issue-23-datapack\data\browser_profiles C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\data\browser_profiles C:\Users\devon.tseng\Desktop\個人\mongodb-dba-trainer\local_data\mon… <!--id:7798f6ce-b214-4c02-be70-0349f81fa8f1-->
+- 🔧 **PowerShell**: robocopy 'C:\Users\devon.tseng\Documents' 'D:\Windows_Migration_Package\01_backup\UserData\Documents' /E /COPY:DAT /DCOPY:DAT /XJ /NP /NDL /R:2 /W:5 /FP /XF .env '.env.*' *.pem *.ppk *.pfx *.p12 *.key id_rsa id_ed25519 id_ecdsa credentials … <!--id:31fa7823-e6c8-4809-8f6d-d24ffcbcfa5b-->
+- ↩︎ result ⚠️error (202 chars): Exit code 1 Source : C:\Users\devon.tseng\Documents\ Dest = D:\Windows_Migration_Package\01_backup\UserData\Documents\ Newer 271360 C:\Users\devon.tseng\Documents\Outlook �ɮ�\Outlook.pst rc=1 <!--id:d3f199af-fd03-438c-ad99-4705864892d7-->
+
+### [2026-11-22 09:21:26] 🤖 Claude <!--id:53f4961a-ecc5-4852-a027-1a7760a4903b-->
+
+Documents 裡的 Outlook.pst 已更新複製，我再跑一次增量 manifest 並驗證。
+- 🔧 **Bash**: python -I "C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\inc_manifest.py" 2>&1 | tail -4; python -I "C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-… <!--id:61e05f80-39ca-4979-85de-11b203b6dab0-->
+- ↩︎ result (428 chars): File "C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\inc_manifest.py", line 16, in <module> assert len(sums) == len(meta) == 361390, (len(sums), len(meta)) ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ AssertionError: (361561, 361561) delta files 2… <!--id:9908bd7f-fdc9-4448-9c6d-8bac3739ae93-->
+
+### [2026-11-22 09:21:36] 🤖 Claude <!--id:528ca96f-e621-42c3-94b0-8126adb14cb9-->
+
+My hard-coded assertion count was stale; fix it to check consistency only.
+- 🔧 **Bash**: cd "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b0a0ef40a2e13c3f/30e5b156-8771-498c-a5a7-ff50b6e35047/scratchpad" && sed -i 's/assert len(sums) == len(meta) == 361390/assert len(sums) == len(meta) >= 361390/' inc_manifest.py && python -I… <!--id:7bdd6b07-b3d2-40c5-9507-477852f38e27-->
+- ↩︎ result (506 chars): changed/new: 1 missing from disk: 0 stat errors: 0 new entries: 0 updated entries: 1 manifest entries now: 361561 delta files 1 manifest-mismatch 0 src-differs(live change) 0 source gone/na 0 random sample 3000 mismatches: 0 [] [] Shell cwd was reset to C:\Users\devon.tseng\Desktop\個人\搬遷 [This comma… <!--id:984a151b-7550-4786-8d58-02bff8980f53-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\搬遷\claude-conversation-logs\windows-pc-migration\docs\FINAL_CUTOVER_REPORT.md <!--id:d71274fd-8b87-42c6-9572-fc9860dce9c5-->
+- ↩︎ result (205 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\搬遷\claude-conversation-logs\windows-pc-migration\docs\FINAL_CUTOVER_REPORT.md (file state is current in your context — no need to Read it back) <!--id:489f66dc-ac16-45c4-b3c7-cc2bd42051c2-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/搬遷/claude-conversation-logs" && cp "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b0a0ef40a2e13c3f/30e5b156-8771-498c-a5a7-ff50b6e35047/scratchpad/inc_manifest.py" windows-pc-migration/scripts/incrementa… <!--id:5a494197-7dd5-4a30-92f2-7933f2dee601-->
+- ↩︎ result (484 chars): warning: in the working copy of 'windows-pc-migration/scripts/migration.ps1', LF will be replaced by CRLF the next time Git touches it warning: in the working copy of 'windows-pc-migration/docs/FINAL_CUTOVER_REPORT.md', LF will be replaced by CRLF the next time Git touches it warning: in the working… <!--id:db0d5a86-4d0d-422a-955e-d5e41bf62058-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/搬遷/claude-conversation-logs" && gh issue comment 1 --body "## FINAL CUTOVER (2026-11-22): SAFE TO RESTORE Commit \`9c2d8d4dc21adf7fdfdea68cd9fc4267bc1605a8\` — full report: \`windows-pc-migration/docs/FIN… <!--id:06813324-f5d4-411a-8b22-a3ed192be25c-->
+- ↩︎ result (88 chars): https://github.com/DevonForlan/claude-conversation-logs/issues/1#issuecomment-7072220551 <!--id:f1a83d28-3186-49fa-9638-604fe2ccfaa2-->
+
+### [2026-11-22 09:28:13] 🤖 Claude <!--id:4a3d499f-f4a1-450e-bef2-a389e02eee1b-->
+
+# Final Cutover 報告
+
+**結論：SAFE TO RESTORE。** 舊電腦到 Transcend 的最終 Migration Package 已完成並驗證，可以進入新電腦階段。
+
+## 1. Transcend 外接硬碟
+- D: 確認是 Transcend StoreJet，USB，exFAT，1863 GB，磁碟代號沒變。
+- 狀態 Healthy、Online、非 Dirty，剩餘約 1,467 GB，沒有任何程序在寫入。
+- 原 Package、manifest、checksum 和 log 都在，**可以安全退出 D:**。
+- D: 的 BitLocker 是關閉的（沒有加密）。
+
+## 2. Final Delta Inventory
+和 11/10 的盤點比較，只有版本更新和廠商排程的小變動：
+- Claude Code 從 2.1.321 升到 2.1.330。
+- VS Code 有 3 個擴充套件更新。
+- pip 多了 PyYAML。
+- Chrome、Edge、Acrobat、CrowdStrike、M365 有版本更新。
+- 沒有新增或移除的重要應用程式，也沒有新的 `.gitconfig`、`.ssh`、PowerShell profile 或 Git repo。
+
+## 3. 新增的 migration scope
+我在 `migration.ps1` 加了 `Backup-ExtraConfigs`，補備份原本不在 package 的設定：
+- MobaXterm.ini（內容只有 SSH 設定，沒有密碼）
+- Obsidian 設定
+- Edge 書籤
+- Claude Code 與 Codex 的設定、hooks、skills
+- VS Code snippets
+
+Token、`.credentials.json`、`auth.json`、cookie 都沒有複製。Obsidian vault 在 Documents 裡，原本就在範圍內。
+
+## 4. Final Delta 數字
+| 項目 | 數量 |
+|---|---|
+| 第一次增量（Desktop） | 10,899 個檔案，2.86 GB（新增加更新） |
+| 第二次增量（Desktop） | 201 個檔案，53.9 MB（171 新增、30 更新） |
+| Documents 的 Outlook.pst | 1 個更新 |
+| 失敗 | 0 |
+| 刪除 | 無（沒有用鏡像模式，package 裡多出的 1,076 個檔案都保留） |
+| 最終 Package | **361,561 個檔案，約 79.8 GB** |
+
+## 5. Checksum 與驗證
+- **完整 verify（11/21 19:26 到 21:39）：** 361,390 個檔案 ok，**mismatch 0、missing 0、hash 失敗 0**，且沒有檔案漏列在 manifest。
+- **增量部分：** 之後新增或更新的 202 個檔案，我重新雜湊後和來源、manifest 比對，0 不符。另外隨機抽 3,000 個檔案重雜湊，0 不符。
+- **來源差異：** 完整 verify 報告 Desktop 有 161 個來源檔案不在 package 裡，全部是備份之後仍在變動的內容：AI CUP repo 的 `.git`、log，和本對話的 conversation-logs。第二次增量已補上。我用 robocopy 再比對一次，Desktop 和 Downloads 都沒有需要複製的檔案，Documents 剩 Outlook.pst，也已補上。
+- **注意：** 增量部分只用「只雜湊新增與變更檔案」的方式驗證，沒有再跑一次 2 小時的完整 verify。
+
+## WARNING
+- D: 沒有加密，卻存有公司資料，建議啟用 BitLocker To Go，或實體保管。
+- 這台電腦的機器憑證（webcomm-N2-02-CA）在 **2026-12-30 到期**，它綁定裝置，沒有搬遷，要請 IT 重新核發。
+- AI CUP 排程任務和 Outlook 在 cutover 期間仍會寫入檔案。
+
+## MANUAL ACTION
+1. 關閉 Outlook、VS Code、Claude Code、Docker，並停用 AI_CUP 排程任務。如果 11/22 09:20 之後還有變動，需要再跑一次小增量（約 2 分鐘複製加增量 manifest）。
+2. 把 15 個 `.pfx` 和 8 個 `.pem`／`.key` 分類（重建、加密傳輸、不搬）。沒分類的一律不搬。
+3. 向 IT 辦理新電腦註冊、VPN 與 MFA 重新綁定、OETH 授權和機器憑證。
+4. 用 Windows「安全移除硬體」退出 D:。
+
+## 尚未處理
+- Restore、rollback 和 winget import 都還沒在真實 package 上跑過，這是新電腦階段要做的。
+- `winget export` 在這台電腦會因繁中字元失敗，所以用手工整理的 19 個套件清單 `inventory/winget_export_curated.json`。
+
+**新電腦下一步：** 接上 D: 後依序執行 `02_restore\migration.ps1 verify -Source D:\Windows_Migration_Package`、`restore -DryRun`、管理員 `restore`，最後做 post-restore 驗證。
+
+**GitHub：** commit `9c2d8d4dc21adf7fdfdea68cd9fc4267bc1605a8`，完整報告在 `windows-pc-migration/docs/FINAL_CUTOVER_REPORT.md`，Issue #1 留言：https://github.com/DevonForlan/claude-conversation-logs/issues/1#issuecomment-7072220551 。
+
+**我的疏漏：** 11/21 manifest 完成後，我沒有照原本說的立刻啟動 verify，延後了約 8 小時，你問進度時才發現。
