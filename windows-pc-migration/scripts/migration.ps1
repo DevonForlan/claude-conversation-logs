@@ -201,6 +201,35 @@ function Backup-ScheduledTasks([string]$root, [bool]$dry) {
   foreach ($t in $tasks) { try { Export-ScheduledTask -TaskName $t.TaskName -TaskPath $t.TaskPath | Out-File (Join-Path $d (($t.TaskName -replace '[\\/:*?"<>|]', '_') + '.xml')) -Encoding unicode } catch { Fail "task export $($t.TaskName): $($_.Exception.Message)" } }
 }
 
+function Backup-ExtraConfigs([string]$root, [bool]$dry) {   # Final-scope additions (Final Delta): app/dev configs that live outside Desktop/Documents. Never copies credentials/tokens/cookies.
+  $d = Join-Path $root '01_backup\AppSettings\Extra'
+  $items = @(
+    @{ n = 'MobaXterm.ini'; src = (Join-Path $env:APPDATA 'MobaXterm\MobaXterm.ini'); dst = 'MobaXterm' },
+    @{ n = 'obsidian.json'; src = (Join-Path $env:APPDATA 'obsidian\obsidian.json'); dst = 'Obsidian' },
+    @{ n = 'chrome_Bookmarks'; src = (Join-Path $env:LOCALAPPDATA 'Google\Chrome\User Data\Default\Bookmarks'); dst = 'Browsers\Chrome' },
+    @{ n = 'edge_Bookmarks'; src = (Join-Path $env:LOCALAPPDATA 'Microsoft\Edge\User Data\Default\Bookmarks'); dst = 'Browsers\Edge' }
+  )
+  foreach ($c in 'settings.json', 'CLAUDE.md', 'keybindings.json', 'plugins\installed_plugins.json', 'plugins\known_marketplaces.json') { $items += @{ n = "claude_$c"; src = (Join-Path $HOME ".claude\$c"); dst = ('ClaudeCode\' + (Split-Path $c -Parent)) } }
+  foreach ($c in 'config.toml', 'AGENTS.md') { $items += @{ n = "codex_$c"; src = (Join-Path $HOME ".codex\$c"); dst = 'Codex' } }
+  foreach ($i in $items) {
+    if (-not (Test-Path -LiteralPath $i.src)) { Log "extra: not present, skipped: $($i.n)"; continue }
+    if ($dry) { Log "[dry-run] extra: would copy $($i.n)"; continue }
+    try { $t = Join-Path $d $i.dst; New-Item -ItemType Directory -Force -Path $t | Out-Null; Copy-Item -LiteralPath $i.src -Destination $t -Force -ErrorAction Stop; Log "extra ok: $($i.n)" } catch { Fail "extra $($i.n): $($_.Exception.Message)" }
+  }
+  $dirs = @(  # directory, excluded dir names, excluded files
+    @{ src = (Join-Path $HOME '.claude\hooks'); dst = 'ClaudeCode\hooks' }, @{ src = (Join-Path $HOME '.claude\skills'); dst = 'ClaudeCode\skills' },
+    @{ src = (Join-Path $HOME '.claude\agents'); dst = 'ClaudeCode\agents' }, @{ src = (Join-Path $HOME '.claude\commands'); dst = 'ClaudeCode\commands' },
+    @{ src = (Join-Path $HOME '.codex\rules'); dst = 'Codex\rules' }, @{ src = (Join-Path $HOME '.codex\skills'); dst = 'Codex\skills' },
+    @{ src = (Join-Path $env:APPDATA 'Code\User\snippets'); dst = 'VSCode\snippets' }
+  )
+  foreach ($x in $dirs) {
+    if (-not (Test-Path -LiteralPath $x.src)) { continue }
+    if ($dry) { Log "[dry-run] extra: would copy dir $($x.dst)"; continue }
+    & robocopy $x.src (Join-Path $d $x.dst) /E /COPY:DAT /R:2 /W:2 /XJ /NP /NFL /NDL /XD __pycache__ node_modules .git /XF '.credentials.json' 'auth.json' '*.pyc' ('/UNILOG+:' + $script:LogFile) | Out-Null
+    if ($LASTEXITCODE -ge 8) { Fail "extra dir $($x.dst) rc=$LASTEXITCODE" } else { Log "extra dir ok: $($x.dst) rc=$LASTEXITCODE" }
+  }
+}
+
 # ---- actions ----------------------------------------------------------------------------------------------------
 function Do-Backup {
   if (-not (Test-DestinationSafe $Destination)) { return }
@@ -227,7 +256,7 @@ function Do-Backup {
   else { Log "space precheck PASS: free $free GB >= $needGB GB + margin" }
   if ($DryRun) {
     foreach ($f in $UserFolders) { if (Test-Path (Join-Path $UserProfileRoot $f)) { Log "[dry-run] would robocopy $f -> 01_backup\UserData\$f" } }
-    Backup-AppSettings $Destination $true; Backup-ScheduledTasks $Destination $true
+    Backup-AppSettings $Destination $true; Backup-ScheduledTasks $Destination $true; Backup-ExtraConfigs $Destination $true
     Log '[dry-run] would write 04_checksums\SHA256SUMS.txt and README_MIGRATION.md'; return
   }
   foreach ($n in '00_inventory', '01_backup\UserData', '01_backup\Projects', '01_backup\Docker', '02_restore', '03_verify', '04_checksums', '05_logs') { New-Item -ItemType Directory -Force -Path (Join-Path $Destination $n) | Out-Null }
@@ -235,7 +264,7 @@ function Do-Backup {
     $p = Join-Path $UserProfileRoot $f
     if (Test-Path $p) { Invoke-Robo $p (Join-Path $Destination "01_backup\UserData\$f") -tag $f | Out-Null }
   }
-  Backup-AppSettings $Destination $false; Backup-ScheduledTasks $Destination $false
+  Backup-AppSettings $Destination $false; Backup-ScheduledTasks $Destination $false; Backup-ExtraConfigs $Destination $false
   Copy-Item $PSCommandPath (Join-Path $Destination '02_restore\migration.ps1') -Force
   $n = Write-Manifest $Destination (Join-Path $Destination '04_checksums\SHA256SUMS.txt'); Log "checksums written: $n files"
   @{ created = (Get-Date -Format o); host = $env:COMPUTERNAME; include_sensitive = [bool]$IncludeSensitive; include_rebuildable = [bool]$IncludeRebuildable; user_folders = $UserFolders; est_gb = $needGB; files_hashed = $n; errors = $script:Errors.Count } |

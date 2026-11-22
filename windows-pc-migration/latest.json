@@ -1,11 +1,12 @@
 {
  "session_id": "30e5b156-8771-498c-a5a7-ff50b6e35047",
- "phase": "OLD_PC_PRECUTOVER_PREP_DONE_FINAL_DELTA_PENDING",
+ "phase": "FINAL_CUTOVER_DONE_SAFE_TO_RESTORE",
  "status_path": "logs/windows-pc-migration/30e5b156-8771-498c-a5a7-ff50b6e35047/status.md",
  "conversation_path": "logs/windows-pc-migration/30e5b156-8771-498c-a5a7-ff50b6e35047/conversation.md",
  "metadata_path": "logs/windows-pc-migration/30e5b156-8771-498c-a5a7-ff50b6e35047/metadata.json",
  "issue": 1,
- "updated_at": "2026-11-10T11:51:08+08:00",
+ "updated_at": "2026-11-22T09:27:27+08:00",
  "commit": "c465c10966730ce50e072d5aae9ece768a3b8913",
- "checklist_path": "windows-pc-migration/docs/OLD_PC_READY_FOR_CUTOVER.md"
+ "checklist_path": "windows-pc-migration/docs/OLD_PC_READY_FOR_CUTOVER.md",
+ "report_path": "windows-pc-migration/docs/FINAL_CUTOVER_REPORT.md"
 }
