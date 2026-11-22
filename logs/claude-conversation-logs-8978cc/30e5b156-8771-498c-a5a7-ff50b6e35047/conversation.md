@@ -2830,3 +2830,14 @@ cd D:\Windows_Migration_Package\02_restore
 **注意：**
 - Restore 這段腳本還沒在真實的新電腦上跑過，所以第 3、4 步的結果請貼給我，我確認後你再做第 5 步。
 - 第 3 步和第 5 步都會完整 verify 一次，合計約 3 小時。如果第 3 步已經 `errors=0`，可以接受第 5 步重驗多花的時間，或者告訴我，我可以改成 restore 時跳過重驗。
+
+### [2026-11-22 09:48:49] 👤 User (turn 84) <!--id:b63ab358-026c-4ba1-92a2-f655abbbe7a1-->
+
+你直接把操作方式寫到一個文件中放在D:中 我會在新電腦開啟claude code然後請他讀取並執行文件
+- 🔧 **Write**: D:\Windows_Migration_Package\NEW_PC_RESTORE_RUNBOOK.md <!--id:c611509a-0d1c-4a5a-b0d7-c0e7c5b7c02c-->
+- ↩︎ result (150 chars): File created successfully at: D:\Windows_Migration_Package\NEW_PC_RESTORE_RUNBOOK.md (file state is current in your context — no need to Read it back) <!--id:b8570ba3-d62b-40d2-9e54-b5738d3ae49e-->
+
+### [2026-11-22 09:49:58] 🤖 Claude <!--id:a9e5aef6-81f8-4254-9bdb-4bb737800812-->
+
+Adding the runbook to the manifest (otherwise verify would flag it) and checking the Extra paths match what I wrote.
+- 🔧 **Bash**: python -I "C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\inc_manifest.py" 2>&1 | tail -3; cd "/d/Windows_Migration_Package/01_backup/AppSettings"; find Extra -maxdepth 2 | he… <!--id:2eb7a749-aca3-4d9c-a93b-f2b7206394a3-->
