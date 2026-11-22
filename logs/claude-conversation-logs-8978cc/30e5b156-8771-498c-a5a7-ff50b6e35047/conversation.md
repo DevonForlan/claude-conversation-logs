@@ -2870,3 +2870,142 @@ The manifest is now at 361,562 entries because the runbook itself was added, so 
    > 請讀取 `D:\Windows_Migration_Package\NEW_PC_RESTORE_RUNBOOK.md` 並依照文件執行。如果磁碟代號不是 D:，請先找出標籤為 Transcend 的磁碟。
 
 **時間：** verify 在 verify、dry run、正式 restore 三個步驟各會完整跑一次，每次約 1.5 小時。Claude Code 會在 dry run 完成後停下來等你同意，再開始正式 restore。
+
+### [2026-11-22 10:50:43] 👤 User (turn 85) <!--id:3d45b43a-ba06-4844-a1c4-4aa2fa7d5745-->
+
+This session is being continued from a previous conversation that ran out of context. The summary below covers the earlier portion of the conversation.
+
+
+Summary:
+1. Primary Request and Intent:
+   - Windows PC migration, repo `DevonForlan/claude-conversation-logs`, Issue #1. The old PC is NB0250 (Lenovo, domain webcomm).
+   - **Phase A (Owner directive, comment 6758112206): DONE.** Finish all old-PC prep that does not need cutover:
+     - elevated inventory
+     - software/dev inventory
+     - sensitive-data strategy
+     - re-login/re-enrollment checklist
+     - OLD_PC_READY_FOR_CUTOVER checklist
+     - sync health check
+     - Constraints: no Final Delta, no new-PC restore; D: is not required.
+   - **Phase B (user's Final Cutover request): DONE, concluded SAFE TO RESTORE.**
+     - Confirm D: is the Transcend drive (not "Samsung T7").
+     - Final Delta Inventory against the previous inventory; update the Final Migration Scope.
+     - Incremental backup only (no full recopy, no from-zero rebuild, no deletions); keep the long-path handling.
+     - Final Manifest, then full verify (missing/mismatch/failed = 0).
+     - Final Transcend drive check and a Final Cutover Report ending in SAFE or NOT SAFE TO RESTORE.
+     - Stop only for: possible deletion of source data; overwriting important data; irreversible ops; personal password; MFA; company IT permission; VPN/device enrollment; company certificate re-issue; inability to identify the Transcend drive.
+   - **User then asked:** "所以現在我可以將隨身碟插上到新電腦，然後下一步呢?" I answered with the steps and fixed the restore blocker.
+   - **Latest request:** "你直接把操作方式寫到一個文件中放在D:中 我會在新電腦開啟claude code然後請他讀取並執行文件". This is done (runbook written); the final confirmation reply is still owed.
+   - **Standing rules:**
+     - AI CUP is a separate project; do not restore AI_CUP tasks unless asked.
+     - Never copy secrets to the unencrypted D: (.env, keys, pfx, cookies, browser_profile(s), credentials).
+     - Do not touch MDM/EDR, BitLocker, domain, drivers, VPN/MFA, or device licences.
+     - Org policy: no credentials or personal data shared externally.
+     - Commit attribution is now: `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
+
+2. Key Technical Concepts:
+   - D: = Transcend StoreJet, USB, exFAT, 1863 GB, label "Transcend", Disk 1. BitLocker Off (confirmed elevated). Healthy, NOT dirty, ~1,467 GB free. Also holds Mac folders (.fseventsd etc.).
+   - Elevation via `Start-Process powershell -Verb RunAs` (UAC worked). Admin is checked with `whoami /groups` SID S-1-16-12288, because `WindowsPrincipal.IsInRole` throws a "trust relationship" error on this machine.
+   - Robocopy incremental: `/E /COPY:DAT /DCOPY:DAT /XJ /MT:8`, no /MIR. Exclusions:
+     - Directories: `$RECYCLE.BIN`, `System Volume Information`, node_modules, .venv, venv, `__pycache__`, .pytest_cache, .cache, site-packages, plus the 3 browser_profile(s) dirs.
+     - Files: `.env`, `.env.*`, `*.pem`, `*.ppk`, `*.pfx`, `*.p12`, `*.key`, id_rsa, id_ed25519, id_ecdsa, credentials, credentials.json, `*.kdbx`.
+   - Incremental manifest (Python): re-hash only files whose size/mtime differ from FILELIST.tsv; atomic replace; previous copies kept as `.prev_<stamp>`.
+   - `winget export` fails on this PC (zh-TW unmappable char). A curated list of 19 IDs replaces it.
+   - PS 5.1 scripts containing Chinese need a UTF-8 BOM. Heredoc quoting problems were worked around by writing files with the Write tool.
+
+3. Files and Code Sections:
+   - **`windows-pc-migration/scripts/inventory_elevated.ps1`** (new, BOM): read-only elevated inventory. Covers BitLocker, manage-bde, TPM/SecureBoot, features/capabilities, services, drivers, corporate security services, dsregcmd, scheduled tasks, hosts/proxy/wifi names, cert metadata, env vars (secret-like redacted), winget, apps, dev tools, config presence, docker/wsl, browsers, network/odbc. Output goes to `Desktop\個人\搬遷\inventory_out` (11/10) and `inventory_out_final` (11/21); both local only.
+   - **Docs written 11/10** (`windows-pc-migration/docs/`): SYSTEM_INVENTORY.md, DEVELOPER_ENVIRONMENT.md, SENSITIVE_DATA_STRATEGY.md, NEW_PC_RELOGIN_CHECKLIST.md, OLD_PC_READY_FOR_CUTOVER.md.
+   - **Inventory files** (`windows-pc-migration/inventory/`): `summary_elevated_20261110.json`, `winget_export_curated.json`.
+   - **`migration.ps1`** (backups: `.bak_prelongpath`, `.bak_prefinal`):
+     - patch3 added `Backup-ExtraConfigs` into `01_backup\AppSettings\Extra`:
+       - files: MobaXterm.ini, obsidian.json, Chrome/Edge Bookmarks, `.claude` settings/CLAUDE.md/keybindings/plugins json, codex config.toml/AGENTS.md
+       - directories (via robocopy): `.claude` hooks/skills/agents/commands, `.codex` rules/skills, VS Code snippets
+       - excludes `.credentials.json`, `auth.json`, `__pycache__`, `.git`
+       - called in both the dry-run and real Do-Backup.
+     - patch4 plus follow-up: added the `[switch]$SkipSourceCompare` param. In Do-Verify:
+       ```
+       $sameHost = -not $SkipSourceCompare; $h0 = '(skipped by switch/restore)'; $bm = Join-Path $Source '00_inventory\backup_meta.json'
+       if ($sameHost -and (Test-Path $bm)) { try { $h0 = (Get-Content $bm -Raw | ConvertFrom-Json).host; if ($h0 -and $h0 -ne $env:COMPUTERNAME) { $sameHost = $false } } catch {} }
+       if (-not $sameHost) { Log "source-vs-package comparison SKIPPED: this is not the backup host (backup host '$h0'); package integrity above is what counts" }
+       foreach ($f in $UserFolders) { if (-not $sameHost) { break } ...
+       ```
+       In Do-Restore, before Do-Verify: `$script:SkipSourceCompare = $true`. Tested on a fake package (both paths: errors=0, comparison SKIPPED). backup_meta host is "NB0250".
+     - The package copy `D:\Windows_Migration_Package\02_restore\migration.ps1` was updated and the manifest refreshed.
+   - **`windows-pc-migration/scripts/incremental_manifest.py`** (copy of scratchpad `inc_manifest.py`):
+     - asserts `len(sums)==len(meta)>=361390`
+     - walks the package with the `\\?\` prefix, skipping 04_checksums, 05_logs, README_MIGRATION.md and `00_inventory\backup_meta.json`
+     - aborts if any file is missing or unreadable
+     - hashes changed/new files with 8 threads and rewrites SHA256SUMS.txt + FILELIST.tsv atomically (UTF-8 BOM, CRLF)
+     - writes `05_logs\incremental_manifest_<stamp>.log`.
+   - **Scratchpad scripts:** delta_scan.py, delta_cmp.py, scan_sens.py, check_delta2.py (re-hashes delta files vs source and manifest, plus a random 3,000-file sample), patch3.py, patch4.py.
+   - **`windows-pc-migration/docs/FINAL_CUTOVER_REPORT.md`**: full report, SAFE TO RESTORE.
+   - **`D:\Windows_Migration_Package\NEW_PC_RESTORE_RUNBOOK.md`** (also at `windows-pc-migration/docs/NEW_PC_RESTORE_RUNBOOK.md`): Chinese runbook for Claude Code on the new PC.
+     - Rules: do not modify package files; write its own logs to `Desktop\migration_restore_logs`; 7 stop points, including Owner approval before the formal restore and no rollback.
+     - Steps:
+       1. Preflight (identify Transcend by label/StoreJet, ≥100 GB free)
+       2. Environment setup
+       3. verify (expect ok = manifest entries, currently 361562; SKIPPED message normal; use -SkipSourceCompare if the hostname is also NB0250)
+       4. restore -DryRun, then stop for Owner approval
+       5. formal restore (UAC, judged by logs not PID)
+       6. curated winget import from `00_inventory\final_delta_20261121\winget_export_curated.json`, npm globals, pip
+       7. Extra config restore table (back up the existing file as `.bak_newpc` first; check settings.json hook paths); `gh repo clone DevonForlan/claude-conversation-logs ~/.claude/cc-log-repo`
+       8. Post-restore validation (file counts, 500-sample SHA-256, tool versions, git status)
+       9. Owner manual items
+       10. Report format with RESTORE COMPLETE/INCOMPLETE.
+     - It is included in the manifest; its hash was verified to match.
+   - **Package additions:** `00_inventory\final_delta_20261121\` (inventory json/txt/csv, curated winget, delta_inventory_raw.txt). Logs: `backup_20261121_095421.log`, `verify_20261121_192640.log`, `final_delta2_robocopy_20261122.log`, `incremental_manifest_*.log`.
+
+4. Errors and fixes:
+   - winget export failed (encoding), and also with chcp 65001 and `-s winget`. Fix: curated list built from `winget list -s winget`; the bogus "25.01" entry was removed.
+   - Python heredoc quoting broke (backslash/quote issues). Fix: wrote scripts and docs with the Write tool.
+   - Monitors expired every 30 minutes and were re-armed.
+   - **I failed to start verify after the manifest finished at 11:38 on 11/21; it was only started at 19:26 after the user asked.** I admitted this to the user.
+   - Verify errors=1: 161 Desktop source files not in the package (live AI CUP .git, logs, conversation logs). Fix:
+     - second robocopy pass: 201 files (171 new, 30 updated, 53.9 MB), 0 failed
+     - Documents Outlook.pst: 1 updated
+     - incremental manifest, then check_delta2: 0 mismatch vs source and manifest; sample 3,000: 0 mismatch.
+   - inc_manifest assertion hard-coded 361390; changed to `>=`.
+   - Restore blocker (source-vs-package on the new PC would fail and make restore refuse): fixed with the host check plus SkipSourceCompare.
+   - Adding the runbook changed the manifest count to 361562. The runbook text was updated to say ok must equal manifest entries, and the manifest was re-run.
+
+5. Problem Solving:
+   - Delta inventory found only version churn: Claude Code 2.1.330, VS Code extensions, PyYAML, browser/CrowdStrike/M365 updates, Lenovo/Google tasks, Camera-CCX feature −1, D: BitLocker Off.
+   - Final package: 361,562 manifest entries (361,561 data files + runbook), ~79.8 GB.
+   - Full verify 11/21: ok=361,390, mismatch 0, missing 0, not-in-manifest 0. Later deltas were verified by targeted hashing.
+   - Final drift check: Desktop 0, Downloads 0 (extras only), Documents pst copied.
+
+6. All user messages:
+   - Pasted directive: read Issue #1 comment 6758112206 and complete old-PC prep. Do not run Final Delta, do not start restore, use UAC yourself, D: is not required, report 5 items.
+   - Pasted Final Cutover directive (full text summarized in section 1). Key security constraints: do not call the drive Samsung T7; confirm D: is Transcend before any write; no full recopy, no from-zero rebuild; keep existing correct data; stop only for possible deletion of source data, overwriting important data, irreversible ops, personal password, MFA, company IT permission, VPN/device enrollment, company certificate re-issue, or inability to identify the Transcend drive. After SAFE TO RESTORE, the old PC is the Frozen Source.
+   - "目前進度如何 完成度可以用百分比表示嗎"
+   - "到 50% 的時候告知我一聲 並告知我剩下的百分之50還需要多久時間"
+   - "現在完成了嗎"
+   - "大約還要多久?"
+   - "所以現在我可以將隨身碟插上到新電腦，然後下一步呢?"
+   - "你直接把操作方式寫到一個文件中放在D:中 我會在新電腦開啟claude code然後請他讀取並執行文件"
+
+7. Pending Tasks:
+   - Tell the user the runbook is written: path `D:\Windows_Migration_Package\NEW_PC_RESTORE_RUNBOOK.md`, included in the manifest, GitHub copy at commit 25b6f640.
+   - Tell the user D: can now be safely removed (not dirty, no writers), and give the prompt to use on the new PC.
+   - Optionally post an Issue #1 comment / update latest.json about the runbook and restore fix (not explicitly requested).
+
+8. Current Work:
+   - Wrote the runbook to D:, added it to the manifest (now 361,562 entries) and fixed its expected count.
+   - Copied it to the repo and pushed commit `25b6f640bc014d23c77905a5020577fcef41728c`.
+   - Earlier fix commits: `444d70fc9674bdd1c68521bdd2304b6c35c04be2` (restore fix) and `9c2d8d4dc21adf7fdfdea68cd9fc4267bc1605a8` (final report). Issue comment: https://github.com/DevonForlan/claude-conversation-logs/issues/1#issuecomment-7072220551
+   - Final check: runbook hash matches its manifest line (True), "Volume - D: is NOT Dirty", 0 robocopy/python processes.
+
+9. Optional Next Step:
+   Reply to the user's latest request ("你直接把操作方式寫到一個文件中放在D:中 我會在新電腦開啟claude code然後請他讀取並執行文件") and confirm:
+   - The runbook is at `D:\Windows_Migration_Package\NEW_PC_RESTORE_RUNBOOK.md` (included in the manifest; copy in the repo at commit 25b6f640).
+   - D: is safe to eject now via 安全移除硬體.
+   - Suggested prompt for new-PC Claude Code: 「請讀取 D:\Windows_Migration_Package\NEW_PC_RESTORE_RUNBOOK.md 並依照文件執行，遇到停止點先回報我」. If the drive letter differs, adjust the path.
+   - Prerequisite on the new PC: Node.js and Claude Code must already be installed (`winget install OpenJS.NodeJS.LTS`, `npm i -g @anthropic-ai/claude-code`).
+   - The runbook makes Claude stop for Owner approval before the formal restore.
+   - Verify runs ~1.5 h each in verify, dry run and restore.
+
+If you need specific details from before compaction (like exact code snippets, error messages, or content you generated), read the full transcript at: C:\Users\devon.tseng\.claude\projects\C--Users-devon-tseng-Desktop------\30e5b156-8771-498c-a5a7-ff50b6e35047.jsonl
+Continue the conversation from where it left off without asking the user any further questions. Resume directly — do not acknowledge the summary, do not recap what was happening, do not preface with "I'll continue" or similar. Pick up the last task as if the break never happened.
+
+The messages after this summary are the most recent messages from before compaction, kept verbatim. The summary was written without seeing them, so something it says has not happened yet may already have happened in them.
