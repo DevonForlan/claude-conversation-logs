@@ -2841,3 +2841,32 @@ cd D:\Windows_Migration_Package\02_restore
 
 Adding the runbook to the manifest (otherwise verify would flag it) and checking the Extra paths match what I wrote.
 - 🔧 **Bash**: python -I "C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\inc_manifest.py" 2>&1 | tail -3; cd "/d/Windows_Migration_Package/01_backup/AppSettings"; find Extra -maxdepth 2 | he… <!--id:2eb7a749-aca3-4d9c-a93b-f2b7206394a3-->
+- ↩︎ result (834 chars): changed/new: 1 missing from disk: 0 stat errors: 0 new entries: 1 updated entries: 0 manifest entries now: 361562 Extra Extra/MobaXterm Extra/MobaXterm/MobaXterm.ini Extra/Obsidian Extra/Obsidian/obsidian.json Extra/Browsers Extra/Browsers/Edge Extra/ClaudeCode Extra/ClaudeCode/settings.json Extra/C… <!--id:17a7035e-0226-4f3c-9438-5ed38fde0b9f-->
+
+### [2026-11-22 09:52:40] 🤖 Claude <!--id:1a4aa27a-b54c-43b6-992a-e6b48316127f-->
+
+The manifest is now at 361,562 entries because the runbook itself was added, so I'm fixing the expected count in the runbook.
+- 🔧 **Bash**: cd /d/Windows_Migration_Package && python -I - <<'E' p=r'D:\Windows_Migration_Package\NEW_PC_RESTORE_RUNBOOK.md'; s=open(p,encoding='utf-8').read() s=s.replace('361,561 個檔案、約 79.8 GB','361,562 個檔案（含本文件）、約 79.8 GB') s=s.replace('`package ver… <!--id:414502e2-23c8-4da5-a803-854462c97677-->
+- ↩︎ result (108 chars): 1 new entries: 0 updated entries: 1 manifest entries now: 361562 25b6f640bc014d23c77905a5020577fcef41728c <!--id:929c98b4-7d00-48d8-bdcf-02f7d5cbeed1-->
+- 🔧 **PowerShell**: $h=(Get-FileHash -LiteralPath D:\Windows_Migration_Package\NEW_PC_RESTORE_RUNBOOK.md).Hash; (Select-String -LiteralPath D:\Windows_Migration_Package\04_checksums\SHA256SUMS.txt -Pattern 'NEW_PC_RESTORE_RUNBOOK' -SimpleMatch).Line.StartsWith… <!--id:11d64139-6e57-4afd-87cb-6ff0b9ad1548-->
+- ↩︎ result (33 chars): True Volume - D: is NOT Dirty 0 <!--id:4a0e6304-2916-489a-a569-57584a2ea893-->
+
+### [2026-11-22 09:55:54] 🤖 Claude <!--id:29ab6791-26e9-4b50-aed7-ef8799517a7f-->
+
+操作文件已放到 D:，可以拿到新電腦用了。
+
+**文件位置：** `D:\Windows_Migration_Package\NEW_PC_RESTORE_RUNBOOK.md`。GitHub 也有一份在 `windows-pc-migration/docs/`，commit `25b6f640bc014d23c77905a5020577fcef41728c`。這份文件的雜湊已加進 manifest，現在共 361,562 筆，所以新電腦 verify 時不會報錯。
+
+**文件內容（寫給新電腦上的 Claude Code）：**
+- 背景：package 的結構，以及哪些東西刻意沒備份（`.env`、金鑰、cookie 等）。
+- 停止點：認不出 Transcend 磁碟、verify 沒有全數通過、需要密碼／MFA／IT 權限，以及**正式 restore 前要先問你同意**。
+- 步驟依序為：確認磁碟 → verify → restore dry run → 等你同意 → 正式 restore → 補裝工具 → 還原 Claude Code、Codex、MobaXterm、Obsidian 設定 → 抽樣驗證 → 列出要你自己重新登入的項目。
+- 每個步驟都有指令、成功條件和最後的回報格式。
+
+## 你要做的
+1. **舊電腦：** 用「安全移除硬體」退出 D:。剛確認過非 Dirty，也沒有程序在寫入。
+2. **新電腦先手動準備：** 讓 IT 完成網域與裝置設定，然後安裝 Node.js 和 Claude Code（`npm i -g @anthropic-ai/claude-code`），並登入 Claude Code。Claude Code 要先能跑起來，才能讀這份文件。
+3. 接上 D:，開 Claude Code，跟它說：
+   > 請讀取 `D:\Windows_Migration_Package\NEW_PC_RESTORE_RUNBOOK.md` 並依照文件執行。如果磁碟代號不是 D:，請先找出標籤為 Transcend 的磁碟。
+
+**時間：** verify 在 verify、dry run、正式 restore 三個步驟各會完整跑一次，每次約 1.5 小時。Claude Code 會在 dry run 完成後停下來等你同意，再開始正式 restore。
