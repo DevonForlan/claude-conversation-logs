@@ -3009,3 +3009,34 @@ If you need specific details from before compaction (like exact code snippets, e
 Continue the conversation from where it left off without asking the user any further questions. Resume directly — do not acknowledge the summary, do not recap what was happening, do not preface with "I'll continue" or similar. Pick up the last task as if the break never happened.
 
 The messages after this summary are the most recent messages from before compaction, kept verbatim. The summary was written without seeing them, so something it says has not happened yet may already have happened in them.
+
+### [2026-11-22 22:29:47] 👤 User (turn 86) <!--id:b5dd8abf-7788-4447-874e-a831dbfef19a-->
+
+幫我退出我的Transcend
+- 🔧 **PowerShell**: $v = Get-Volume -DriveLetter D -ErrorAction SilentlyContinue; if ($v) { "$($v.FileSystemLabel) / $($v.FileSystem) / $([math]::Round($v.Size/1GB)) GB" } else { 'D: not present' }; Get-Process robocopy,python -ErrorAction SilentlyContinue | S… <!--id:fdeefbb8-0e9d-4fc1-9ebd-e2c01abaeedd-->
+- ↩︎ result ⚠️error (83 chars): Exit code 1 Transcend / exFAT / 1863 GB Name Id ---- -- python 39740 <!--id:2eb9feaf-596d-4cb2-a8e8-a7a0cc5d638b-->
+- 🔧 **PowerShell**: Get-CimInstance Win32_Process -Filter "ProcessId=39740" | Select-Object ProcessId,CreationDate,CommandLine | Format-List <!--id:3053214e-1398-459c-9b9f-d12a8ef4773b-->
+- ↩︎ result (225 chars): ProcessId : 39740 CreationDate : 2026/11/22 下午 10:29:49 CommandLine : C:\Users\devon.tseng\AppData\Local\Programs\Python\Python313\python.exe C:\Users\devon.tseng\.claude\hoo ks\cc_global_log.py --worker <!--id:8be3bc3d-0b3c-42a1-9d6e-d246a7482f58-->
+
+### [2026-11-22 22:30:10] 🤖 Claude <!--id:a17f9d5f-ff1d-4ed3-ab78-bd7efdb3a6b1-->
+
+That python process is the Claude Code conversation-log hook, which writes to `~/.claude`, not D:. Ejecting now.
+- 🔧 **PowerShell**: $sh = New-Object -ComObject Shell.Application; $sh.Namespace(17).ParseName('D:').InvokeVerb('Eject'); Start-Sleep -Seconds 5; if (Get-Volume -DriveLetter D -ErrorAction SilentlyContinue) { 'D: STILL PRESENT' } else { 'D: ejected' } <!--id:815a07c0-d23b-4da9-9878-821fc0e43415-->
+- ↩︎ result (16 chars): D: STILL PRESENT <!--id:cdd33aa5-cbb6-44bd-95b4-e807eeb69ee0-->
+- 🔧 **PowerShell**: Start-Sleep -Seconds 5; $v = Get-Volume -DriveLetter D -ErrorAction SilentlyContinue; if ($v) { "still: $($v.OperationalStatus)" } else { 'gone' }; Get-Disk -Number 1 -ErrorAction SilentlyContinue | Select-Object Number,FriendlyName,Operati… <!--id:f949a304-b12a-4307-9c37-f5a4285674c4-->
+- ↩︎ result (158 chars): still: OK Number FriendlyName OperationalStatus IsOffline ------ ------------ ----------------- --------- 1 StoreJet Online False <!--id:bffa9112-3156-4eab-b1b1-29970e0129ea-->
+- 🔧 **Write**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\eject.ps1 <!--id:2f8e048a-35a0-4782-9201-8b4539d7bd08-->
+- ↩︎ result (217 chars): File created successfully at: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\eject.ps1 (file state is current in your context — no need to Read it back) <!--id:5a26af2e-4730-4376-a283-13e2f783cc03-->
+- 🔧 **PowerShell**: & "C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\eject.ps1"; Start-Sleep -Seconds 3; if (Get-Volume -DriveLetter D -ErrorAction SilentlyContinue) { 'D: STILL PRESENT' } else … <!--id:6d14c649-1b30-4b18-80bb-2522756bee70-->
+- ↩︎ result (160 chars): disk PnP: SCSI\DISK&VEN_STOREJET&PROD_\6&346A4D7&2&000000 eject target: USB\VID_8564&PID_7000\MSFT30____________WY21EBLF result=0 veto=0 vetoName= D: ejected <!--id:b69f3d94-c4d1-48eb-ad2d-275cd545b061-->
+
+### [2026-11-22 22:31:07] 🤖 Claude <!--id:81c5ea3a-d48e-486e-9f3e-dfeb1a47e77d-->
+
+I ejected the Transcend drive (D:) safely. Windows accepted the request and no program blocked it, and D: no longer shows up on this PC, so you can unplug it now.
+
+Before ejecting I confirmed D: was the Transcend StoreJet (exFAT, 1863 GB). The only background process running was Claude Code's own logging, which writes to `~/.claude` on C:, not to D:. The usual right-click "Eject" did nothing the first time, so I used a different Windows command to remove it.
+
+**Next:** plug the drive into the new PC, open Claude Code there, and tell it:
+> 請讀取 `D:\Windows_Migration_Package\NEW_PC_RESTORE_RUNBOOK.md` 並依照文件執行。如果磁碟代號不是 D:，請先找出標籤為 Transcend 的磁碟。
+
+From now on, don't change files on the old PC. If you do, the package on the drive won't include those changes.
