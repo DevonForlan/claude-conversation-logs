@@ -2759,3 +2759,74 @@ Token、`.credentials.json`、`auth.json`、cookie 都沒有複製。Obsidian va
 - 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/搬遷/claude-conversation-logs/windows-pc-migration/scripts" && python -I "C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b0a0ef40a2e13c3f\30e5b156-8771-498c-a5a7-ff50b6e35047\scratchpad\patch4.py" migration… <!--id:29db754c-a3f0-4562-9d29-15eeb7b5e9f2-->
 - ↩︎ result (51 chars): patched4 parse errors: 0 "host": "NB0250" NB0250 <!--id:89cd042a-d105-4114-bac3-8ad2445777a1-->
 - 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/搬遷/claude-conversation-logs/windows-pc-migration/scripts" && python -I - <<'E' p='migration.ps1'; s=open(p,encoding='utf-8-sig').read() def r(a,b): global s; assert s.count(a)==1,a; s=s.replace(a,b) r("[s… <!--id:ca13e6ba-fb00-42d8-83b4-d9867e030975-->
+- ↩︎ result (136 chars): ok parse errors: 0 changed/new: 1 missing from disk: 0 stat errors: 0 new entries: 0 updated entries: 1 manifest entries now: 361561 <!--id:80ead879-5192-409a-9a6f-8b35bd315faf-->
+
+### [2026-11-22 09:38:23] 🤖 Claude <!--id:74d713e3-71d3-4497-9d9c-458960518edc-->
+
+Let me test the change on a tiny fake package, so I don't have to run the 80-minute full verify again.
+- 🔧 **PowerShell**: $t="$env:TEMP\mig_test_pkg"; Remove-Item $t -Recurse -Force -ErrorAction SilentlyContinue New-Item -ItemType Directory -Force "$t\01_backup\UserData\Desktop","$t\04_checksums","$t\00_inventory","$t\05_logs" | Out-Null Set-Content "$t\01_bac… <!--id:46df2e72-6e9b-4b0c-9a76-c75d02d3c726-->
+- ↩︎ result (581 chars): 2026-11-22T09:38:36 [INFO] package verify: ok=1 mismatch=0 missing=0 2026-11-22T09:38:37 [INFO] source-vs-package comparison SKIPPED: this is not the backup host (backup host 'OTHER-PC'); package integrity above is what counts 2026-11-22T09:38:37 [INFO] DONE action=verify errors=0 2026-11-22T09:38:4… <!--id:4720eeaf-f8b1-4041-acb8-7344d6fff9ab-->
+
+### [2026-11-22 09:38:43] 🤖 Claude <!--id:40928789-e821-4239-a13a-cac83a4a55b1-->
+
+Both paths work. Committing and pushing.
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/搬遷/claude-conversation-logs" && git add windows-pc-migration/scripts/migration.ps1 && git commit -q -m "migration.ps1: skip source-vs-package on a different host / during restore (-SkipSourceCompare) On t… <!--id:694db642-2d27-45df-8fa1-a23609613411-->
+- ↩︎ result (194 chars): warning: in the working copy of 'windows-pc-migration/scripts/migration.ps1', LF will be replaced by CRLF the next time Git touches it 444d70fc9674bdd1c68521bdd2304b6c35c04be2 �Ϻа� - D: ���ܧ� 0 <!--id:511397e6-ac50-4f18-8b7f-f25917501186-->
+- 🔧 **PowerShell**: fsutil dirty query D:; Get-Volume D | Select HealthStatus | ft -hide | Out-String <!--id:92fc6029-2ac1-4738-a202-098c2152a5c3-->
+- ↩︎ result (35 chars): Volume - D: is NOT Dirty Healthy <!--id:031a1c3a-ae35-4460-8b01-0b089ca1d0dc-->
+
+### [2026-11-22 09:39:47] 🤖 Claude <!--id:8264ca38-2e8f-437c-8c05-dea3d09407ea-->
+
+可以了。插到新電腦前，先在舊電腦按「安全移除硬體」退出 D:；現在 D: 是 Healthy、非 Dirty，也沒有任何程序在寫入。
+
+**我剛修掉一個會卡住 restore 的問題：** 原本的 `verify` 會拿新電腦的使用者資料夾去比對 package，新電腦上只要有任何不在 package 裡的檔案，就會報錯並拒絕 restore。現在 restore 時會自動跳過這段比對，在非備份主機上執行 verify 也會跳過，SHA-256 完整性檢查照舊。
+- 我用一個小型測試 package 驗證過，兩種情況都正常。
+- D: 上的 `02_restore\migration.ps1` 和 manifest 都已更新。
+- GitHub commit `444d70fc9674bdd1c68521bdd2304b6c35c04be2`。
+
+## 新電腦步驟
+
+**0. 開始前**
+- 新電腦先讓 IT 完成加入網域、CrowdStrike、VPN 等裝置設定。
+- 用公司帳號登入，最好和舊電腦是同一個帳號。
+
+**1. 接上 D: 並確認磁碟**
+- 用系統管理員身分開 PowerShell。
+- 執行 `Get-Volume`，確認標籤是 Transcend。如果磁碟代號不是 D:，下面指令裡的路徑要跟著改。
+
+**2. 讀入腳本**
+```powershell
+Set-ExecutionPolicy -Scope Process Bypass
+cd D:\Windows_Migration_Package\02_restore
+```
+
+**3. Pre-Restore Verify（唯讀，約 1.5 小時）**
+```powershell
+.\migration.ps1 verify -Source D:\Windows_Migration_Package
+```
+要看到 `ok=361561 mismatch=0 missing=0` 和 `errors=0`，才繼續下一步。
+
+**4. Restore Dry Run（不會改任何東西）**
+```powershell
+.\migration.ps1 restore -Source D:\Windows_Migration_Package -DryRun
+```
+看 log 裡列出會還原的項目。
+
+**5. 正式 Restore（管理員）**
+```powershell
+.\migration.ps1 restore -Source D:\Windows_Migration_Package
+```
+- 這一步會先自動再跑一次 verify（約 1.5 小時）。
+- 還原時用 `/XO`，新電腦上較新的檔案不會被覆蓋。
+- 之後會裝 winget 套件和 VS Code 擴充，並還原 VS Code 設定。
+- 排程工作預設不還原。
+
+**6. Post-Restore**
+- 照 `docs/NEW_PC_RELOGIN_CHECKLIST.md` 重新登入 GitHub、VS Code、Claude Code、Codex、Compass、瀏覽器等。
+- 用 npm 安裝 `@anthropic-ai/claude-code`、`@openai/codex`、`ccusage`。
+- Claude Code 與 Codex 的設定、MobaXterm.ini、Obsidian、Edge 書籤在 `01_backup\AppSettings\Extra`，要手動複製回原位置。
+- 確認沒問題前，D: 先保留，不要清空。
+
+**注意：**
+- Restore 這段腳本還沒在真實的新電腦上跑過，所以第 3、4 步的結果請貼給我，我確認後你再做第 5 步。
+- 第 3 步和第 5 步都會完整 verify 一次，合計約 3 小時。如果第 3 步已經 `errors=0`，可以接受第 5 步重驗多花的時間，或者告訴我，我可以改成 restore 時跳過重驗。
