@@ -14,7 +14,7 @@ Restore never touches machine identity (MDM/EDR, BitLocker state, drivers, domai
 param(
   [Parameter(Mandatory, Position = 0)][ValidateSet('backup', 'restore', 'verify', 'rollback')][string]$Action,
   [string]$Destination, [string]$Source,
-  [switch]$DryRun, [switch]$ManifestOnly, [switch]$IncludeSensitive, [switch]$IncludeRebuildable, [switch]$RestoreTasks,
+  [switch]$DryRun, [switch]$ManifestOnly, [switch]$SkipSourceCompare, [switch]$IncludeSensitive, [switch]$IncludeRebuildable, [switch]$RestoreTasks,
   [string[]]$UserFolders = @('Desktop', 'Documents', 'Downloads', 'Pictures', 'Videos', 'Music'),
   [string]$UserProfileRoot = $env:USERPROFILE, [double]$MinFreeGBMargin = 5
 )
@@ -293,7 +293,11 @@ function Do-Verify {
   if ($script:EnumErrors -gt 0) { Fail "verify enumeration incomplete: $($script:EnumErrors) directories unreadable" }
   Log "files in package but not in manifest: $extra"; if ($extra) { Fail "manifest incomplete: $extra files not listed" }
   # source-vs-package (same host only): existence + size + mtime, same browser-profile / rebuildable / sensitive exclusions as backup
+  $sameHost = -not $SkipSourceCompare; $h0 = '(skipped by switch/restore)'; $bm = Join-Path $Source '00_inventory\backup_meta.json'
+  if ($sameHost -and (Test-Path $bm)) { try { $h0 = (Get-Content $bm -Raw | ConvertFrom-Json).host; if ($h0 -and $h0 -ne $env:COMPUTERNAME) { $sameHost = $false } } catch {} }
+  if (-not $sameHost) { Log "source-vs-package comparison SKIPPED: this is not the backup host (backup host '$h0'); package integrity above is what counts" }
   foreach ($f in $UserFolders) {
+    if (-not $sameHost) { break }
     $b = Join-Path $Source "01_backup\UserData\$f"; $t = Join-Path $UserProfileRoot $f
     if ((Test-Path $b) -and (Test-Path $t)) {
       $bpDirs = @(Get-BrowserProfileDirs $t) | ForEach-Object { $_.Substring($t.Length).TrimStart('\') }
@@ -318,6 +322,7 @@ function Do-Verify {
 function Do-Restore {
   if (-not $Source -or -not (Test-Path $Source)) { Fail "Source not found: $Source"; return }
   if (-not (Test-Admin) -and -not $DryRun) { Fail 'restore needs an elevated PowerShell'; return }
+  $script:SkipSourceCompare = $true   # restore runs on the NEW PC: only package integrity matters
   Do-Verify
   if ($script:Errors.Count) { Fail 'package verification failed; restore refused'; return }
   $restoreLog = Join-Path $Source '05_logs\restore_created.txt'
