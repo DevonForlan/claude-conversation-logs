@@ -44908,3 +44908,4 @@ If you want to change the strategy for tomorrow, tell me before 19:30. Otherwise
 如果你收盤後想改策略（例如維持進攻型，或改回其他設定），請在 **19:30 前**告訴我。沒有指示就照衝刺模式跑。
 
 19:40 左右我會回報 11/25 計畫的結果：科技股比例、現金、持股檔數，以及是否提交成功。
+- 🔧 **PowerShell**: Get-Date -Format "yyyy-MM-dd HH:mm:ss"; Start-Process -WindowStyle Hidden -FilePath python -ArgumentList "agent/ops/cc_session_sync.py","sync","--session","3c6e927b-3359-42ca-a4f8-73630a860dd3","--force"; git rev-parse HEAD origin/master; g… <!--id:789edb20-f8d5-4709-a1aa-7cf0584965d8-->
