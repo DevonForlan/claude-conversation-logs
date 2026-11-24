@@ -44629,3 +44629,7 @@ Now tests: update schedule assertions and add sprint tests.
 <status>completed</status>
 <summary>Background command "Tactical tests then full pytest suite" completed (exit code 0)</summary>
 </task-notification>
+
+### [2026-11-24 10:06:00] 🤖 Claude <!--id:6789ffd6-c9a4-4b28-98e3-f572bda218f4-->
+
+API Error: Can't reach the API server — check your internet or DNS (ENOTFOUND)
