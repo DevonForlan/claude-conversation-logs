@@ -44654,3 +44654,43 @@ API Error: Can't reach the API server — check your internet or DNS (ENOTFOUND)
 <summary>Background command "Push sprint branch" completed (exit code 0)</summary>
 </task-notification>
 - 🔧 **PowerShell**: gh pr create --base master --head feat/68-tech-sprint-from-1125 --title "FEAT - TECH_SPRINT policy from the 2026-11-25 D-Plan (Owner decision 2026-11-24)" --body "## Summary`nOwner decision 2026-11-24 ~09:30 (session): final days, technolog… <!--id:8637eeb7-a12f-4d6e-8e1a-19d8c8b83f5a-->
+- ↩︎ result (531 chars): https://github.com/DevonForlan/ai-cup-2026-etf-agent/pull/76 quant-freeze-check pass 11s https://github.com/DevonForlan/ai-cup-2026-etf-agent/actions/runs/45311994709/job/138169719592 secret-scan pass 8s https://github.com/DevonForlan/ai-cup-2026-etf-agent/actions/runs/45311994709/job/138169719610 t… <!--id:1c40b157-5766-4013-a0c0-08b3024ca338-->
+- 🔧 **PowerShell**: gh pr merge 76 --squash 2>&1 | Out-String; git checkout -q master; git pull -q --ff-only; git rev-parse HEAD origin/master; git log --oneline -1; .venv\Scripts\python.exe -c "from agent.tactical import tech_overweight as TW;r=TW.resolve('20… <!--id:c3d18569-0dd0-4fcb-8507-12c5928e62f0-->
+- ↩︎ result (423 chars): fe7be555f8b64391922023973908c58ed82378e9 fe7be555f8b64391922023973908c58ed82378e9 fe7be55 FEAT - TECH_SPRINT policy from the 2026-11-25 D-Plan (Owner decision 2026-11-24: technology as close to 100% as feasible) (#76) sprint 0.93 0.99 --headless powershell.exe -NoProfile -ExecutionPolicy Bypass -Win… <!--id:ba817e7c-322d-4cb8-857e-3c4c637360ab-->
+- 🔧 **PowerShell**: gh issue comment 68 --body "**Owner decision 2026-11-24 ~09:30 (session):** final days, technology as close to 100% as feasible. PR #76 (squash fe7be55): new TECH_SPRINT policy from the 2026-11-25 D-Plan (sell non-tech, keep holdings 20-30 … <!--id:51baa864-99cf-46d0-ac5b-7d804d919747-->
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\handoff\claude_sessions\2026-11-24_3c6e927b-3359-42ca-a4f8-73630a860dd3_sprint.md <!--id:21fc9a4f-5c91-476f-81f3-27ef0fc1e0d3-->
+- ↩︎ result (86 chars): https://github.com/DevonForlan/ai-cup-2026-etf-agent/issues/68#issuecomment-7120179089 <!--id:0a9fb27f-dcb6-4b8d-9bbc-01dbf9ac37b2-->
+- ↩︎ result (232 chars): File created successfully at: C:\Users\devon.tseng\Desktop\個人\AI CUP 2026玉山人工智慧公開挑戰賽\handoff\claude_sessions\2026-11-24_3c6e927b-3359-42ca-a4f8-73630a860dd3_sprint.md (file state is current in your context — no need to Read it back) <!--id:34d4631d-ed00-4334-8531-05ef72db1ccc-->
+- 🔧 **ScheduleWakeup**: Ops follow-through. POLICY: TECH_SPRINT from the 2026-11-25 D-Plan (Owner decision 2026-11-24 ~09:30 "科技股盡量往100%補"; PR #76 squash fe7be55 = production HEAD; #68 comment 7120179089). 11/24 was AGGRESSIVE (PR #75). Owner said they will tell a… <!--id:42840920-c353-4f29-88e8-d1797b181f31-->
+- ↩︎ result (234 chars): Next wakeup scheduled for 11:28:00 (in 3563s). If you owe the user a status update this tick, write it now as ordinary response text; then end the turn — the harness re-invokes you when the wakeup fires or a task-notification arrives. <!--id:825d9f45-4a16-43da-a1ef-f9799be75ed4-->
+
+### [2026-11-24 10:28:47] 🤖 Claude <!--id:1d0a79e3-1fc0-4916-a0f1-c883842f7412-->
+
+「科技股盡量往 100% 補」已經上線，從今晚 19:30 產生的 11/25 計畫開始生效。
+
+**今天為什麼只到 65%**
+原本的進攻型做法是把現有科技股加碼到單檔上限 9%，再把非科技股整檔賣掉。這樣持股只剩 15 檔，低於規定的 20 檔，所以 93% 以上的方案全部不合規，系統只好退到 65%。
+
+**新的「科技股衝刺」做法**
+- 賣掉所有非科技股，改成多買幾檔科技股，讓持股維持在至少 21 檔。
+- 新加的科技股照系統的綜合分數排序，不是人工挑選。優先選量化模型判定合格、成交量也夠大（20 日平均成交額 ≥ 3 億）的股票。
+- 科技股比例從 99% 往下試，選出能通過所有規則的最高比例。比賽規則和系統原本的風控都沒有放寬：成交價差 ±5% 時現金仍不為負、單檔 ≤ 9%、持股 20–30 檔、委託 ≤ 30 筆。
+- 一天 30 筆委託換不完時，先保留最小的幾檔非科技股，下一次再換。
+
+**用 11/24 的真實資料重播驗證**（只在暫存目錄跑，沒有提交）
+| | 原本做法（實際結果） | 新做法（重播） |
+|---|---|---|
+| 科技股比例 | 65.1% | **80.2%** |
+| 現金 | 15.9% | 6.4% |
+| 持股 / 委託 | 20 檔 / 20 筆 | 21 檔 / 30 筆 |
+
+11/24 是最難的情況：要一次賣掉 15 檔非科技股再換成科技股，30 筆委託不夠用。明天是從 65% 出發，應該能更接近上限。不過到不了 100%，因為現金要留一點緩衝，應付成交價跟預估不同的情況。實際能到多少，以今晚跑出來的結果為準。
+
+測試全部通過，已經合併並更新到正式版。
+
+接下來：
+- 17:10 回報 11/24 的報酬。
+- 19:40 左右回報 11/25 的計畫和實際的科技股比例。
+- 你說收盤後還要再決定策略，想改的話請在 19:30 前告訴我。沒有其他指示，就照這個衝刺做法跑。
+
+另外，昨晚電腦睡著錯過了 19:30。這次靠醒來後自動補跑救回來，但如果今晚到明早 08:30 都沒醒，就會漏掉一天。建議今晚讓電腦保持開機、不要進入睡眠。
