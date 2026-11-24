@@ -44653,3 +44653,4 @@ API Error: Can't reach the API server — check your internet or DNS (ENOTFOUND)
 <status>completed</status>
 <summary>Background command "Push sprint branch" completed (exit code 0)</summary>
 </task-notification>
+- 🔧 **PowerShell**: gh pr create --base master --head feat/68-tech-sprint-from-1125 --title "FEAT - TECH_SPRINT policy from the 2026-11-25 D-Plan (Owner decision 2026-11-24)" --body "## Summary`nOwner decision 2026-11-24 ~09:30 (session): final days, technolog… <!--id:8637eeb7-a12f-4d6e-8e1a-19d8c8b83f5a-->
