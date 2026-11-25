@@ -244,3 +244,56 @@ Q4 報告做好了，檔案已存到 `維運\2026Q4\`：
 - 編輯者寫「曾子豪」，日期 2026/11/25。
 - 慢查詢裡 `M_USR_LOGIN_INFO` 的 aggregate 平均 30 秒、最長 3 分鐘；`M_USR_LOGIN_L` 是全表掃描（COLLSCAN）；`loginDttm_-1` 索引（7.4GB）從 7/29 到現在使用次數是 0。Q2、Q3 都沒有「2-2 MongoDB 優化使用建議」，這次也沒加。需要的話我可以補這一節。
 - 要不要我更新 `.claude/references/mongodb-health-report-profile.md`？包括新的 v3 收集格式、Readahead 已經可以實測、THP 在 8.0 的判斷方式。
+
+### [2026-11-25 10:21:20] 👤 User (turn 3) <!--id:abf446a0-5e7d-4a97-872c-803d7881b9b6-->
+
+- 編輯者寫「曾子豪」，日期 2026/11/25。>>沒錯
+- 慢查詢裡 M_USR_LOGIN_INFO 的 aggregate 平均 30 秒、最長 3 分鐘；M_USR_LOGIN_L 是全表掃描（COLLSCAN）；loginDttm_-1 索引（7.4GB）從 7/29 到現在使用次數是 0。Q2、Q3 都沒有「2-2 MongoDB 優化使用建議」，這次也沒加。需要的話我可以補這一節。>>可以不用補
+- 要不要我更新 .claude/references/mongodb-health-report-profile.md？包括新的 v3 收集格式、Readahead 已經可以實測、THP 在 8.0 的判斷方式。>>可以更新
+- 🔧 **Read**: C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md <!--id:030f17c7-11b1-4e65-b7bf-ed23641ffbca-->
+- ↩︎ result (4788 chars): 1 # MongoDB health-check report profile: 第一銀行 2 3 供 `mongodb-health-check-report` 共用 Skill 使用的專案設定檔。所有第一銀行專屬資訊都放在這裡，不放進 Skill 本體，也不引用富邦金控專案（`富邦維運_七法-MongoDB建置案`）的任何設定（環境、host、IP、配色等一律不可跨專案沿用）。 4 5 ## Identity 6 - 客戶名稱：第一銀行（歷史報告封面與檔名皆使用「第一銀行」簡稱） 7 【待確認】報告內是否需要改用正式全稱（例如「第一商業銀行股份有限公司」），或簡稱即可。 8 - 報告正式名… <!--id:43b7338c-969a-4a94-91ad-05a389b58141-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md <!--id:274a101e-ff82-466f-894e-04eb0bdcd043-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md <!--id:0cc93ac7-f877-43d1-b174-aa092b0eadd8-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md <!--id:802fdf76-04e4-4930-bbe0-210781dd9db7-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md <!--id:1ef0fba1-359d-4b1b-94a4-717de3918623-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md <!--id:68e79140-b7dc-4558-9c74-f0d85feaa8fb-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md <!--id:54f4d604-c43a-48c7-9e5f-5dfc35b0beb5-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md <!--id:f7afb6d0-09b8-4fff-b201-1a5c5bf75668-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md <!--id:503908d7-ac13-4908-9306-8fd34ca9f666-->
+- ↩︎ result (194 chars): The file C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:2561e4ee-490b-448c-90ca-be1a6235b0e2-->
+- ↩︎ result (194 chars): The file C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:8e7b1b1b-0e47-4b17-9ba4-b9fae7249031-->
+- ↩︎ result (194 chars): The file C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:77e7835d-1583-4a8f-8737-7bfc27cf6408-->
+- ↩︎ result (194 chars): The file C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:ef1eae27-6f5a-46b8-9f03-87b2aeba8e5b-->
+- ↩︎ result (194 chars): The file C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:5f4fa3a4-1b6b-43fc-ab7a-be33a576d0e1-->
+- ↩︎ result (194 chars): The file C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:b3eacd88-dcd1-4c52-9460-dc07d279a1f7-->
+- ↩︎ result (194 chars): The file C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:70cd1cca-4d2b-4ba3-9bca-d13952dd7085-->
+- ↩︎ result (194 chars): The file C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:6485f521-2dd1-4874-ae40-4c319323e9b7-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md <!--id:91f23939-49d4-49a9-8895-7ec473b6452f-->
+- ↩︎ result (194 chars): The file C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:ccf40a52-cc5c-49e3-8eae-81e892083004-->
+
+### [2026-11-25 10:22:51] 🤖 Claude <!--id:90339cec-e93f-4546-aa46-a96873434bbe-->
+
+我已更新 `.claude/references/mongodb-health-report-profile.md`。Q4 報告維持原樣：編輯者「曾子豪」、日期 2026/11/25，不加 2-2。
+
+**這次新增的內容：**
+- **v3 收集格式**：說明 2026Q4 起改成新格式的 tgz，並附一張對照表，列出報告每個欄位從哪個 JSON 欄位取值。也記下兩件事：
+  - DB／Collection 統計只在 PRIMARY 的資料裡才有，兩台 SECONDARY 回 `not primary` 屬正常。
+  - 認證要用 `PLAIN` + `$external` 才連得上。
+- **Readahead**：v3 已經可以實測。原始值單位是 KB，報告要換算成 sectors（KB × 2），才能和歷史值、官方建議的 8～32 比較；判斷時看資料磁碟 `sdb`。
+- **THP**：MongoDB 8.0 起官方建議啟用。建議值是 `always`、`defer+madvise`、`max_ptes_none=0`，本期三項都符合。Q1 報告寫的「Disabled」應該是記錯了，Q3「評估停用」的建議也已在 Q4 更正。
+- **Chrony**：記下這期三台都回應 `506`，以後每期都要重新檢查。
+- **Q4 的其他做法**：
+  - 慢查詢只看 PRIMARY 的 log。
+  - 索引使用次數沒收到的兩個 collection 填 N/A 並加註。
+  - 前一期 docx 當底稿，三台都有資料時用三欄版面。
+  - 改完用 Word 更新目錄再匯出 PDF。
+  - `1119\` 是作廢的舊批次。
+- **v3 腳本的資安問題**：記下 API Key 和密碼是明碼，以後報告不能引用這些欄位，原始 tgz 也不能外傳。
+
+**順手更正了原本寫錯或過時的幾處：**
+- 舊 profile 說表頭藍底 `3D85C6` 是富邦的配色、不要用。實際上第一銀行報告自己就是用這個顏色（我直接看了 docx 內部格式確認），已改成「沿用」。
+- 舊 profile 列了 2-2、3-2 兩節，但實際報告從來沒有這兩節，你也確認不用補，已從結構中移除。
+- 「前 3 大 Collection」改成你在 Q3 決定的做法：列 M_CNB 的三個 collection，不是全叢集最大的三個。
+- 封面標題一律寫成帶空格的「2026 Q4」，原本那條待確認已改成定案。
+
+profile 裡還有三項待確認沒動：客戶要不要用正式全稱、第一銀行是否只有這一個環境、前期報告要放在哪個資料夾。
