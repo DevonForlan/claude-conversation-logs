@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-25T09:49:44+08:00",
+  "updated_at": "2026-11-25T09:57:46+08:00",
   "projects": [
     {
       "project": "第一銀行",
       "project_safe": "第一銀行-b08501",
-      "last_activity": "2026-11-25T09:49:44+08:00",
+      "last_activity": "2026-11-25T09:57:46+08:00",
       "latest_session": "b0b3828c-0bee-4131-964a-8f1e0493f366",
       "latest_log": "logs/第一銀行-b08501/b0b3828c-0bee-4131-964a-8f1e0493f366/conversation.md",
-      "status": "working",
+      "status": "idle",
       "latest_turn": 2,
       "sessions": 1
     },
