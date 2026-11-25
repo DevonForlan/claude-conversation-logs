@@ -297,3 +297,46 @@ Q4 報告做好了，檔案已存到 `維運\2026Q4\`：
 - 封面標題一律寫成帶空格的「2026 Q4」，原本那條待確認已改成定案。
 
 profile 裡還有三項待確認沒動：客戶要不要用正式全稱、第一銀行是否只有這一個環境、前期報告要放在哪個資料夾。
+
+### [2026-11-25 10:24:14] 👤 User (turn 4) <!--id:e6542898-d3fe-4163-b4f2-cd15fd75aa22-->
+
+- v3 腳本的資安問題：記下 API Key 和密碼是明碼，以後報告不能引用這些欄位，原始 tgz 也不能外傳。>>不會外傳
+profile 裡還有三項待確認沒動：客戶要不要用正式全稱>>要
+、第一銀行是否只有這一個環境>>不是
+前期報告要放在哪個資料夾>>前期報告指的是哪一份?
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md <!--id:ef9c7d30-3207-444d-8de0-c879dab9b3f1-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md <!--id:c9155b31-fcec-48e6-ab16-49992dbfd18c-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md <!--id:0596256c-69f7-43c2-b6f1-c87ef2e6f498-->
+- ↩︎ result (194 chars): The file C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:d0723ff9-752b-4673-b840-5ab0b7445934-->
+- ↩︎ result (194 chars): The file C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:80b30a40-9984-4f71-97ee-8c22f271f310-->
+- ↩︎ result (194 chars): The file C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:9b9f2d5b-693e-46b1-a82c-5b04184d63f4-->
+
+### [2026-11-25 10:24:38] 🤖 Claude <!--id:5139f492-06c2-4431-8e82-3a7fa5f3ba5d-->
+
+profile 已依你的回覆更新：
+
+- **tgz**：改成「只在內部製作報告時使用，你已確認不會外傳」。報告不可引用 API Key 和密碼欄位這條規則保留。
+- **客戶全稱**：記下「要改用正式全稱」，但還有兩個細節要你確認（見下方）。
+- **環境**：改成「不只這一個環境，但目前的健檢資料和歷史報告都只涵蓋正式區 Ra01」。在拿到其他環境的資料前，我不會自己把它們加進報告。
+
+**你問「前期報告」指哪一份：** 是指做這一期報告時拿來當底稿的上一期報告，例如做 Q4 時用的就是 Q3 那份。
+
+我問的是「上一期報告要不要複製一份放進這一期的資料夾」，因為目前各期做法不一樣：
+
+| 資料夾 | 放了哪一期的報告副本 | 放在哪 |
+|---|---|---|
+| `2026Q1\` | 2025Q4 | 根目錄 |
+| `2026Q2\` | 2026Q1 | `其他\` 子資料夾 |
+| `2026Q3\` | 2026Q2 | 根目錄 |
+| `2026Q4\` | 沒有放 | 這次我直接讀 `2026Q3\` 裡的檔案 |
+
+這不影響報告內容，只是資料夾怎麼整理。你可以選一種固定做法：
+
+1. **不用放**：要用時直接到上一期的資料夾讀，這期就是這樣做的。
+2. **放在根目錄**
+3. **放在 `其他\` 子資料夾**
+
+**另外兩件事要你確認：**
+
+1. 全稱寫成「第一商業銀行股份有限公司」對嗎？要用在哪些地方：封面、「文件內容主旨」、內文？檔名是否維持簡稱「第一銀行_…」？
+2. 確認後，要不要把已完成的 Q4 報告（docx 和 PDF）也改成全稱？
