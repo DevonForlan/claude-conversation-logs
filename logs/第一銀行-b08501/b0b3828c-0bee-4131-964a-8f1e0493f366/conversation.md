@@ -340,3 +340,105 @@ profile 已依你的回覆更新：
 
 1. 全稱寫成「第一商業銀行股份有限公司」對嗎？要用在哪些地方：封面、「文件內容主旨」、內文？檔名是否維持簡稱「第一銀行_…」？
 2. 確認後，要不要把已完成的 Q4 報告（docx 和 PDF）也改成全稱？
+
+### [2026-11-25 11:19:10] 👤 User (turn 5) <!--id:b3669b92-a6e4-4046-af72-0b59f7fbd6b7-->
+
+This session is being continued from a previous conversation that ran out of context. The summary below covers the earlier portion of the conversation.
+
+
+Summary:
+1. Primary Request and Intent:
+   - Build the 第一銀行 MongoDB health-check report for 2026Q4.
+     - Use earlier reports as the structure.
+     - Stop and discuss when data is missing.
+     - Later the user supplied new v3 data and said: "1119目錄下面的就不要理他了 裡面是舊的資料".
+   - Done: the Q4 report was generated as docx and PDF.
+   - Later instructions from the user:
+     - Editor "曾子豪" and date 2026/11/25 are correct.
+     - Do not add a 2-2 section.
+     - Update the profile.
+     - The tgz files won't be shared externally.
+     - The report should use the formal customer full name (要).
+     - First Bank does not have only one environment (不是).
+     - Asked: "前期報告要放在哪個資料夾>>前期報告指的是哪一份?"
+
+2. Key Technical Concepts:
+   - MongoDB 8.0.17 replica set `Ra01`:
+     - PL-MG01-DB 10.20.2.91:37017, which is PRIMARY in Q4.
+     - PL-MG02-DB 10.20.2.92:37018.
+     - PL-MG03-DB 10.20.2.93:37019.
+   - Databases: M_CNB and M_CMS.
+   - v3 collection format: `hostinfo.json`, `os_params.json`, `mongodb_live.json`, `slow_query_summary.json`, `mongo_config_summary.json`, `manifest.json`, `live_collect_status.json`.
+     - Login works only with PLAIN + `$external`.
+     - DB and collection stats exist only on the PRIMARY; the secondaries return "not primary", which is normal.
+   - The docx is generated with python-docx using raw table XML:
+     - Header and label cells: fill 3D85C6, white bold text.
+     - Font minorEastAsia, sz24, single-line black borders.
+   - Word COM is used to update the TOC and export the PDF; PyMuPDF renders pages for review.
+   - THP under MongoDB 8.0: always, defer+madvise, max_ptes_none=0 is the recommended setting.
+   - Readahead: `read_ahead_kb` × 2 = sectors.
+
+3. Files and Code Sections:
+   - `維運\2026Q4\第一銀行_MongoDB 資料庫系統健檢報告_2026Q4.docx` and `.pdf` — created; this is the final deliverable.
+   - Scripts in the scratchpad (`C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b3a36f818a5bf3a8\b0b3828c-0bee-4131-964a-8f1e0493f366\scratchpad\`):
+     - `scripts\extract.py` writes `q4data.json`.
+     - `scripts\build_q4.py` takes the arguments: scratch dir, Q3 docx template, output path.
+     - Draft output: `Q4_draft.docx`.
+   - `.claude\references\mongodb-health-report-profile.md` — updated extensively:
+     - v3 field-mapping table.
+     - Readahead KB→sectors conversion.
+     - THP 8.0 rule; the Q3 advice is recorded as wrong.
+     - Chrony returned 506.
+     - The 3D85C6 colours are First Bank's own style.
+     - 2-2 and 3-2 removed.
+     - Top 3 collections = the M_CNB three, by user decision.
+     - `1119` is an obsolete batch.
+     - Cover title uses "2026 Q4" with a space.
+     - Security note: API key and password are plaintext. The tgz is internal only, and the user confirmed it won't be shared externally.
+     - Full name: confirmed as required. Still to confirm: whether it is exactly 「第一商業銀行股份有限公司」 and where it is used.
+     - Environments: confirmed there is more than one environment. Still to confirm: which ones they are and whether they go into the report. No guessing in the meantime.
+     - Still unchanged: the item on where previous-period report copies are stored.
+       - Observed placements: `2026Q2\其他\` holds a copy of the Q1 report; the `2026Q3` root holds a copy of the Q2 report; the `2026Q1` root holds a copy of the 2025Q4 report.
+       - The Q4 folder has no copy; I read the Q3 report directly from its own folder.
+
+4. Errors and fixes:
+   - `name2key` crashed on `CUST_ID_1_OFFSET_NO_1_BIND_TYPE_1`. Fixed by replacing it with `re.findall(r'(.+?)_(-?1)(?:_|$)', n)`.
+   - A Python string replace and a sed edit both failed to shorten the 1-2 Chrony cell. Fixed with the Edit tool.
+   - `bson` is not installed, so the old `1118-log.bson.gz` could not be read. This became irrelevant once the v3 data arrived.
+
+5. Problem Solving:
+   - Data in the old Q4 batch was missing → resolved by the v3 data.
+   - Two M_CNB collections have no `$indexStats` → shown as N/A with an explanatory note.
+   - The TOC is refreshed through Word COM.
+   - The report's visuals were reviewed and found fine.
+
+6. All user messages:
+   - "幫我閱讀一下這目錄下面的.claude資訊，我現在要請你幫我製作Q4的報告，請您先參考其他已經製作完畢的報告作為製作本次的架構，另外本次因為資料有缺失所以可能無法製作像之前完整的報告，所以先請您先製作，遇到資料缺失的時候 先請您停下告知，我要跟你討論在資料缺失的狀況下可以如何使用替代資料補足"
+   - "幫我製作Q4健檢報告，我有放進去新的收集的資料，1119目錄下面的就不要理他了 裡面是舊的資料"
+   - "- 編輯者寫「曾子豪」，日期 2026/11/25。>>沒錯 / - 慢查詢裡…補這一節。>>可以不用補 / - 要不要我更新 .claude/references/mongodb-health-report-profile.md？…>>可以更新"
+   - "- v3 腳本的資安問題：記下 API Key 和密碼是明碼，以後報告不能引用這些欄位，原始 tgz 也不能外傳。>>不會外傳 / profile 裡還有三項待確認沒動：客戶要不要用正式全稱>>要 、第一銀行是否只有這一個環境>>不是 / 前期報告要放在哪個資料夾>>前期報告指的是哪一份?"
+   - Security constraints: never quote the `mmsApiKey`, the password, or other credential fields in reports. Per org policy, do not reproduce credentials.
+
+7. Pending Tasks:
+   - Answer the user's question about which report "前期報告" refers to.
+   - Confirm the exact formal full name and where it is used, then ask whether to apply it to the already-generated Q4 docx/PDF.
+   - Ask what the other environments are.
+
+8. Current Work:
+   - I had just edited the profile for three of the user's answers: tgz not shared externally, full name required, more than one environment.
+   - I have not yet replied in text to explain the "前期報告" question or to ask the follow-ups.
+
+9. Optional Next Step:
+   - Reply in text to the user's question "前期報告指的是哪一份?":
+     - Explain that it means the previous quarter's finished report, the one used as the template. For example, the Q4 report was built from 2026Q3's `第一銀行_MongoDB 資料庫系統健檢報告_2026Q3.docx`.
+     - Explain that the open item asks whether a copy of that report should also be kept in the new period's folder: Q1 root, Q2 `其他\`, and Q3 root each did it differently, and Q4 has none.
+   - Confirm the profile edits already made.
+   - Ask:
+     - whether the full name is 「第一商業銀行股份有限公司」 and where it should appear (cover, 主旨, filename);
+     - whether to update the Q4 docx/PDF now;
+     - what the other environments are.
+
+If you need specific details from before compaction (like exact code snippets, error messages, or content you generated), read the full transcript at: C:\Users\devon.tseng\.claude\projects\C--Users-devon-tseng-Desktop--------\b0b3828c-0bee-4131-964a-8f1e0493f366.jsonl
+Continue the conversation from where it left off without asking the user any further questions. Resume directly — do not acknowledge the summary, do not recap what was happening, do not preface with "I'll continue" or similar. Pick up the last task as if the break never happened.
+
+The messages after this summary are the most recent messages from before compaction, kept verbatim. The summary was written without seeing them, so something it says has not happened yet may already have happened in them.
