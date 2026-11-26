@@ -650,3 +650,122 @@ Only the structure (keys and types) is shown here; no values:
 - 🔧 **Bash**: S="/c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b3a36f818a5bf3a8/b0b3828c-0bee-4131-964a-8f1e0493f366/scratchpad"; cd "$S" && python -P "[REDACTED]/extract_slow_redacted.py" q4_1118/out/1118-log.bson.gz… <!--id:c631a4f1-732a-40d1-a83a-6461d37c4e90-->
 - ↩︎ result (177 chars): The file C:\Users\devon.tseng\Desktop\專案\第一銀行\維運\2026Q4\extract_slow_redacted.py has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:1a72f456-c347-4b02-9f4b-9d85d521e721-->
 - ↩︎ result (184 chars): slow query lines scanned: 25, output: 4 self-check OK: no ID-like strings in output exit 0 4 q4_1118/slow_top_redacted.log Shell cwd was reset to C:\Users\devon.tseng\Desktop\專案\第一銀行 <!--id:c5a271e7-58f5-4a38-9663-18d06bcbfe98-->
+
+### [2026-11-26 11:09:42] 🤖 Claude <!--id:e3f2f7b6-6b8a-4a12-b521-5410386ec10c-->
+
+自我檢查通過。讀內容之前，再多檢查一層：確認每個 `custId` 後面接的都是遮蔽值，並統計有沒有其他可疑的長字串：
+- 🔧 **Bash**: S="/c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b3a36f818a5bf3a8/b0b3828c-0bee-4131-964a-8f1e0493f366/scratchpad"; python -I -c " import re,sys,collections t=open(sys.argv[1],encoding='utf-8').read() c=collections.Counter(m.group(1)[:20] … <!--id:620f52ad-1840-4675-904c-ac85aca4834a-->
+- ↩︎ result (108 chars): custId values: {'{"$in":"[�K]"}': 4, '{"truncated":"�K"}': 4} other mixed alnum strings: 4 Counter({13: 4}) <!--id:ffbb4af8-250d-42cb-a6eb-38c870f55fb4-->
+
+### [2026-11-26 11:09:51] 🤖 Claude <!--id:d2e8ea03-2655-4474-9f8b-d1ab91b32d4b-->
+
+全部 `custId` 都已遮蔽。另外有 4 個長度 13 的英數字串，我只看它的格式，不看內容：
+- 🔧 **Bash**: S="/c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b3a36f818a5bf3a8/b0b3828c-0bee-4131-964a-8f1e0493f366/scratchpad"; python -I -c " import re,sys t=open(sys.argv[1],encoding='utf-8').read() for m in re.finditer(r'\"([^\"]+)\":\"([^\"]{6,40}… <!--id:7b1f2e8b-0f7f-4353-9274-a52a61e48a2d-->
+- ↩︎ result (74 chars): ctx aaaa999999999 ctx aaaa999999999 ctx aaaa999999999 ctx aaaa999999999 <!--id:6c429c2e-febd-4b86-84d4-fe83545dc294-->
+
+### [2026-11-26 11:10:03] 🤖 Claude <!--id:6212f129-2130-489f-bcdb-8a295d1e6778-->
+
+那 4 個是 `ctx` 連線編號（`conn` 加數字），不是個資。現在可以安全讀取遮蔽後的內容和 tsv 模式表：
+- 🔧 **Bash**: S="/c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b3a36f818a5bf3a8/b0b3828c-0bee-4131-964a-8f1e0493f366/scratchpad"; python -I -c " import sys,json sys.stdout.reconfigure(encoding='utf-8') for l in open(sys.argv[1],encoding='utf-8'): print(… <!--id:a1c0dd1a-ff39-4dd6-93f8-facd24cc2b9c-->
+- ↩︎ result (6551 chars): 1387 {"t":{"$date":"2026-11-18T06:59:28.955+08:00"},"s":"I","c":"COMMAND","id":51803,"ctx":"conn149704637","msg":"Slow query","attr":{"type":"command","isFromUserConnection":true,"ns":"M_CNB.M_USR_LOGIN_INFO","collectionType":"normal","queryShapeHash":"1087732B833739B483B70B530FFD673BC8503BC36FA347A… <!--id:5b357af4-c44e-4ffe-9cee-951cfb93aa23-->
+- 🔧 **Bash**: S="/c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b3a36f818a5bf3a8/b0b3828c-0bee-4131-964a-8f1e0493f366/scratchpad"; cd "$S" && TOP_N=2 PER_HASH=1 python -P "[REDACTED]/維運/2026Q4/extract_slow_redacted.py" q4_1118/o… <!--id:add9cddc-68d4-4143-b98a-337ad5a7c0b9-->
+- ↩︎ result (497 chars): slow query lines scanned: 25, output: 4 self-check OK: no ID-like strings in output custId values: {'{"$in":"[�K]"}': 4, '{"truncated":"�K"}': 2, '"$custId"': 2, '"$_id.custId"': 2} suspicious: {('ctx', 'aaaa999999999'): 4} ('M_CNB.M_USR_LOGIN_INFO', 'C8B55603', '461101') 1386 ('M_CNB.M_USR_LOGIN_IN… <!--id:568a3c4b-cc7a-403c-aaa2-b7dc009267ea-->
+- 🔧 **Bash**: S="/c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b3a36f818a5bf3a8/b0b3828c-0bee-4131-964a-8f1e0493f366/scratchpad"; python -I -c " import sys sys.stdout.reconfigure(encoding='utf-8') L=open(sys.argv[1],encoding='utf-8').read().splitlines()… <!--id:290a9924-f2b6-4d96-90e1-862668ea72dc-->
+- ↩︎ result (2782 chars): {"t":{"$date":"2026-11-18T09:20:26.705+08:00"},"s":"I","c":"COMMAND","id":51803,"ctx":"conn149839855","msg":"Slow query","attr":{"type":"command","isFromUserConnection":true,"ns":"M_CNB.M_USR_LOGIN_INFO","collectionType":"normal","queryShapeHash":"1087732B833739B483B70B530FFD673BC8503BC36FA347A8B042… <!--id:08ff6a24-5736-4020-80a5-85314dbafd79-->
+- 🔧 **Bash**: grep -n "slow\|nodata\|Top\|1-4\|慢查詢" "/c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b3a36f818a5bf3a8/b0b3828c-0bee-4131-964a-8f1e0493f366/scratchpad/scripts/build_q4.py" | head -50 <!--id:4c9bf8d8-7dbe-4d1f-84c3-e329e68ddee2-->
+- ↩︎ result (997 chars): 19:slow = L('PL-MG01-DB', 'slow_query_summary.json') 208:# ---------------------------------------------------------------- 1-4 slow ops 214:h141 = find_par('1-4-1'); h142 = find_par('1-4-2') 215:pats = slow['top_patterns'] 220:set_par_text(h141, f'1-4-1、Slow Ops Patterns (Top {len(pats)})') 222:set… <!--id:26c46a06-2e39-4be1-a224-4075f436f47b-->
+- 🔧 **Read**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b3a36f818a5bf3a8\b0b3828c-0bee-4131-964a-8f1e0493f366\scratchpad\scripts\build_q4.py <!--id:5b989fe5-11ef-4099-bf31-3e3d5b7dde58-->
+- ↩︎ result (15497 chars): 40 RPR_HEAD = '<w:rPr><w:rFonts w:asciiTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia"/><w:b/><w:bCs/><w:color w:val="FFFFFF"/><w:sz w:val="{sz}"/><w:szCs w:val="{sz}"/></w:rPr>' 41 def esc(s): return str(s).replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;') 42 def cell(text, w, head… <!--id:059bed60-cecf-4ae3-9081-bb61ecfa8b04-->
+
+### [2026-11-26 11:10:59] 🤖 Claude <!--id:5bf61fb0-5531-4f91-9b00-a17ceb89ec00-->
+
+先看 Q2 報告 1-4-2 表格的樣式，確保格式一致：
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/專案/第一銀行/維運" && python -I -c " import docx,re,sys sys.stdout.reconfigure(encoding='utf-8') from docx.oxml.ns import qn d=docx.Document(sys.argv[1]) for p in d.paragraphs: if p.text.startswith('1-4'): print('H… <!--id:80dfa05d-9225-457d-8042-47ff0fb7ffd9-->
+- ↩︎ result (324 chars): H: 1-4、MongoDB 效能資訊 H: 1-4-1、Slow Ops Patterns (Top 4) H: 1-4-2、Top 4 Slow Ops cols ['480', '660', '8310'] hdr ['', '\nTime', 'Log'] rows 5 sz set() fonts set() {'minorEastAsia'} fill {'A0C3FF'} row1 cell0/1: 1 | 2.3m prev: 1-4-2、Top 4 Slow Ops1-4-21-4-2、、Top 4 Slow OpsTop 4 Slow Ops next: 二、健檢建議項目二… <!--id:60d47954-8157-43fd-9fa5-bb364bdc9764-->
+
+### [2026-11-26 11:11:19] 🤖 Claude <!--id:189d92b4-ca95-43bd-b09e-93bdbaf3d5c5-->
+
+Q2 的表格是三欄（# / Time / Log），寬度 480 / 660 / 8310。顏色沿用 Q4 目前的 3D85C6，維持報告內一致。現在修改產生腳本：
+- 🔧 **Edit**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b3a36f818a5bf3a8\b0b3828c-0bee-4131-964a-8f1e0493f366\scratchpad\scripts\build_q4.py <!--id:5bf5baa5-d0eb-41ac-9224-58b8baf7961d-->
+- ↩︎ result (171 chars): The file C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b3a36f818a5bf3a8\b0b3828c-0bee-4131-964a-8f1e0493f366\scratchpad\scripts\build_q4.py has been updated successfully. <!--id:8701ffe6-fc08-45a6-a0a3-43f6402f653d-->
+- 🔧 **Edit**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b3a36f818a5bf3a8\b0b3828c-0bee-4131-964a-8f1e0493f366\scratchpad\scripts\build_q4.py <!--id:0687a141-1ff8-497a-a10d-3296901d00de-->
+- ↩︎ result (171 chars): The file C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b3a36f818a5bf3a8\b0b3828c-0bee-4131-964a-8f1e0493f366\scratchpad\scripts\build_q4.py has been updated successfully. <!--id:565ca424-c8fb-4425-adb6-4208c137ce72-->
+- 🔧 **Edit**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b3a36f818a5bf3a8\b0b3828c-0bee-4131-964a-8f1e0493f366\scratchpad\scripts\build_q4.py <!--id:e7a61ce8-1c21-4589-aeae-9e8966d9ad21-->
+- ↩︎ result (171 chars): The file C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b3a36f818a5bf3a8\b0b3828c-0bee-4131-964a-8f1e0493f366\scratchpad\scripts\build_q4.py has been updated successfully. <!--id:0ef42f00-295d-4fec-9386-bd572a58b21c-->
+- 🔧 **Edit**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b3a36f818a5bf3a8\b0b3828c-0bee-4131-964a-8f1e0493f366\scratchpad\scripts\build_q4.py <!--id:605e49ba-8699-4b98-b218-3bb1286dc602-->
+- ↩︎ result (171 chars): The file C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b3a36f818a5bf3a8\b0b3828c-0bee-4131-964a-8f1e0493f366\scratchpad\scripts\build_q4.py has been updated successfully. <!--id:04204a38-c52c-4c27-b737-a5945a27a847-->
+
+### [2026-11-26 11:11:37] 🤖 Claude <!--id:5c4124dc-9b55-4d4f-b999-f5ae1373de4f-->
+
+接著找出上次產生報告和轉 PDF 用的指令：
+- 🔧 **Bash**: S="/c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b3a36f818a5bf3a8/b0b3828c-0bee-4131-964a-8f1e0493f366/scratchpad"; ls "$S" "$S/scripts"; grep -o '"command":"[^"]*build_q4[^"]*"' "/c/Users/devon.tseng/.claude/projects/C--Users-devon-tseng-… <!--id:23210152-30a8-4343-a9a0-0763b14d3b55-->
+- ↩︎ result (332 chars): /c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b3a36f818a5bf3a8/b0b3828c-0bee-4131-964a-8f1e0493f366/scratchpad: png q3x q4 q4_1118 Q4_draft.docx Q4_draft.pdf q4data.json q4v3 q4x scripts /c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b3a36f818a5bf3a8/b0b3828c-0bee-4131-964a-8f1e0493f366/scratchpad/… <!--id:6db69968-dcda-4d9d-a7fd-4f150736bab2-->
+- 🔧 **Bash**: grep -o 'build_q4.py[^\\]\{0,300\}' "/c/Users/devon.tseng/.claude/projects/C--Users-devon-tseng-Desktop--------/b0b3828c-0bee-4131-964a-8f1e0493f366.jsonl" | grep -v "^build_q4.py:" | sort -u | tail -5; echo ===; grep -o 'Word.Application[^… <!--id:0772a162-67ce-4086-9217-30a2209f61f9-->
+- ↩︎ result (779 chars): build_q4.py. Call Read before editing.]","is_error":false}]},"uuid":"9b315fbf-e980-44ff-b8c3-17f11b62808f","timestamp":"2026-11-25T01:56:19.107Z","toolUseResult":{"stdout":" ['Chrony Synchronized'] + per(lambda n: '未確認 build_q4.py. Call Read before editing.]"},"serverClassifierContext":{"request":"1… <!--id:b2da9c0b-c5d7-4431-b8dd-e76c4b079b20-->
+- 🔧 **Bash**: J="/c/Users/devon.tseng/.claude/projects/C--Users-devon-tseng-Desktop--------/b0b3828c-0bee-4131-964a-8f1e0493f366.jsonl"; grep -o 'python -X utf8 scripts/build_q4.py [^"]\{0,300\}' "$J" | tail -1; echo; grep -o '\$w = New-Object -ComObject… <!--id:178785ba-bc7d-4d3a-8a52-7a683f2d772f-->
+- ↩︎ result (327 chars): python -X utf8 scripts/build_q4.py \nbuild_q4.py'; s=open(p,encoding='utf-8').read()\nbuild_q4.py` takes the arguments: scratch dir, Q3 docx template, output path.\n===\nWord.Application; $w.Visible = $false\\n$d = $w.Documents.Open(\\ $w = New-Object -ComObject Word.Application; $w.Visible = $false… <!--id:2e2176f4-e7fe-4c22-bd2b-5327d318ed1f-->
+
+### [2026-11-26 11:11:58] 🤖 Claude <!--id:7b3be415-d96b-4652-b90c-db818ec2b6c0-->
+
+之前的指令沒有完整留下來，我直接重建。先產生 docx：
+- 🔧 **Bash**: S="/c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b3a36f818a5bf3a8/b0b3828c-0bee-4131-964a-8f1e0493f366/scratchpad"; cd "$S" && python -X utf8 scripts/build_q4.py "$S" "/c/Users/devon.tseng/Desktop/專案/第一銀行/維運/2026Q3/第一銀行_MongoDB 資料庫系統健檢報告_2… <!--id:f8785348-07d9-4fea-bf3b-bf2a301bd669-->
+- ↩︎ result (191 chars): saved C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b3a36f818a5bf3a8/b0b3828c-0bee-4131-964a-8f1e0493f366/scratchpad/Q4_draft.docx Shell cwd was reset to C:\Users\devon.tseng\Desktop\專案\第一銀行 <!--id:747a0a65-62a1-4c03-b98a-9cf00042e6d0-->
+
+### [2026-11-26 11:12:05] 🤖 Claude <!--id:e2361154-7f05-4aea-b89c-29d80d8e2a97-->
+
+Use Word to update the table of contents and export the PDF:
+- 🔧 **PowerShell**: $s = "C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b3a36f818a5bf3a8\b0b3828c-0bee-4131-964a-8f1e0493f366\scratchpad" $w = New-Object -ComObject Word.Application; $w.Visible = $false; $w.DisplayAlerts = 0 try { $d = $w.Documents.Open("$s\Q… <!--id:cb263f32-fe46-4510-b331-5a0ed086b60f-->
+- ↩︎ result (9 chars): pages: 11 <!--id:fe3f18f4-2abc-49ad-a732-57fac9b7932d-->
+- 🔧 **Bash**: S="/c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b3a36f818a5bf3a8/b0b3828c-0bee-4131-964a-8f1e0493f366/scratchpad"; cd "$S" && python -P -c " import fitz,sys d=fitz.open('Q4_draft.pdf') for i,p in enumerate(d): t=p.get_text() if '1-4-2' in… <!--id:73696f28-d0d2-470c-9144-8177b0fbfa1c-->
+- ↩︎ result (161 chars): warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead. 9 Shell cwd was reset to C:\Users\devon.tseng\Desktop\專案\第一銀行 <!--id:8a8543ca-3462-46d6-9e10-2a10985deb74-->
+- 🔧 **Bash**: S="/c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b3a36f818a5bf3a8/b0b3828c-0bee-4131-964a-8f1e0493f366/scratchpad"; cd "$S" && python -P -c " import pymupdf d=pymupdf.open('Q4_draft.pdf') for i in (1,8,9): d[i].get_pixmap(dpi=90).save(f'pn… <!--id:e02353a3-5838-474a-b30c-a269545103f1-->
+- ↩︎ result (685 chars): 1 CONTENTS ���e ��󤺮e�D�� ........................................................................................................................................... 2 ���s�誩������ ........................................................................................................................… <!--id:760ef705-209b-4053-9b37-78977f67241d-->
+- 🔧 **Read**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b3a36f818a5bf3a8\b0b3828c-0bee-4131-964a-8f1e0493f366\scratchpad\png\q4_p9.png <!--id:6af189b0-0724-45a3-899a-1b3ae7feac70-->
+- ↩︎ result (0 chars):  <!--id:3883e207-d7fa-49a1-87e2-e427234d9ec5-->
+- 🔧 **Read**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b3a36f818a5bf3a8\b0b3828c-0bee-4131-964a-8f1e0493f366\scratchpad\png\q4_p10.png <!--id:d58c5de7-b856-4e25-8ac9-5bff59294d13-->
+- ↩︎ result (0 chars):  <!--id:07b8a51d-5c99-45ad-8dbb-2e67357efdb4-->
+- 🔧 **Read**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\b3a36f818a5bf3a8\b0b3828c-0bee-4131-964a-8f1e0493f366\scratchpad\png\q4_p2.png <!--id:10b0155b-9df2-42cc-8610-7ee76a6404bb-->
+- ↩︎ result (0 chars):  <!--id:7de765f4-5bed-4036-ad6a-c6a3bbf7fae3-->
+
+### [2026-11-26 11:13:19] 🤖 Claude <!--id:aad0f00b-3be3-4894-b364-17afb0302607-->
+
+排版正常，目錄也更新了。覆蓋正式檔案之前，先對 PDF 全文做一次個資檢查：
+- 🔧 **Bash**: S="/c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b3a36f818a5bf3a8/b0b3828c-0bee-4131-964a-8f1e0493f366/scratchpad"; Q="/c/Users/devon.tseng/Desktop/專案/第一銀行/維運/2026Q4"; python -P -c " import pymupdf,re,sys t=''.join(p.get_text() for p in py… <!--id:4347cd90-73e0-43c5-8322-d806921b26fe-->
+- ↩︎ result (51 chars): ID-like: 1 | mmsApiKey/password: 0 0 no lock files <!--id:0e518bf2-0df6-4e6e-a79d-68459897519a-->
+- 🔧 **Bash**: S="/c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b3a36f818a5bf3a8/b0b3828c-0bee-4131-964a-8f1e0493f366/scratchpad"; python -P -c " import pymupdf,re,sys t=''.join(p.get_text() for p in pymupdf.open(sys.argv[1])) for m in re.finditer(r'[A-Z… <!--id:c751d8ad-5df8-47fd-b509-73966c74c470-->
+- ↩︎ result (45 chars): queryShapeHash":"09AA9C2521701E#########ADAEF <!--id:8b6fd08e-c0fa-4e12-80e0-2facb56a0993-->
+
+### [2026-11-26 11:13:32] 🤖 Claude <!--id:2be00920-c8fb-44a0-8ebf-d298b3231d12-->
+
+那一筆是 `queryShapeHash` 十六進位雜湊值在換行處被切開，誤判了，不是個資。把正式檔案更新到 2026Q4：
+- 🔧 **Bash**: S="/c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b3a36f818a5bf3a8/b0b3828c-0bee-4131-964a-8f1e0493f366/scratchpad"; Q="/c/Users/devon.tseng/Desktop/專案/第一銀行/維運/2026Q4"; cp "$S/Q4_draft.docx" "$Q/第一銀行_MongoDB 資料庫系統健檢報告_2026Q4.docx" && cp "$S… <!--id:d299e9f3-3866-4b28-9694-48a3177e5c94-->
+- ↩︎ result (679 chars): total 2396 -rwxr-xr-x 1 devon.tseng 1049089 4048 Nov 26 11:09 extract_slow_redacted.py -rw-r--r-- 1 devon.tseng 1049089 294479 Nov 24 15:59 PL-MG01-DB_mongodb_healthcheck_v3_20261123_111406.tgz -rw-r--r-- 1 devon.tseng 1049089 53413 Nov 24 15:59 PL-MG02-DB_mongodb_healthcheck_v3_20261123_111821.tgz … <!--id:b1c6ef2e-9eba-4041-9d46-ede29616259e-->
+
+### [2026-11-26 11:13:41] 🤖 Claude <!--id:4fe5e27a-0d79-4103-aae5-6acf5421eb23-->
+
+最後更新 profile 裡慢查詢的欄位對應，記下這次的做法和 v3 的缺口：
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md <!--id:1b5040f5-7b0d-46bb-beeb-86f2551217dc-->
+- ↩︎ result (128 chars): The file C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md has been updated successfully. <!--id:bd5126b0-a286-449a-b433-41b0a8bff87b-->
+
+### [2026-11-26 11:13:58] 🤖 Claude <!--id:0ac16137-f855-4efe-a273-c3d368b3117e-->
+
+**你的問題：之後只用 v3 的 tgz 會缺什麼？** 大部分章節都夠用，Q4 報告的 OS、MongoDB 設定、replica set、統計數據都是只靠 v3 tgz 做出來的。會缺的有兩項：
+
+- **慢查詢的完整 log**：v3 把整段查詢內容都遮掉了，連欄位名稱都看不到。這次的完整 log 是從 1119 裡 11/18 的 keyhole 快照補的。
+- **索引使用次數**：v3 只對前 3 大 collection 跑 `$indexStats`，其他 collection 只能填 N/A。
+
+這兩項都要修改 v3 收集腳本才會根治：慢查詢改成只遮 `custId`，`$indexStats` 改成跑全部 collection。改好之後就不用再另外跑 keyhole。你有腳本原始檔的話，可以放進來給我改。
+
+**Q4 報告已更新**（docx 和 PDF 都覆蓋了舊檔，共 11 頁）：
+- 1-4-2 改成 Q2 的格式，放 4 筆完整原始 log，`custId` 的查詢值以 `[…]` 遮蔽。我抽查過，遮蔽有效，PDF 全文也沒有客戶 ID。
+- 前 2 筆是最慢的查詢（7.7 分鐘），後 2 筆是其他查詢樣式各取最慢的 1 筆。原因是最慢的那類查詢 `custId` 清單太長，mongod 寫 log 時就已經截斷了，只放最慢的 4 筆會看不到完整的 pipeline。
+- 因為這 4 筆不是單純的 Top 4，標題從 Q2 的「Top 4 Slow Ops」改成「Slow Ops Samples (4)」。表格下的註解寫明了資料日期是 11/18、怎麼挑選、哪些地方被截斷。
+- 1-4-1 的 Patterns 表維持本期 v3（11/23、158 筆）的資料。
+
+**給 DBA 的重點：** 第 4 筆 `M_USR_LOGIN_L` 用 `custId` 加 `createDttm` 範圍查詢，執行計畫是 COLLSCAN，掃了 51 萬筆文件。這是很明確可以加索引的地方。
+
+**新增的檔案（都在 `2026Q4\`）：**
+- `slow_samples_20261118_redacted.log`：4 筆遮蔽後的 log，可以單獨提供給 DBA。
+- `extract_slow_redacted.py`：遮蔽腳本，現在可以讀 mongod log，也可以讀 keyhole 的 bson。
+
+另外，為了讀 bson，我在本機用 `pip install --user` 裝了 `pymongo`。
