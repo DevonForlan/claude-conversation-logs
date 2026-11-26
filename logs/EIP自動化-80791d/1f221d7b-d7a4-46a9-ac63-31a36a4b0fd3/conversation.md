@@ -1774,3 +1774,18 @@ If you need specific details from before compaction (like exact code snippets, e
 Continue the conversation from where it left off without asking the user any further questions. Resume directly — do not acknowledge the summary, do not recap what was happening, do not preface with "I'll continue" or similar. Pick up the last task as if the break never happened.
 
 The messages after this summary are the most recent messages from before compaction, kept verbatim. The summary was written without seeing them, so something it says has not happened yet may already have happened in them.
+
+### [2026-11-26 17:27:09] 👤 User (turn 32) <!--id:1e307b5b-2935-48d4-a249-a9870c4487b3-->
+
+好了嗎
+
+### [2026-11-26 17:27:16] 🤖 Claude <!--id:b7e4e80d-aabc-43e0-8293-275cbe07e498-->
+
+好了，11 月的單都送完了：
+
+- **出差單 11 張：** 11/3、4、6、12、17、18、19、23、24、25、26。
+- **補刷卡單 8 張：** 11/2、5、9、10、11、13、16、20，每天補 08:30 上班卡和 18:00 下班卡，原因「忘記刷卡」。
+
+每張都在伺服器上核對過，每天只有一張，沒有重複，現在都在陳志杰那裡簽核中。單號跟細節在上一則訊息的表格裡。
+
+途中修好的補刷卡程式（`src/punch_form.py`、`src/punch_main.py`）還沒 commit，要的話我幫你 commit 並推上 main。
