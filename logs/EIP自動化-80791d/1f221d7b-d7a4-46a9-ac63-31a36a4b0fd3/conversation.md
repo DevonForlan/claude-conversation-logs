@@ -1269,3 +1269,20 @@ README 也更新好了：
 - 時間一樣都是 09:00–18:30。
 
 **目前伺服器上查到的：** 還沒結案的單只有一張，是你今天自己送的 11/21 加班申請（202611260001），11 月的出差單和補刷卡單一張都還沒送。不過已經核准的單不會出現在這份清單裡，所以送之前我還會再用請假資料確認一次。
+
+### [2026-11-26 11:48:46] 👤 User (turn 24) <!--id:61626a19-5f18-40cd-b2c8-bd2399c7635e-->
+
+富邦是：
+ 臺北市內湖區瑞湖街62號
+富邦金控mongodb維運
+
+### [2026-11-26 11:48:50] 🤖 Claude <!--id:131b0113-a9ed-4969-a5c1-5cabd2d7a8fb-->
+
+收到，富邦的地點是「富邦 臺北市內湖區瑞湖街62號」，事由是「富邦金控mongodb維運」。我先再試一次瀏覽器登入，看看是不是暫時性的問題。
+- 🔧 **Bash**: cd "[REDACTED]" && python -u - <<'EOF' 2>&1 | tail -15 import sys, time, json, urllib.request sys.stdout.reconfigure(encoding="utf-8"); sys.path.insert(0, "src") import browser browser._kill_de… <!--id:78d309c2-4069-4917-8e94-011a90f254a1-->
+- ↩︎ result (436 chars): 0 [('page', 'http://mg.webcomm.com.tw/EFNET/', '')] 1 [('page', 'http://mg.webcomm.com.tw/EFNET/', 'mg.webcomm.com.tw/EFNET/')] 2 [('page', 'http://mg.webcomm.com.tw/EFNET/', 'mg.webcomm.com.tw/EFNET/')] 3 [('page', 'http://mg.webcomm.com.tw/EFNET/', 'mg.webcomm.com.tw/EFNET/')] 4 [('page', 'http://… <!--id:d492d6f2-c1fc-4df2-b4c6-c1f30d7e99ed-->
+- 🔧 **Bash**: curl -s -D - -o /dev/null --max-time 10 http://mg.webcomm.com.tw/EFNET/ | grep -i "www-auth\|HTTP/\|location"; echo ---; curl -s -o /dev/null -w "%{http_code} %{url_effective}\n" --negotiate -u : -L --max-time 20 http://mg.webcomm.com.tw/EF… <!--id:909f19bf-3acf-45c1-84f0-0b1669fdd6ed-->
+- ↩︎ result (194 chars): HTTP/1.1 401 Unauthorized WWW-Authenticate: Negotiate WWW-Authenticate: NTLM Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=() --- 401 http://mg.webcomm.com.tw/EFNET/ 200 <!--id:2fd3582c-13bd-482c-ada1-295c32ac8352-->
+- 🔧 **Bash**: cd "[REDACTED]" && sed -n 53,85p src/browser.py <!--id:4c5ebd01-2455-495f-a26a-9ab413454c3c-->
+- ↩︎ result (1092 chars): def edge_launch_args(url: str) -> list: """The exact argv used to launch the debug Edge. Shared so the manual fallback instructions can never drift from what the code actually runs. Kept as a list rather than a formatted string on purpose: the profile path can contain spaces (e.g. a synced "OneDrive… <!--id:d2090c77-ee75-4782-8792-fdd25f4521e6-->
+- 🔧 **Bash**: cd "[REDACTED]" && python -u - <<'EOF' 2>&1 | tail -15 import sys, time, json, urllib.request, subprocess sys.stdout.reconfigure(encoding="utf-8"); sys.path.insert(0, "src") import browser brow… <!--id:40e6481e-0b9c-4907-9fe6-4294d68acc88-->
