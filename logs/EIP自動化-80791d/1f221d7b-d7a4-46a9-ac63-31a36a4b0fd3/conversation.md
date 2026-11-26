@@ -1382,3 +1382,14 @@ README 也更新好了：
 1. **跳出要輸入帳號密碼的 Windows 對話框：** 請直接在那個對話框輸入你的公司帳號密碼登入。帳密不要貼給我；登入後跟我說一聲，我就接著做。
 2. **顯示錯誤訊息：** 把訊息內容告訴我，或截圖給我。
 3. **一片空白：** 也跟我說，我再換別的方法查。
+
+### [2026-11-26 14:52:36] 👤 User (turn 27) <!--id:38cea83f-ac90-4bb6-892d-5fdca187e458-->
+
+進去了
+
+### [2026-11-26 14:52:45] 🤖 Claude <!--id:5c2ab1ea-8908-4fef-a3eb-e41c6939c6e3-->
+
+進得去就好。這個 Edge 的登入狀態要留著用，所以這次我不會重開它。EIP 同一個人只能有一個登入，所以這段時間我也不走 HTTP 查詢，以免把這個登入擠掉。
+
+先用這個 Edge 唯讀查 11/1–11/26 的班次、刷卡、請假和點名結果。
+- 🔧 **Bash**: cd "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/3e7ee6916b87ae72/1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3/scratchpad" && sed -i 's/^res\["sentbox"\] = fetch_sent_box_rows().*$/res["sentbox"] = None # no HTTP: it would end the browser session… <!--id:84431160-e95d-449a-b724-de6e56c2242e-->

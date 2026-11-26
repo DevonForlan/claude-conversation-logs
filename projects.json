@@ -1,14 +1,14 @@
 {
-  "updated_at": "2026-11-26T14:51:40+08:00",
+  "updated_at": "2026-11-26T14:54:08+08:00",
   "projects": [
     {
       "project": "eip-trip-assistant",
       "project_safe": "EIP自動化-80791d",
-      "last_activity": "2026-11-26T14:51:40+08:00",
+      "last_activity": "2026-11-26T14:54:08+08:00",
       "latest_session": "1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3",
       "latest_log": "logs/EIP自動化-80791d/1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3/conversation.md",
-      "status": "idle",
-      "latest_turn": 26,
+      "status": "working",
+      "latest_turn": 27,
       "sessions": 1
     },
     {
