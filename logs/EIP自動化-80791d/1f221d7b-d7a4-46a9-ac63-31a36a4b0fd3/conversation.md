@@ -1211,3 +1211,8 @@ README 也更新好了：
 9222 埠已經釋放，Edge 恢復正常了。我先唯讀查 11/1–11/26 的資料：寄件備份裡已經送過的單，以及班次、刷卡、請假和點名結果。
 - 🔧 **Bash**: mkdir -p "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/3e7ee6916b87ae72/1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3/scratchpad" && cat > "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/3e7ee6916b87ae72/1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3/scratc… <!--id:e4c7c3d5-03d6-45a5-af8d-417e0dca1c3d-->
 - ↩︎ result (692 chars): sentbox rows 1 Traceback (most recent call last): File "C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\3e7ee6916b87ae72\1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3\scratchpad\nov_attendance.py", line 75, in <module> page = eip_client.open_homepage(ctx) File "C:\Users\devon.tseng\Desktop\�ӤH\EIP�۰ʤ�\eip-tri… <!--id:87f36652-ead3-4d31-baf4-28c650f57286-->
+
+### [2026-11-26 10:53:24] 🤖 Claude <!--id:dcca49bd-8ab8-42a4-be34-495bd68bdbbd-->
+
+伺服器上目前只有 1 張還沒結案的單。Edge 這次沒有停在 EIP 頁面，我重跑一次。
+- 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/EIP自動化/eip-trip-assistant" && python -u "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/3e7ee6916b87ae72/1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3/scratchpad/nov_attendance.py" "C:/Users/DEVON~1.TSE/AppData/Lo… <!--id:40a961bf-7c63-4120-b0fe-9947b954cc18-->

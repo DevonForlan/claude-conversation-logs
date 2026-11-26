@@ -492,3 +492,34 @@ The messages after this summary are the most recent messages from before compact
 - ↩︎ result (3043 chars): 136114 Ken Chen's MongoDB Logs Analytics MongoDB Log Analytics simagix/keyhole v1.1.8 T �� Maobi simagix/maobi v1.8.8-20240326 docker, is not supported by MongoDB, Inc. under any of their commercial support subscriptions or otherwise. Table of Contents Summary Slow Ops Patterns Top 25 Slowest Ops 1 … <!--id:66e48a44-991f-4183-b7ea-621a44bf5cfe-->
 - 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/專案/第一銀行/維運" && for f in "2026Q1/第一銀行_MongoDB 資料庫系統健檢報告_2025Q4.docx" "2026Q1/第一銀行_MongoDB 資料庫系統健檢報告_2026Q1.docx" "2026Q2/第一銀行_MongoDB 資料庫系統健檢報告_2026Q2.docx" "2026Q3/第一銀行_MongoDB 資料庫系統健檢報告_2026Q3.docx"; do pyt… <!--id:2d479311-f596-4c75-a9b2-5507200776e1-->
 - ↩︎ result (438 chars): �Ĥ@�Ȧ�_MongoDB ��Ʈw�t�ΰ��˳��i_2025Q4.docx | Slow query raw lines: 4 | [...] patterns: 4 | ID-like strings: 0 �Ĥ@�Ȧ�_MongoDB ��Ʈw�t�ΰ��˳��i_2026Q1.docx | Slow query raw lines: 4 | [...] patterns: 2 | ID-like strings: 0 �Ĥ@�Ȧ�_MongoDB ��Ʈw�t�ΰ��˳��i_2026Q2.docx | Slow query raw lines: 4 | [...] patter… <!--id:7412b1a4-8321-4724-888d-5086996061f9-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/專案/第一銀行/維運" && for f in "2026Q2/第一銀行_MongoDB 資料庫系統健檢報告_2026Q2.docx" "2026Q3/第一銀行_MongoDB 資料庫系統健檢報告_2026Q3.docx"; do echo "=== $(basename "$f")"; python -I -c " import docx,re,sys d=docx.Document(sys.argv[1])… <!--id:8ba2d578-7359-4f2b-b4a3-6d4ee325473e-->
+- ↩︎ result (494 chars): === 第一銀行_MongoDB 資料庫系統健檢報告_2026Q2.docx Traceback (most recent call last): File "<string>", line 11, in <module> print('-',t[:700].replace('\n',' ')) ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ UnicodeEncodeError: 'cp950' codec can't encode character '\xa0' in position 399: illegal multibyte sequence - === … <!--id:e4daeae2-cff1-4b71-91ca-afc5c6e48883-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/專案/第一銀行/維運" && PYTHONIOENCODING=utf-8 python -I -c " import docx,re,sys d=docx.Document(sys.argv[1]) ps=[p.text for p in d.paragraphs]+[c.text for tb in d.tables for r in tb.rows for c in r.cells] seen=set()… <!--id:8029f675-2594-446f-83de-0267bd8965bd-->
+- ↩︎ result (416 chars): Traceback (most recent call last): File "<string>", line 11, in <module> print('-',t[:900].replace('\n',' ')) ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ UnicodeEncodeError: 'cp950' codec can't encode character '\xa0' in position 399: illegal multibyte sequence - - ����(2026Q3)�����ѺC�d�ߤ�x���R���(������ k… <!--id:6e8563bf-3d55-423b-b982-f468f6bddb80-->
+
+### [2026-11-26 10:53:41] 🤖 Claude <!--id:92479a40-9a6a-48f3-9e05-cc11063dacdb-->
+
+先讀前幾期報告的慢查詢段落，確認當時是怎麼呈現的。
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/專案/第一銀行/維運" && for f in "2026Q2/第一銀行_MongoDB 資料庫系統健檢報告_2026Q2.docx" "2026Q3/第一銀行_MongoDB 資料庫系統健檢報告_2026Q3.docx"; do echo "=== $f"; python -I -c " import docx,re,sys sys.stdout.reconfigure(encoding='utf-8') d… <!--id:c01d46ea-f094-4ff0-85cb-55ce372c2f38-->
+- ↩︎ result (3808 chars): === 2026Q2/第一銀行_MongoDB 資料庫系統健檢報告_2026Q2.docx - {"t":{"$date":"2026-05-06T07:16:09.721+08:00"},"s":"I", "c":"COMMAND", "id":51803, "ctx":"conn97464585","msg":"Slow query","attr":{"type":"command","isFromUserConnection":true,"ns":"M_CNB.M_USR_LOGIN_INFO","collectionType":"normal","queryShapeHash":"10… <!--id:97714a79-dfbc-484e-b1a5-223aeda2bcda-->
+
+### [2026-11-26 10:53:58] 🤖 Claude <!--id:a4d9cad7-b723-4aa9-83cb-32395df8f47f-->
+
+之前用的不是我上次提的兩種做法，而是另一種：**放完整的原始 log，只把客戶 ID 的清單刪掉**。
+
+| 期別 | 慢查詢資料來源 | 報告怎麼呈現 |
+|---|---|---|
+| 2025Q4、2026Q1、2026Q2 | keyhole 分析 mongod log（例如 `2026Q2\mdb01-20260506\0506-log.html`） | 先列一張查詢模式表，再貼最慢幾筆的**完整原始 log 行**（每份 4 筆） |
+| 2026Q3 | 沒有收到 keyhole 資料 | 註明本期無法產出 |
+| 2026Q4 | v3 腳本，收集時就把查詢內容遮掉了 | 只有關鍵欄位摘要 |
+
+Q2 報告裡的原始 log 行有這些特點：
+
+- **只刪了 `custId` 的 `$in` 清單**，換成 `[…]`。那份清單就是一串客戶 ID。
+- **其他內容全部保留**：其他查詢條件的值（例如 `loginDttm $gte "20230101000000"`、`channel $in ["N","M","L"]`）、`$group`/`$project` 這些 pipeline 階段，以及 planSummary、keysExamined、docsExamined、planningTimeMicros 等欄位。
+
+所以前幾期的做法，其實就是「完整 log、只拿掉個資」。
+
+**本期要照這個做法，需要 PL-MG01-DB 上 `mdb01.log` 的原始慢查詢行。** 建議在主機上先把 `custId` 清單換掉再交給我，這樣客戶 ID 不會進到 Claude。需要的話，我可以寫一行指令給你們在主機上跑：抓出 queryHash `C8B55603` 最慢的幾筆，並把 custId 清單換成 `[…]`。
+
+**另外要跟你說一件事：** 剛才我為了確認舊格式，讀了 `2026Q2\mdb01-20260506\0506-log.html`。那個檔案裡的 log 行沒有遮蔽，所以大約 20 筆客戶 ID 已經被讀進這次對話。我沒有寫進任何檔案或報告。依公司 AI 使用規範，這可能需要通報 IT/技術部門，請你判斷。接下來我只會讀已遮蔽的資料。
