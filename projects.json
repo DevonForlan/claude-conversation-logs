@@ -1,14 +1,24 @@
 {
-  "updated_at": "2026-11-26T10:47:47+08:00",
+  "updated_at": "2026-11-26T10:53:29+08:00",
   "projects": [
     {
       "project": "EIP自動化",
       "project_safe": "EIP自動化-80791d",
-      "last_activity": "2026-11-26T10:47:47+08:00",
+      "last_activity": "2026-11-26T10:53:29+08:00",
       "latest_session": "1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3",
       "latest_log": "logs/EIP自動化-80791d/1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3/conversation.md",
       "status": "working",
-      "latest_turn": 22,
+      "latest_turn": 23,
+      "sessions": 1
+    },
+    {
+      "project": "2026Q4",
+      "project_safe": "第一銀行-b08501",
+      "last_activity": "2026-11-26T10:53:29+08:00",
+      "latest_session": "b0b3828c-0bee-4131-964a-8f1e0493f366",
+      "latest_log": "logs/第一銀行-b08501/b0b3828c-0bee-4131-964a-8f1e0493f366/conversation.md",
+      "status": "working",
+      "latest_turn": 7,
       "sessions": 1
     },
     {
@@ -20,16 +30,6 @@
       "status": "idle",
       "latest_turn": 593,
       "sessions": 2
-    },
-    {
-      "project": "2026Q4",
-      "project_safe": "第一銀行-b08501",
-      "last_activity": "2026-11-26T10:36:51+08:00",
-      "latest_session": "b0b3828c-0bee-4131-964a-8f1e0493f366",
-      "latest_log": "logs/第一銀行-b08501/b0b3828c-0bee-4131-964a-8f1e0493f366/conversation.md",
-      "status": "idle",
-      "latest_turn": 6,
-      "sessions": 1
     },
     {
       "project": "claude-conversation-logs",

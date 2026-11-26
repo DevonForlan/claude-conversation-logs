@@ -482,3 +482,13 @@ The messages after this summary are the most recent messages from before compact
 2. **保留查詢結構、遮蔽值**：請收集腳本改成只把值換成 `?`，例如 `{$match: {custId: ?, loginDttm: {$gte: ?}}}`。這樣可以看到用了哪些欄位、運算子和 pipeline 各階段，做索引優化通常已經夠用，也可以放進報告。這需要修改收集腳本，下一期再重新收集。
 
 你要用哪一種？選 1 的話，我可以現在就把 3-1 那段註解改寫成給 DBA 的查詢指引，並重新產生 docx 和 PDF。
+
+### [2026-11-26 10:52:59] 👤 User (turn 7) <!--id:37399ead-a5e1-4d7b-a3c6-5f9c0183daa1-->
+
+之前的健檢資料是用哪一種
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/專案/第一銀行/維運" && ls; for q in 2026Q1 2026Q2 2026Q3; do echo "== $q"; find $q -maxdepth 3 | head -40; done <!--id:1598af7c-734e-4ef5-941d-4befbf4b3fd6-->
+- ↩︎ result (3325 chars): (112)一總事維字第032號_開放系統資料庫MongoDB建置維護案_文偉維護單(115Q1).doc ~$一銀行】MongoDB 維運流程.docx 【第一銀行】MongoDB 維運流程.docx 【第一銀行】MongoDB 維運流程_v2.docx 2025Q4 2026Q1 2026Q2 2026Q3 2026Q4 維運單範例.jpg == 2026Q1 2026Q1 2026Q1/mdb01-20260306 2026Q1/mdb01-20260306/out 2026Q1/mdb01-20260306/out/0306-log.bson.gz 2026Q1/mdb01-202603… <!--id:a294312f-1be2-4399-abf6-05e0e0fddb4f-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/專案/第一銀行/維運" && python -I -c " import re,sys t=open('2026Q2/mdb01-20260506/0506-log.html',encoding='utf-8',errors='ignore').read() t=re.sub(r'<script.*?</script>|<style.*?</style>','',t,flags=re.S) t=re.sub(r… <!--id:f2a4d760-0b22-4304-9a10-4f979cdd368d-->
+- ↩︎ result (3043 chars): 136114 Ken Chen's MongoDB Logs Analytics MongoDB Log Analytics simagix/keyhole v1.1.8 T �� Maobi simagix/maobi v1.8.8-20240326 docker, is not supported by MongoDB, Inc. under any of their commercial support subscriptions or otherwise. Table of Contents Summary Slow Ops Patterns Top 25 Slowest Ops 1 … <!--id:66e48a44-991f-4183-b7ea-621a44bf5cfe-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/專案/第一銀行/維運" && for f in "2026Q1/第一銀行_MongoDB 資料庫系統健檢報告_2025Q4.docx" "2026Q1/第一銀行_MongoDB 資料庫系統健檢報告_2026Q1.docx" "2026Q2/第一銀行_MongoDB 資料庫系統健檢報告_2026Q2.docx" "2026Q3/第一銀行_MongoDB 資料庫系統健檢報告_2026Q3.docx"; do pyt… <!--id:2d479311-f596-4c75-a9b2-5507200776e1-->
+- ↩︎ result (438 chars): �Ĥ@�Ȧ�_MongoDB ��Ʈw�t�ΰ��˳��i_2025Q4.docx | Slow query raw lines: 4 | [...] patterns: 4 | ID-like strings: 0 �Ĥ@�Ȧ�_MongoDB ��Ʈw�t�ΰ��˳��i_2026Q1.docx | Slow query raw lines: 4 | [...] patterns: 2 | ID-like strings: 0 �Ĥ@�Ȧ�_MongoDB ��Ʈw�t�ΰ��˳��i_2026Q2.docx | Slow query raw lines: 4 | [...] patter… <!--id:7412b1a4-8321-4724-888d-5086996061f9-->
