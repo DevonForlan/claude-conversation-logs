@@ -1393,3 +1393,57 @@ README 也更新好了：
 
 先用這個 Edge 唯讀查 11/1–11/26 的班次、刷卡、請假和點名結果。
 - 🔧 **Bash**: cd "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/3e7ee6916b87ae72/1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3/scratchpad" && sed -i 's/^res\["sentbox"\] = fetch_sent_box_rows().*$/res["sentbox"] = None # no HTTP: it would end the browser session… <!--id:84431160-e95d-449a-b724-de6e56c2242e-->
+- ↩︎ result (560 chars): 11:res["sentbox"] = None # no HTTP: it would end the browser session the user logged into by hand 74: br, ctx = browser.attach_context(pw) auth: SessionState.AUTHENTICATED ESSQ10 range ('2026/11/01', '2026/11/26') rows 26 ESSQ11 range ('2026/11/01', '2026/11/26') rows 4 ESSQ08 failed: Error: Frame.e… <!--id:ce7b57d3-807a-4585-90ce-9245ba32a00d-->
+- 🔧 **Bash**: cd "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/3e7ee6916b87ae72/1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3/scratchpad" && python -c " import json,sys; sys.stdout.reconfigure(encoding='utf-8') d=json.load(open('nov.json',encoding='utf-8')) sh=… <!--id:ff185bc4-4842-4252-8b8f-2ab67ebb03fe-->
+- ↩︎ result (1576 chars): 2026-11-01 休假班(休息日) ('實際休假班(休息日)', '0.00') 2026-11-02 正常班0900 ('實際正常班0900', '0.00') 2026-11-03 正常班0900 ('實際正常班0900', '0.00') 2026-11-04 正常班0900 ('實際正常班0900', '0.00') 2026-11-05 正常班0900 ('實際正常班0900', '0.00') 2026-11-06 正常班0900 ('實際正常班0900', '0.00') 2026-11-07 休假班(休息日) ['17:44'] ('實際休假班(休息日)', '0.00')… <!--id:d15ebd60-d9bf-4124-b99f-585c21b069e1-->
+- 🔧 **Bash**: cd "[REDACTED]" && python -u - <<'EOF' 2>&1 | tail -25 import sys, time sys.stdout.reconfigure(encoding="utf-8"); sys.path.insert(0, "src") sys.path.insert(0, r"C:\Users\DEVON~1.TSE\AppData\Loc… <!--id:2283e7f6-969d-44a7-813d-730d8329b66e-->
+- ↩︎ result (842 chars): //<![CDATA[ var tChecked = true; try { if (top == self) { tChecked = false; } } catch (e) { tChecked = false; } if (!tChecked) { alert ('不合法的操作'); location.href = 'about:blank';}//]]> function getMIMJValidateFileName() { return "ESSQ08_MIMJ.aspx"; } var ProgID = 'ESSQ08'; var ProgVersion = ' Version… <!--id:e6e4235c-787a-4f42-848f-13fdc39bd6aa-->
+- 🔧 **Bash**: cd "[REDACTED]" && python -u - <<'EOF' 2>&1 | head -30 import sys sys.stdout.reconfigure(encoding="utf-8"); sys.path.insert(0, "src") from playwright.sync_api import sync_playwright import brow… <!--id:6630ceb5-9dda-45d5-9ab3-b3000df4fa9b-->
+- ↩︎ result (1696 chars): INPUT#txtEmployees_txt w=0 =R25123'曾子豪; SELECT#ddlAttendanceKind_ddl w=0 :All=全部,402=C.半薪病假,403=D.事假,406=調休,408=A.特休,701=平日出差,1830286cc1ff806aa432ab5b0a030ccb1ebda=L.公傷病假,18302f653f4ad86464b2490e95f39b433d6ee=G.生理假,18302130e97e45e834ee7b626a0d37b10b248=K.公假,1830234d53ebe3b4d4122bea24d56f007cdb4=M.家庭… <!--id:95bc9a4d-8399-407f-9ea9-1c3be92e727b-->
+
+### [2026-11-26 14:55:37] 🤖 Claude <!--id:52b73bb0-fc93-4c69-9b4c-7f8c70324db7-->
+
+請假查詢頁的欄位名稱和其他頁不一樣。我直接選「本月」來查。
+- 🔧 **Bash**: cd "[REDACTED]" && python -u - <<'EOF' 2>&1 | tail -30 import sys, time sys.stdout.reconfigure(encoding="utf-8"); sys.path.insert(0, "src") from playwright.sync_api import sync_playwright impor… <!--id:d88d9575-9b1e-4be2-a303-5a6e4c34c6da-->
+- ↩︎ result (168 chars): 休息日出差 所屬部門 審核狀態 全部 待審核 已審核 日期範圍 全部 本月 上月 本年 上年 日期區間 請假資料 移動到第 / 0 頁 每頁顯示 10 20 30 40 50 100 200 500 行 對不起，沒有符合此條件的記錄！ <!--id:c1b842bb-814f-4350-b933-a4f8c4320b09-->
+- 🔧 **Bash**: cd "[REDACTED]" && sed -n 172,290p src/eip_client.py <!--id:2e621ba8-f077-4884-b6b3-3b3d6b504a6a-->
+- ↩︎ result (4283 chars): TRIP_FORM_TAB_ANCHOR_SELECTOR = "#ESSF21" def reactivate_trip_form_tab(page, timeout_ms: int = 5000) -> bool: """Bring the already-open trip-registration tab back to the foreground. Needed because switching the sidebar into form-tracking mode (see duplicate_check.find_existing_submission) background… <!--id:1ba5eefc-cbd8-46de-881e-80194fbf9f02-->
+- 🔧 **Write**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\3e7ee6916b87ae72\1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3\scratchpad\submit_nov.py <!--id:8248fbe1-bb8f-48fb-90f1-f5e403e49bb7-->
+- ↩︎ result (221 chars): File created successfully at: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\3e7ee6916b87ae72\1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3\scratchpad\submit_nov.py (file state is current in your context — no need to Read it back) <!--id:b67783e1-f15a-4e00-9251-06b3ca6c682f-->
+- 🔧 **Edit**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\3e7ee6916b87ae72\1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3\scratchpad\submit_nov.py <!--id:8812eab3-d8c1-4f50-98ed-0bf2eda4c36e-->
+- ↩︎ result (231 chars): The file C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\3e7ee6916b87ae72\1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3\scratchpad\submit_nov.py has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:ed421476-ba8f-4605-8725-7017f1d87e47-->
+
+### [2026-11-26 14:56:54] 🤖 Claude <!--id:dd8d0514-a7b2-46db-a34a-0693a7c6da84-->
+
+先試跑：富邦的出差單和 11/2 的補刷卡單各填一次，讀回來確認，不送出。
+- 🔧 **Bash**: cd "[REDACTED]" && python -u "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/3e7ee6916b87ae72/1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3/scratchpad/submit_nov.py" --dry-run trip:2026/11/12 punch:2026… <!--id:efd0cf0d-410c-47a5-9044-dff6d704f1d0-->
+- ↩︎ result (191 chars): === trip:2026/11/12 富邦 [stop] trip:2026/11/12: TimeoutError: Clicked the trip-registration shortcut but the form never finished loading. Check the screen state by hand. -- nothing sent done <!--id:299e11dc-6549-4ab8-a131-333609dcd79b-->
+
+### [2026-11-26 14:57:31] 🤖 Claude <!--id:756b3ec2-ce1b-41ea-afb2-9c052058ad92-->
+
+出差單的表單沒有開出來。這個 Edge 目前還開著剛才查資料用的 4 個查詢分頁，可能是分頁太多了。我先看看有哪些分頁，再把查詢分頁關掉。
+- 🔧 **Bash**: cd "[REDACTED]" && python -u - <<'EOF' 2>&1 | tail -15 import sys, time sys.stdout.reconfigure(encoding="utf-8"); sys.path.insert(0, "src") from playwright.sync_api import sync_playwright impor… <!--id:ac4a44bc-99f2-4642-b235-945d8eb0243f-->
+- ↩︎ result (152 chars): tabs: ['ui-id-1:首頁', 'ui-id-2:', 'ESSQ10:班次資料..', 'ESSQ11:刷卡資料..', 'ESSQ08:請假資料..', 'ESSQ07:點名結果..'] tabs after: ['ui-id-1:首頁', 'ui-id-2:'] frames: [] <!--id:e59518fa-cd05-45c0-9d45-67e198652636-->
+
+### [2026-11-26 14:57:48] 🤖 Claude <!--id:fb56ca07-2a25-45cc-ad77-d4415a25dcdf-->
+
+查詢分頁都關掉了。再試跑一次。
+- 🔧 **Bash**: cd "[REDACTED]" && python -u "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/3e7ee6916b87ae72/1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3/scratchpad/submit_nov.py" --dry-run trip:2026/11/12 punch:2026… <!--id:862b903a-639b-4c16-a279-a8327a7a40b9-->
+- ↩︎ result (635 chars): === trip:2026/11/12 富邦 read-back: {'start_date': '2026/11/12', 'start_time': '09:00', 'end_date': '2026/11/12', 'end_time': '18:30', 'location': '富邦 臺北市內湖區瑞湖街62號', 'reason': '富邦金控mongodb維運', 'note': ''} | traveler=曾子豪 dry run: filled and read back, not sent === punch:2026/11/02 08:30,18:00 忘記刷卡 read… <!--id:15549e59-71d9-48fa-9d85-4bf6e339813f-->
+- 🔧 **Bash**: cd "[REDACTED]" && python -u "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/3e7ee6916b87ae72/1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3/scratchpad/submit_nov.py" > "C:/Users/DEVON~1.TSE/AppData/Loca… <!--id:5223b46d-b853-42f7-9d41-64244a94f931-->
+- ↩︎ result (599 chars): Command running in background with ID: b6k81e62p. Output is being written to: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\3e7ee6916b87ae72\1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3\tasks\b6k81e62p.output. You will be notified when it completes — do not poll that file or sleep while waiting. Read the f… <!--id:e0b384b8-b00b-405d-9292-8089724b26e7-->
+
+### [2026-11-26 14:58:57] 🤖 Claude <!--id:d4e69b9a-5498-4366-b0eb-23d9c089772e-->
+
+已經開始正式送出了，全部 19 張單：
+
+- 11 張出差單，時間都是 09:00–18:30：
+  - 全球人壽 7 張：11/3、4、6、17、24、25、26
+  - 富邦 1 張：11/12
+  - 第一銀行 2 張：11/18、23
+  - 華南 1 張：11/19
+- 8 張補刷卡單：11/2、5、9、10、11、13、16、20，都是 08:30 上班、18:00 下班，原因「忘記刷卡」
+
+剛才的試跑沒有送出：富邦出差單和 11/2 補刷卡單都只填到讀回確認那一步，而且填對了。
+
+正式送出期間請不要操作那個 Edge 視窗。跑完我會到伺服器上逐張確認單號再跟你回報。
