@@ -1286,3 +1286,67 @@ README 也更新好了：
 - 🔧 **Bash**: cd "[REDACTED]" && sed -n 53,85p src/browser.py <!--id:4c5ebd01-2455-495f-a26a-9ab413454c3c-->
 - ↩︎ result (1092 chars): def edge_launch_args(url: str) -> list: """The exact argv used to launch the debug Edge. Shared so the manual fallback instructions can never drift from what the code actually runs. Kept as a list rather than a formatted string on purpose: the profile path can contain spaces (e.g. a synced "OneDrive… <!--id:d2090c77-ee75-4782-8792-fdd25f4521e6-->
 - 🔧 **Bash**: cd "[REDACTED]" && python -u - <<'EOF' 2>&1 | tail -15 import sys, time, json, urllib.request, subprocess sys.stdout.reconfigure(encoding="utf-8"); sys.path.insert(0, "src") import browser brow… <!--id:40e6481e-0b9c-4907-9fe6-4294d68acc88-->
+- ↩︎ result (343 chars): 0 [('http://mg.webcomm.com.tw/EFNET/', 'mg.webcomm.com.tw/EFNET/')] 1 [('http://mg.webcomm.com.tw/EFNET/', 'mg.webcomm.com.tw/EFNET/')] 2 [('http://mg.webcomm.com.tw/EFNET/', 'mg.webcomm.com.tw/EFNET/')] 3 [('http://mg.webcomm.com.tw/EFNET/', 'mg.webcomm.com.tw/EFNET/')] 4 [('http://mg.webcomm.com.t… <!--id:b24e03b6-e118-4ebe-9576-7c6a878fc394-->
+
+### [2026-11-26 11:51:09] 🤖 Claude <!--id:c608b0b6-1150-463b-9cb3-d154c73d8399-->
+
+只限 NTLM 也沒用。我請 Edge 把網路紀錄寫進暫存檔，看它實際遇到的是哪個錯誤。
+- 🔧 **Bash**: cd "[REDACTED]/eip-trip-assistant" && python -u - <<'EOF' 2>&1 | tail -30 import sys, time, subprocess, json, re sys.stdout.reconfigure(encoding="utf-8"); sys.path.insert(0, "src") import browser log = r"C:\Users… <!--id:4dad9e24-15d8-4036-b411-5f74cf620a09-->
+- ↩︎ result (29 chars): size 152586 ['-105', '-348'] <!--id:9e2f8c34-4ad4-48af-bbfe-a4d0e3d439b1-->
+- 🔧 **Bash**: cd "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/3e7ee6916b87ae72/1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3/scratchpad" && python - <<'EOF' import re, json txt = open("netlog.json", encoding="utf-8", errors="replace").read() for m in re.findit… <!--id:be857a29-c6d4-471d-9622-ed156eefa528-->
+- ↩︎ result (184 chars): -348 [] -348 [] -348 [] -105 [] -105 [] -105 [] -105 [] ['0'] [] �W��: mg.webcomm.com.tw Address: 10.2.3.35 Shell cwd was reset to C:\Users\devon.tseng\Desktop\個人\EIP自動化 <!--id:4038a593-bea5-4381-b020-8b3d00a7dbce-->
+- 🔧 **Bash**: cd "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/3e7ee6916b87ae72/1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3/scratchpad" && python - <<'EOF' import json, re raw = open("netlog.json", encoding="utf-8", errors="replace").read().rstrip().rstrip(",… <!--id:e1a4a66f-9267-4aea-b8b6-99ee8cfa611e-->
+- ↩︎ result (61 chars): Shell cwd was reset to C:\Users\devon.tseng\Desktop\個人\EIP自動化 <!--id:204c772b-6b45-4937-8e4f-ea09267a77bb-->
+- 🔧 **Bash**: cd "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/3e7ee6916b87ae72/1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3/scratchpad" && python - <<'EOF' import json, re, collections raw = open("netlog.json", encoding="utf-8", errors="replace").read() print… <!--id:69214759-d40a-445b-9e33-55df66983e8e-->
+- ↩︎ result (163 chars): 6 152586 [('www.bing.com', 7), ('bing.com', 5), ('mg.webcomm.com.tw', 1), ('edge.microsoft.com', 1)] Shell cwd was reset to C:\Users\devon.tseng\Desktop\個人\EIP自動化 <!--id:197b18b7-90a6-4c46-8d48-f0b85c0fad5f-->
+- 🔧 **Bash**: cd "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/3e7ee6916b87ae72/1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3/scratchpad" && python - <<'EOF' import re raw = open("netlog.json", encoding="utf-8", errors="replace").read() for m in re.finditer("we… <!--id:2b93aed2-6dbf-43f3-adca-4fb1d4f91e0b-->
+- ↩︎ result (2811 chars): ... ,"command_line":"\"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\" --remote-debugging-port=9222 --user-data-dir=\"C:\\Users\\devon.tseng\\AppData\\Local\\eip-trip-assistant\\edge-profile\" --no-first-run --auth-server-allowlist=*.webcomm.com.tw --log-net-log=\"C:\\Users\\DEVO… <!--id:6c58b080-2540-49ce-b0a7-420007861ade-->
+- 🔧 **Bash**: cd "[REDACTED]/eip-trip-assistant" && python -u - <<'EOF' 2>&1 | tail -20 import sys, time, subprocess, re, json sys.stdout.reconfigure(encoding="utf-8"); sys.path.insert(0, "src") import browser log = r"C:\Users… <!--id:78537dd7-74df-47f6-aac9-5d5542a62b45-->
+- ↩︎ result (298 chars): [('edge.microsoft.com', 35), ('config.edge.skype.com', 35), ('mg.webcomm.com.tw', 23), ('www.bing.com', 21), ('bing.com', 19), ('webcomm.com.tw', 18), ('edge-consumer-static.azureedge.net', 12), ('microsoft.com', 8), ('ecs.nel.measure.office.net', 6)] ['-105', '-118', '-3', '-348', '0'] False 27 <!--id:460779d2-6446-4671-b58b-cf2b8a1c480f-->
+
+### [2026-11-26 11:53:54] 🤖 Claude <!--id:d877c1cc-7dd1-42f4-ab52-d3db7007fa13-->
+
+有進展：不開除錯埠時 Edge 會正常載入 EIP，所以問題出在除錯埠。我確認一下那次載入有沒有真的登入成功。
+- 🔧 **Bash**: cd "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/3e7ee6916b87ae72/1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3/scratchpad" && python - <<'EOF' import re raw = open("netlog2.json", encoding="utf-8", errors="replace").read() print(sorted(set(re.fin… <!--id:1dfe8818-2f17-4db7-9368-9bf62be60007-->
+- ↩︎ result ⚠️error (1417 chars): Exit code 1 ['HTTP/1.1 200', 'HTTP/1.1 304', 'HTTP/1.1 503'] Traceback (most recent call last): File "<stdin>", line 4, in <module> File "C:\Users\devon.tseng\AppData\Local\Programs\Python\Python313\Lib\re\__init__.py", line 278, in findall return _compile(pattern, flags).findall(string) ~~~~~~~~^^^… <!--id:ae90e92e-906d-4199-818e-9ad96236804f-->
+- 🔧 **Bash**: cd "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/3e7ee6916b87ae72/1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3/scratchpad" && python - <<'EOF' import re raw = open("netlog2.json", encoding="utf-8", errors="replace").read() print(sorted(set(re.fin… <!--id:17ae3681-6888-47d2-91ae-293e60325df5-->
+- ↩︎ result (97 chars): ['http://mg.webcomm.com.tw/EFNET/'] Shell cwd was reset to C:\Users\devon.tseng\Desktop\個人\EIP自動化 <!--id:10f156ef-40e4-4f09-aa52-b29049a02468-->
+- 🔧 **Bash**: cd "[REDACTED]/eip-trip-assistant" && python -u - <<'EOF' 2>&1 | tail -15 import sys, time, subprocess, json, urllib.request sys.stdout.reconfigure(encoding="utf-8"); sys.path.insert(0, "src") import browser from… <!--id:f50f8ea4-793d-40ee-85c1-c3c1a2737d0c-->
+- ↩︎ result (534 chars): chromium: C:\Users\devon.tseng\AppData\Local\ms-playwright\chromium-1243\chrome-win64\chrome.exe 0 [('page', 'http://mg.webcomm.com.tw/EFNET/', '')] 1 [('page', 'http://mg.webcomm.com.tw/EFNET/', 'mg.webcomm.com.tw/EFNET/')] 2 [('page', 'http://mg.webcomm.com.tw/EFNET/', 'mg.webcomm.com.tw/EFNET/')]… <!--id:b16f4640-de70-409e-9401-ac65b4248ee0-->
+- 🔧 **Bash**: UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36 Edg/157.0.0.0" for H in "" "-H Accept:text/html"; do curl -s -o /dev/null -w "%{http_code} " --ntlm -u : --max-time 20 -A "$… <!--id:5f837ba8-f64a-4e53-9a3a-42afd50e95a6-->
+- ↩︎ result (398 chars): 200 200 plain-ua-negotiate 401 [] HTTP/1.1 503","cache-control: no-store","content-length: 1041","content-type: text/html","x-azure-externalerror: 0x8007232b,DNSNameNotResolved","x-msedge-ref: Ref A: AE53DB1D75B0462CA6A75FEFA2611376 Ref B: TPE201080401025 Ref C: 2026-11-26T03:53:09Z","date: Thu, 26 … <!--id:02305944-bea2-492c-8e53-6f9f6429d157-->
+- 🔧 **PowerShell**: Get-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings' | Select ProxyEnable, ProxyServer, ProxyOverride, AutoConfigURL | Format-List; netsh winhttp show proxy; Get-ItemProperty 'HKLM:\SOFTWARE\Policies\Microsof… <!--id:3f7c52df-1e81-4edb-8839-01259632fd05-->
+- ↩︎ result (152 chars): ProxyEnable : 0 ProxyServer : ProxyOverride : AutoConfigURL : Current WinHTTP proxy settings: Direct access (no proxy server). <!--id:f4cae3a4-45e4-499c-9151-2b55f87cf83f-->
+- 🔧 **PowerShell**: Resolve-DnsName mg.webcomm.com.tw -Type A -ErrorAction SilentlyContinue | Select Name,Type,IPAddress,NameHost | Format-Table; Resolve-DnsName mg.webcomm.com.tw -Type AAAA -ErrorAction SilentlyContinue | Select Name,Type,IPAddress,NameHost |… <!--id:6e5e58b3-c272-4ea1-9fdf-df7e1312c527-->
+- ↩︎ result ⚠️error (1095 chars): Exit code 1 Name Type IPAddress NameHost ---- ---- --------- -------- mg.webcomm.com.tw A 10.2.3.35 Name Type IPAddress NameHost ---- ---- --------- -------- webcomm.com.tw SOA Resolve-DnsName : Cannot bind parameter 'Type'. Cannot convert value "65" to type "Microsoft.DnsClient.Commands.RecordT ype… <!--id:4c3c8fe5-c8be-4fb1-9173-2f2c243c3d75-->
+- 🔧 **Bash**: cd "[REDACTED]/eip-trip-assistant" && python -u -c " import sys,time; sys.path.insert(0,'src'); import browser browser._kill_debug_edge(); time.sleep(3) import subprocess; subprocess.run(['taskkill','/IM','chrome… <!--id:12fe5431-1c35-4bcd-8858-33b928b24254-->
+- ↩︎ result ⚠️error (1036 chars): Permission for this action was denied by the Claude Code auto mode classifier. Reason: [Destructive or Unwanted Actions]. If you have other tasks that don't depend on this action, continue working on those. IMPORTANT: You *may* attempt to accomplish this action using other tools that might naturally… <!--id:a09be44d-1b07-4c4c-9281-f49aec2ebb93-->
+- 🔧 **PowerShell**: Get-CimInstance Win32_Process -Filter "Name='chrome.exe'" | Where-Object { $_.CommandLine -match 'chromium-profile' -and $_.CommandLine -match 'ms-playwright' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyCo… <!--id:513d0604-decc-499e-803e-f890dd842d29-->
+- ↩︎ result (60 chars): 21328 18180 33264 37692 38716 27720 43840 6196 25424 <!--id:4dd91651-dc86-4188-9a98-8fc2dcddd6d3-->
+
+### [2026-11-26 11:56:50] 🤖 Claude <!--id:5bb0f761-d9b5-49fd-975c-d424d44335ab-->
+
+11 月的單一張都還沒送，因為瀏覽器一直登不進 EIP。查刷卡資料和送出表單都要用瀏覽器，所以我先停下來。
+
+**目前查到的：**
+- **伺服器本身正常：** 不經過瀏覽器的登入（Python、curl 用 NTLM）都能進 EIP，寄件備份也查得到。
+- **瀏覽器開到 EIP 後停在空白頁：** 工具專用的 Edge 和 Playwright 內建的 Chromium 都一樣。所以不是 Edge 更新造成的，清掉設定檔重建也沒用。
+- **系統代理沒有設定，DNS 解析也正常**（指向內網的 10.2.3.35）。我還找不到原因。
+
+我原本想截整個螢幕，看 Edge 視窗上有沒有跳出 Windows 登入對話框，但截圖指令被權限擋下來了。那個指令也順帶要關掉你所有的 Chrome，範圍太大，被擋是對的。之後我只關了自己開的那個測試用 Chromium。
+
+**請你幫忙看一下：**
+1. 桌面上那個顯示 `mg.webcomm.com.tw/EFNET/` 的 Edge 視窗：有沒有跳出要輸入帳號密碼的視窗，或任何錯誤訊息？
+2. 用你平常的 Edge 開 http://mg.webcomm.com.tw/EFNET/ 能不能正常進去？
+3. 你現在是在公司，還是在外面連 VPN？
+
+只要瀏覽器能登入，接下來我會照這個順序做：
+1. 查 11/1–11/26 的班次、刷卡和請假資料，找出缺卡的日子。
+2. 送 11 張出差單：
+   - 全球人壽 7 天：11/3、4、6、17、24、25、26
+   - 富邦 11/12：臺北市內湖區瑞湖街62號，事由「富邦金控mongodb維運」
+   - 第一銀行 2 天：11/18、23
+   - 華南 11/19
+3. 其他上班日缺上班卡或下班卡的，補 08:30／18:00，原因「忘記刷卡」。
+
+每張送出前都會先在伺服器查重複，送出後再到伺服器確認。
