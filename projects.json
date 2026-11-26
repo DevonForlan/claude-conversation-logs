@@ -1,6 +1,16 @@
 {
-  "updated_at": "2026-11-26T14:45:24+08:00",
+  "updated_at": "2026-11-26T14:51:40+08:00",
   "projects": [
+    {
+      "project": "eip-trip-assistant",
+      "project_safe": "EIP自動化-80791d",
+      "last_activity": "2026-11-26T14:51:40+08:00",
+      "latest_session": "1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3",
+      "latest_log": "logs/EIP自動化-80791d/1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3/conversation.md",
+      "status": "idle",
+      "latest_turn": 26,
+      "sessions": 1
+    },
     {
       "project": "AI CUP 2026玉山人工智慧公開挑戰賽",
       "project_safe": "AI-CUP-2026玉山人工智慧公開挑戰賽-afc2d6",
@@ -10,16 +20,6 @@
       "status": "idle",
       "latest_turn": 593,
       "sessions": 2
-    },
-    {
-      "project": "EIP自動化",
-      "project_safe": "EIP自動化-80791d",
-      "last_activity": "2026-11-26T11:56:51+08:00",
-      "latest_session": "1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3",
-      "latest_log": "logs/EIP自動化-80791d/1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3/conversation.md",
-      "status": "idle",
-      "latest_turn": 24,
-      "sessions": 1
     },
     {
       "project": "第一銀行",

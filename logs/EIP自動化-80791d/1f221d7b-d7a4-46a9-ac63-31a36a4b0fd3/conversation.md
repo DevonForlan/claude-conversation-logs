@@ -1350,3 +1350,35 @@ README 也更新好了：
 3. 其他上班日缺上班卡或下班卡的，補 08:30／18:00，原因「忘記刷卡」。
 
 每張送出前都會先在伺服器查重複，送出後再到伺服器確認。
+
+### [2026-11-26 14:50:30] 👤 User (turn 25) <!--id:58a78a7f-0bf3-4325-bf4e-caa1336277be-->
+
+目前你進得去嗎
+
+### [2026-11-26 14:50:40] 👤 User (turn 26) <!--id:d53bd673-8ce4-4e47-b32c-38109ab47e9b-->
+
+目前你進得去嗎 我有登入了
+
+### [2026-11-26 14:50:47] 🤖 Claude <!--id:357d2d70-ee25-4b55-b525-f34bd326a593-->
+
+我先看一下目前除錯用 Edge 的狀態，不重開它，以免把你剛登入的狀態關掉。
+- 🔧 **Bash**: cd "[REDACTED]" && python -c " import json,urllib.request,sys; sys.stdout.reconfigure(encoding='utf-8') try: for x in json.load(urllib.request.urlopen('http://127.0.0.1:9222/json',timeout=5)): … <!--id:a8bb259c-e55e-4417-8581-a85dbbbbf599-->
+- ↩︎ result (64 chars): no debug edge: <urlopen error [WinError 10061] 無法連線，因為目標電腦拒絕連線。> <!--id:dd12f16b-0974-4d48-9b8a-2a977fe21557-->
+
+### [2026-11-26 14:50:55] 🤖 Claude <!--id:7011d71c-aa05-4093-9a88-8841235d90b3-->
+
+目前沒有除錯用的 Edge 在跑，你應該是在平常的 Edge 登入的。我重新開一個除錯用的 Edge，看現在進不進得去。
+- 🔧 **Bash**: cd "[REDACTED]" && python -u - <<'EOF' 2>&1 | tail -10 import sys, time, json, urllib.request sys.stdout.reconfigure(encoding="utf-8"); sys.path.insert(0, "src") import browser browser.ensure_d… <!--id:41035fbb-7049-4563-90aa-319a1fcd9ea6-->
+- ↩︎ result (319 chars): 0 [('http://mg.webcomm.com.tw/EFNET/', '')] 1 [('http://mg.webcomm.com.tw/EFNET/', 'mg.webcomm.com.tw/EFNET/')] 2 [('http://mg.webcomm.com.tw/EFNET/', 'mg.webcomm.com.tw/EFNET/')] 3 [('http://mg.webcomm.com.tw/EFNET/', 'mg.webcomm.com.tw/EFNET/')] 4 [('http://mg.webcomm.com.tw/EFNET/', 'mg.webcomm.c… <!--id:7ece5f66-0990-4431-bf02-ab1b1f4469ac-->
+
+### [2026-11-26 14:51:39] 🤖 Claude <!--id:64064f67-28ee-48fa-abc3-fe6f897f90cf-->
+
+還是進不去。我剛開的除錯用 Edge 一直停在 `mg.webcomm.com.tw/EFNET/` 這一頁，沒有載入 EIP 的內容。
+
+這個 Edge 視窗現在應該開在你的桌面上，網址列是 `mg.webcomm.com.tw/EFNET/`。它和你平常用的 Edge 是分開的，你在平常的 Edge 登入，不會讓它也登入。
+
+麻煩你切到那個視窗看一下，跟我說它是哪一種情況：
+
+1. **跳出要輸入帳號密碼的 Windows 對話框：** 請直接在那個對話框輸入你的公司帳號密碼登入。帳密不要貼給我；登入後跟我說一聲，我就接著做。
+2. **顯示錯誤訊息：** 把訊息內容告訴我，或截圖給我。
+3. **一片空白：** 也跟我說，我再換別的方法查。
