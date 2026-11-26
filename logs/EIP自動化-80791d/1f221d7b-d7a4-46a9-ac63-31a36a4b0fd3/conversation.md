@@ -1557,3 +1557,87 @@ Edge 還在登入狀態，但畫面上只剩表單的外框，看不出 11/18 �
 - 🔧 **Bash**: cd "[REDACTED]" && python - <<'EOF' 2>&1 | head -40 import sys, re sys.stdout.reconfigure(encoding="utf-8"); sys.path.insert(0, "src") from urllib.parse import urljoin from http_eip_client impo… <!--id:25688976-50d3-44a3-ae31-0e33cccd0d93-->
 - ↩︎ result (796 chars): 95703 ['DscDropDownList1_ddl', 'ddlFilterClassCombo', 'ddlFilterFormCombo', 'ddlFilterFormCombo2', 'ddlReSearchColumn_ddl', 'reSearchOperator_ddl'] ['SuperQueryBtn', 'btnFirst', 'btnLast', 'btnNext', 'btnPrev', 'cmdFind', 'cmdReFresh', 'imgAddTrack', 'imgCancelAll', 'imgDelete', 'imgGo', 'imgHasten'… <!--id:1895ba34-a0b1-4003-8b3b-168b57adce1b-->
 - 🔧 **Bash**: cd "[REDACTED]" && python -u - <<'EOF' 2>&1 | tail -40 import sys, time, re sys.stdout.reconfigure(encoding="utf-8"); sys.path.insert(0, "src") from playwright.sync_api import sync_playwright i… <!--id:4b086079-6185-45d7-9c9f-d3682b61be83-->
+- ↩︎ result (1590 chars): auth: SessionState.AUTHENTICATED Traceback (most recent call last): File "<stdin>", line 33, in <module> File "C:\Users\devon.tseng\AppData\Local\Programs\Python\Python313\Lib\site-packages\playwright\sync_api\_generated.py", line 3871, in evaluate self._sync( ~~~~~~~~~~^ self._impl_obj.evaluate(exp… <!--id:a826bb03-5935-482e-a5ec-c42fc92fbc73-->
+- 🔧 **Bash**: cd "[REDACTED]" && python -u - <<'EOF' 2>&1 | tail -30 import sys, time sys.stdout.reconfigure(encoding="utf-8"); sys.path.insert(0, "src") from playwright.sync_api import sync_playwright impor… <!--id:ed19c5d3-0a55-44ca-b1d2-8f6232623f49-->
+- ↩︎ result (151 chars): page 0 rows 10 new 10 page 1 rows 3 new 3 page 2 rows 3 new 0 202611260005 曾子豪 2026/11/26 15:19:49 簽核中 未完成 曾子豪 2026/11/20 R24071-陳志杰 補刷卡申請 total 13 <!--id:5f530d56-bb33-4c54-83a2-2017cc66dac0-->
+- 🔧 **Bash**: cd "[REDACTED]" && ls -la logs/ | grep punch; for f in $(ls logs/submit_punch_*.log 2>/dev/null); do echo "== $f"; head -c 1500 "$f"; echo; done 2>&1 | head -80 <!--id:3355a16e-b258-47af-8dbf-5a1a1d1683bd-->
+- ↩︎ result (12935 chars): -rw-r--r-- 1 devon.tseng 1049089 6540 Nov 26 15:15 submit_punch_1795677310.log -rw-r--r-- 1 devon.tseng 1049089 6776 Nov 26 15:15 submit_punch_1795677349.log -rw-r--r-- 1 devon.tseng 1049089 6540 Nov 26 15:16 submit_punch_1795677388.log -rw-r--r-- 1 devon.tseng 1049089 6540 Nov 26 15:17 submit_punch… <!--id:25ca26ab-06ff-46bf-859b-584e1628c790-->
+
+### [2026-11-26 15:22:47] 🤖 Claude <!--id:3c84b0de-e025-418f-8792-e6d7c3e8ffbb-->
+
+每次送出都有點擊送出鈕的紀錄。我比對每一次之後有沒有真的把表單回傳給 ESSF03。
+- 🔧 **Bash**: cd "[REDACTED]" && for f in logs/submit_punch_*.log; do echo "== $f"; grep -o '\[\(request\|response\)\] [A-Z0-9]* [^ ]*' "$f" | grep -v "ajaxpro" | sed 's/http:\/\/mg.webcomm.com.tw//' | cut -… <!--id:0750d7d6-b04e-4375-804d-7b0d7e9ea8d1-->
+- ↩︎ result (11680 chars): == logs/submit_punch_1795677310.log [request] POST /HRMESS/src/_Common/PlatFormUtil/KernelPage/I18N/I18NForJs.aspx?F001=Message&F002=ESSF03&F003=checkPeriod&LanguageType=Lang01 [response] 200 /HRMESS/src/_Common/PlatFormUtil/KernelPage/I18N/I18NForJs.aspx?F001=Message&F002=ESSF03&F003=checkPeriod&La… <!--id:78b13f15-20f6-465f-a822-771434ce3b5d-->
+- 🔧 **Bash**: cd "[REDACTED]" && python -u - <<'EOF' 2>&1 | tail -25 import sys, time sys.stdout.reconfigure(encoding="utf-8"); sys.path.insert(0, "src") sys.argv = ["x", "unused", "2026/11/01", "2026/11/26"… <!--id:f46f3538-7259-433f-ba51-ad703a9617ff-->
+- ↩︎ result (328 chars): ESSQ11 range ('2026/11/01', '2026/11/26') rows 6 ['2026-11-07', '17:44', '', '', '已審核', '同意'] ['2026-11-18', '08:19', '', '', '已審核', '同意'] ['2026-11-20', '08:30', '', '忘記刷卡', '未審核', ''] ['2026-11-20', '18:00', '', '忘記刷卡', '未審核', ''] ['2026-11-21', '07:53', '', '', '已審核', '同意'] ['2026-11-21', '19:14'… <!--id:ca555b84-55b9-474d-9e67-a9bb5d64ebc9-->
+- 🔧 **Read**: C:\Users\devon.tseng\Desktop\個人\EIP自動化\eip-trip-assistant\src\punch_form.py <!--id:9c041a10-a144-4d95-8c97-19306f214857-->
+- ↩︎ result (2243 chars): 225 "(ids) => Object.fromEntries(ids.map(i => [i, (document.getElementById(i) || {}).value]))", 226 ids) 227 228 229 def submit_form(page) -> None: 230 """Clicks the real Send button - a genuine, irreversible submission. 231 Its confirms ("send the form?", "the punch date is YYYY/MM/DD?") are 232 ac… <!--id:97eac998-1f8d-40a7-b289-2f89d43dc452-->
+- 🔧 **Bash**: cd "[REDACTED]" && python - <<'EOF' from pathlib import Path p = Path("src/punch_form.py"); s = p.read_text(encoding="utf-8") old_submit_sig = '''def submit_form(page) -> None: """Clicks the re… <!--id:a6977c4b-046e-4037-a8e8-1ccc70b25d8b-->
+- ↩︎ result (2 chars): ok <!--id:096076b3-9854-4d74-9b68-db62a9a0059d-->
+- 🔧 **Bash**: cd "[REDACTED]" && python - <<'EOF' import json p = r"C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\3e7ee6916b87ae72\1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3\scratchpad\ledger.json" d = json.load(… <!--id:a63275fc-d65b-46b8-98c7-7e7c57b2684a-->
+- ↩︎ result (324 chars): 12 ['punch:2026/11/20', 'trip:2026/11/03', 'trip:2026/11/04', 'trip:2026/11/06', 'trip:2026/11/12', 'trip:2026/11/17', 'trip:2026/11/18', 'trip:2026/11/19', 'trip:2026/11/23', 'trip:2026/11/24', 'trip:2026/11/25', 'trip:2026/11/26'] === punch:2026/11/02 08:30,18:00 忘記刷卡 result: SUCCESS Document numb… <!--id:781349f1-8f72-4122-a883-54e7bbf8b641-->
+
+### [2026-11-26 15:26:19] 🤖 Claude <!--id:a5ca9c1c-d371-417e-aff3-957c0fbe2bfb-->
+
+11/2 送出成功，單號是 202611260006，接在 11/20 的 202611260005 後面，這次的檢查是對的。接著送剩下的 6 張（11/5、9、10、11、13、16）。
+- 🔧 **Bash**: cd "[REDACTED]" && python -u "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/3e7ee6916b87ae72/1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3/scratchpad/submit_nov.py" punch:2026/11/05 punch:2026/11/09 pu… <!--id:708015de-fd3b-4619-aac4-e16317d1ddbd-->
+- ↩︎ result (161 chars): === punch:2026/11/05 08:30,18:00 忘記刷卡 [stop] punch:2026/11/05: TimeoutError: The missed-punch form never finished loading. Nothing was sent. -- nothing sent done <!--id:e5422823-779a-4760-9805-4bf4f1ac216f-->
+- 🔧 **Bash**: cd "[REDACTED]" && python - <<'EOF' from pathlib import Path p = Path(r"C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\3e7ee6916b87ae72\1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3\scratchpad\submit_no… <!--id:394b25dc-0e5a-4878-b7fd-17566d7a79c3-->
+- ↩︎ result (524 chars): ok === punch:2026/11/05 08:30,18:00 忘記刷卡 result: SUCCESS Document number: 202611260007 === punch:2026/11/09 08:30,18:00 忘記刷卡 result: SUCCESS Document number: 202611260008 === punch:2026/11/10 08:30,18:00 忘記刷卡 result: SUCCESS Document number: 202611260009 === punch:2026/11/11 08:30,18:00 忘記刷卡 result:… <!--id:3429eef7-464c-4117-869b-bbba1420e8da-->
+- 🔧 **Bash**: cd "[REDACTED]" && python -u - <<'EOF' 2>&1 | tail -45 import sys, time sys.stdout.reconfigure(encoding="utf-8"); sys.path.insert(0, "src") sys.argv = ["x", "unused", "2026/11/01", "2026/11/26"… <!--id:b30d4d5f-9b71-45d0-84a7-89435a978784-->
+- ↩︎ result (1894 chars): ESSQ11 range ('2026/11/01', '2026/11/26') rows 20 ['2026-11-02', '08:30', '', '忘記刷卡', '未審核', ''] ['2026-11-02', '18:00', '', '忘記刷卡', '未審核', ''] ['2026-11-05', '08:30', '', '忘記刷卡', '未審核', ''] ['2026-11-05', '18:00', '', '忘記刷卡', '未審核', ''] ['2026-11-07', '17:44', '', '', '已審核', '同意'] ['2026-11-09', '0… <!--id:adc09f2b-5bc2-4892-ba5a-d8950bc0ad9c-->
+- 🔧 **Bash**: cd "[REDACTED]" && timeout 100 python -m pytest tests/test_punch_form.py tests/test_duplicate_check.py -q 2>&1 | tail -2; git status --short <!--id:ac72129b-1642-4822-926c-cad3745080b9-->
+- ↩︎ result (212 chars): ................................ [100%] 32 passed in 7.11s M src/punch_form.py M src/punch_main.py ?? "\350\243\234\346\211\223\345\215\241\347\257\204\344\276\213.png" <!--id:2de10bb0-95d3-4dc5-90d5-db065bfc1c7a-->
+
+### [2026-11-26 15:35:34] 🤖 Claude <!--id:fdb5d5a5-4d80-4896-8347-5fa04bcf366b-->
+
+11 月的單都送完了：11 張出差單、8 張補刷卡單，每天只有一張，沒有重複，全部在陳志杰那裡簽核中。
+
+**出差單**（09:00–18:30）
+
+| 日期 | 客戶 | 單號 |
+|---|---|---|
+| 11/3 | 全球人壽 | 202611260005 |
+| 11/4 | 全球人壽 | 202611260006 |
+| 11/6 | 全球人壽 | 202611260007 |
+| 11/12 | 富邦 | 202611260008 |
+| 11/17 | 全球人壽 | 202611260009 |
+| 11/18 | 第一銀行 | 202611260010 |
+| 11/19 | 華南銀行 | 202611260011 |
+| 11/23 | 第一銀行 | 202611260012 |
+| 11/24 | 全球人壽 | 202611260013 |
+| 11/25 | 全球人壽 | 202611260014 |
+| 11/26 | 全球人壽 | 202611260015 |
+
+**補刷卡單**（08:30／18:00，原因「忘記刷卡」）
+
+| 日期 | 單號 |
+|---|---|
+| 11/2 | 202611260006 |
+| 11/5 | 202611260007 |
+| 11/9 | 202611260008 |
+| 11/10 | 202611260009 |
+| 11/11 | 202611260010 |
+| 11/13 | 202611260011 |
+| 11/16 | 202611260012 |
+| 11/20 | 202611260005 |
+
+- **單號重複是正常的：** 補刷卡單和出差單分開編號，所以兩張表裡會有相同的單號。
+- **怎麼確認的：** 出差單是在伺服器的寄件備份上逐張核對的。補刷卡單是看刷卡資料，這 8 天各有一組「08:30、18:00 忘記刷卡／未審核」，每天剛好一組。
+
+**中間出過的狀況：**
+- **補刷卡單一度回報錯誤：** 第一輪 8 張補刷卡單都回報成功，其實只有 11/20 真的送出。
+  - 原因：程式誤把畫面上出差單的單號當成補刷卡單的。
+  - 後果：它以為送完了就去送下一張，把還在處理的上一張關掉了。
+  - 處理：查過那 7 天在伺服器上什麼紀錄都沒有，修好程式後才重送，所以沒有重複。
+- **11/18 出差單結果不明：** 程式判斷不出結果就停了，沒有重送。後來在伺服器上確認它有送出，而且只有一張。
+
+**提醒：**
+- 11/2、5、9、10、11、13、16、20 這 8 天，刷卡機上完全沒有你的紀錄，上下班卡都沒有。如果不是忘記刷卡，而是卡片或刷卡機有問題，可能要跟 HR 說一下。
+- 11/26 今天是出差日，已經送了出差單。
+
+**程式修正還沒 commit：** 修好的地方在 `src/punch_form.py` 和 `src/punch_main.py`。
+- 送出後只認新出現的單號。
+- 註明要等送出確認完才能關分頁。
+
+相關測試都有過。要的話我把它 commit 並推上 main。
