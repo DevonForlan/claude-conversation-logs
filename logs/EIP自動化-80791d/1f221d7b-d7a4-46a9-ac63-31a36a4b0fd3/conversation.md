@@ -1529,3 +1529,14 @@ Edge 還在登入狀態，但畫面上只剩表單的外框，看不出 11/18 �
 
 那個 Edge 已經關掉了。我重新開一個除錯用的 Edge，然後要請你像剛才一樣登入。
 - 🔧 **Bash**: cd "[REDACTED]" && python -u -c " import sys,time,json,urllib.request; sys.path.insert(0,'src'); import browser browser.ensure_debug_edge(browser.EIP_URL); time.sleep(10) print([(x['url'][:60],… <!--id:89f66b54-982f-4b21-b336-15f38261a758-->
+- ↩︎ result (57 chars): [('http://mg.webcomm.com.tw/EFNET/', '���sEasyFlow.NET')] <!--id:36fb4ab4-5cf9-4148-bcdc-ecf7e6239d01-->
+
+### [2026-11-26 15:09:48] 🤖 Claude <!--id:8a894ae7-13aa-4c96-9a99-882968eb1008-->
+
+這次新的 Edge 自動登入成功了，頁面標題是「偉康EasyFlow.NET」，不需要你手動登入。我接著跑剩下的單，已經送過的會自動跳過。
+- 🔧 **Bash**: cd "[REDACTED]" && python -u "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/3e7ee6916b87ae72/1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3/scratchpad/submit_nov.py" > "C:/Users/DEVON~1.TSE/AppData/Loca… <!--id:02528478-477b-408b-a188-f72729629f4a-->
+- ↩︎ result (599 chars): Command running in background with ID: bvh5egehh. Output is being written to: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\3e7ee6916b87ae72\1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3\tasks\bvh5egehh.output. You will be notified when it completes — do not poll that file or sleep while waiting. Read the f… <!--id:602af923-bb7e-46cc-9f77-9d86b0b73b65-->
+
+### [2026-11-26 15:09:56] 🤖 Claude <!--id:e32f03ef-f3dd-498a-bff3-1155129a61df-->
+
+剩下的出差單（11/19 華南，以及 11/23–26）和 8 張補刷卡單正在背景送出中。11/19 上一次在送出前就停了，沒有送出，這次會重新送。跑完我會用伺服器逐張確認單號再回報。
