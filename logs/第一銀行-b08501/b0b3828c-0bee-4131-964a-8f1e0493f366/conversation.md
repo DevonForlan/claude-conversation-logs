@@ -769,3 +769,34 @@ Use Word to update the table of contents and export the PDF:
 - `extract_slow_redacted.py`：遮蔽腳本，現在可以讀 mongod log，也可以讀 keyhole 的 bson。
 
 另外，為了讀 bson，我在本機用 `pip install --user` 裝了 `pymongo`。
+
+### [2026-11-26 11:18:02] 👤 User (turn 11) <!--id:71229028-840a-4317-a96a-28d7c75ecb4f-->
+
+我是有原始腳本 但是只是你改完之後我還要重新到客戶端部署一次 有點麻煩
+
+### [2026-11-26 11:18:15] 🤖 Claude <!--id:2e655f1c-63ba-44b1-b9c7-1545f8c7f2a1-->
+
+可以先不改。這兩個缺口都有不用重新部署的替代做法：
+
+| 缺口 | 不重新部署的做法 | 代價 |
+|---|---|---|
+| 慢查詢完整 log | 收集時照 11/18 那樣再跑一次 keyhole 抓 log 快照（客戶主機上已經有 keyhole），帶回來後在本機用 `extract_slow_redacted.py` 遮蔽 | 每期多一個步驟；keyhole 快照沒有遮蔽，帶回來的檔案含客戶 ID，要當個資保管 |
+| 索引使用次數 | 接受 N/A：只有 M_USR_LOGIN_L、MB_CUSTNO_BINDING 兩個 collection 缺，報告裡已經加註說明 | 這兩個 collection 看不到索引是否有被使用 |
+
+我的建議是**現在不要重新部署，等下次有其他理由要部署時再一起改**。比較可能的時機是：
+
+- v3 腳本的帳密目前是明碼存放，這是之前就記下的資安問題，遲早要修。到時候就把慢查詢遮蔽、`$indexStats` 全跑、帳密改存放方式，三件事合成一次部署。
+- 客戶升級 MongoDB 或換主機時，本來就要重新驗證腳本。
+
+腳本原始檔可以先放進來，我先改好、測好放著，等有部署機會時直接帶過去，就不用到時候才趕。要不要先這樣做？
+
+我也會把「下一期收集時要同時抓 keyhole log 快照」記進 profile，下一期做報告時就不會漏掉。
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md <!--id:9047abe5-7c84-4f03-8715-4279cf95a7ff-->
+- ↩︎ result (128 chars): The file C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md has been updated successfully. <!--id:4a8b8cff-f32a-40ff-be7d-fdad5e4201a8-->
+
+### [2026-11-26 11:18:22] 🤖 Claude <!--id:b161a896-822f-4902-a0f9-db5e8bfc14a2-->
+
+profile 已經更新，記下這兩點：
+
+- 暫時不重新部署，等下次有其他理由部署時再一起改。
+- 在那之前，每期收集時要同時抓 keyhole 的 log 快照。
