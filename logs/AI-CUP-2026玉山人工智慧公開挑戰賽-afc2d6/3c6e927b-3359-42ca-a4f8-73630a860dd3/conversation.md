@@ -45171,3 +45171,11 @@ Replays on 11/26 (temp directory, nothing submitted), all through the full guard
 - 連續兩晚電腦都睡著讓排程延遲，**今晚請一定讓電腦保持開機**，這是最後一次提交。
 - 🔧 **PowerShell**: Get-Date -Format "yyyy-MM-dd HH:mm:ss"; Start-Process -WindowStyle Hidden -FilePath python -ArgumentList "agent/ops/cc_session_sync.py","sync","--session","3c6e927b-3359-42ca-a4f8-73630a860dd3","--force"; Select-String -Path submissions\202… <!--id:5ec4fae1-1551-4403-8f03-7a1c2e4040ee-->
 - ↩︎ result (152 chars): 2026-11-26 09:41:35 "state": "SUBMISSION_CONFIRMED", "dplan_sha256": "sha256:4c783814e4d9e6b6d356d85e4598a98f497d0d2cfc56efdd8c8c835df914604d", False <!--id:cd607d6c-40f1-4178-8b7b-9fde4d4b434e-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/個人/AI CUP 2026玉山人工智慧公開挑戰賽" && .venv/Scripts/python.exe -c " import json;s=json.load(open('submissions/20261126/submission_state.json',encoding='utf-8')) print({k:v for k,v in s.items() if k!='history'})"; sh… <!--id:3b964d10-f5c0-4155-a8dd-5245d53a305e-->
+- ↩︎ result (366 chars): {'trade_date': '2026-11-26', 'state': 'SUBMISSION_CONFIRMED', 'dplan_sha256': 'sha256:d78955bc417450b0506b00798ad9e37b447baba96be1ec007b57470f1f3f8e32', 'team_id': 'TEAM_11442', 'updated_at': '2026-11-26T00:29:48.257260+08:00', 'receipt_id': None, 'receipt_sha256': 'sha256:d78955bc417450b0506b00798a… <!--id:13566fba-3d08-4828-8fb1-cbc3311a24fa-->
+- 🔧 **ScheduleWakeup**: Ops follow-through. POLICY: TECH_SPRINT, Owner 2026-11-24 ~21:30 "盡量往97–98%左右調整". PR #77 (4aa900d = production HEAD) fixed idle cash + level_max 1.00 + tactical_supersede --allow-same-policy. Owner preference: no routine reports; report onl… <!--id:ecbb3640-c043-4f89-a1b1-4c41163f16d7-->
+- ↩︎ result (234 chars): Next wakeup scheduled for 10:41:00 (in 3525s). If you owe the user a status update this tick, write it now as ordinary response text; then end the turn — the harness re-invokes you when the wakeup fires or a task-notification arrives. <!--id:fdc2e4a2-50c5-4cd9-8022-38c66989fc16-->
+
+### [2026-11-26 09:42:17] 🤖 Claude <!--id:345aede3-8595-4fcb-a2aa-24c904485599-->
+
+I checked at 09:41: the 11/26 submission is the corrected version (tech 97.7%), and the portal still shows it as received. The morning auto-check didn't overwrite it. The next report is the 11/26 return at 17:10.
