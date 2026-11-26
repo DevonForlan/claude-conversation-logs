@@ -523,3 +523,63 @@ Q2 報告裡的原始 log 行有這些特點：
 **本期要照這個做法，需要 PL-MG01-DB 上 `mdb01.log` 的原始慢查詢行。** 建議在主機上先把 `custId` 清單換掉再交給我，這樣客戶 ID 不會進到 Claude。需要的話，我可以寫一行指令給你們在主機上跑：抓出 queryHash `C8B55603` 最慢的幾筆，並把 custId 清單換成 `[…]`。
 
 **另外要跟你說一件事：** 剛才我為了確認舊格式，讀了 `2026Q2\mdb01-20260506\0506-log.html`。那個檔案裡的 log 行沒有遮蔽，所以大約 20 筆客戶 ID 已經被讀進這次對話。我沒有寫進任何檔案或報告。依公司 AI 使用規範，這可能需要通報 IT/技術部門，請你判斷。接下來我只會讀已遮蔽的資料。
+
+### [2026-11-26 11:00:55] 👤 User (turn 8) <!--id:a74acffc-69b5-427d-86d8-3360ada2c711-->
+
+那就照用Q2的你覺得如何
+
+### [2026-11-26 11:01:07] 🤖 Claude <!--id:d48f05bf-164a-48f4-8025-e16da40cdd9c-->
+
+照 Q2 的做法我覺得可行，理由有三個：
+
+- 和前幾期一致，DBA 已經習慣這種格式。
+- 完整的 pipeline 和 planSummary 對做索引優化最有用。
+- 只拿掉客戶 ID，也符合公司規範。
+
+我先寫一支在主機上跑的抽取腳本，抽出時就把客戶 ID 遮掉，這樣交回來的資料不會有個資。
+- 🔧 **Write**: C:\Users\devon.tseng\Desktop\專案\第一銀行\維運\2026Q4\extract_slow_redacted.py <!--id:6f18ec53-71b0-4038-ba59-822967e2fc1f-->
+- ↩︎ result (167 chars): File created successfully at: C:\Users\devon.tseng\Desktop\專案\第一銀行\維運\2026Q4\extract_slow_redacted.py (file state is current in your context — no need to Read it back) <!--id:b6b6fdab-e95e-402a-8685-fbba23a3852e-->
+
+### [2026-11-26 11:01:21] 🤖 Claude <!--id:e52e32d5-e2a7-4a54-89f0-80e5b6e9336a-->
+
+先用自己編的假資料測一下，不會用到真實 log：
+- 🔧 **Bash**: S="/c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b3a36f818a5bf3a8/b0b3828c-0bee-4131-964a-8f1e0493f366/scratchpad"; cat > "$S/fake.log" <<'EOF' {"t":{"$date":"2026-11-23T09:47:21.537+08:00"},"s":"I","c":"COMMAND","id":51803,"ctx":"conn1","… <!--id:620bb29d-f5ba-4797-8478-663f36905c26-->
+- ↩︎ result (855 chars): slow query lines scanned: 2, output: 2 self-check OK: no ID-like strings in output {"t":{"$date":"2026-11-23T09:47:21.537+08:00"},"s":"I","c":"COMMAND","id":51803,"ctx":"conn1","msg":"Slow query","attr":{"type":"command","ns":"M_CNB.M_USR_LOGIN_INFO","command":{"aggregate":"M_USR_LOGIN_INFO","pipeli… <!--id:29a951cd-3087-4d83-aebc-8b02a1c68025-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\專案\第一銀行\維運\2026Q4\extract_slow_redacted.py <!--id:51cd295e-a26a-4fbf-962e-8326007508fc-->
+- 🔧 **Bash**: S="/c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b3a36f818a5bf3a8/b0b3828c-0bee-4131-964a-8f1e0493f366/scratchpad"; python "[REDACTED]/2026Q4/extract_slow_redacted.py" "$S/fake.log" > "$S/out.log" && python -I … <!--id:1efe07b7-4971-46af-b5e8-57d562f02e8e-->
+- ↩︎ result (177 chars): The file C:\Users\devon.tseng\Desktop\專案\第一銀行\維運\2026Q4\extract_slow_redacted.py has been updated successfully. (file state is current in your context — no need to Read it back) <!--id:e32a271d-65c0-43ed-843b-2263a37cdcdf-->
+- ↩︎ result (91 chars): slow query lines scanned: 2, output: 2 self-check OK: no ID-like strings in output True 2 <!--id:4a2ccece-0532-418f-820d-31c7249352df-->
+
+### [2026-11-26 11:01:41] 🤖 Claude <!--id:5e633647-7f0f-4fa9-b2b6-15a855068ddb-->
+
+最後把這個決定記進 profile：
+- 🔧 **Grep**: C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md <!--id:9ceba858-a2b2-4010-b39f-da7e3c3528cf-->
+- ↩︎ result (629 chars): 39: - **舊格式（2025Q4～2026Q3）**：每個節點一個 `mdb0N-<YYYYMMDD[序號]>.tar.gz`，解壓後為 `out\<HOST>_health_check_<date>\` 下的多個 `.txt`，另可能有 `<host>_<port>-stats.bson.gz`（keyhole 叢集快照）與 `<MMDD>-log.bson.gz`／`<MMDD>.tsv`（慢查詢） 70:- 2026Q2～Q4 的實際報告都**沒有**「2-2、MongoDB優化使用建議」和「3-2、MongoDB優化使用建議總結」。2026Q4 時使用者確認不需要補（即使慢查詢有明… <!--id:f6feef97-0d16-4eab-8092-b33b1371cdcf-->
+- 🔧 **Edit**: C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md <!--id:7a219760-b321-46ba-959c-2273376ee77b-->
+- ↩︎ result (128 chars): The file C:\Users\devon.tseng\Desktop\專案\第一銀行\.claude\references\mongodb-health-report-profile.md has been updated successfully. <!--id:95b5e4b8-af59-47a0-963b-77467a485205-->
+
+### [2026-11-26 11:01:57] 🤖 Claude <!--id:b4117aba-4b2d-46db-8aad-322733e30cad-->
+
+我同意照 Q2 的做法。這樣和前幾期格式一致，DBA 也能看到完整的 pipeline 和執行計畫。
+
+要照這個做法，得在主機上先把客戶 ID 遮掉，再把資料交回給我。我寫好了一支腳本做這件事：`維運\2026Q4\extract_slow_redacted.py`。
+
+**腳本做的事：**
+- 從 log 抽出最慢的 4 筆 M_CNB/M_CMS 慢查詢，筆數和 Q2 一樣。
+- `custId` 的值和 `$in` 清單換成 `[…]`，其他條件值、pipeline 和 plan 欄位都保留。
+- 其他看起來像 ID 的字串（大寫英文加 9～10 碼數字）換成 `<ID>`；`lsid` 和 cluster 簽章直接刪掉。
+- 跑完會自動檢查。看到 `WARNING` 代表還有 ID 沒遮到，那份檔案不要交出來。
+
+我用自己編的假 log 測過，遮蔽和 UTF-8 輸出都正常。在真實主機上還沒跑過。
+
+**請在 PL-MG01-DB 上執行：**
+```
+python3 extract_slow_redacted.py /mongodb/logs/mdb01.log /mongodb/logs/mdb01.log.2026-11-23T00-43-34 > slow_top_redacted.log
+```
+- 最後應該看到 `self-check OK`。
+- 想多抓幾筆，可以在指令前加 `TOP_N=10`。
+- 想讓每種查詢模式各附一筆，加 `PER_HASH=1`。
+
+把 `slow_top_redacted.log` 放進 `2026Q4\` 後告訴我，我會把 3-1 那段註解改成 Q2 的樣式：一張查詢模式表，加上完整 log 行，再重新產生 docx 和 PDF。
+
+profile 也已經記下這個做法：以後慢查詢都要先在主機上遮蔽再交給我，不直接讀沒遮蔽的 log 或 keyhole HTML。
