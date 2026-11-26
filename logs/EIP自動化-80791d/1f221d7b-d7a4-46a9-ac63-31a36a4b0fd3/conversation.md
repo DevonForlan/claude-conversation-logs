@@ -1216,3 +1216,56 @@ README 也更新好了：
 
 伺服器上目前只有 1 張還沒結案的單。Edge 這次沒有停在 EIP 頁面，我重跑一次。
 - 🔧 **Bash**: cd "C:/Users/devon.tseng/Desktop/個人/EIP自動化/eip-trip-assistant" && python -u "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/3e7ee6916b87ae72/1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3/scratchpad/nov_attendance.py" "C:/Users/DEVON~1.TSE/AppData/Lo… <!--id:40a961bf-7c63-4120-b0fe-9947b954cc18-->
+- ↩︎ result (692 chars): sentbox rows 1 Traceback (most recent call last): File "C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\3e7ee6916b87ae72\1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3\scratchpad\nov_attendance.py", line 75, in <module> page = eip_client.open_homepage(ctx) File "C:\Users\devon.tseng\Desktop\�ӤH\EIP�۰ʤ�\eip-tri… <!--id:02ec81c4-012e-4952-8f37-13a92dd9b726-->
+
+### [2026-11-26 10:54:20] 🤖 Claude <!--id:0f754052-e665-4056-977e-1aab56845c67-->
+
+連續兩次都一樣，看看 Edge 實際停在哪個網址。
+- 🔧 **Bash**: cd "[REDACTED]" && python -u - <<'EOF' 2>&1 | tail -15 import sys, time, json, urllib.request sys.stdout.reconfigure(encoding="utf-8"); sys.path.insert(0, "src") import browser, config print("E… <!--id:f4fecf76-1afc-49fd-b99a-66f8762267e1-->
+- ↩︎ result (394 chars): EIP_URL http://mg.webcomm.com.tw/EFNET/ HOST mg.webcomm.com.tw 0 ['chrome-error://chromewebdata/'] /json: ['http://mg.webcomm.com.tw/EFNET/'] 1 ['chrome-error://chromewebdata/'] /json: ['http://mg.webcomm.com.tw/EFNET/'] 2 ['chrome-error://chromewebdata/'] /json: ['http://mg.webcomm.com.tw/EFNET/'] … <!--id:404f4ac2-8638-43ae-a6fb-f34f3dfc0b30-->
+- 🔧 **Bash**: cd "[REDACTED]" && python -u - <<'EOF' 2>&1 | tail -15 import sys sys.stdout.reconfigure(encoding="utf-8"); sys.path.insert(0, "src") import browser from playwright.sync_api import sync_playwri… <!--id:0e6be557-605e-42d1-956b-15b3d9fc8e82-->
+- ↩︎ result (3 chars): 401 <!--id:e1bf4a9f-cbc8-458e-befb-992a4ba760df-->
+- 🔧 **Bash**: cd "[REDACTED]" && python -u - <<'EOF' 2>&1 | tail -15 import sys sys.stdout.reconfigure(encoding="utf-8"); sys.path.insert(0, "src") import browser from playwright.sync_api import sync_playwri… <!--id:2787a9c9-2e94-4c7c-96c8-67a3459d9838-->
+- ↩︎ result (56 chars): title: no ltd: <html><head></head><body></body></html> <!--id:0891cd0b-9eac-49b8-b984-74adad65c60c-->
+- 🔧 **PowerShell**: Get-CimInstance Win32_Process -Filter "Name='msedge.exe'" | Where-Object { $_.CommandLine -match 'remote-debugging-port' } | Select-Object -First 2 -ExpandProperty CommandLine <!--id:a41c6221-6437-4987-8518-1c0ba36dda13-->
+- ↩︎ result (1061 chars): "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --remote-debugging-port=9222 --user-data-dir=C:\Users\devon.tseng\AppData\Local\eip-trip-assistant\edge-profile --no-first-run --auth-server-allowlist=*.webcomm.com.tw http://mg.webcomm.com.tw/EFNET/ "C:\Program Files (x86)\Microsoft\Edg… <!--id:bcac62b7-53ea-4bc8-8d5d-ddb1f9d9990d-->
+- 🔧 **Bash**: cd "[REDACTED]" && python -u - <<'EOF' 2>&1 | tail -5 import sys sys.path.insert(0, "src") import browser from playwright.sync_api import sync_playwright with sync_playwright() as pw: br, ctx =… <!--id:9242aeda-de70-4481-b286-898d7dfe5cd5-->
+- ↩︎ result (2 chars): ok <!--id:ffc35533-474a-4fbe-98f5-e7c3126e0f5f-->
+- 🔧 **Read**: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\3e7ee6916b87ae72\1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3\scratchpad\err.png <!--id:222b83c3-0d56-4b90-b941-60a63641a810-->
+- ↩︎ result (0 chars):  <!--id:b53d9257-08e2-4dba-b8a3-1a03d115bb90-->
+- 🔧 **Bash**: cd "[REDACTED]" && sed -n 290,318p src/browser.py <!--id:077ac24d-c530-4bd8-a8fd-399dcfb664c0-->
+- ↩︎ result (1187 chars): PROFILE_MARKERS = ("Local State", "Default") def _discard_wedged_profile() -> bool: """Delete the debug profile so the next launch builds a fresh one. Returns False without touching anything unless the configured directory really looks like a Chromium profile - this deletes a whole tree, and the pat… <!--id:2ee838a6-ae23-4d4a-8a83-75df7731ce15-->
+- 🔧 **Bash**: cd "[REDACTED]" && python -u - <<'EOF' 2>&1 | tail -15 import sys, time sys.stdout.reconfigure(encoding="utf-8"); sys.path.insert(0, "src") import browser print("profile:", browser.EDGE_PROFILE… <!--id:e36ee6b1-07a1-497e-aa27-d9f343dc8a0a-->
+- ↩︎ result (277 chars): profile: C:\Users\devon.tseng\AppData\Local\eip-trip-assistant\edge-profile discarded: True 0 ['chrome-error://chromewebdata/'] 1 ['chrome-error://chromewebdata/'] 2 ['chrome-error://chromewebdata/'] 3 ['chrome-error://chromewebdata/'] 4 ['chrome-error://chromewebdata/'] <!--id:886c9f9a-5aa1-40e1-a2d0-704cc0371dc2-->
+- 🔧 **Bash**: cd "[REDACTED]" && python -u - <<'EOF' 2>&1 | tail -15 import sys, time, json, urllib.request sys.stdout.reconfigure(encoding="utf-8"); sys.path.insert(0, "src") import browser browser._kill_de… <!--id:8905808e-3127-4461-9180-c83263ab3e98-->
+- ↩︎ result (388 chars): 0 [('http://mg.webcomm.com.tw/EFNET/', '')] 1 [('http://mg.webcomm.com.tw/EFNET/', 'mg.webcomm.com.tw/EFNET/')] 2 [('http://mg.webcomm.com.tw/EFNET/', 'mg.webcomm.com.tw/EFNET/')] 3 [('http://mg.webcomm.com.tw/EFNET/', 'mg.webcomm.com.tw/EFNET/')] 4 [('http://mg.webcomm.com.tw/EFNET/', 'mg.webcomm.c… <!--id:56a8751e-fa57-40bf-b234-94e868e146ec-->
+- 🔧 **Bash**: cd "[REDACTED]" && python -c " import sys,json; sys.stdout.reconfigure(encoding='utf-8') d=json.load(open(r'C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/3e7ee6916b87ae72/1f221d7b-d7a4-46a9-ac… <!--id:6b5fc4d6-e1de-49c8-9625-8ffc3de2dcde-->
+- ↩︎ result ⚠️error (595 chars): Exit code 1 Traceback (most recent call last): File "<string>", line 3, in <module> d=json.load(open(r'C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/3e7ee6916b87ae72/1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3/scratchpad/nov.json',encoding='utf-8')) ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^… <!--id:1d3cb41b-a7d1-4576-92a4-c8bffce312ea-->
+- 🔧 **Bash**: cd "[REDACTED]" && python -c " import sys; sys.stdout.reconfigure(encoding='utf-8'); sys.path.insert(0,'src') from http_eip_client import fetch_sent_box_rows for r in fetch_sent_box_rows(): pri… <!--id:554baf87-03d9-48ab-9365-7ec45ccfb13e-->
+- ↩︎ result (83 chars): 202611260001 曾子豪 2026/11/26 10:44:51 簽核中 未完成 曾子豪 2026/11/21 08:00-11:00 待簽核人明細 加班申請 <!--id:6e75d72c-b982-4b93-9926-33190e93f107-->
+
+### [2026-11-26 10:58:16] 🤖 Claude <!--id:661e642b-12eb-4b91-979c-927202a36d24-->
+
+我卡在兩件事，需要你幫忙。
+
+**1. 工具開的 Edge 登不進 EIP**
+- 工具專用的除錯 Edge 開到 EIP 後畫面一片空白，標題只顯示網址，Windows 自動登入沒有成功。
+- 我把這個 Edge 的設定檔整個清掉重建過，還是一樣。不經過瀏覽器的登入是正常的：用這條路查寄件備份查得到。所以問題出在瀏覽器的登入那一步。
+- 麻煩你看一下桌面上那個開著 `mg.webcomm.com.tw/EFNET/` 的 Edge 視窗，告訴我它顯示什麼。例如：是否跳出要輸入帳密的 Windows 視窗、是否顯示某個錯誤訊息，或者就是一片空白。
+- 也請用你平常的 Edge 開一下 http://mg.webcomm.com.tw/EFNET/ ，看能不能正常進去。
+- 查刷卡、班次和請假資料只能透過瀏覽器，所以這關沒過，我沒辦法判斷其他天有沒有缺卡。
+
+**2. 出差單的地點和事由**
+
+| 日期 | 客戶 | 地點 | 事由 |
+|---|---|---|---|
+| 11/3、4、6、17、24、25、26 | 全球人壽 | 台北市信義區市民大道六段288號4樓 | 數據中台測試機/正式機建置 |
+| 11/19 | 華南銀行 | 新北市土城區民權街1號 | 華南資料科學家平台MDB維運 |
+| 11/18、23 | 第一銀行 | 臺北市大同區重慶北路二段180號 | 處理mongodb 壓力測試 |
+| 11/12 | 富邦 | ？ | ？ |
+
+- 全球人壽、華南、第一銀行沿用上次的地點和事由，有要改的話跟我說。
+- **富邦的地點和事由要請你提供**，例如「富邦金控 台北市…」和事由。
+- 時間一樣都是 09:00–18:30。
+
+**目前伺服器上查到的：** 還沒結案的單只有一張，是你今天自己送的 11/21 加班申請（202611260001），11 月的出差單和補刷卡單一張都還沒送。不過已經核准的單不會出現在這份清單裡，所以送之前我還會再用請假資料確認一次。
