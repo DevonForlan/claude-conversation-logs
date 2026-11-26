@@ -1471,3 +1471,36 @@ README 也更新好了：
 Edge 還在登入狀態，但畫面上只剩表單的外框，看不出 11/18 到底有沒有送出。我改用瀏覽器查寄件備份，在同一個登入裡查，不會被擠掉。
 - 🔧 **Bash**: cd "[REDACTED]" && python -u - <<'EOF' 2>&1 | tail -20 import sys sys.stdout.reconfigure(encoding="utf-8"); sys.path.insert(0, "src") from playwright.sync_api import sync_playwright import brow… <!--id:4f3674a9-0651-481b-9173-33bc9cce0512-->
 - ↩︎ result (453 chars): <stdin>:10: SyntaxWarning: invalid escape sequence '\s' Traceback (most recent call last): File "<stdin>", line 12, in <module> File "C:\Users\devon.tseng\Desktop\�ӤH\EIP�۰ʤ�\eip-trip-assistant\src\duplicate_check.py", line 227, in _navigate_to_sent_originals raise RuntimeError( ...<2 lines>... ) Ru… <!--id:b601b7fa-a658-4576-8766-7649cbc65ce0-->
+- 🔧 **Bash**: cd "[REDACTED]" && python -u - <<'EOF' 2>&1 | tail -25 import sys, time sys.stdout.reconfigure(encoding="utf-8"); sys.path.insert(0, "src") from playwright.sync_api import sync_playwright impor… <!--id:5d2b6b19-9527-4549-98bd-c83af4832543-->
+- ↩︎ result (143 chars): Traceback (most recent call last): File "<stdin>", line 20, in <module> File "<stdin>", line 14, in ready RuntimeError: ESSQ08 not ready <!--id:950dd139-2615-437d-8461-c2af7884e77f-->
+- 🔧 **Bash**: cd "[REDACTED]" && python -c " import sys; sys.stdout.reconfigure(encoding='utf-8'); sys.path.insert(0,'src') from http_eip_client import fetch_sent_box_rows for r in fetch_sent_box_rows(): pri… <!--id:8349dbf2-cda1-4f87-9996-fc3190ca5a36-->
+- ↩︎ result (621 chars): 202611260010 曾子豪 2026/11/26 15:03:59 簽核中 未完成 曾子豪 2026/11/18 09:00-18:30 R24071-陳志杰 出差登記 202611260009 曾子豪 2026/11/26 15:02:20 簽核中 未完成 曾子豪 2026/11/17 09:00-18:30 R24071-陳志杰 出差登記 202611260008 曾子豪 2026/11/26 15:01:37 簽核中 未完成 曾子豪 2026/11/12 09:00-18:30 R24071-陳志杰 出差登記 202611260007 曾子豪 2026/11/26 15:00:48… <!--id:467da9cf-2bb1-484a-a163-4cbf830f44c6-->
+
+### [2026-11-26 15:07:12] 🤖 Claude <!--id:09ac07e8-62c6-4b9f-b5df-34ab8a85bba5-->
+
+11/18 有送出成功，單號 202611260010，伺服器上只有這一張，沒有重複。我先把它記進紀錄檔，再看 Edge 的登入還在不在。
+- 🔧 **Bash**: cd "[REDACTED]" && python - <<'EOF' import json p = r"C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\3e7ee6916b87ae72\1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3\scratchpad\ledger.json" d = json.load(… <!--id:8b3daf26-ac93-4cf6-95a9-7cab3c7dca79-->
+- ↩︎ result (35 chars): session: SessionState.AUTHENTICATED <!--id:44b137ad-eab1-4060-8e53-ffc39b1b2eb5-->
+- 🔧 **Bash**: cd "[REDACTED]" && python -u "C:/Users/DEVON~1.TSE/AppData/Local/Temp/claude/3e7ee6916b87ae72/1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3/scratchpad/submit_nov.py" > "C:/Users/DEVON~1.TSE/AppData/Loca… <!--id:9342edd9-41ec-4e5d-ad58-3679d120380f-->
+- ↩︎ result (599 chars): Command running in background with ID: bk9fiq5f7. Output is being written to: C:\Users\DEVON~1.TSE\AppData\Local\Temp\claude\3e7ee6916b87ae72\1f221d7b-d7a4-46a9-ac63-31a36a4b0fd3\tasks\bk9fiq5f7.output. You will be notified when it completes — do not poll that file or sleep while waiting. Read the f… <!--id:453cf9c1-66a7-4c6a-80a3-9734b17ab5ed-->
+
+### [2026-11-26 15:07:37] 🤖 Claude <!--id:39ff5273-4f04-4256-9458-c39c4c46ebc0-->
+
+目前已經送出 6 張出差單，都在伺服器上確認過，沒有重複：
+
+| 日期 | 客戶 | 單號 |
+|---|---|---|
+| 11/3 | 全球人壽 | 202611260005 |
+| 11/4 | 全球人壽 | 202611260006 |
+| 11/6 | 全球人壽 | 202611260007 |
+| 11/12 | 富邦 | 202611260008 |
+| 11/17 | 全球人壽 | 202611260009 |
+| 11/18 | 第一銀行 | 202611260010 |
+
+11/18 那張送出後，瀏覽器判斷不出結果，批次就停了下來，沒有重送。後來用 HTTP 查寄件備份，確認它有送出，而且只有一張。
+
+剩下的已經接著在背景跑：
+- 出差單：11/19 華南，以及 11/23、24、25、26
+- 補刷卡單 8 張
+
+剛才查 HTTP 可能把你那個 Edge 在伺服器端的登入擠掉了。如果表單打不開，批次會在送出前就停下，不會誤送，到時候會請你在那個 Edge 視窗再登入一次。
