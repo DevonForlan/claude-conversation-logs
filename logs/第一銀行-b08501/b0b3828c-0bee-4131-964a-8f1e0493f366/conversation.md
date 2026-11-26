@@ -583,3 +583,40 @@ python3 extract_slow_redacted.py /mongodb/logs/mdb01.log /mongodb/logs/mdb01.log
 把 `slow_top_redacted.log` 放進 `2026Q4\` 後告訴我，我會把 3-1 那段註解改成 Q2 的樣式：一張查詢模式表，加上完整 log 行，再重新產生 docx 和 PDF。
 
 profile 也已經記下這個做法：以後慢查詢都要先在主機上遮蔽再交給我，不直接讀沒遮蔽的 log 或 keyhole HTML。
+
+### [2026-11-26 11:03:11] 👤 User (turn 9) <!--id:5aae6d4e-b2ac-4078-bc33-94b535fcf159-->
+
+<pasted_content id="9066">
+請在 PL-MG01-DB 上執行：
+python3 extract_slow_redacted.py /mongodb/logs/mdb01.log /mongodb/logs/mdb01.log.2026-11-23T00-43-34 > slow_top_redacted.log
+- 最後應該看到 self-check OK。
+- 想多抓幾筆，可以在指令前加 TOP_N=10。
+- 想讓每種查詢模式各附一筆，加 PER_HASH=1。
+</pasted_content id="9066">
+
+>>這項現在你做不到，你這裡可以處理嗎
+
+### [2026-11-26 11:03:16] 🤖 Claude <!--id:3872a5db-8b95-470c-a689-46d153129312-->
+
+先確認本機有沒有本期的原始 log：
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/專案/第一銀行/維運/2026Q4" && find . -type f | grep -v -i "\.json$\|\.html$\|\.md$" ; echo ---; S="/c/Users/DEVON~1.TSE/AppData/Local/Temp/claude/b3a36f818a5bf3a8/b0b3828c-0bee-4131-964a-8f1e0493f366/scratchpad"; fo… <!--id:38eb7eda-8cbe-4c37-b9cb-67aa6c8ea8b1-->
+- ↩︎ result (1235 chars): ./1119/mdb01-20261118.tar.gz ./1119/mdb02-20261118.tar.gz ./1119/mdb03-20261118.tar.gz ./extract_slow_redacted.py ./PL-MG01-DB_mongodb_healthcheck_v3_20261123_111406.tgz ./PL-MG02-DB_mongodb_healthcheck_v3_20261123_111821.tgz ./PL-MG03-DB_mongodb_healthcheck_v3_20261123_111833.tgz ./第一銀行_MongoDB 資料庫… <!--id:02315dd1-20db-45d3-a51d-ffe537e25873-->
+- 🔧 **Bash**: cd "/c/Users/devon.tseng/Desktop/專案/第一銀行/維運/2026Q4" && for f in *.tgz; do echo "== $f"; tar -tzvf "$f" | awk '{print $3, $6}'; done; echo; tar -tzvf 1119/mdb01-20261118.tar.gz | awk '{print $3, $6}' <!--id:c13ee397-766a-41f3-94cc-59c2ce8fcdca-->
+- ↩︎ result (4087 chars): == PL-MG01-DB_mongodb_healthcheck_v3_20261123_111406.tgz 0 PL-MG01-DB_mongodb_healthcheck_v3_20261123_111406/ 10816 PL-MG01-DB_mongodb_healthcheck_v3_20261123_111406/hostinfo.json 3010 PL-MG01-DB_mongodb_healthcheck_v3_20261123_111406/os_params.json 17124 PL-MG01-DB_mongodb_healthcheck_v3_20261123_1… <!--id:2edc6415-ef60-476b-8e3c-4d30f163b17c-->
+
+### [2026-11-26 11:03:49] 🤖 Claude <!--id:f98252eb-b694-427a-948f-caaf7f875c6c-->
+
+這裡沒辦法直接做，因為**本期的 v3 收集包裡沒有原始 log**。我把三台的 tgz 都列過了，只有 JSON、HTML 和 MD，慢查詢只有已經遮掉內容的摘要。腳本需要原始 log 才能跑，而原始 log 只在主機上。
+
+本機唯一有原始慢查詢 log 的，是你說不用理的 **`1119\mdb01-20261118.tar.gz`**：
+
+- 裡面有 `out\1118-log.bson.gz`，是 keyhole 在 11/18 抓的慢查詢 log 快照，Q2 報告的資料也是從這種檔案來的。
+- 還有 `1118.tsv`，是查詢模式彙總，不含個資。
+
+所以有三條路：
+
+1. **用 1119 的 11/18 log（本機就能做）**：我先改腳本讓它能讀 bson，在本機解壓並遮蔽客戶 ID，我只看遮蔽後的結果。缺點是日期和報告其他資料（11/23）不同，報告裡要註明「慢查詢樣本取自 2026/11/18 log」。需要安裝 `pymongo` 才能讀 bson。
+2. **請能登入主機的人跑腳本**：例如客戶 DBA 或負責收集的同事，資料日期會和本期一致。
+3. **維持現狀**：慢查詢 Top N 維持關鍵欄位摘要，報告不改。
+
+我建議走第 1 條：本機就能完成，格式也和 Q2 完全一樣。慢查詢的問題主要都是同一個 `M_USR_LOGIN_INFO` 查詢，日期差 5 天影響不大。但 1119 是你說要忽略的資料，所以要你點頭才會動它。要用嗎？
